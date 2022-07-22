@@ -30,12 +30,12 @@ switch($action){
 					$img->setDate(date('Y-m-d H:i:s'));
 					$img->setHidden(1);
 					$galerie->saveItem($img);
-					$imgId = $galerie->getLastId().util::getFileExtension($_FILES['file']['name']);
+					$imgId = $galerie->getLastId().'.'.util::getFileExtension($_FILES['file']['name']);
 				}
 			}
 			$news = ($_REQUEST['id']) ?  $newsManager->create($_REQUEST['id']) : new news();
 			$news->setName($_REQUEST['name']);
-			$news->setContent($_REQUEST['content']);
+			$news->setContent($core->callHook('beforeSaveEditor', $_REQUEST['content']));
 			$news->setDraft((isset($_POST['draft']) ? 1 : 0));
 			if(!isset($_REQUEST['date']) || $_REQUEST['date'] == "") $news->setDate($news->getDate());
 			else $news->setDate($_REQUEST['date']);

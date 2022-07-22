@@ -58,14 +58,14 @@ include_once(ROOT.'admin/header.php');
   
   <p>
       <label>Contenu</label><br>
-      <textarea name="content" class="editor"><?php echo $news->getContent(); ?></textarea>
+      <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor',$news->getContent()); ?></textarea>
     </p>
 	
 	<?php if($pluginsManager->isActivePlugin('galerie')){ ?>
 	<h3>Image à la une</h3>
 	<p>
       <?php if(galerie::searchByfileName($news->getImg())){ ?><input type="checkbox" name="delImg" /> Supprimer l'image à la une
-      <?php } else{ ?><label>Fichier (jpg)</label><br><input type="file" name="file" /><?php } ?>
+      <?php } else{ ?><label>Fichier (bmp, png, jpg, jpeg, gif)</label><br><input type="file" name="file" /><?php } ?>
       <br><br>
       <?php if(galerie::searchByfileName($news->getImg())){ ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $news->getImg(); ?>" alt="<?php echo $news->getImg(); ?>" /><?php } ?>
     </p>
