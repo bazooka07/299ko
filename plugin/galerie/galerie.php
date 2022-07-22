@@ -5,6 +5,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 function galerieInstall(){
 	if(!file_exists(DATA_PLUGIN.'galerie/galerie.json')){
 		@mkdir(UPLOAD.'galerie/');
+                @chmod(UPLOAD.'galerie', 0755);
 		$data = array();
 		util::writeJsonFile(DATA_PLUGIN.'galerie/galerie.json', $data);
 	}
@@ -54,20 +55,22 @@ class galerie{
 		$id = $obj->getId();
 		if($id == ''){
 			$obj->setId(uniqid());
-			$upload = util::uploadFile('file', UPLOAD.'galerie/', $obj->getId(), array('jpg'));
+			$upload = util::uploadFile('file', UPLOAD.'galerie/', $obj->getId(), ['extensions'=>["bmp","gif","png","jpg","jpeg"]]);
 			if($upload == 'success'){
-				$obj->setImg($obj->getId().'.jpg');
-				galerieResize($this->size, $this->size, UPLOAD.'galerie/', $obj->getId().'.jpg', UPLOAD.'galerie/', $obj->getId().'.jpg');
+                            $ext = "." . util::getFileExtension($_FILES['file']['name']);
+				$obj->setImg($obj->getId().$ext);
+				galerieResize($this->size, $this->size, UPLOAD.'galerie/', $obj->getId().$ext, UPLOAD.'galerie/', $obj->getId().$ext);
 			}
 			$this->items[] = $obj;
 		}
 		else{
 			foreach($this->items as $k=>$v){
 				if($id == $v->getId()){
-					$upload = util::uploadFile('file', UPLOAD.'galerie/', $obj->getId(), array('jpg'));
+					$upload = util::uploadFile('file', UPLOAD.'galerie/', $obj->getId(), [['extensions'=>["bmp","gif","png","jpg","jpeg"]]]);
 					if($upload == 'success'){
-						$obj->setImg($obj->getId().'.jpg');
-						galerieResize($this->size, $this->size, UPLOAD.'galerie/', $obj->getId().'.jpg', UPLOAD.'galerie/', $obj->getId().'.jpg');
+                                            $ext = "." . util::getFileExtension($_FILES['file']['name']);
+						$obj->setImg($obj->getId().$ext);
+						galerieResize($this->size, $this->size, UPLOAD.'galerie/', $obj->getId().$ext, UPLOAD.'galerie/', $obj->getId().$ext);
 					}
 					$this->items[$k] = $obj;
 				}

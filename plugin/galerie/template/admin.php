@@ -17,7 +17,7 @@ include_once(ROOT.'admin/header.php');
   </tr>
   <?php foreach($galerie->getItems() as $k=>$v){ ?>
   <tr class="<?php if($v->getHidden()){ ?>hidden<?php } else{ ?>visible<?php } ?>">
-    <td><img width="128" src="<?php echo UPLOAD.'galerie/'.$v->getImg(); ?>" alt="<?php echo $v->getImg(); ?>'" /></td>
+    <td><img width="128" src="<?php echo UPLOAD.'galerie/'.$v->getImg(); ?>" alt="<?php echo $v->getImg(); ?>" /></td>
     <td><?php echo $v->getTitle(); ?><br><?php if($v->getCategory() != ''){ echo '<i>'.$v->getCategory().'</i>'; } ?></td>
 		<td><input readonly="readonly" type="text" value="<?php echo $core->getConfigVal('siteUrl').str_replace('..', '', UPLOAD).'galerie/'.$v->getImg(); ?>" /></td>
     <td>
@@ -64,7 +64,7 @@ include_once(ROOT.'admin/header.php');
 	<h3>Image</h3>
     <p>
       <label>Fichier (jpg)</label><br>
-      <input type="file" name="file" <?php if($item->getImg() == ''){ ?>required="required"<?php } ?> />
+      <input type="file" name="file" accept="image/*" <?php if($item->getImg() == ''){ ?>required="required"<?php } ?> />
       <br>
       <?php if($item->getImg() != ''){ ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $item->getImg(); ?>" alt="<?php echo $item->getImg(); ?>" /><?php } ?>
     </p>
