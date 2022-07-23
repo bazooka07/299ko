@@ -132,7 +132,7 @@ include_once(ROOT.'admin/header.php');
 	<h3>Image à la une</h3>
 	<p>
 			<?php if(galerie::searchByfileName($pageItem->getImg())){ ?><input type="checkbox" name="delImg" /> Supprimer l'image à la une
-      <?php } else{ ?><label>Fichier (jpg)</label><br><input type="file" name="file" /><?php } ?>
+      <?php } else{ ?><label>Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" accept="image/*" /><?php } ?>
       <br><br>
       <?php if(galerie::searchByfileName($pageItem->getImg())){ ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $pageItem->getImg(); ?>" alt="<?php echo $pageItem->getImg(); ?>" /><?php } ?>
     </p>

@@ -20,7 +20,7 @@ switch($action){
 					$img->setDate(date('Y-m-d H:i:s'));
 					$img->setHidden(1);
 					$galerie->saveItem($img);
-					$imgId = $galerie->getLastId().'.jpg';
+					$imgId = $galerie->getLastId().'.'.util::getFileExtension($_FILES['file']['name']);
 				}
 			}
 			if($_POST['id'] != '') $pageItem = $page->create($_POST['id']);
