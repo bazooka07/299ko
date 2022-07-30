@@ -28,7 +28,7 @@ switch($action){
 			$pageItem->setName($_POST['name']);
 			$pageItem->setPosition($_POST['position']);
 			$pageItem->setIsHomepage((isset($_POST['isHomepage'])) ? 1 : 0);
-			$pageItem->setContent((isset($_POST['content'])) ? $_POST['content'] : '');
+			$pageItem->setContent((isset($_POST['content'])) ? $core->callHook('beforeSaveEditor',$_POST['content']) : '');
 			$pageItem->setFile((isset($_POST['file'])) ? $_POST['file'] : '');
 			$pageItem->setIsHidden((isset($_POST['isHidden'])) ? 1 : 0);
 			$pageItem->setMainTitle((isset($_POST['mainTitle'])) ? $_POST['mainTitle'] : '');

@@ -11,8 +11,8 @@ switch($action){
                  $runPlugin->setConfigVal('acceptation', $_POST['acceptation']);
             }
             else{
-                $runPlugin->setConfigVal('content1', $_POST['content1']);
-                $runPlugin->setConfigVal('content2', $_POST['content2']);
+                $runPlugin->setConfigVal('content1', $core->callHook('beforeSaveEditor',$_POST['content1']));
+                $runPlugin->setConfigVal('content2', $core->callHook('beforeSaveEditor',$_POST['content2']));
             }
             if($pluginsManager->savePluginConfig($runPlugin)) $msg = "Les modifications ont été enregistrées";
             else $msg = "Une erreur est survenue";
