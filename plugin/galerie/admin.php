@@ -29,7 +29,7 @@ switch($action){
 			$item = ($_REQUEST['id']) ?  $galerie->createItem($_REQUEST['id']) : new galerieItem();
 			$item->setCategory($_REQUEST['category']);
 			$item->setTitle($_REQUEST['title']);
-			$item->setContent($_REQUEST['content']);
+			$item->setContent($core->callHook('beforeSaveEditor',$_REQUEST['content']));
 			$item->setDate($_REQUEST['date']);
 			$item->setHidden((isset($_POST['hidden'])) ? 1 : 0);
 			if($galerie->saveItem($item)){
