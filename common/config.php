@@ -24,3 +24,6 @@ define('ADMIN_PATH', ROOT.'admin/');
 define('NORMALIZE', 'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
 define('JQUERY', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js');
 define('FONTICON', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
+define('FANCYCSS', "https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css");
+define("FANCYJS", "https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js");
+if(file_exists(DATA.'key.php')) include(DATA.'key.php');
