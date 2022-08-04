@@ -25,26 +25,44 @@ function seoEndFrontHead(){
 }
 
 function seoEndFrontBody(){
-    $plugin = pluginsManager::getInstance()->getPlugin('seo');
-    $facebook = $plugin->getConfigVal('facebook');
-    $twitter = $plugin->getConfigVal('twitter');
-    $youtube = $plugin->getConfigVal('youtube');
-    $instagram = $plugin->getConfigVal('instagram');
-    $pinterest = $plugin->getConfigVal('pinterest');
-    $linkedin = $plugin->getConfigVal('linkedin');
-    $viadeo = $plugin->getConfigVal('viadeo');
-    $github = $plugin->getConfigVal('github');
-    if($facebook.$twitter != ''){
-        echo '<div id="seo_social">';
-        if($facebook != '') echo '<a target="_blank" href="'.$facebook.'">Facebook</a>';
-        if($twitter != '') echo '<a target="_blank" href="'.$twitter.'">Twitter</a>';
-        if($youtube != '') echo '<a target="_blank" href="'.$youtube.'">YouTube</a>';
-        if($instagram != '') echo '<a target="_blank" href="'.$instagram.'">Instagram</a>';
-        if($pinterest != '') echo '<a target="_blank" href="'.$pinterest.'">Pinterest</a>';
-        if($linkedin != '') echo '<a target="_blank" href="'.$linkedin.'">Linkedin</a>';
-        if($viadeo != '') echo '<a target="_blank" href="'.$viadeo.'">Viadeo</a>';
-        if($github != '') echo '<a target="_blank" href="'.$github.'">GitHub</a>';
-        echo '</div>';
-    }
+        echo '<div id="seo_social_float"><ul>';
+        echo seoGetSocialIcons('<li>', '</li>');
+        echo '</ul></div>';
 }
-?>
+
+function seoMainNavigation() {
+    echo seoGetSocialIcons('<li class="seo_element">', '</li>' );
+}
+
+function seoFooter() {
+    echo '<div id="seo_social"><ul>';
+    echo seoGetSocialIcons('<li>', '</li>');
+    echo '</ul></div>';
+}
+
+function seoGetSocialIcons($before = '', $after = '') {
+    $social = seoGetSocialVars();
+    $plugin = pluginsManager::getInstance()->getPlugin('seo');
+    $str = "";
+
+    foreach ($social as $k => $v) {
+        $tConfig = $plugin->getConfigVal($v);
+        if ($tConfig !== '') {
+            $str .=  $before . '<a target="_blank" title="Suivez-nous sur ' . $k . '" href="' . $tConfig . '"><i class="fa-brands fa-' . $v . '"></i></a>' . $after;
+        }
+    }
+    return $str;
+}
+
+function seoGetSocialVars() {
+    return [
+        'Facebook' => 'facebook',
+        'Twitter' => 'twitter',
+        'YouTube' => 'youtube',
+        'Instagram' => 'instagram',
+        'Pinterest' => 'pinterest',
+        'Linkedin' => 'linkedin',
+        'Viadeo' => 'viadeo',
+        'GitHub' => 'github'
+    ];
+}

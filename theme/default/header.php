@@ -17,17 +17,17 @@ include_once(THEMES.$core->getConfigVal('theme').'/functions.php');
 	<?php eval($core->callHook('endFrontHead')); ?>
 </head>
 <body>
-<div id="container">
+    <div id="container">
 	<div id="header">
-		<div id="header_content">
-			<div id="mobile_menu"></div>
-			<p id="siteName"><a href="<?php show::siteUrl(); ?>"><?php show::siteName(); ?></a></p>
-			<ul id="navigation">
-				<?php show::mainNavigation(); ?>
-			</ul>
-		</div>
+            <div id="header_content">
+                <div id="mobile_menu"></div>
+                <p id="siteName"><a href="<?php show::siteUrl(); ?>"><?php show::siteName(); ?></a></p>
+                <ul id="navigation">
+                    <?php show::mainNavigation(); eval($core->callHook('endMainNavigation')); ?>
+                </ul>
+            </div>
 	</div>
 	<div id="banner"></div>
 	<div id="body">
-		<div id="content" class="<?php show::pluginId(); ?>">
-			<?php show::mainTitle(); ?>
+            <div id="content" class="<?php show::pluginId(); ?>">
+                <?php show::mainTitle(); ?>

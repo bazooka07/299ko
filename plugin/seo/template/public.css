@@ -1,0 +1,43 @@
+#navigation li.seo_element {
+    float: right;
+    font-size: 19px;
+}
+
+#navigation li.seo_element a {
+    padding: 11px;
+}
+
+#seo_social_float{
+    position: fixed;
+    z-index: 999;
+    right: 0;
+    bottom: 0;
+}
+
+#seo_social_float ul{
+    list-style: none;
+}
+
+#seo_social_float a{
+    display: block;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 15px;
+    font-size: 19px;
+    float: left;
+    margin-left: 1px;
+    background: #4986b7
+}
+
+#seo_social ul {
+    list-style: none;
+}
+
+#seo_social li {
+    display: inline-block;
+}
+
+#seo_social a {
+    padding: 8px;
+    font-size: 16px;
+}

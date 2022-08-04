@@ -368,26 +368,6 @@ code{
     padding: 15px;
 }
 
-/* Seo */
-
-#seo_social{
-    position: fixed;
-    z-index: 999;
-    right: 0;
-    bottom: 0;
-}
-
-#seo_social a{
-    display: block;
-    color: #fff;
-    text-transform: uppercase;
-    padding: 15px;
-    font-size: 12px;
-    float: left;
-    margin-left: 1px;
-    background: #4986b7
-}
-
 /* Contact */
 
 .contact .acceptation{
