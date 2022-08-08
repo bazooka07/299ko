@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
+ * @author Jonathan Coulet <j.coulet@gmail.com>
+ * @author Maxence Cauderlier <mx.koder@gmail.com>
+ * @author Frédéric Kaplon <frederic.kaplon@me.com>
+ * @author Florent Fortat <florent.fortat@maxgun.fr>
+ * 
+ * @package 299Ko https://github.com/299Ko/299ko
+ */
 defined('ROOT') OR exit('No direct script access allowed');
 
 $action = (isset($_GET['action'])) ? $_GET['action'] : '';
@@ -9,9 +20,8 @@ if ($action === 'saveconf') {
             if (!isset($_POST['recaptchaPublicKey']) || !isset($_POST['recaptchaSecretKey']) ||
                     trim($_POST['recaptchaPublicKey']) == '' || trim($_POST['recaptchaSecretKey']) == '') {
                 // Empty keys
-                $msg = "Les clés de ReCaptcha ne peuvent pas être vides";
-                $msgType = 'error';
-                header('location:index.php?p=antispam&msg=' . urlencode($msg) . '&msgType=' . $msgType);
+                show::msg("Les clés de ReCaptcha ne peuvent pas être vides", 'error');
+                header('location:index.php?p=antispam');
                 die();
             }
             // Save ReCaptcha
@@ -21,10 +31,10 @@ if ($action === 'saveconf') {
         // Save Type
         $runPlugin->setConfigVal('type', trim($_POST['captcha']));
         $pluginsManager->savePluginConfig($runPlugin);
-        
-        $msg = "Les modifications ont été enregistrées";
-        $msgType = 'success';
-        header('location:index.php?p=antispam&msg=' . urlencode($msg) . '&msgType=' . $msgType);
+
+        show::msg("Les modifications ont été enregistrées", 'success');
+
+        header('location:index.php?p=antispam');
         die();
     }
 }

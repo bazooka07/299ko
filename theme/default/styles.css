@@ -1,27 +1,108 @@
+/**
+ * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
+ * @author Jonathan Coulet <j.coulet@gmail.com>
+ * @author Maxence Cauderlier <mx.koder@gmail.com>
+ * @author Frédéric Kaplon <frederic.kaplon@me.com>
+ * @author Florent Fortat <florent.fortat@maxgun.fr>
+ * 
+ * @package 299Ko https://github.com/299Ko/299ko
+ */
+
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
 /* BASIC */
 
 html
 {
-  scroll-padding-top: 48px; /* Hauteur du header pour les ancres */
+    scroll-padding-top: 48px; /* Hauteur du header pour les ancres */
 }
 
-*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;outline:none;-webkit-tap-highlight-color:transparent}
-body{font-family:'Roboto',sans-serif;font-size:18px;color:#333;background:#f7f7f7;margin:0;padding:0;position:relative}
-a,a:hover,a:active,a:visited{color:#999;text-decoration:none}
-a:hover{color:#333}
-h1{font-size:42px;font-weight:normal;margin-top:0;text-transform:uppercase;border-bottom:1px solid #e9e9e9;padding-bottom:15px;}
-h2{font-size:30px;font-weight:normal}
-h3{font-size:22px;font-weight:normal;font-style:italic}
-ul,ol{padding-left:0;margin-left:0;list-style: disc inside}
-hr{background:#e9e9e9;height:1px;border:0;margin:30px 0}
-img{max-width:100%}
-table{width:100%;border:1px solid #e9e9e9}
-tr{border-bottom:1px solid #e9e9e9}
-tr:last-child{border-bottom:0}
-tr:nth-child(even){background: #fefae2}
-th,td{text-align:left;padding:5px}
+*{
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    outline:none;
+    -webkit-tap-highlight-color:transparent
+}
+
+body{
+    font-family:'Roboto',sans-serif;
+    font-size:18px;
+    color:#333;
+    background:#f7f7f7;
+    margin:0;
+    padding:0;
+    position:relative
+}
+
+a,a:hover,a:active,a:visited{
+    color:#999;
+    text-decoration:none
+}
+
+a:hover{
+    color:#333
+}
+
+h1{
+    font-size:42px;
+    font-weight:normal;
+    margin-top:0;
+    text-transform:uppercase;
+    border-bottom:1px solid #e9e9e9;
+    padding-bottom:15px;
+}
+
+h2{
+    font-size:30px;
+    font-weight:normal
+}
+
+h3{
+    font-size:22px;
+    font-weight:normal;
+    font-style:italic
+}
+
+ul,ol{
+    padding-left:0;
+    margin-left:0;
+    list-style: disc inside
+}
+
+hr{
+    background:#e9e9e9;
+    height:1px;
+    border:0;
+    margin:30px 0
+}
+
+img{
+    max-width:100%
+}
+
+table{
+    width:100%;
+    border:1px solid #e9e9e9
+}
+
+tr{
+    border-bottom:1px solid #e9e9e9
+}
+
+tr:last-child{
+    border-bottom:0
+}
+
+tr:nth-child(even){
+    background: #fefae2
+}
+
+th,td{
+    text-align:left;
+    padding:5px
+}
 
 /* FORM */
 
@@ -72,11 +153,86 @@ code{
 
 /* ALERT */
 
-.msg p{
+#alert-msg{
+    margin: 0;
+    position: absolute;
+    z-index: 996;
+    width: 100%;
+    top: 0;
     padding: 5px;
-    font-size: 12px;
-    background: #ccffcc;
-    color: green;
+    text-align: center;
+    left: 0;
+}
+
+#alert-msg .msg, #alert-msg .msg.info {
+    position: relative;
+    margin:18px auto;
+    padding:10px;
+    padding-left: 32px;
+    border-radius: 3px;
+    border-left:4px solid #6C6C6C;
+    max-width: 800px;
+    box-shadow: 0px 0 10px 5px rgba(0, 0, 0, 0.2);
+    background-color: #EBEBEB;
+    color: #444;
+    font-size:14px;
+}
+
+#alert-msg .msg:before, #alert-msg .msg.info:before {
+    font: var(--fa-font-solid);
+    content: "\f05a";
+    font-size: 23px;
+    display: block;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    margin: auto 0;
+    height: fit-content;
+    left: 10px;
+    color : #6C6C6C;
+}
+
+#alert-msg .msg.success {
+    background-color: #A8F1C6;
+    border-left-color: #198345;
+}
+#alert-msg .msg.success:before {
+    content: "\f058";
+    color: #198345;
+}
+
+#alert-msg .msg.error {
+    background-color: #F6A7A3;
+    border-left-color: #8D1310;
+}
+#alert-msg .msg.error:before {
+    content: "\f057";
+    color: #8D1310;
+}
+
+#alert-msg .msg.warning {
+    background-color: #FFD38A;
+    border-left-color: #8C5600;
+}
+#alert-msg .msg.warning:before {
+    content: "\f06a";
+    color: #8C5600;
+}
+
+.msg a.msg-button-close {
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    opacity: 0.4;
+    font-size: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.msg a.msg-button-close:hover {
+    opacity: 0.7;
 }
 
 /* STRUCTURE */
@@ -92,7 +248,7 @@ code{
     position: fixed;
     background: #fff;
     box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, 0.30);
-    z-index: 999;
+    z-index: 995;
 }
 
 #header_content{
@@ -389,57 +545,57 @@ code{
 /* MOBILE */
 
 @media only screen and (max-width: 960px){
-    
+
     #header{
         position: inherit;
     }
-    
+
     #siteName{
         width: 100%;
     }
-    
+
     #mobile_menu{
         display: block;
     }
-    
+
     #navigation{
         display: none;
         width: 100%;
     }
-    
+
     #navigation li{
         clear: both;
         width: 100%;
     }
-    
+
     #navigation a{
         padding: 15px 0px;
     }
-    
+
     #navigation a:hover{
         background: none;
         color: #4986b7;
     }
-    
+
     #navigation li ul{
         display: block;
         position: inherit;
         box-shadow: inherit;
         padding-left: 30px;
     }
-    
+
     #banner{
         height: 250px;
     }
-    
+
     #seo_social a{
         display: none;
     }
-    
+
     #seo_social a:nth-child(1), #seo_social a:nth-child(2), #seo_social a:nth-child(3){
         display: block;
     }
-    
+
     #content.galerie #list li{
         width: 50%;
         height: 150px;
@@ -449,25 +605,25 @@ code{
 
 /* DARK MODE */
 
-@media (prefers-color-scheme: dark) 
+@media (prefers-color-scheme: dark)
 {
     body, #footer a{
         color: #e9e9e9;
     }
-    
+
     #mobile_menu{
         color: #e9e9e9;
     }
-    
-	#container{
+
+    #container{
         background: #0f0f0f;
     }
-    
+
     #header, #footer, input[type=text], input[type=email], input[type=password], textarea, input[type=number], .contact .acceptation{
         background: #1e1e1e;
         color: #e9e9e9;
     }
-    
+
     h1, input[type=text], input[type=email], input[type=password], textarea, input[type=number], hr, tr, .contact .acceptation, .blog .comment, .blog .content, .blog .items li.item, #content.galerie #list li {
         border-color: #1e1e1e !important;
     }

@@ -4,16 +4,17 @@ include_once(ROOT . 'admin/header.php');
 ?>
 
 <form method="post" action="index.php?p=seo&action=save">
-    <?php show::adminTokenField(); 
-    $position = $runPlugin->getConfigVal('position'); ?>
+    <?php show::adminTokenField();
+    $position = $runPlugin->getConfigVal('position');
+    ?>
     <h3>Affichage</h3>
     <p>
         <label>Position du menu SEO</label><br>
         <select name="position">
-            <option value="menu" <?php if ($position == 'menu') echo "selected" ; ?>>Menu de navigation</option>
-            <option value="footer" <?php if ($position == 'footer') echo "selected" ; ?>>Haut de pied de page</option>
-            <option value="endfooter" <?php if ($position == 'endfooter') echo 'selected' ; ?>>Bas de pied de page</option>
-            <option value="float" <?php if ($position == 'float') echo 'selected' ; ?>>Flottant</option>
+            <option value="menu" <?php if ($position == 'menu') echo "selected"; ?>>Menu de navigation</option>
+            <option value="footer" <?php if ($position == 'footer') echo "selected"; ?>>Haut de pied de page</option>
+            <option value="endfooter" <?php if ($position == 'endfooter') echo 'selected'; ?>>Bas de pied de page</option>
+            <option value="float" <?php if ($position == 'float') echo 'selected'; ?>>Flottant</option>
         </select>
     </p>
     <h3>Google</h3>
@@ -63,4 +64,4 @@ include_once(ROOT . 'admin/header.php');
     </p>
 </form>
 
-<?php include_once(ROOT . 'admin/footer.php'); ?>
+<?php include_once(ROOT . 'admin/footer.php');

@@ -1,4 +1,4 @@
-<?php
+<?php 
 defined('ROOT') OR exit('No direct script access allowed');
 
 include_once(ROOT . 'admin/header.php');
@@ -46,4 +46,4 @@ include_once(ROOT . 'admin/header.php');
     </p>
 </form>
 
-<?php include_once(ROOT . 'admin/footer.php'); ?>
+<?php include_once(ROOT . 'admin/footer.php');

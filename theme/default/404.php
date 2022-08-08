@@ -1,5 +1,6 @@
-<?php defined('ROOT') OR exit('No direct script access allowed');
-include_once(THEMES.$core->getConfigVal('theme').'/header.php');
+<?php
+defined('ROOT') OR exit('No direct script access allowed');
+include_once(THEMES . $core->getConfigVal('theme') . '/header.php');
 ?>
 
 <div class="error404">
@@ -7,4 +8,4 @@ include_once(THEMES.$core->getConfigVal('theme').'/header.php');
     <p><a href="<?php echo $this->getConfigVal('siteUrl'); ?>">Aller à l'accueil</a></p>
 </div>
 
-<?php include_once(THEMES.$core->getConfigVal('theme').'/footer.php'); ?>
+<?php include_once(THEMES . $core->getConfigVal('theme') . '/footer.php'); ?>

@@ -1,19 +1,15 @@
 <?php
 
-/*
- * 99ko CMS (since 2010)
- * https://github.com/99kocms/
- *
- * Creator / Developper :
- * Jonathan (j.coulet@gmail.com)
+/**
+ * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
+ * @author Jonathan Coulet <j.coulet@gmail.com>
+ * @author Maxence Cauderlier <mx.koder@gmail.com>
+ * @author Frédéric Kaplon <frederic.kaplon@me.com>
+ * @author Florent Fortat <florent.fortat@maxgun.fr>
  * 
- * Contributors :
- * Maxence Cauderlier (mx.koder@gmail.com)
- * Frédéric Kaplon (frederic.kaplon@me.com)
- * Florent Fortat (florent.fortat@maxgun.fr)
- *
+ * @package 299Ko https://github.com/299Ko/299ko
  */
-
 defined('ROOT') OR exit('No direct script access allowed');
 
 class util {
@@ -46,13 +42,13 @@ class util {
      * @param  string $add      Text to add after the content if truncated
      * @return string
      */
-    public static function cutStr($str, $length, $add='...') {
+    public static function cutStr($str, $length, $add = '...') {
         $str = str_replace("<br />", "<br>", $str);
         $no_tags_content = strip_tags($str, '<p><br>');
         $no_tags_content = str_replace("<p>", "<br>", $no_tags_content);
         $no_tags_content = str_replace("</p>", "", $no_tags_content);
         if (strlen($no_tags_content) > $length) {
-            return substr($no_tags_content, 0, strpos($no_tags_content, ' ',$length)) . $add;
+            return substr($no_tags_content, 0, strpos($no_tags_content, ' ', $length)) . $add;
         } else {
             return $no_tags_content;
         }

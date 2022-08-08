@@ -1,19 +1,15 @@
 <?php
 
-/*
- * 99ko CMS (since 2010)
- * https://github.com/99kocms/
- *
- * Creator / Developper :
- * Jonathan (j.coulet@gmail.com)
+/**
+ * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
+ * @author Jonathan Coulet <j.coulet@gmail.com>
+ * @author Maxence Cauderlier <mx.koder@gmail.com>
+ * @author Frédéric Kaplon <frederic.kaplon@me.com>
+ * @author Florent Fortat <florent.fortat@maxgun.fr>
  * 
- * Contributors :
- * Maxence Cauderlier (mx.koder@gmail.com)
- * Frédéric Kaplon (frederic.kaplon@me.com)
- * Florent Fortat (florent.fortat@maxgun.fr)
- *
+ * @package 299Ko https://github.com/299Ko/299ko
  */
-
 defined('ROOT') OR exit('No direct script access allowed');
 
 class core {
@@ -257,7 +253,10 @@ class core {
             if (!file_exists(__FILE__) || !@chmod(__FILE__, 0644))
                 $install = false;
             $key = uniqid(true);
-            if (!file_exists(DATA . 'key.php') && !@file_put_contents(DATA . 'key.php', "<?php define('KEY', '$key'); ?>", 0644))
+            if (!file_exists(DATA . 'key.php') && !@file_put_contents(DATA
+                            . 'key2.php', "<?php\ndefined('ROOT') OR exit"
+                            . "('No direct script access allowed');"
+                            . "\ndefine('KEY', '$key'); ?>", 0604))
                 $install = false;
         }
         return $install;
