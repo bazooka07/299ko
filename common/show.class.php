@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
@@ -225,6 +224,27 @@ class show {
         }
     }
 
+    public static function adminNavigation() {
+        if (function_exists('adminNavigation'))
+            call_user_func('adminNavigation', $format);
+        else {
+            $pluginsManager = pluginsManager::getInstance();
+            $data = '';
+            foreach ($pluginsManager->getPlugins() as $k => $v) {
+                if ($v->getConfigVal('activate') && $v->getAdminFile()) {
+                    if ($v->getIsDefaultAdminPlugin()) {
+                        $data = '<li><a href="index.php?p=' . $v->getName() .'">' .
+                            $v->getInfoVal('name') .'</a></li>' . $data;
+                    } else {
+                    $data .= '<li><a href="index.php?p=' . $v->getName() .'">' .
+                            $v->getInfoVal('name') .'</a></li>';
+                    }
+                }
+            }
+            echo $data;
+        }
+    }
+
     ## Affiche le theme courant (theme)
 
     public static function theme($format = '<a target="_blank" href="[authorWebsite]">[name]</a>') {
@@ -278,5 +298,4 @@ class show {
     }
 
 }
-
 ?>

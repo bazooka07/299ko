@@ -150,7 +150,6 @@ class Template {
         $var = $matches[1];
         $file = $this->getVar($var, $this->data);
         if (file_exists($file)) {
-            echo $file;
             if (util::getFileExtension($file) === 'tpl') {
                 $str = '$tpl = new Template(\'' . $file . '\'); echo $tpl->output();';
                 return '<?php ' . $str . ' ?>';

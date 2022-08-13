@@ -50,7 +50,18 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
 if (!$administrator->isLogged() && $core->detectAdminMode() != 'lostpwd')
     include_once('login.php');
 elseif ($core->detectAdminMode() == 'plugin') {
-    include($runPlugin->getAdminFile());
-    if (!is_array($runPlugin->getAdminTemplate()))
-        include($runPlugin->getAdminTemplate());
+    if ($runPlugin->getAdminTemplate()) {
+        if (util::getFileExtension($runPlugin->getAdminTemplate()) === 'tpl') {
+            $layout = new Template(ADMIN_PATH . 'layout.tpl');
+            $tpl = new Template($runPlugin->getAdminTemplate());
+            include($runPlugin->getAdminFile());
+            $layout->set('CONTENT', $tpl->output());
+            echo $layout->output();
+        } else {
+            include($runPlugin->getAdminFile());
+            include($runPlugin->getAdminTemplate());
+        }
+    } else {
+        include($runPlugin->getAdminFile());
+    }
 }
