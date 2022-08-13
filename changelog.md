@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Gallery support now png, gif, jpg and jpeg images
 - FancyBox is now on all the site, not only in Gallery
 - Font Awesome is used to display icons
+- Templates system (.tpl)
 
 ### Changed
 - show::msg is now callable everywhere to add a or many messages in next view

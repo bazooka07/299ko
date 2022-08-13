@@ -18,6 +18,7 @@ include_once(COMMON . 'core.class.php');
 include_once(COMMON . 'pluginsManager.class.php');
 include_once(COMMON . 'plugin.class.php');
 include_once(COMMON . 'show.class.php');
+include_once(COMMON . 'template.class.php');
 $core = core::getInstance();
 if (!$core->isInstalled()) {
     header('location:' . ROOT . 'install.php');
@@ -34,4 +35,15 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
 }
 ## $runPLugin représente le plugin en cours d'execution et s'utilise avec la classe plugin & pluginsManager
 $runPlugin = $pluginsManager->getPlugin($core->getPluginToCall());
+
+Template::addGlobal('COMMON', COMMON);
+Template::addGlobal('DATA', DATA);
+Template::addGlobal('UPLOAD', UPLOAD);
+Template::addGlobal('DATA_PLUGIN', DATA_PLUGIN);
+Template::addGlobal('THEMES', THEMES);
+Template::addGlobal('PLUGINS', PLUGINS);
+Template::addGlobal('THEME_PATH', THEMES . $core->getConfigVal('theme') . '/' );
+
+
+
 ?>

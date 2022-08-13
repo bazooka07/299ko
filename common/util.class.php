@@ -161,6 +161,21 @@ class util {
             $data = $day . '/' . $month . '/' . $year;
         return $data;
     }
+    
+    /**
+     * Build absolute URL with siteURL saved in config.json
+     * 
+     * @param  string URI
+     * @param  bool   is Admin location
+     * @return string URL
+     */
+    public static function urlBuild($uri, $admin = false) {
+        $base = core::getInstance()->getConfigVal('siteUrl') . '/';
+        if ($admin) {
+            $base .= 'admin/';
+        }
+        return $base . ltrim($uri, '/') ;
+    }
 
 }
 

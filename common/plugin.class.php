@@ -76,25 +76,55 @@ class plugin {
         $this->adminJsFile = (file_exists(PLUGINS . $this->name . '/template/admin.js')) ? PLUGINS . $this->name . '/template/admin.js' : false;
         // Répertoir de sauvegarde des données internes du plugin
         $this->dataPath = (is_dir(DATA_PLUGIN . $this->name)) ? DATA_PLUGIN . $this->name . '/' : false;
-        // Template public (peut etre le template par defaut ou un template présent dans le dossier du theme portant le nom du plugin)
-        if (file_exists(THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php'))
-            $this->publicTemplate = THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php';
-        elseif (file_exists(PLUGINS . $this->name . '/template/public.php'))
-            $this->publicTemplate = PLUGINS . $this->name . '/template/public.php';
-        else
-            $this->publicTemplate = false;
-        // Template admin
-        $this->adminTemplate = (file_exists(PLUGINS . $this->name . '/template/admin.php')) ? PLUGINS . $this->name . '/template/admin.php' : false;
-        // Template parametres
-        $this->paramTemplate = (file_exists(PLUGINS . $this->name . '/template/param.php')) ? PLUGINS . $this->name . '/template/param.php' : false;
         // Configuration d'usine
         $this->initConfig = $initConfig;
         // Navigation
         $this->navigation = array();
-        // Template d'aide (en cours d'intégration)
-        $this->helpTemplate = (file_exists(PLUGINS . $this->name . '/template/help.php')) ? PLUGINS . $this->name . '/template/help.php' : false;
         // URL public
         $this->publicUrl = $core->getConfigVal('siteUrl') . '/' . $this->name . '/';
+        $this->determineTemplatesFiles();
+    }
+
+    /**
+     * Determine Templates Files if files exist or not
+     */
+    protected function determineTemplatesFiles() {
+        $core = core::getInstance();
+        // Template public (peut etre le template par defaut ou un template présent dans le dossier du theme portant le nom du plugin)
+        if (file_exists(THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.tpl'))
+            $this->publicTemplate = THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.tpl';
+        elseif (file_exists(THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php'))
+            $this->publicTemplate = THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php';
+        elseif (file_exists(PLUGINS . $this->name . '/template/public.tpl'))
+            $this->publicTemplate = PLUGINS . $this->name . '/template/public.tpl';
+        elseif (file_exists(PLUGINS . $this->name . '/template/public.php'))
+            $this->publicTemplate = PLUGINS . $this->name . '/template/public.php';
+        else
+            $this->publicTemplate = false;
+
+        // Template admin
+        if (file_exists(PLUGINS . $this->name . '/template/admin.tpl'))
+            $this->adminTemplate = PLUGINS . $this->name . '/template/admin.tpl';
+        elseif (file_exists(PLUGINS . $this->name . '/template/admin.php'))
+            $this->adminTemplate = PLUGINS . $this->name . '/template/admin.php';
+        else
+            $this->adminTemplate = false;
+
+        // Template parametres
+        if (file_exists(PLUGINS . $this->name . '/template/param.tpl'))
+            $this->paramTemplate = PLUGINS . $this->name . '/template/param.tpl';
+        elseif (file_exists(PLUGINS . $this->name . '/template/param.php'))
+            $this->paramTemplate = PLUGINS . $this->name . '/template/param.php';
+        else
+            $this->paramTemplate = false;
+
+        // Template d'aide
+        if (file_exists(PLUGINS . $this->name . '/template/help.tpl'))
+            $this->helpTemplate = PLUGINS . $this->name . '/template/help.tpl';
+        elseif (file_exists(PLUGINS . $this->name . '/template/help.php'))
+            $this->paramTemplate = PLUGINS . $this->name . '/template/help.php';
+        else
+            $this->paramTemplate = false;
     }
 
     ## Getters

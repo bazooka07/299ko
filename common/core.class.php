@@ -60,8 +60,11 @@ class core {
         $this->js[] = FANCYJS;
     }
 
-    ## Retourne l'instance de l'objet core
-
+    /**
+     * Return Core Instance
+     * 
+     * @return \self
+     */
     public static function getInstance() {
         if (is_null(self::$instance))
             self::$instance = new core();

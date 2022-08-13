@@ -15,6 +15,14 @@ include_once(ROOT . 'common/common.php');
 if (!$runPlugin || $runPlugin->getConfigVal('activate') < 1)
     $core->error404();
 elseif ($runPlugin->getPublicFile()) {
-    include($runPlugin->getPublicFile());
-    include($runPlugin->getPublicTemplate());
+    if (util::getFileExtension($runPlugin->getPublicTemplate()) === 'tpl' && file_exists(THEMES . $core->getConfigVal('theme') . '/layout.tpl')) {
+        $layout = new Template(THEMES . $core->getConfigVal('theme') . '/layout.tpl');
+        $tpl = new Template($runPlugin->getPublicTemplate());
+        include($runPlugin->getPublicFile());
+        $layout->set('CONTENT', $tpl->output());
+        echo $layout->output();
+    } else {
+        include($runPlugin->getPublicFile());
+        include($runPlugin->getPublicTemplate());
+    }
 }
