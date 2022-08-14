@@ -69,12 +69,13 @@ class galerie {
     public function saveItem($obj) {
         $id = $obj->getId();
         if ($id == '') {
+            
             $obj->setId(uniqid());
             $upload = util::uploadFile('file', UPLOAD . 'galerie/', $obj->getId(), ['extensions' => ["gif", "png", "jpg", "jpeg"]]);
             if ($upload == 'success') {
                 $ext = "." . util::getFileExtension($_FILES['file']['name']);
                 $obj->setImg($obj->getId() . $ext);
-                galerieResize($this->size, $this->size, UPLOAD . 'galerie/', $obj->getId() . $ext, UPLOAD . 'galerie/', $obj->getId() . $ext);
+                galerieResize(UPLOAD . 'galerie/' . $obj->getId() . $ext, '', $this->size, 100);
             }
             $this->items[] = $obj;
         } else {
@@ -84,7 +85,7 @@ class galerie {
                     if ($upload == 'success') {
                         $ext = "." . util::getFileExtension($_FILES['file']['name']);
                         $obj->setImg($obj->getId() . $ext);
-                        galerieResize($this->size, $this->size, UPLOAD . 'galerie/', $obj->getId() . $ext, UPLOAD . 'galerie/', $obj->getId() . $ext);
+                        galerieResize(UPLOAD . 'galerie/' . $obj->getId() . $ext, '', $this->size, 100);
                     }
                     $this->items[$k] = $obj;
                 }
@@ -257,119 +258,135 @@ class galerieItem {
 
 }
 
-## Fonction redim
+/**
+ * Fonction qui permet de redimensionner une image en conservant les proportions
+ * @param  string  $image_path Chemin de l'image
+ * @param  string  $image_dest Chemin de destination de l'image redimentionnée (si vide remplace l'image envoyée)
+ * @param  integer $max_size   Taille maximale en pixels
+ * @param  integer $qualite    Qualité de l'image entre 0 et 100
+ * @param  string  $type       'auto' => prend le coté le plus grand
+ *                             'width' => prend la largeur en référence
+ *                             'height' => prend la hauteur en référence
+ * @param  boleen  $upload 	   true si c'est une image uploadée, false si c'est le chemin d'une image déjà sur le serveur
+ * @return string              'success' => redimentionnement effectué avec succès
+ *                             'wrong_path' => le chemin du fichier est incorrect
+ *                             'no_img' => le fichier n'est pas une image
+ *                             'resize_error' => le redimensionnement a échoué
+ */
 
-function galerieResize($Wmax, $Hmax, $rep_Dst, $img_Dst, $rep_Src, $img_Src) {
-    // ------------------------------------------------------------------
-    $condition = 0;
-    // Si certains paramètres ont pour valeur '' :
-    if ($rep_Dst == '') {
-        $rep_Dst = $rep_Src;
-    }  // (meme repertoire)
-    if ($img_Dst == '') {
-        $img_Dst = $img_Src;
-    }  // (meme nom)
-    if ($Wmax == '') {
-        $Wmax = 0;
+function galerieResize($image_path,$image_dest,$max_size = 800,$qualite = 100,$type = 'auto',$upload = false){
+
+  // Vérification que le fichier existe
+  if(!file_exists($image_path)):
+    return 'wrong_path';
+  endif;
+
+  if($image_dest == ""):
+    $image_dest = $image_path;
+  endif;
+  // Extensions et mimes autorisés
+  $extensions = array('jpg','jpeg','png','gif');
+  $mimes = array('image/jpeg','image/gif','image/png');
+
+  // Récupération de l'extension de l'image
+  $tab_ext = explode('.', $image_path);
+  $extension  = strtolower($tab_ext[count($tab_ext)-1]);
+  echo "extension : $extension";
+
+  // Récupération des informations de l'image
+  $image_data = getimagesize($image_path);
+
+  // Si c'est une image envoyé alors son extension est .tmp et on doit d'abord la copier avant de la redimentionner
+  if($upload && in_array($image_data['mime'],$mimes)):
+    copy($image_path,$image_dest);
+    $image_path = $image_dest;
+
+    $tab_ext = explode('.', $image_path);
+    $extension  = strtolower($tab_ext[count($tab_ext)-1]);
+  endif;
+
+  // Test si l'extension est autorisée
+  if (in_array($extension,$extensions) && in_array($image_data['mime'],$mimes)):
+    
+    // On stocke les dimensions dans des variables
+    $img_width = $image_data[0];
+    $img_height = $image_data[1];
+
+    // On vérifie quel coté est le plus grand
+    if($img_width >= $img_height && $type != "height"):
+
+      // Calcul des nouvelles dimensions à partir de la largeur
+      if($max_size >= $img_width):
+        return 'no_need_to_resize';
+      endif;
+
+      $new_width = $max_size;
+      $reduction = ( ($new_width * 100) / $img_width );
+      $new_height = round(( ($img_height * $reduction )/100 ),0);
+
+    else:
+
+      // Calcul des nouvelles dimensions à partir de la hauteur
+      if($max_size >= $img_height):
+        return 'no_need_to_resize';
+      endif;
+
+      $new_height = $max_size;
+      $reduction = ( ($new_height * 100) / $img_height );
+      $new_width = round(( ($img_width * $reduction )/100 ),0);
+
+    endif;
+
+    // Création de la ressource pour la nouvelle image
+    $dest = imagecreatetruecolor($new_width, $new_height);
+
+    // En fonction de l'extension on prépare l'iamge
+    switch($extension){
+      case 'jpg':
+      case 'jpeg':
+        $src = imagecreatefromjpeg($image_path); // Pour les jpg et jpeg
+      break;
+
+      case 'png':
+        $src = imagecreatefrompng($image_path); // Pour les png
+      break;
+
+      case 'gif':
+        $src = imagecreatefromgif($image_path); // Pour les gif
+      break;
     }
-    if ($Hmax == '') {
-        $Hmax = 0;
-    }
-    // ------------------------------------------------------------------
-    // si le fichier existe dans le répertoire, on continue...
-    if (file_exists($rep_Src . $img_Src) && ($Wmax != 0 || $Hmax != 0)) {
-        // ----------------------------------------------------------------
-        // extensions acceptées : 
-        $ExtfichierOK = '" jpg jpeg png"';  // (l espace avant jpg est important)
-        // extension
-        $tabimage = explode('.', $img_Src);
-        $extension = $tabimage[sizeof($tabimage) - 1];  // dernier element
-        $extension = strtolower($extension);  // on met en minuscule
-        // ----------------------------------------------------------------
-        // extension OK ? on continue ...
-        if (strpos($ExtfichierOK, $extension) != '') {
-            // -------------------------------------------------------------
-            // récupération des dimensions de l image Src
-            $size = getimagesize($rep_Src . $img_Src);
-            $W_Src = $size[0];  // largeur
-            $H_Src = $size[1];  // hauteur
-            // -------------------------------------------------------------
-            // condition de redimensionnement et dimensions de l image finale
-            // -------------------------------------------------------------
-            // A- LARGEUR ET HAUTEUR maxi fixes
-            if ($Wmax != 0 && $Hmax != 0) {
-                $ratiox = $W_Src / $Wmax;  // ratio en largeur
-                $ratioy = $H_Src / $Hmax;  // ratio en hauteur
-                $ratio = max($ratiox, $ratioy);  // le plus grand
-                $W = $W_Src / $ratio;
-                $H = $H_Src / $ratio;
-                $condition = ($W_Src > $W) || ($W_Src > $H);  // 1 si vrai (true)
-            }
-            // -------------------------------------------------------------
-            // B- LARGEUR maxi fixe
-            if ($Hmax != 0 && $Wmax == 0) {
-                $H = $Hmax;
-                $W = $H * ($W_Src / $H_Src);
-                $condition = $H_Src > $Hmax;  // 1 si vrai (true)
-            }
-            // -------------------------------------------------------------
-            // C- HAUTEUR maxi fixe
-            if ($Wmax != 0 && $Hmax == 0) {
-                $W = $Wmax;
-                $H = $W * ($H_Src / $W_Src);
-                $condition = $W_Src > $Wmax;  // 1 si vrai (true)
-            }
-            // -------------------------------------------------------------
-            // on REDIMENSIONNE si la condition est vraie
-            // -------------------------------------------------------------
-            if ($condition == 1) {
-                // création de la ressource-image"Src" en fonction de l extension
-                // et on crée une ressource-image"Dst" vide aux dimensions finales
-                switch ($extension) {
-                    case 'jpg':
-                    case 'jpeg':
-                        $Ress_Src = imagecreatefromjpeg($rep_Src . $img_Src);
-                        $Ress_Dst = ImageCreateTrueColor($W, $H);
-                        break;
-                    case 'png':
-                        $Ress_Src = imagecreatefrompng($rep_Src . $img_Src);
-                        $Ress_Dst = ImageCreateTrueColor($W, $H);
-                        // fond transparent (pour les png avec transparence)
-                        imagesavealpha($Ress_Dst, true);
-                        $trans_color = imagecolorallocatealpha($Ress_Dst, 0, 0, 0, 127);
-                        imagefill($Ress_Dst, 0, 0, $trans_color);
-                        break;
-                }
-                // ----------------------------------------------------------
-                // REDIMENSIONNEMENT (copie, redimensionne, ré-echantillonne)
-                ImageCopyResampled($Ress_Dst, $Ress_Src, 0, 0, 0, 0, $W, $H, $W_Src, $H_Src);
-                // ----------------------------------------------------------
-                // ENREGISTREMENT dans le répertoire (avec la fonction appropriée)
-                switch ($extension) {
-                    case 'jpg':
-                    case 'jpeg':
-                        ImageJpeg($Ress_Dst, $rep_Dst . $img_Dst, 100);
-                        break;
-                    case 'png':
-                        imagepng($Ress_Dst, $rep_Dst . $img_Dst, 0);
-                        break;
-                }
-                // ----------------------------------------------------------
-                // libération des ressources-image
-                imagedestroy($Ress_Src);
-                imagedestroy($Ress_Dst);
-            }
-            // -------------------------------------------------------------
-        }
-    }
-// --------------------------------------------------------------------------------------------------
-    // retourne : 1 (vrai) si le redimensionnement et l enregistrement ont bien eu lieu, sinon rien (false)
-    // si le fichier a bien été créé
-    if ($condition == 1 && file_exists($rep_Dst . $img_Dst)) {
-        return true;
-    } else {
-        return false;
-    }
+
+    // Création de l'image redimentionnée
+    if(imagecopyresampled($dest, $src, 0, 0, 0, 0, $new_width, $new_height, $img_width, $img_height)):
+
+      // On remplace l'image en fonction de l'extension
+      switch($extension){
+        case 'jpg':
+        case 'jpeg':
+          imagejpeg($dest , $image_dest, $qualite); // Pour les jpg et jpeg
+        break;
+
+        case 'png':
+          $black = imagecolorallocate($dest, 0, 0, 0);
+          imagecolortransparent($dest, $black);
+
+          $compression = round((100 - $qualite) / 10,0);
+          imagepng($dest , $image_dest, $compression); // Pour les png
+        break;
+
+        case 'gif':
+          imagegif($dest , $image_dest); // Pour les gif
+        break;
+      }
+
+      return 'success';
+      
+    else:
+      return 'resize_error';
+    endif;
+
+  else:
+    return 'no_img';
+  endif;
 }
 
-?>
