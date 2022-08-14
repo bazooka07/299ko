@@ -54,9 +54,10 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
         'defaultAdminPlugin' => 'page',
     );
     if (!@file_put_contents(DATA . 'config.json', json_encode($config)) || !@chmod(DATA . 'config.json', 0600)) {
-        $msg = 'Une erreur est survenue';
+        show::msg('Une erreur est survenue', 'error');
     } else {
         $_SESSION['installOk'] = true;
+        show::msg('L\'installation s\'est déroulée normalement', 'success');
         header('location:admin/');
         die();
     }
@@ -68,12 +69,14 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>99ko - Installation</title>	
+        <title>299ko - Installation</title>	
         <link rel="stylesheet" href="admin/styles.css" media="all">
     </head>
 
     <body class="login">
-        <?php show::msg($msg); ?>
+        <div id="alert-msg">
+            <?php show::displayMsg(); ?>
+        </div>
         <div id="login">
             <h1 class="text-center">Installation</h1>
 
@@ -89,7 +92,7 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
                     <a id="showPassword" href="javascript:showPassword()" class="button success">Montrer le mot de passe</a>
                     <button type="submit" class="button success">Valider</button>
                 </p>
-                <p class="just_using"><a target="_blank" href="https://github.com/99kocms/">Just using 99ko</a>
+                <p class="just_using"><a target="_blank" href="https://github.com/299ko/">Just using 299ko</a>
                 </p>
             </form>
         </div>

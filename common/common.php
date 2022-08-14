@@ -45,7 +45,3 @@ Template::addGlobal('PLUGINS', PLUGINS);
 Template::addGlobal('THEME_PATH', THEMES . $core->getConfigVal('theme') . '/' );
 Template::addGlobal('VERSION', VERSION);
 Template::addGlobal('runPlugin', $runPlugin);
-
-
-
-?>

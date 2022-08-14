@@ -238,7 +238,7 @@ class core {
             if (!@file_put_contents(ROOT . '.htaccess', $temp, 0604))
                 $install = false;
         }
-        if (!is_dir(DATA) && (!@mkdir(DATA) || !@chmod(DATA, 0644)))
+        if (!is_dir(DATA) && (!@mkdir(DATA) || !@chmod(DATA, 0755)))
             $install = false;
         if ($install) {
             if (!file_exists(DATA . '.htaccess')) {
@@ -257,7 +257,7 @@ class core {
                 $install = false;
             $key = uniqid(true);
             if (!file_exists(DATA . 'key.php') && !@file_put_contents(DATA
-                            . 'key2.php', "<?php\ndefined('ROOT') OR exit"
+                            . 'key.php', "<?php\ndefined('ROOT') OR exit"
                             . "('No direct script access allowed');"
                             . "\ndefine('KEY', '$key'); ?>", 0604))
                 $install = false;
