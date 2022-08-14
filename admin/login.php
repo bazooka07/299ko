@@ -17,7 +17,7 @@ defined('ROOT') OR exit('No direct script access allowed');
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="noindex"><meta name="googlebot" content="noindex">
-        <title>99ko - Connexion</title>	
+        <title>299ko - Connexion</title>	
         <?php show::linkTags(); ?>
         <link rel="stylesheet" href="styles.css" media="all">
         <?php show::scriptTags(); ?>
@@ -43,7 +43,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                     <input type="submit" class="button" value="Valider" />
                 </p>
                 <p><a href="index.php?action=lostpwd&token=<?php echo $administrator->getToken(); ?>">Mot de passe perdu ?</a></p>
-                <p class="just_using"><a target="_blank" href="https://github.com/99kocms/">Just using 99ko</a>
+                <p class="just_using"><a target="_blank" href="https://github.com/299ko/">Just using 299ko</a>
                 </p>
             </form>
         </div>

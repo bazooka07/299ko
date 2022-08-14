@@ -17,7 +17,7 @@ defined('ROOT') OR exit('No direct script access allowed');
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="noindex"><meta name="googlebot" content="noindex">
-        <title>99ko - Mot de passe perdu</title>	
+        <title>299ko - Mot de passe perdu</title>	
         <?php show::linkTags(); ?>
         <link rel="stylesheet" href="styles.css" media="all">
         <?php show::scriptTags(); ?>
@@ -54,7 +54,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                 <p>Le mot de passe administrateur a bien été modifié. Vous pouvez maintenant vous connecter.</p>
                 <p><a class="button" href="index.php">Me connecter</a></p>
             <?php } ?>
-            <p class="just_using"><a target="_blank" href="https://github.com/99kocms/">Just using 99ko</a>
+            <p class="just_using"><a target="_blank" href="https://github.com/299ko/">Just using 299ko</a>
             </p>
         </div>
     </body>

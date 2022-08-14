@@ -37,7 +37,7 @@
             <div id="footer_content">
                 {% HOOK.footer %}
                 <p>
-                    <a target='_blank' href='https://github.com/99kocms/'>Just using 99ko</a> - Thème {% SHOW.theme %} - <a rel="nofollow" href="<?php echo ADMIN_PATH ?>">Administration</a>
+                    <a target='_blank' href='https://github.com/299ko/'>Just using 299ko</a> - Thème {% SHOW.theme %} - <a rel="nofollow" href="<?php echo ADMIN_PATH ?>">Administration</a>
                 </p>
                 {% HOOK.endFooter %}
             </div>

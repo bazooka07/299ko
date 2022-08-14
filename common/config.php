@@ -10,7 +10,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-define('VERSION', '5.1');
+define('VERSION', '1.0 beta');
 define('COMMON', ROOT . 'common/');
 define('DATA', ROOT . 'data/');
 define('UPLOAD', ROOT . 'data/upload/');

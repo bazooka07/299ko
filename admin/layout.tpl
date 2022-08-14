@@ -35,7 +35,7 @@
                             <li class="site"><a target="_blank" href="../">Voir le site</a></li> 
                         </ul>
                         <p class="just_using">
-                            <a target="_blank" href="https://github.com/99kocms/">Just using 99ko {{ VERSION }}</a>
+                            <a target="_blank" href="https://github.com/299ko/">Just using 299ko {{ VERSION }}</a>
                         </p>
                     </div>
                 {% IF runPlugin.getParamTemplate %}
