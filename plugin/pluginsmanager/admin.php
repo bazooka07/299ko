@@ -31,6 +31,7 @@ switch ($action) {
         break;
     case 'save':
         if ($administrator->isAuthorized()) {
+            $error = false;
             foreach ($pluginsManager->getPlugins() as $k => $v) {
                 if (isset($_POST['activate'][$v->getName()])) {
                     if (!$v->isInstalled())
@@ -42,11 +43,14 @@ switch ($action) {
                 if ($v->isInstalled()) {
                     $v->setConfigVal('priority', intval($_POST['priority'][$v->getName()]));
                     if (!$pluginsManager->savePluginConfig($v)) {
-                        show::msg("Une erreur est survenue", 'error');
-                    } else {
-                        show::msg("Les modifications ont été enregistrées", 'success');
+                        $error = true;
                     }
                 }
+            }
+            if ($error) {
+                show::msg("Une erreur est survenue", 'error');
+            } else {
+                show::msg("Les modifications ont été enregistrées", 'success');
             }
         }
         header('location:index.php?p=pluginsmanager');
