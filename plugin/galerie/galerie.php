@@ -260,6 +260,7 @@ class galerieItem {
 
 /**
  * Fonction qui permet de redimensionner une image en conservant les proportions
+ * @author Frederic Gerard <https://www.frederic-gerard.com/scripts/script-php-pour-redimentionner-une-image-en-conservant-les-proportions.html>
  * @param  string  $image_path Chemin de l'image
  * @param  string  $image_dest Chemin de destination de l'image redimentionnée (si vide remplace l'image envoyée)
  * @param  integer $max_size   Taille maximale en pixels

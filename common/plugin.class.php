@@ -122,9 +122,9 @@ class plugin {
         if (file_exists(PLUGINS . $this->name . '/template/help.tpl'))
             $this->helpTemplate = PLUGINS . $this->name . '/template/help.tpl';
         elseif (file_exists(PLUGINS . $this->name . '/template/help.php'))
-            $this->paramTemplate = PLUGINS . $this->name . '/template/help.php';
+            $this->helpTemplate = PLUGINS . $this->name . '/template/help.php';
         else
-            $this->paramTemplate = false;
+            $this->helpTemplate = false;
     }
 
     ## Getters
