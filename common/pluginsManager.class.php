@@ -29,8 +29,12 @@ class pluginsManager {
         return $this->plugins;
     }
 
-    ## Retourne un objet plugin
-
+    /**
+     * Retourne un objet plugin
+     * 
+     * @param string Nom du plugin
+     * @return \plugin
+     */
     public function getPlugin($name) {
         foreach ($this->plugins as $plugin) {
             if ($plugin->getName() == $name)
@@ -72,8 +76,11 @@ class pluginsManager {
         return true;
     }
 
-    ## Retourne l'instance de l'objet pluginsManager
-
+    /**
+     * Retourne l'instance de l'objet pluginsManager
+     * 
+     * @return \self
+     */
     public static function getInstance() {
         if (is_null(self::$instance))
             self::$instance = new pluginsManager();

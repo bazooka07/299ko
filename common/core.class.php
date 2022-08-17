@@ -247,7 +247,7 @@ class core {
             }
             if (!is_dir(DATA_PLUGIN) && (!@mkdir(DATA_PLUGIN) || !@chmod(DATA_PLUGIN, 0644)))
                 $install = false;
-            if (!is_dir(UPLOAD) && (!@mkdir(UPLOAD) || !@chmod(UPLOAD, 0644)))
+            if (!is_dir(UPLOAD) && (!@mkdir(UPLOAD) || !@chmod(UPLOAD, 0755)))
                 $install = false;
             if (!file_exists(UPLOAD . '.htaccess')) {
                 if (!@file_put_contents(UPLOAD . '.htaccess', "allow from all", 0604))
