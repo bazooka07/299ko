@@ -75,6 +75,7 @@ function seoGetSocialVars() {
         'Pinterest' => 'pinterest',
         'Linkedin' => 'linkedin',
         'Viadeo' => 'viadeo',
-        'GitHub' => 'github'
+        'GitHub' => 'github',
+        "Mastodon" => 'mastodon'
     ];
 }
