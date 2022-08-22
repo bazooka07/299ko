@@ -21,7 +21,7 @@ function pageInstall() {
         $pageItem->setName('Accueil');
         $pageItem->setPosition(1);
         $pageItem->setIsHomepage(1);
-        $pageItem->setContent('<p>Félicitations, l\'installation de 99ko s\'est déroulée avec succès !<br>Par mesure de sécurité, vous devez maintenant supprimer le fichier install.php du répertoire d\'installation.</p><div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.2&appId=1977129795718995&autoLogAppEvents=1"></script><div class="fb-like" data-href="https://www.facebook.com/99kocms/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>');
+        $pageItem->setContent('<p>Félicitations, l\'installation de 299ko s\'est déroulée avec succès !<br>Par mesure de sécurité, vous devez maintenant supprimer le fichier install.php du répertoire d\'installation.</p>');
         $pageItem->setIsHidden(0);
         $page->save($pageItem);
         $page = new page();
@@ -29,7 +29,7 @@ function pageInstall() {
         $pageItem = new pageItem();
         $pageItem->setName('Liens');
         $pageItem->setPosition(2);
-        $pageItem->setContent('<ul><li><a href="https://github.com/99kocms">https://github.com/99kocms</a> (99ko CMS sur GithHub)</li><li><a href="https://www.facebook.com/99kocms/">https://www.facebook.com/99kocms/</a> (99ko CMS sur Facebook)</li><li><a href="https://twitter.com/99kocms?lang=fr">https://twitter.com/99kocms?lang=fr</a> (99ko CMS sur Twitter)<li><a href="https://99ko.tuxfamily.org/forum/">https://99ko.tuxfamily.org/forum/</a> (Support)</li><li><a href="https://99ko.tuxfamily.org/">https://99ko.tuxfamily.org</a> (site officiel)</li><li><a href="https://framalibre.org/content/99ko">https://framalibre.org/content/99ko</a> (99ko CMS sur Framalibre)</li></ul>');
+        $pageItem->setContent('<ul><li><a href="https://github.com/299Ko">https://github.com/299Ko</a> (299ko CMS sur GitHub)</li><li><a href="https://facebook.com/299kocms/">https://facebook.com/299kocms/</a> (299ko CMS sur Facebook)</li><li><a href="https://twitter.com/299kocms">https://twitter.com/299kocms</a> (299ko CMS sur Twitter)</li><li><a href="https://299ko.tuxfamily.org">https://299ko.tuxfamily.org</a> (site officiel)</li></ul>');
         $page->save($pageItem);
     }
     $core = core::getInstance();

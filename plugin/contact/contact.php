@@ -34,7 +34,7 @@ function contactSave($email) {
 function contactSend() {
     global $runPlugin;
     $core = core::getInstance();
-    $from = '99ko@' . $_SERVER['SERVER_NAME'];
+    $from = '299ko@' . $_SERVER['SERVER_NAME'];
     $reply = strip_tags(trim($_POST['email']));
     $name = strip_tags(trim($_POST['name']));
     $firstName = strip_tags(trim($_POST['firstname']));

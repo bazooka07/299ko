@@ -119,7 +119,7 @@ class core {
         return $this->css;
     }
 
-    ## Détermine si 99ko est installé
+    ## Détermine si 299ko est installé
 
     public function isInstalled() {
         if (!file_exists(DATA . 'config.json'))
@@ -227,7 +227,7 @@ class core {
             return false;
     }
 
-    ## Installation de 99ko
+    ## Installation de 299ko
 
     public function install() {
         $install = true;

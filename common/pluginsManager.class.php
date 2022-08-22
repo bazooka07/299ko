@@ -117,7 +117,7 @@ class pluginsManager {
                 $dataNotSorted[$dir] = util::readJsonFile(DATA_PLUGIN . $dir . '/config.json', true);
             // Sinon on lui attribu une priorité faible
             else
-                $dataNotSorted[$dir]['priority'] = '10';
+                $dataNotSorted[$dir]['priority'] = '9';
         }
         // On tri les plugins par priorité
         $dataSorted = @util::sort2DimArray($dataNotSorted, 'priority', 'num');

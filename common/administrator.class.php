@@ -113,7 +113,7 @@ class administrator {
         $this->newPwd = $password;
         $_SESSION['newPwd'] = $this->newPwd;
         $to = $this->email;
-        $from = '99ko@' . $_SERVER['SERVER_NAME'];
+        $from = '299ko@' . $_SERVER['SERVER_NAME'];
         $reply = $from;
         $subject = 'Demande de mot de passe administrateur pour le site ' . $core->getConfigVal('siteName');
         $msg = "Vous venez de faire une demande de changement de mot de passe administrateur.

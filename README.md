@@ -1,16 +1,14 @@
-# 99ko
+# 299ko
 
-99ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des plugins ainsi que des thèmes.
+299ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des plugins ainsi que des thèmes.
 
-Site officiel : https://99ko.tuxfamily.org
+Site officiel : https://299ko.tuxfamily.org
 
-Facebook : https://www.facebook.com/99ko-CMS-312292362919626/
+Facebook : https://facebook.com/299kocms
 
-Twitter : https://twitter.com/99kocms
+Twitter : https://twitter.com/299kocms
 
-Support : https://99ko.tuxfamily.org/forum/
-
-Documentation : https://99ko.tuxfamily.org/page/documentation-9.html
+GitHub : https://github.com/299Ko
 
 This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

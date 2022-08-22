@@ -67,9 +67,8 @@ h3{
 }
 
 ul,ol{
-    padding-left:0;
+    padding-left:6px;
     margin-left:0;
-    list-style: disc inside
 }
 
 hr{
