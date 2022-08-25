@@ -1,6 +1,6 @@
 # 299ko
 
-299ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des plugins ainsi que des thèmes.
+299ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des [plugins](https://github.com/299Ko/plugins) ainsi que des thèmes.
 
 Site officiel : https://299ko.tuxfamily.org
 

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## V1.0
 
 ### Added
 - 2 hooks : beforeSaveEditor and beforeEditEditor, to modify content before save and edit it
