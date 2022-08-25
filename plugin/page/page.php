@@ -29,7 +29,11 @@ function pageInstall() {
         $pageItem = new pageItem();
         $pageItem->setName('Liens');
         $pageItem->setPosition(2);
-        $pageItem->setContent('<ul><li><a href="https://github.com/299Ko">https://github.com/299Ko</a> (299ko CMS sur GitHub)</li><li><a href="https://facebook.com/299kocms/">https://facebook.com/299kocms/</a> (299ko CMS sur Facebook)</li><li><a href="https://twitter.com/299kocms">https://twitter.com/299kocms</a> (299ko CMS sur Twitter)</li><li><a href="https://299ko.tuxfamily.org">https://299ko.tuxfamily.org</a> (site officiel)</li></ul>');
+        $pageItem->setContent('<ul><li><a href="https://github.com/299Ko">Suivre 299Ko sur GitHub/a></li>'
+                . '<li><a href="https://facebook.com/299kocms/">Suivre 299Ko sur Facebook</a></li>'
+                . '<li><a href="https://twitter.com/299kocms">Suivre 299Ko sur Twitter</a></li>'
+                . '<li><a href="https://299ko.tuxfamily.org">Site Officiel 299Ko</a></li>'
+                . '<li><a href="https://299ko.tuxfamily.org/page/documentation-6.html">Documentation de 299Ko</a></li></ul>');
         $page->save($pageItem);
     }
     $core = core::getInstance();

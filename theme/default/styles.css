@@ -67,8 +67,8 @@ h3{
 }
 
 ul,ol{
-    padding-left:6px;
     margin-left:0;
+    list-style: circle outside;
 }
 
 hr{
@@ -334,6 +334,7 @@ code{
     list-style: none;
     background: #fff;
     box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, 0.30);
+    padding: 0;
 }
 
 #navigation li:hover ul{
@@ -456,7 +457,7 @@ code{
 
 /* Blog */
 
-.blog .items{
+.blog .items > li{
     list-style: none inside;
 }
 
