@@ -240,7 +240,7 @@ class page {
         $core = core::getInstance();
         // => Page
         if ($obj->targetIs() == 'page')
-            $temp = ($core->getConfigVal('defaultPlugin') == 'page' && $obj->getIsHomepage()) ? $core->getConfigVal('siteUrl') : $core->getConfigVal('siteUrl') . '/page/' . util::strToUrl($obj->getName()) . '-' . $obj->getId() . '.html';
+            $temp = ($core->getConfigVal('defaultPlugin') == 'page' && $obj->getIsHomepage()) ? $core->getConfigVal('siteUrl') : $core->getConfigVal('siteUrl') . '/page/' . util::strToUrl(preg_replace ("#\<i.+\<\/i\>#i", '', $obj->getName())) . '-' . $obj->getId() . '.html';
         // => URL
         elseif ($obj->targetIs() == 'url')
             $temp = $obj->getTarget();

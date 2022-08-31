@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Changed
+- Possibility to use icon on menu item (page)
+
 ## V1.0
 
 ### Added
