@@ -55,8 +55,8 @@ class pluginsManager {
 
     public function installPlugin($name, $activate = false) {
         // Création du dossier data
-        @mkdir(DATA_PLUGIN . $name . '/', 0644);
-        @chmod(DATA_PLUGIN . $name . '/', 0644);
+        @mkdir(DATA_PLUGIN . $name . '/', 0755);
+        @chmod(DATA_PLUGIN . $name . '/', 0755);
         // Lecture du fichier config usine
         $config = util::readJsonFile(PLUGINS . $name . '/param/config.json');
         // Par défaut le plugin est inactif
