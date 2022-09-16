@@ -187,6 +187,7 @@ code{
     top:0;
     bottom: 0;
     margin: auto 0;
+    height: -moz-fit-content;
     height: fit-content;
     left: 10px;
     color : #6C6C6C;
