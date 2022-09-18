@@ -292,7 +292,6 @@ function galerieResize($image_path,$image_dest,$max_size = 800,$qualite = 100,$t
   // Récupération de l'extension de l'image
   $tab_ext = explode('.', $image_path);
   $extension  = strtolower($tab_ext[count($tab_ext)-1]);
-  echo "extension : $extension";
 
   // Récupération des informations de l'image
   $image_data = getimagesize($image_path);
