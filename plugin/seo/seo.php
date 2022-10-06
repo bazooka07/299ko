@@ -72,6 +72,7 @@ function seoGetSocialVars() {
         'Twitter' => 'twitter',
         'YouTube' => 'youtube',
         'Instagram' => 'instagram',
+        'TikTok' => 'tiktok',
         'Pinterest' => 'pinterest',
         'Linkedin' => 'linkedin',
         'Viadeo' => 'viadeo',
