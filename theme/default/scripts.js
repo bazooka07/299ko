@@ -9,25 +9,54 @@
  * @package 299Ko https://github.com/299Ko/299ko
  */
 
-$(document).ready(function () {
-    $('#mobile_menu').click(function () {
-        if ($('#navigation').css('display') == 'none') {
-            $('#navigation').slideDown();
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector('#mobile_menu').addEventListener("click", function() {
+
+        var navigation = document.querySelector('#header #navigation');
+
+        if (!navigation.classList.contains('active')) {
+            // slideDown
+
+            navigation.classList.add('active');
+            navigation.style.height = "auto";
+
+            var height = navigation.clientHeight + "px";
+
+            navigation.style.height = "0px";
+
+            setTimeout(function() {
+                navigation.style.height = height;
+            }, 0);
+
         } else {
-            $('#navigation').slideUp();
+            // slideUp
+
+            navigation.style.height = "0px";
+
+            navigation.addEventListener('transitionend', function() {
+                navigation.classList.remove('active');
+            }, {once: true});
         }
-    });
-    var pathname = window.location.href.split('#')[0];
-    $('a[href^="#"]').each(function () {
-        var $this = $(this),
-                link = $this.attr('href');
-        $this.attr('href', pathname + link);
+
     });
 
-    $(".msg").each(function (index) {
-        $(this).children(".msg-button-close").click(function () {
-            $(this).parent().dequeue();
-        });
-        $(this).delay(5000 + index * 5000).slideUp();
+
+    var pathname = window.location.href.split('#')[0];
+    document.querySelectorAll('a[href^="#"]').forEach(function(item) {
+        var link = item.getAttribute('href');
+        item.setAttribute('href', pathname + link);
     });
+
+
+    document.querySelectorAll('.msg').forEach(function(item, index) {
+        item.querySelector('.msg-button-close').addEventListener('click', function() {
+            item.style.display = 'none';
+        });
+
+        setTimeout(function() {
+            item.style.display = 'none';
+        }, 5000 + index * 5000);
+
+    });
+
 });

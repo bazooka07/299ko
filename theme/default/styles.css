@@ -312,6 +312,10 @@ code{
     font-size: 12px;
     text-transform: uppercase;
     overflow: hidden;
+    transition: height 0.4s ease-in-out;
+}
+#navigation.active {
+    display: block;
 }
 
 #navigation li{
