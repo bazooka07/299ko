@@ -10,35 +10,37 @@
  */
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector('#mobile_menu').addEventListener("click", function() {
+    if (document.querySelector('#mobile_menu')) {
+        document.querySelector('#mobile_menu').addEventListener("click", function() {
 
-        var navigation = document.querySelector('#header #navigation');
+            var navigation = document.querySelector('#header #navigation');
 
-        if (!navigation.classList.contains('active')) {
-            // slideDown
+            if (!navigation.classList.contains('active')) {
+                // slideDown
 
-            navigation.classList.add('active');
-            navigation.style.height = "auto";
+                navigation.classList.add('active');
+                navigation.style.height = "auto";
 
-            var height = navigation.clientHeight + "px";
+                var height = navigation.clientHeight + "px";
 
-            navigation.style.height = "0px";
+                navigation.style.height = "0px";
 
-            setTimeout(function() {
-                navigation.style.height = height;
-            }, 0);
+                setTimeout(function() {
+                    navigation.style.height = height;
+                }, 0);
 
-        } else {
-            // slideUp
+            } else {
+                // slideUp
 
-            navigation.style.height = "0px";
+                navigation.style.height = "0px";
 
-            navigation.addEventListener('transitionend', function() {
-                navigation.classList.remove('active');
-            }, {once: true});
-        }
+                navigation.addEventListener('transitionend', function() {
+                    navigation.classList.remove('active');
+                }, {once: true});
+            }
 
-    });
+        });
+    }
 
 
     var pathname = window.location.href.split('#')[0];
@@ -50,13 +52,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('.msg').forEach(function(item, index) {
         item.querySelector('.msg-button-close').addEventListener('click', function() {
-            item.style.display = 'none';
+            fadeOut(item);
         });
 
         setTimeout(function() {
-            item.style.display = 'none';
+            fadeOut(item);
         }, 5000 + index * 5000);
 
     });
 
 });
+
+
+function fadeOut(el) {
+    el.style.opacity = 1;
+    (function fade() {
+        if ((el.style.opacity -= .1) < 0) {
+            el.style.display = "none";
+        } else {
+            requestAnimationFrame(fade);
+        }
+    })();
+};
+function fadeIn(el, display) {
+    el.style.opacity = 0;
+    el.style.display = display || "block";
+    (function fade() {
+        var val = parseFloat(el.style.opacity);
+        if (!((val += .1) > 1)) {
+            el.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
+    })();
+};
