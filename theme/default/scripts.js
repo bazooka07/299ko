@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function toggleSlide(el) {
     if (el.clientHeight > 0) {
         el.classList.add('active');
+    } else {
+        el.classList.remove('active');
     }
     if (!el.classList.contains('active')) {
         // slideDown
