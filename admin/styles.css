@@ -5,6 +5,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
+ * @author ShevAbam <me@shevarezo.fr>
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
@@ -273,11 +274,12 @@ ul.tabs a, ul.tabs_style a{
 
 .just_using{
     text-align: center;
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 .just_using a{
     color: #ccc;
+    font-size: 12px;
 }
 
 #login .just_using a{
@@ -372,7 +374,7 @@ ul.tabs a, ul.tabs_style a{
 #navigation{
     text-transform: uppercase;
     list-style: none;
-    margin: 30px 0;
+    margin: 0;
     padding: 0;
 }
 

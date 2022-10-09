@@ -5,36 +5,68 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
+ * @author ShevAbam <me@shevarezo.fr>
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
 
-$(document).ready(function () {
-    $(".msg").each(function (index) {
-        $(this).children(".msg-button-close").click(function () {
-            $(this).parent().dequeue();
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('.msg').forEach(function (item, index) {
+        item.querySelector('.msg-button-close').addEventListener('click', function () {
+            fadeOut(item);
         });
-        $(this).delay(5000 + index * 5000).slideUp();
+
+        setTimeout(function () {
+            fadeOut(item);
+        }, 5000 + index * 5000);
+
     });
 
 
-    // tri menu
-    var elem = $('#navigation').find('li').sort(sortMe);
-    function sortMe(a, b) {
-        return a.className > b.className;
+    // Login : btn Quitter redirection
+    if (document.querySelector('#login input.alert')) {
+        document.querySelector('#login input.alert').addEventListener('click', function () {
+            document.location.href = this.getAttribute('rel');
+        });
     }
-    $('#navigation').append(elem);
-    // login
-    $('#login input.alert').click(function () {
-        document.location.href = $(this).attr('rel');
-    });
-    // nav
-    $('#open_nav').click(function () {
-        if ($('#sidebar').css('display') == 'none') {
-            $('#sidebar').fadeIn();
-        } else {
-            $('#sidebar').hide();
-        }
-    });
+
+    // Nav
+    if (document.querySelector('#open_nav')) {
+        document.querySelector('#open_nav').addEventListener("click", function () {
+
+            var sidebar = document.querySelector('#sidebar');
+
+            if (sidebar.style.display == 'none' || sidebar.style.display == '') {
+                fadeIn(sidebar, 'block');
+            } else {
+                fadeOut(sidebar);
+            }
+
+        });
+    }
+
 });
 
+function fadeOut(el) {
+    el.style.opacity = 1;
+    (function fade() {
+        if ((el.style.opacity -= .03) < 0) {
+            el.style.display = "none";
+        } else {
+            requestAnimationFrame(fade);
+        }
+    })();
+};
+
+function fadeIn(el, display) {
+    el.style.opacity = 0;
+    el.style.display = display || "block";
+    (function fade() {
+        var val = parseFloat(el.style.opacity);
+        if (!((val += .03) > 1)) {
+            el.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
+    })();
+};

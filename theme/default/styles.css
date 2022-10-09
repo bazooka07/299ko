@@ -5,6 +5,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
+ * @author ShevAbam <me@shevarezo.fr>
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
@@ -312,6 +313,10 @@ code{
     font-size: 12px;
     text-transform: uppercase;
     overflow: hidden;
+    transition: height 0.4s ease-in-out;
+}
+#navigation.active {
+    display: block;
 }
 
 #navigation li{
