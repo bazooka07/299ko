@@ -28,6 +28,11 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
             include_once('login.php');
         }
     }
+} elseif ($administrator->isAuthorized() && isset($_GET['action']) && $_GET['action'] == 'del_install') {
+    $del = unlink(ROOT . 'install.php');
+    if ($del) {
+        show::msg("Le fichier install.php a bien été supprimé", 'success');
+    }
 } elseif ($administrator->isAuthorized() && $core->detectAdminMode() == 'logout') {
     $administrator->logout();
     header('location:index.php');
