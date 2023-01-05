@@ -9,7 +9,8 @@ if ($mode == 'list') { ?>
         <li><a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a></li>
         <li><a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a></li>
     </ul>
-    <?php if ($lost != '') { ?>
+    <?php if ($lost != '') {
+         var_dump($lost); ?>
         <p>Des pages "fantômes" pouvant engendrer des dysfonctionnements ont été trouvées. <a href="index.php?p=page&amp;action=maintenance&id=<?php echo $lost; ?>&token=<?php echo administrator::getToken(); ?>">Cliquez ici</a> pour exécuter le script de maintenance.</p>
     <?php } ?>
     <table>
@@ -23,7 +24,7 @@ if ($mode == 'list') { ?>
         </thead>
         <tbody>
             <?php foreach ($page->getItems() as $k => $pageItem)
-                if ($pageItem->getParent() == 0 && ($pageItem->targetIs() != 'plugin' || ($pageItem->targetIs() == 'plugin' && $pluginsManager->isActivePlugin($pageItem->getTarget())))) {
+                if ((int) $pageItem->getParent() == 0 && ($pageItem->targetIs() != 'plugin' || ($pageItem->targetIs() == 'plugin' && $pluginsManager->isActivePlugin($pageItem->getTarget())))) {
                     ?>
                     <tr>
                         <td><?php echo $pageItem->getName(); ?></td>

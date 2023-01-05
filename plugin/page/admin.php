@@ -119,11 +119,11 @@ switch ($action) {
         $parents = array();
         $lost = '';
         foreach ($page->getItems() as $k => $v)
-            if ($v->getParent() == 0) {
+            if ((int) $v->getParent() == 0) {
                 $parents[] = $v->getId();
             }
         foreach ($page->getItems() as $k => $v)
-            if ($v->getParent() > 0) {
+            if ((int) $v->getParent() > 0) {
                 if (!in_array($v->getParent(), $parents))
                     $lost .= $v->getId() . ',';
             }

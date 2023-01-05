@@ -4,8 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.0.2
+
+### Added
+- Delete automatically install.php file on admin if exist
+
 ### Changed
 - Possibility to use icon on menu item (page)
+
+### Fixed
+- Issue with Pages menu on Admin
 
 ## V1.0
 
