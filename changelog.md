@@ -11,9 +11,16 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Possibility to use icon on menu item (page)
+- Use Vanilla JS instead jQuery
 
 ### Fixed
 - Issue with Pages menu on Admin
+
+## V1.0.1
+
+### Fixed
+
+- Rights on install
 
 ## V1.0
 
