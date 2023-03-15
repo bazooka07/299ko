@@ -242,7 +242,7 @@ class core {
             $install = false;
         if ($install) {
             if (!file_exists(DATA . '.htaccess')) {
-                if (!@file_put_contents(DATA . '.htaccess', "deny from all", 0604))
+                if (!@file_put_contents(DATA . '.htaccess', "Require all denied", 0604))
                     $install = false;
             }
             if (!is_dir(DATA_PLUGIN) && (!@mkdir(DATA_PLUGIN) || !@chmod(DATA_PLUGIN, 0755)))
@@ -250,7 +250,7 @@ class core {
             if (!is_dir(UPLOAD) && (!@mkdir(UPLOAD) || !@chmod(UPLOAD, 0755)))
                 $install = false;
             if (!file_exists(UPLOAD . '.htaccess')) {
-                if (!@file_put_contents(UPLOAD . '.htaccess', "allow from all", 0604))
+                if (!@file_put_contents(UPLOAD . '.htaccess', "Require all granted", 0604))
                     $install = false;
             }
             if (!file_exists(__FILE__) || !@chmod(__FILE__, 0644))
