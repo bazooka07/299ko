@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     if (document.querySelector('.galerie-admin table')) {
 
         document.querySelector('.galerie-admin tr.hidden').style.display = 'none';
 
-        document.querySelector('.galerie-admin .showall').addEventListener('click', function(){
-            document.querySelectorAll('tr.visible').forEach(function(item, index){
+        document.querySelector('.galerie-admin .showall').addEventListener('click', function () {
+            document.querySelectorAll('tr.visible').forEach(function (item, index) {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-            document.querySelectorAll('tr.hidden').forEach(function(item, index){
+            document.querySelectorAll('tr.hidden').forEach(function (item, index) {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {
@@ -25,8 +25,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (document.querySelector('.galerie-admin .category')) {
-        document.querySelector('.galerie-admin .category').addEventListener('click', function(){
-            document.querySelector('.galerie-admin input#category').value = this.textContent;
+        document.querySelectorAll('.galerie-admin .category').forEach(function (item) {
+            item.addEventListener('click', function () {
+                document.querySelector('.galerie-admin input#category').value = this.textContent;
+            });
         });
     }
 
