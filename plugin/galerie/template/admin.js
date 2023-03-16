@@ -2,10 +2,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.querySelector('.galerie-admin table')) {
 
-        document.querySelector('.galerie-admin tr.hidden').style.display = 'none';
+        document.querySelectorAll('.galerie-admin tr.hidden').forEach(function (item) {
+                    item.style.display = 'none';
+        });
 
         document.querySelector('.galerie-admin .showall').addEventListener('click', function () {
-            document.querySelectorAll('tr.visible').forEach(function (item, index) {
+            if (this.dataset.state === 'hidden') {
+                this.dataset.state = 'displayed';
+                this.innerHTML = 'Masquer les éléments cachés';
+            } else {
+                this.dataset.state = 'hidden';
+                this.innerHTML = 'Basculer sur l\'affichage des éléments cachés';
+            }
+            document.querySelectorAll('tr.visible').forEach(function (item) {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {
@@ -13,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            document.querySelectorAll('tr.hidden').forEach(function (item, index) {
+            document.querySelectorAll('tr.hidden').forEach(function (item) {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {

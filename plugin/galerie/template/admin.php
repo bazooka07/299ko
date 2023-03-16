@@ -6,7 +6,7 @@ include_once(ROOT . 'admin/header.php');
 <?php if ($mode == 'list') { ?>
     <ul class="tabs_style">
         <li><a class="button" href="index.php?p=galerie&action=edit">Ajouter</a></li>
-        <li><a class="button showall" href="javascript:">Afficher / masquer les éléments invisibles</a></li>
+        <li><a class="button showall" data-state="hidden" href="javascript:">Basculer sur l'affichage des éléments cachés</a></li>
     </ul>
     <table>
         <tr>
@@ -43,12 +43,12 @@ include_once(ROOT . 'admin/header.php');
 
         <p>
             <label>
-                Catégorie
+                Catégorie(s) existante(s) : 
     <?php foreach ($galerie->listCategories() as $k => $v) { ?>
-                    &nbsp;&nbsp;&#8594; <a class="category" href="javascript:"><?php echo $v; ?></a>
+                    <a class="category" href="javascript:" title="Sélectionner la catégorie '<?php echo $v; ?>'"><i class="fa-regular fa-folder-open"></i><?php echo $v; ?></a>
     <?php } ?>
             </label><br>
-            <input type="text" name="category" id="category" value="<?php echo $item->getCategory(); ?>" />
+            <input type="text" name="category" id="category" placeholder="Catégorie de l'image" value="<?php echo $item->getCategory(); ?>" />
         </p>
         <h3>Contenu</h3>
         <p>

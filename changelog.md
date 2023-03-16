@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Change .htaccess for Apache 2.4
+- Galerie : Modify toggle view of hidden pictures and category display
+
+### Fixed
+- Galerie : Issue on choose category
+- Galerie : Issue on hidden pictures
+
 ## V1.0.2
 
 ### Added
