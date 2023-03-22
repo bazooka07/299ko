@@ -10,17 +10,17 @@ include_once(ROOT . 'admin/header.php');
     </ul>
     <table>
         <tr>
-            <th></th>
+            <th>Aperçu</th>
             <th>Titre</th>
+            <th>Catégorie</th>
             <th>Adresse</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
         <?php foreach ($galerie->getItems() as $k => $v) { ?>
             <tr class="<?php if ($v->getHidden()) { ?>hidden<?php } else { ?>visible<?php } ?>">
                 <td><img width="128" src="<?php echo UPLOAD . 'galerie/' . $v->getImg(); ?>" alt="<?php echo $v->getImg(); ?>" /></td>
-                <td><?php echo $v->getTitle(); ?><br><?php if ($v->getCategory() != '') {
-            echo '<i>' . $v->getCategory() . '</i>';
-        } ?></td>
+                <td><?php echo $v->getTitle(); ?></td>
+                <td><?php echo $v->getCategory(); ?></td>
                 <td><input readonly="readonly" type="text" value="<?php echo $core->getConfigVal('siteUrl') . str_replace('..', '', UPLOAD) . 'galerie/' . $v->getImg(); ?>" /></td>
                 <td>
                     <a href="index.php?p=galerie&action=edit&id=<?php echo $v->getId(); ?>" class="button">Modifier</a>
@@ -76,4 +76,4 @@ include_once(ROOT . 'admin/header.php');
     </form>
 <?php } ?>
 
-<?php include_once(ROOT . 'admin/footer.php'); ?>
+<?php include_once(ROOT . 'admin/footer.php');

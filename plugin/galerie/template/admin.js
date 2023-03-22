@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {
-                    item.style.display = 'block';
+                    item.style.display = 'table-row';
                 }
             });
 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (item.style.display != 'none') {
                     item.style.display = 'none';
                 } else {
-                    item.style.display = 'block';
+                    item.style.display = 'table-row';
                 }
             });
         });
