@@ -26,7 +26,11 @@
     font-size: 19px;
     float: left;
     margin-left: 1px;
-    background: #4986b7
+    background: #4986b7;
+}
+
+#seo_social_float a i {
+    width:16px;
 }
 
 #seo_social ul {
