@@ -1,0 +1,15 @@
+#fm-listview {
+    overflow-y: scroll;
+    display: block;
+    width:100%;
+    max-height: 80vh;
+}
+
+#fm-listview > thead > tr {
+    position: sticky; 
+    top: 0;
+}
+
+#fm-listview tr {
+    background: #fff;
+}

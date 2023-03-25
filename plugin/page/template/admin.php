@@ -136,7 +136,8 @@ if ($mode == 'list') { ?>
         </p>
         <p>
             <label>Contenu</label>
-            <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $pageItem->getContent()); ?></textarea>
+            <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $pageItem->getContent()); ?></textarea><br>
+        <?php filemanagerDisplayManagerButton(); ?>
         </p>
             <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
             <h3>Image à la une</h3>

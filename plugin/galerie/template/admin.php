@@ -62,7 +62,8 @@ include_once(ROOT . 'admin/header.php');
 
         <p>
             <label>Contenu</label><br>
-            <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $item->getContent()); ?></textarea>
+            <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $item->getContent()); ?></textarea><br>
+        <?php filemanagerDisplayManagerButton(); ?>
         </p>
         <h3>Image</h3>
         <p>

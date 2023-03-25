@@ -30,7 +30,8 @@
 
     <p>
         <label>Introduction</label><br>
-        <textarea class="editor" name="introduction"><?php echo $runPlugin->getConfigVal('introduction'); ?></textarea>
+        <textarea class="editor" name="introduction"><?php echo $runPlugin->getConfigVal('introduction'); ?></textarea><br>
+        <?php filemanagerDisplayManagerButton(); ?>
     </p>
 
     <p><button type="submit" class="button">Enregistrer</button></p>
