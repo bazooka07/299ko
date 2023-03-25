@@ -10,7 +10,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-define('VERSION', '1.0');
+define('VERSION', '1.1');
 define('COMMON', ROOT . 'common/');
 define('DATA', ROOT . 'data/');
 define('UPLOAD', ROOT . 'data/upload/');
@@ -19,7 +19,6 @@ define('THEMES', ROOT . 'theme/');
 define('PLUGINS', ROOT . 'plugin/');
 define('ADMIN_PATH', ROOT . 'admin/');
 define('NORMALIZE', 'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
-define('JQUERY', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js');
 define('FONTICON', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
 define('FANCYCSS', "https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css");
 define("FANCYJS", "https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js");

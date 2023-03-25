@@ -4,13 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.1.0
+
+### Added
+- Add FileManager plugin
+
 ### Changed
 - Change .htaccess for Apache 2.4
 - Galerie : Modify toggle view of hidden pictures and category display
+- Admin : Change favicon
 
 ### Fixed
 - Galerie : Issue on choose category
 - Galerie : Issue on hidden pictures
+- SEO : Fix width on float icons
 
 ## V1.0.2
 

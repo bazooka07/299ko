@@ -56,7 +56,6 @@ class core {
         $this->css[] = NORMALIZE;
         $this->css[] = FONTICON;
         $this->css[] = FANCYCSS;
-        $this->js[] = JQUERY;
         $this->js[] = FANCYJS;
     }
 
