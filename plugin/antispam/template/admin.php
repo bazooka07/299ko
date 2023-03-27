@@ -4,21 +4,26 @@ defined('ROOT') OR exit('No direct script access allowed');
 include_once(ROOT . 'admin/header.php');
 ?>
 <script>
-    $(document).ready(function () {
-        if ($('#radioRecaptcha').prop('checked')) {
-            $('#useRecaptcha').show();
+    function onClickRadio() {
+        if (document.getElementById("radioRecaptcha").checked) {
+            document.getElementById("useRecaptcha").style.display = 'block';
+            document.querySelectorAll("#useRecaptcha input[type=text]").forEach(function (item) {
+                item.disabled = false;
+            });
         } else {
-            $('#useRecaptcha').hide();
-            $('#useRecaptcha :input').prop('disabled', true);
+            document.getElementById("useRecaptcha").style.display = 'none';
+            document.querySelectorAll("#useRecaptcha input[type=text]").forEach(function (item) {
+                item.disabled = true;
+            });
         }
-        $('input[type="radio"]').click(function () {
-            if ($('#radioRecaptcha').prop('checked')) {
-                $('#useRecaptcha').show();
-                $('#useRecaptcha :input').prop('disabled', false);
-            } else {
-                $('#useRecaptcha').hide();
-                $('#useRecaptcha :input').prop('disabled', true);
-            }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        onClickRadio();
+        document.querySelectorAll("input[type=radio]").forEach(function (item) {
+            item.addEventListener("click", function () {
+                onClickRadio();
+            });
         });
     });
 </script>
