@@ -44,19 +44,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                     <div id="content" class="<?php echo $runPlugin->getName(); ?>-admin">
                         <div id="sidebar">
                             <ul id="navigation">
-                                <?php foreach ($pluginsManager->getPlugins() as $k => $v)
-                                    if ($v->getConfigVal('activate') && $v->getAdminFile() && $v->getIsDefaultAdminPlugin()) {
-                                        ?>
-                                        <li><a href="index.php?p=<?php echo $v->getName(); ?>"><?php echo $v->getInfoVal('name'); ?></a></li>
-                                        <?php
-                                    }
-                                foreach ($pluginsManager->getPlugins() as $k => $v)
-                                    if ($v->getConfigVal('activate') && $v->getAdminFile() && !$v->getIsDefaultAdminPlugin()) {
-                                        ?>
-                                        <li><a href="index.php?p=<?php echo $v->getName(); ?>"><?php echo $v->getInfoVal('name'); ?></a></li>
-                                        <?php
-                                    }
-                                ?>
+                                <?php show::adminNavigation(); ?>
                                 <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
                                 <li class="site"><a target="_blank" href="../">Voir le site</a></li>
                             </ul>
