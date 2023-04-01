@@ -29,18 +29,18 @@ defined('ROOT') OR exit('No direct script access allowed');
         <div id="container">
             <div id="header">
                 <nav>
-                    <label for="burger">☰</label>
-                    <input type="checkbox" id="burger">
-                        <div class="main_nav">
-                            <ul id="navigation">
-                                <li class="site"><a target="_blank" href="../">Voir le site</a></li>
-                                <?php show::adminNavigation(); ?>
-                                <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
-                                <p class="just_using">
-                                    <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
-                                </p>
-                            </ul>
-                        </div>
+                    <label id="labelBurger" for="burger"><i class="fa-solid fa-bars"></i></label>
+                    <input type="checkbox" id="burger"/>
+                    <div class="main_nav">
+                        <ul id="navigation">
+                            <li class="site"><a target="_blank" href="../">Voir le site</a></li>
+                            <?php show::adminNavigation(); ?>
+                            <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
+                            <p class="just_using">
+                                <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
+                            </p>
+                        </ul>
+                    </div>
                 </nav>
             </div>
             <div id="alert-msg">
@@ -50,26 +50,27 @@ defined('ROOT') OR exit('No direct script access allowed');
                 <div id="content_mask">
                     <div id="content" class="<?php echo $runPlugin->getName(); ?>-admin">
 
-<?php if ($runPlugin->getParamTemplate()) { ?>
+                        <?php if ($runPlugin->getParamTemplate()) { ?>
                             <a title="Paramètres" data-fancybox id="param_link" href="#" data-src="#param_panel"><i class="fa-solid fa-screwdriver-wrench"></i></a>
                             <div id="param_panel">
                                 <div class="content">
                                     <h2>Paramètres</h2>
-    <?php include($runPlugin->getParamTemplate()); ?>
+                                    <?php include($runPlugin->getParamTemplate()); ?>
                                 </div>
                             </div>
                         <?php } ?>
-<?php if ($runPlugin->getHelpTemplate()) { ?>
+                        <?php if ($runPlugin->getHelpTemplate()) { ?>
                             <div id="help_panel">
                                 <div class="content">
                                     <h2>Aide</h2>
-    <?php include($runPlugin->getHelpTemplate()); ?>
+                                    <?php include($runPlugin->getHelpTemplate()); ?>
                                 </div>
                             </div>
                             <a title="Aide" data-fancybox id="help_link" href="#" data-src="#help_panel"><i class="fa-solid fa-circle-question"></i></a>
-<?php } ?>
+                            <?php } ?>
                         <h2><?php echo $runPlugin->getInfoVal('name'); ?></h2>
-                        <?php if (file_exists(ROOT . 'install.php')) {
+                        <?php
+                        if (file_exists(ROOT . 'install.php')) {
                             echo "<div style='padding:20px;background-color: #FFD38A;border-left-color: #8C5600;color : #6C6C6C;'>
                                 <p>Le fichier install.php est toujours présent. Pour plus de sécurité, il est conseillé de le supprimer.<br/>
                                 Si l'installation de 299ko s'est déroulée correctement, cliquez sur le bouton ci-dessous pour le supprimer</p>
