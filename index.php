@@ -12,6 +12,9 @@
  */
 define('ROOT', './');
 include_once(ROOT . 'common/common.php');
+include_once(COMMON . 'administrator.class.php');
+$administrator = new administrator($core->getConfigVal('adminEmail'), $core->getConfigVal('adminPwd'));
+define('IS_ADMIN', $administrator->isLogged());
 if (!$runPlugin || $runPlugin->getConfigVal('activate') < 1)
     $core->error404();
 elseif ($runPlugin->getPublicFile()) {

@@ -14,6 +14,7 @@ define('ROOT', '../');
 include_once(ROOT . 'common/common.php');
 include_once(COMMON . 'administrator.class.php');
 $administrator = new administrator($core->getConfigVal('adminEmail'), $core->getConfigVal('adminPwd'));
+define('IS_ADMIN', $administrator->isLogged());
 if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
     // quelques contrôle et temps mort volontaire avant le login...
     sleep(2);
