@@ -31,21 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Nav
-    if (document.querySelector('#open_nav')) {
-        document.querySelector('#open_nav').addEventListener("click", function () {
-
-            var sidebar = document.querySelector('#sidebar');
-
-            if (sidebar.style.display == 'none' || sidebar.style.display == '') {
-                fadeIn(sidebar, 'block');
-            } else {
-                fadeOut(sidebar);
-            }
-
-        });
-    }
-
 });
 
 function fadeOut(el) {

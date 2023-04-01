@@ -28,13 +28,20 @@ defined('ROOT') OR exit('No direct script access allowed');
     <body>
         <div id="container">
             <div id="header">
-                <div id="header_content">	
-                    <ul>
-                        <li><h1><a href="javascript:" id="open_nav"></a></h1></li>
-                        <li><a target="_blank" href="../">Voir le site</a></li>
-                        <li><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
-                    </ul>
-                </div>
+                <nav>
+                    <label for="burger">☰</label>
+                    <input type="checkbox" id="burger">
+                        <div class="main_nav">
+                            <ul id="navigation">
+                                <li class="site"><a target="_blank" href="../">Voir le site</a></li>
+                                <?php show::adminNavigation(); ?>
+                                <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
+                                <p class="just_using">
+                                    <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
+                                </p>
+                            </ul>
+                        </div>
+                </nav>
             </div>
             <div id="alert-msg">
                 <?php show::displayMsg(); ?>
@@ -42,16 +49,7 @@ defined('ROOT') OR exit('No direct script access allowed');
             <div id="body">
                 <div id="content_mask">
                     <div id="content" class="<?php echo $runPlugin->getName(); ?>-admin">
-                        <div id="sidebar">
-                            <ul id="navigation">
-                                <?php show::adminNavigation(); ?>
-                                <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
-                                <li class="site"><a target="_blank" href="../">Voir le site</a></li>
-                            </ul>
-                            <p class="just_using">
-                                <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
-                            </p>
-                        </div>
+
 <?php if ($runPlugin->getParamTemplate()) { ?>
                             <a title="Paramètres" data-fancybox id="param_link" href="#" data-src="#param_panel"><i class="fa-solid fa-screwdriver-wrench"></i></a>
                             <div id="param_panel">
