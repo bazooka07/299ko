@@ -11,7 +11,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Admin menu is generated out of header.php
+- Admin menu in CSS, always visible on wide screen
 - Add currentPlugin class (CSS)  on current Plugin in Admin menu
+- Redirect to item after save (blog, page, galerie)
 
 ### Fixed
 - SEO : don't show script when Analytics ID is empty

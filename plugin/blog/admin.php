@@ -57,7 +57,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=blog');
+            header('location:index.php?p=blog&action=edit&id=' . $news->getId());
             die();
         }
         break;

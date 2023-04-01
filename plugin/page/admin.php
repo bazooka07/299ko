@@ -60,7 +60,7 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             else
                 show::msg("Une erreur est survenue", 'error');
-            header('location:index.php?p=page');
+            header('location:index.php?p=page&action=edit&id=' . $pageItem->getId());
             die();
         }
         break;

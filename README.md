@@ -3,7 +3,9 @@
 299ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des [plugins](https://github.com/299Ko/plugins) ainsi que des thèmes.
 
 Site officiel : https://299ko.ovh
+
 Support : https://community.299ko.ovh/
+
 Documentation : https://docs.299ko.ovh/
 
 Facebook : https://facebook.com/299kocms

@@ -138,8 +138,10 @@ class page {
 
     public function save($obj) {
         $id = intval($obj->getId());
-        if ($id < 1)
+        if ($id < 1) {
             $id = $this->makeId();
+            $obj->setId($id);
+        }
         $position = floatval($obj->getPosition());
         if ($position < 0.5)
             $position = $this->makePosition();
@@ -418,6 +420,10 @@ class pageItem {
 
     public function getId() {
         return $this->id;
+    }
+    
+    public function setId($id) {
+        $this->id = $id;
     }
 
     public function getName() {
