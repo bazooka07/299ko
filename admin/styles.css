@@ -293,9 +293,7 @@ ul.tabs a, ul.tabs_style a{
 }
 
 #header{
-    width: 100%;
-    background: #14161a;
-    overflow: hidden;
+    background: none;
     position: fixed;
     width: 100%;
     top: 0;
@@ -320,83 +318,58 @@ ul.tabs a, ul.tabs_style a{
 
 #content{
     background: #fff;
-    padding: 120px 15px;
+    padding: 20px 15px 20px 200px;
     max-width: 1280px;
     margin: 0 auto;
     position: relative;
 }
 
-/* MENU */
 
-#header ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 19px;
+
+
+/* New Menu */
+
+#header nav {
+  width: 150px;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: #48435C;
+  transition: all 0.5s ease-out;
 }
 
-#header li{
-    float: left;
+#header nav .main_nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#header li.facebook{
-    padding: 10px;
-    float: right;
+#header nav .main_nav ul{
+  margin: 0;
+  padding: 0;
 }
 
-#header a{
-    color: #ccc;
-    padding: 9px 20px;
+#header nav .main_nav li{
     display: block;
-    height: 40px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-#header a:hover, #header a.active{
-    color: #fff;
-    background: #2c313b;
+#header nav .main_nav a {
+  display: block;
+  margin: 0;
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+  color: white;
 }
 
-#header li:first-child a{
-    padding: 0;
+#header nav .main_nav a:hover {
+  background: #5A5766
 }
 
-#open_nav:after {
-    font: var(--fa-font-solid);
-    content: "\f0c9";
-    font-size: 23px;
-    padding : 9px 10px;
-    display: block;
-}
-
-#sidebar h2{
-    color: #ccc;
-}
-
-#navigation{
-    text-transform: uppercase;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-#navigation li.site{
-    display: none;
-}
-
-#navigation a{
-    padding: 5px;
-    border-top: 1px solid #14161a;
-    display: block;
-    color: #ccc;
-}
-
-#navigation a:hover{
-    background: #14161a;
-    color: #fff;
-}
-
-#navigation li:first-child a{
-    border-top: 0;
+#header label, #burger {
+  display: none;
 }
 
 /* PARAM */
@@ -468,4 +441,57 @@ ul.tabs a, ul.tabs_style a{
         margin: 40px 0;
     }
 
+  #header nav {
+    margin: 0 auto;
+    width: 100%;
+    height: 60px;
+    background: #48435C;
+    min-height: inherit;
+    box-shadow: ;
+  }
+
+  #header nav .main_nav {
+  display: none;
+  flex-direction: column;
+  background: #48435C;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  }
+
+  #header nav .main_nav a {
+    display: block;
+    margin: 0;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+  }
+
+  #header label {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+  }
+
+#burger:checked + .main_nav {
+  display: flex;
+  max-height: 500px;
 }
+
+#content{
+    background: #fff;
+    padding: 70px 15px 10px 15px;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+}
+
+
