@@ -33,24 +33,12 @@ defined('ROOT') OR exit('No direct script access allowed');
                     <input type="checkbox" id="burger">
                         <div class="main_nav">
                             <ul id="navigation">
-                                        <li class="site"><a target="_blank" href="../">Voir le site</a></li>
-                                <?php foreach ($pluginsManager->getPlugins() as $k => $v)
-                                    if ($v->getConfigVal('activate') && $v->getAdminFile() && $v->getIsDefaultAdminPlugin()) {
-                                        ?>
-                                        <li><a href="index.php?p=<?php echo $v->getName(); ?>"><?php echo $v->getInfoVal('name'); ?></a></li>
-                                        <?php
-                                    }
-                                foreach ($pluginsManager->getPlugins() as $k => $v)
-                                    if ($v->getConfigVal('activate') && $v->getAdminFile() && !$v->getIsDefaultAdminPlugin()) {
-                                        ?>
-                                        <li><a href="index.php?p=<?php echo $v->getName(); ?>"><?php echo $v->getInfoVal('name'); ?></a></li>
-                                        <?php
-                                    }
-                                ?>
+                                <li class="site"><a target="_blank" href="../">Voir le site</a></li>
+                                <?php show::adminNavigation(); ?>
                                 <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
-                                                            <p class="just_using">
-                                <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
-                            </p>
+                                <p class="just_using">
+                                    <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
+                                </p>
                             </ul>
                         </div>
                 </nav>

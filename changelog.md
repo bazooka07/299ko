@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.2.0
+
+### Added
+- Global 'IS_ADMIN' available on each page
+
+### Changed
+- Admin menu is generated out of header.php
+- Add currentPlugin class (CSS)  on current Plugin in Admin menu
+
+### Fixed
+- SEO : don't show script when Analytics ID is empty
+
+## V1.1.1
+
+### Fixed
+- Antispam : Issue on radio click (JS)
+
 ## V1.1.0
 
 ### Added

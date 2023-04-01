@@ -372,6 +372,14 @@ ul.tabs a, ul.tabs_style a{
   display: none;
 }
 
+#navigation li.activePlugin {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+#navigation li.activePlugin a {
+    font-weight: 600;
+    color: #fff;
+}
 /* PARAM */
 
 #param_link, #help_link{

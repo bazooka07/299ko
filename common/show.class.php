@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
@@ -224,22 +225,36 @@ class show {
         }
     }
 
+    /**
+     * Display the Administration items
+     * 
+     * It only display the <li> items. You have to put it between <ul>.
+     * Links are sorted by plugin's name, and current plugin had li.activePlugin class
+     */
     public static function adminNavigation() {
         if (function_exists('adminNavigation'))
-            call_user_func('adminNavigation', $format);
+            call_user_func('adminNavigation');
         else {
             $pluginsManager = pluginsManager::getInstance();
             $data = '';
+            $arrPlugins = [];
             foreach ($pluginsManager->getPlugins() as $k => $v) {
                 if ($v->getConfigVal('activate') && $v->getAdminFile()) {
-                    if ($v->getIsDefaultAdminPlugin()) {
-                        $data = '<li><a href="index.php?p=' . $v->getName() .'">' .
-                            $v->getInfoVal('name') .'</a></li>' . $data;
-                    } else {
-                    $data .= '<li><a href="index.php?p=' . $v->getName() .'">' .
-                            $v->getInfoVal('name') .'</a></li>';
-                    }
+                    $arrPlugins[$v->getInfoVal('name')] = $v->getName(); 
                 }
+            }
+            ksort($arrPlugins, SORT_STRING);
+            $currentPlugin = core::getInstance()->getPluginToCall();
+            foreach ($arrPlugins as $label => $name) {
+                $data .= '<li';
+                if ($currentPlugin === $name) {
+                    $data .= ' class="activePlugin"';
+                }
+                $data .= '><a href="index.php?p=' . $name . '"' ;
+                if ($currentPlugin === $name) {
+                    $data .= ' aria-current="page"';
+                }
+                $data .= '>' . $label . '</a></li>';
             }
             echo $data;
         }
@@ -298,4 +313,5 @@ class show {
     }
 
 }
+
 ?>
