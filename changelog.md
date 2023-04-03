@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Global 'IS_ADMIN' available on each page
+- Hooks beforeRunPlugin & adminBeforeRunPlugin, called before the displayed page
 
 ### Changed
 - Admin menu is generated out of header.php

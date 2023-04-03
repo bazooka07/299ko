@@ -90,6 +90,17 @@ class core {
         else
             return false;
     }
+    
+    /**
+     * Set up a config val.
+     * This setting will not be saved
+     * 
+     * @param string $key
+     * @param string $value
+     */
+    public function setConfigVal($key, $value) {
+        $this->config[$key] = $value;
+    }
 
     ## Retourne les infos du thème ciblé
 
