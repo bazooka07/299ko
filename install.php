@@ -44,6 +44,7 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
     $adminEmail = $_POST['adminEmail'];
     $config = array(
         'siteName' => "Nom du site",
+        'siteDesc' => "Description du site ou slogan",
         'adminPwd' => $administrator->encrypt($_POST['adminPwd']),
         'adminEmail' => $_POST['adminEmail'],
         'siteUrl' => $core->makeSiteUrl(),

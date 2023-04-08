@@ -362,6 +362,16 @@ code{
     font-size: 12px;
 }
 
+#siteDesc {
+    flex:1;
+    align-self: center;
+    text-align: center;
+    text-shadow: #333 0px 0 10px;
+    color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 /* SITE NAME */
 
 #siteName a{
@@ -375,6 +385,7 @@ code{
     background: url('header.jpg') no-repeat center;
     background-size: cover;
     background-attachment: fixed;
+    display: flex;
 }
 
 /* PLUGINS */

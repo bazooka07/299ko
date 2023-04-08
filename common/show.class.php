@@ -169,6 +169,15 @@ class show {
             echo $core->getConfigVal('siteName');
         }
     }
+    
+    public static function siteDesc() {
+        if (function_exists('siteDesc'))
+            call_user_func('siteDesc');
+        else {
+            $core = core::getInstance();
+            echo $core->getConfigVal('siteDesc');
+        }
+    }
 
     ## Affiche l'url du site (theme)
 

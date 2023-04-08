@@ -33,7 +33,11 @@ include_once(THEMES . $core->getConfigVal('theme') . '/functions.php');
             <div id="alert-msg">
                 <?php show::displayMsg(); ?>
             </div>
-            <div id="banner"></div>
+            <div id="banner">
+                <div id="siteDesc">
+                    <?php show::siteDesc(); ?>
+                </div>
+            </div>
             <div id="body">
                 <div id="content" class="<?php show::pluginId(); ?>">
                     <?php show::mainTitle(); ?>

@@ -28,8 +28,12 @@ include_once(ROOT . 'admin/header.php');
         </select>
     </p>
     <p>
-        <label>Nom du site</label><br>
-        <input type="text" name="siteName" value="<?php echo $core->getConfigVal('siteName'); ?>" required />
+        <label for="siteName">Nom du site</label><br>
+        <input type="text" name="siteName" id="siteName" value="<?php echo $core->getConfigVal('siteName'); ?>" required />
+    </p>
+    <p>
+        <label for="siteDesc">Description du site</label><br>
+        <input type="text" name="siteDesc" value="<?php echo $core->getConfigVal('siteDesc'); ?>"/>
     </p>
     <p style="<?php if ($pluginsManager->isActivePlugin('customizer')) { ?>display:none;<?php } ?>">
         <label>Thème</label><br>
