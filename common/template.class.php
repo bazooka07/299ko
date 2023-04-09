@@ -31,7 +31,7 @@ class Template {
      * Check if the template exist in the current theme, else template will be
      * taken from 'default' theme
      *
-     * @param string Template name with extension
+     * @param string $file name with extension
      */
     public function __construct($file) {
         $this->file = $file;
@@ -99,51 +99,58 @@ class Template {
      * {% FOR MY_VAR IN MY_VARS %} ... {{MY_VAR.name}} ... {% ENDFOR %}
      */
     protected function parse() {
-        $this->content = preg_replace('#\{\#(.*)\#\}#isU', '<?php /* $1 */ ?>', $this->content);
         $this->content = preg_replace_callback('#\{\% *NOPARSE *\%\}(.*)\{\% *ENDNOPARSE *\%\}#isU', 'self::_no_parse', $this->content);
-        $this->content = preg_replace_callback('#\{\% *IF +([0-9a-z_\.\-\[\]\,]+) *([\=|\<|\>|\!&]{1,3}) *([0-9a-z_\.\-\[\]\,]+) *\%\}#iU', 'self::_complexe_if_replace', $this->content);
-        $this->content = preg_replace_callback('#\{\% *IF +([0-9a-z_\.\-\[\]\,]+) *\%\}#iU', 'self::_simple_if_replace', $this->content);
+        $this->content = preg_replace('#\{\#(.*)\#\}#isU', '<?php /* $1 */ ?>', $this->content);
+        $this->content = preg_replace_callback('#\{\% *IF +(.+) *([\=|\<|\>|\!&]{1,3}) +(.+) *\%\}#iU', 'self::_complexe_if_replace', $this->content);
+        $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', 'self::_simple_if_replace', $this->content);
         $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', 'self::_callHook', $this->content);
-        $this->content = preg_replace_callback('#\{\% *SHOW.(.+) *\%\}#iU', 'self::_callShow', $this->content);
-        $this->content = preg_replace_callback('#\{\% *URL\((.+)\)(\.admin)? *\%\}#iU', 'self::_urlBuild', $this->content);
-        $this->content = preg_replace_callback('#\{\% *INCLUDE +([0-9a-z_\.\-\[\]\,\/]+) *\%\}#iU', 'self::_include', $this->content);
-        $this->content = preg_replace('#\{\{ *([0-9a-z_\.\-\[\]\,]+) *\}\}#i', '<?php $this->_show_var(\'$1\'); ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *FOR +([0-9a-z_\.\-\[\]\,]+) +IN +([0-9a-z_\.\-\[\]\,]+) *\%\}#i', 'self::_replace_for', $this->content);
+        $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', 'self::_include', $this->content);
+        $this->content = preg_replace('#\{\{ *(.+) *\}\}#iU', '<?php $this->_show_var(\'$1\'); ?>', $this->content);
+        $this->content = preg_replace_callback('#\{\% *FOR +(.+) +IN +(.+) *\%\}#i', 'self::_replace_for', $this->content);
         $this->content = preg_replace('#\{\% *ENDFOR *\%\}#i', '<?php endforeach; ?>', $this->content);
         $this->content = preg_replace('#\{\% *ENDIF *\%\}#i', '<?php } ?>', $this->content);
         $this->content = preg_replace('#\{\% *ELSE *\%\}#i', '<?php }else{ ?>', $this->content);
+        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *([\=|\<|\>|\!&]{1,3}) +(.+) *\%\}#iU', 'self::_complexe_elseif_replace', $this->content);
+        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *\%\}#iU', 'self::_simple_elseif_replace', $this->content);
         $this->content = str_replace('#/§&µ&§;#', '{', $this->content);
     }
 
     protected function _no_parse($matches) {
-        return str_replace('{', '#/§&µ&§;#', $matches[1]);
+        //return htmlentities($matches[1]);
+        return str_replace('{', '#/§&µ&§;#', htmlentities($matches[1]));
     }
 
     protected function _show_var($name) {
         echo $this->getVar($name, $this->data);
     }
 
+    protected function simpleReplaceVar($var) {
+        if (!is_numeric($var)) {
+            return '$this->getVar(\'' . $var . '\', $this->data)';
+        }
+        return $var;
+    }
+
+    protected function complexReplace($matches) {
+        $first = $this->simpleReplaceVar($matches[1]);
+        $thirst = $this->simpleReplaceVar($matches[3]);
+        return $first . ' ' . $matches[2] . ' ' . $thirst . '){ ?>';
+    }
+
     protected function _complexe_if_replace($matches) {
-        if (is_numeric($matches[1])) {
-            $first = $matches[1];
-        } else {
-            $first = '$this->getVar(\'' . $matches[1] . '\', $this->data)';
-        }
-        if (is_numeric($matches[3])) {
-            $thirst = $matches[3];
-        } else {
-            $thirst = '$this->getVar(\'' . $matches[3] . '\', $this->data)';
-        }
-        return '<?php if(' . $first . ' ' . $matches[2] . ' ' . $thirst . '){ ?>';
+        return '<?php if(' . $this->complexReplace($matches);
+    }
+
+    protected function _complexe_elseif_replace($matches) {
+        return '<?php } elseif(' . $this->complexReplace($matches);
     }
 
     protected function _simple_if_replace($matches) {
-        if (is_numeric($matches[1])) {
-            $first = $matches[1];
-        } else {
-            $first = '$this->getVar(\'' . $matches[1] . '\', $this->data)';
-        }
-        return '<?php if(' . $first . '){ ?>';
+        return '<?php if(' . $this->simpleReplaceVar($matches[1]) . '){ ?>';
+    }
+
+    protected function _simple_elseif_replace($matches) {
+        return '<?php } elseif(' . $this->simpleReplaceVar($matches[1]) . '){ ?>';
     }
 
     protected function _include($matches) {
@@ -159,44 +166,77 @@ class Template {
     }
 
     protected function _callHook($matches) {
-        return '<?php core::getInstance()->callHook(\'' . $matches[1] . '\'); ?>';
-    }
-
-    protected function _callShow($matches) {
-        if (is_callable(['show', $matches[1]])) {
-            return '<?php call_user_func([\'show\', \'' . $matches[1] . '\']); ?>';
-        }
-        return '';
-    }
-
-    protected function _urlBuild($matches) {
-        if (count($matches) === 3 && strtolower(trim($matches[2])) === '.admin') {
-            $url = util::urlBuild(trim($matches[1]), true);
+        $posAcc = strpos($matches[1], '(');
+        $args = false;
+        if ($posAcc !== false) {
+            $args = substr($matches[1], $posAcc);
+            $name = substr($matches[1], 0, $posAcc);
+            $args = str_replace('(', '', $args);
+            $args = str_replace(')', '', $args);
         } else {
-            $url = util::urlBuild(trim($matches[1]), false);
+            $name = $matches[1];
         }
-        echo $url;
+        if ($args) {
+            // Filter hook
+            return '<?php echo core::getInstance()->callHook(\'' . $name . '\', $this->getVar(\'' . $args . '\', $this->data) ); ?>';
+        }
+        // Action Hook
+        return '<?php core::getInstance()->callHook(\'' . $name . '\'); ?>';
     }
 
     protected function _replace_for($matches) {
-        return '<?php foreach ($this->getVar(\'' . $matches[2] . '\', $this->data) as $' . $matches[1] . '): $this->data[\'' . $matches[1] . '\' ] = $' . $matches[1] . '; ?>';
+        $parts = explode(',', $matches[1]);
+        if (count($parts) === 1) {
+            return '<?php foreach ($this->getVar(\'' . $matches[2] . '\', $this->data) as $' . $matches[1] . '): $this->data[\'' . $matches[1] . '\' ] = $' . $matches[1] .
+                    '; ?>';
+        } else {
+            $parts[0] = trim($parts[0]);
+            $parts[1] = trim($parts[1]);
+            return '<?php foreach ($this->getVar(\'' . $matches[2] . '\', $this->data) as $' . $parts[0] . ' => $' . $parts[1] . ' ): $this->data[\'' . $parts[0] . '\' ] = $' . $parts[0] .
+                    '; $this->data[\'' . $parts[1] . '\' ] = $' . $parts[1] . '; ?>';
+        }
     }
 
     /**
      * Recursive method to get asked var, with capacity to determine children
      * like : parent.child.var
+     * or : object.method(parameter1, parameter2)
+     * or : array.object.propertie
+     * ....
      *
      * @param string    Name of the asked var
      * @param mixed     Parent of the var
      * @return mixed    Asked var
      */
     protected function getVar($var, $parent) {
-        $posAcc = strpos($var, '[');
+        $var = trim($var);
+        if ($var === '')
+            return '';
+        if (preg_match('#\[ *(.+) *\]#iU', $var, $matches)) {
+            $parts = explode(',', $matches[1]);
+            $arr = [];
+            foreach ($parts as $part) {
+                $arr[] = $this->getVar($part, $this->data);
+            }
+            return $arr;
+        }
+        $posAcc = strpos($var, '(');
         $args = '';
         if ($posAcc !== false) {
             $args = substr($var, $posAcc);
             $var = substr($var, 0, $posAcc);
         }
+        $vars = explode(',', $var);
+        if (count($vars) === 1) {
+            // One var only
+        } else {
+            $arr = [];
+            foreach ($vars as $v) {
+                $arr[] = $this->getVar($v, $this->data);
+            }
+            return $arr;
+        }
+
         $parts = explode('.', $var);
         if (count($parts) === 1) {
             // No child
@@ -225,57 +265,71 @@ class Template {
         if (is_array($parent) && isset($parent[$var])) {
             return $parent[$var];
         }
+        if (isset($parent->$var)) {
+            // Attribut
+            return $parent->$var;
+        }
         // Test if var contain parameters
-        $args = false;
         $manyArgs = false;
-        preg_match('#\[(.+)\]#i', $var, $match);
+        preg_match('#\((.+)\)#i', $var, $match);
         if (isset($match[1])) {
             $var = str_replace($match[0], "", $var);
             $args = true;
             $parts = explode(',', $match[1]);
             if (count($parts) > 1)
                 $manyArgs = true;
+        } else {
+            // Delete empty ()
+            $var = str_replace('(', '', $var);
+            $var = str_replace(')', '', $var);
         }
         if ($manyArgs) {
             $arrArgs = [];
             foreach ($parts as $part) {
-                $arrArgs[] = $this->getVar($part, $this->data);
+                $arrArgs[] = $this->getVar(trim($part), $this->data);
             }
-        } elseif ($args) {
-            $aVar = $this->getVar($match[1], $this->data);
+            $args = $arrArgs;
+        } elseif (isset($args) && $args == true) {
+            $args = $this->getVar($match[1], $this->data);
         }
-        if (is_object($parent) || class_exists($parent)) {
+        if (is_object($parent) || (is_string($parent) && class_exists($parent))) {
             if (is_callable([$parent, $var])) {
                 $rm = new \ReflectionMethod($parent, $var);
                 if ($rm->isStatic()) {
                     if ($manyArgs)
-                        return forward_static_call_array([$parent, $var], $arrArgs);
-                    if ($args)
-                        return forward_static_call_array([$parent, $var], [$aVar]);
+                        return forward_static_call_array([$parent, $var], $args);
+                    if (isset($args))
+                        return forward_static_call_array([$parent, $var], [$args]);
                     return $parent::$var();
                 }
                 // Method
                 if ($manyArgs)
-                    return call_user_func_array([$parent, $var], $arrArgs);
-                if ($args)
-                    return call_user_func_array([$parent, $var], [$aVar]);
+                    return call_user_func_array([$parent, $var], $args);
+                if (isset($args))
+                    return call_user_func_array([$parent, $var], [$args]);
                 return $parent->$var();
             }
-            if (isset($parent->$var)) {
-                // Attribut
-                return $parent->$var;
-            }
+
             return false;
         }
         if (is_callable($var)) {
             // Function
             if ($manyArgs)
-                return call_user_func($var, $parts);
-            if ($args)
-                return call_user_func($var, $match[1]);
+                return call_user_func_array($var, $args);
+            if (isset($args))
+                return call_user_func($var, $args);
             return call_user_func($var);
         }
         // Nothing
+        if ($var === '') {
+            // Only Args
+            if ($manyArgs)
+                return $args;
+            return $args;
+        }
+        if (is_numeric($var)) {
+            return $var * 1;
+        }
         return $var;
     }
 

@@ -1,3 +1,4 @@
 /data/
 /.htaccess
 /.lando.yml
+*.cache.php
