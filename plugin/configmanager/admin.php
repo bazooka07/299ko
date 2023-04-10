@@ -17,6 +17,16 @@ $error = false;
 $passwordError = false;
 
 switch ($action) {
+    case 'del_install':
+        if ($administrator->isAuthorized()) {
+            $del = unlink(ROOT . 'install.php');
+            if ($del) {
+                show::msg("Le fichier install.php a bien été supprimé", 'success');
+                header('location:index.php?p=configmanager');
+                die();
+            }
+        }
+        break;
     case 'save':
         if ($administrator->isAuthorized()) {
             $config = array(
@@ -51,4 +61,3 @@ switch ($action) {
         }
         break;
 }
-?>

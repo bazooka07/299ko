@@ -15,6 +15,7 @@ include_once(ROOT . 'common/common.php');
 include_once(COMMON . 'administrator.class.php');
 $administrator = new administrator($core->getConfigVal('adminEmail'), $core->getConfigVal('adminPwd'));
 define('IS_ADMIN', $administrator->isLogged());
+Template::addGlobal('IS_ADMIN', IS_ADMIN);
 if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
     // quelques contrôle et temps mort volontaire avant le login...
     sleep(2);
@@ -28,11 +29,6 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
             show::msg("Mot de passe incorrect", 'error');
             include_once('login.php');
         }
-    }
-} elseif ($administrator->isAuthorized() && isset($_GET['action']) && $_GET['action'] == 'del_install') {
-    $del = unlink(ROOT . 'install.php');
-    if ($del) {
-        show::msg("Le fichier install.php a bien été supprimé", 'success');
     }
 } elseif ($administrator->isAuthorized() && $core->detectAdminMode() == 'logout') {
     $administrator->logout();
