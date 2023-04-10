@@ -15,6 +15,7 @@ include_once(ROOT . 'common/common.php');
 include_once(COMMON . 'administrator.class.php');
 $administrator = new administrator($core->getConfigVal('adminEmail'), $core->getConfigVal('adminPwd'));
 define('IS_ADMIN', $administrator->isLogged());
+Template::addGlobal('IS_ADMIN', IS_ADMIN);
 
 $core->callHook('beforeRunPlugin');
 
