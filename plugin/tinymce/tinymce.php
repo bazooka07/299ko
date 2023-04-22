@@ -25,6 +25,8 @@ function tinymceAdminHead() {
   <script>
   tinymce.init({
     selector: 'textarea.editor',
+    extended_valid_elements: 'i[class]',
+    content_css : 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css',
     plugins: [
       'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
       'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
