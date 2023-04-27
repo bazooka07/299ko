@@ -1,6 +1,16 @@
 <?php
 defined('ROOT') OR exit('No direct script access allowed');
 include_once(ROOT . 'admin/header.php');
+
+if ($nextVersion) {
+    ?>
+    <div style='padding:20px;background-color: #FFD38A;border-left-color: #8C5600;color : #6C6C6C;'>
+        <p>Une nouvelle version est disponible.<br/>
+            Cliquez ci-dessous pour mettre à jour votre site en version <?php echo $nextVersion; ?></p>
+        <div style='text-align:center'><a class='button alert' href='index.php?p=configmanager&action=update&token=<?php echo administrator::getToken(); ?>'>
+            Mettre à jour le site</a></div></div>
+    <?php
+}
 ?>
 
 <form id="configForm" method="post" action="index.php?p=configmanager&action=save" autocomplete="off">
@@ -12,19 +22,23 @@ include_once(ROOT . 'admin/header.php');
     <p>
         <label>Plugin par défaut (public)</label><br>
         <select name="defaultPlugin">
-            <?php foreach ($pluginsManager->getPlugins() as $plugin)
-                if ($plugin->getAdminFile() && $plugin->getConfigVal('activate') && $plugin->getPublicFile()) { ?>
+            <?php
+            foreach ($pluginsManager->getPlugins() as $plugin)
+                if ($plugin->getAdminFile() && $plugin->getConfigVal('activate') && $plugin->getPublicFile()) {
+                    ?>
                     <option <?php if ($plugin->getIsDefaultPlugin()) { ?>selected<?php } ?> value="<?php echo $plugin->getName(); ?>"><?php echo $plugin->getInfoVal('name'); ?></option>
-    <?php } ?>
+                <?php } ?>
         </select>
     </p>
     <p>
         <label>Plugin par défaut (admin)</label><br>
         <select name="defaultAdminPlugin">
-            <?php foreach ($pluginsManager->getPlugins() as $k => $v)
-                if ($v->getConfigVal('activate') && $v->getAdminFile()) { ?>
+            <?php
+            foreach ($pluginsManager->getPlugins() as $k => $v)
+                if ($v->getConfigVal('activate') && $v->getAdminFile()) {
+                    ?>
                     <option <?php if ($v->getName() == $v->getIsDefaultAdminPlugin()) { ?>selected<?php } ?> value="<?php echo $v->getName(); ?>"><?php echo $v->getInfoVal('name'); ?></option>
-    <?php } ?>
+                <?php } ?>
         </select>
     </p>
     <p>
@@ -40,7 +54,7 @@ include_once(ROOT . 'admin/header.php');
         <select name="theme">
             <?php foreach ($core->getThemes() as $k => $v) { ?>
                 <option <?php if ($k == $core->getConfigVal('theme')) { ?>selected<?php } ?> value="<?php echo $k; ?>"><?php echo $v['name']; ?></option>
-<?php } ?>
+            <?php } ?>
         </select>
     </p>
     <h3>Administrateur</h3>

@@ -22,9 +22,16 @@ class core {
     private $js;
     private $css;
 
+    /**
+     * Logger is a resource file
+     * @var \resource
+     */
+    private $logger;
+
     ## Constructeur
 
     public function __construct() {
+        $this->logger = fopen(DATA . 'logs.txt', 'a+');
         // Timezone
         date_default_timezone_set(date_default_timezone_get());
         // Construction du tableau de configuration
@@ -90,7 +97,7 @@ class core {
         else
             return false;
     }
-    
+
     /**
      * Set up a config val.
      * This setting will not be saved
@@ -288,6 +295,32 @@ class core {
         @file_put_contents(ROOT . '.htaccess', $content);
     }
 
+    /**
+     * Add a log into log file
+     * 
+     * @param string Message
+     * @param string Severity
+     * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
+     */
+    public function log($message, $severity = 'INFO') {
+        $date = date('Y-m-d H:i:s');
+        fwrite($this->logger, "[$date] [$severity] : $message\n");
+    }
+
+    function __destruct() {
+        fclose($this->logger);
+    }
+
 }
 
-?>
+/**
+ * Add a log into log file
+ * @see \core->log()
+ * 
+ * @param string Message
+ * @param string Severity
+ * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
+ */
+function logg($message, $severity = 'INFO') {
+    core::getInstance()->log($message, $severity);
+}

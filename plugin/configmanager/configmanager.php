@@ -12,6 +12,8 @@
  */
 defined('ROOT') OR exit('No direct script access allowed');
 
+require_once PLUGINS . 'configmanager/lib/UpdaterManager.php';
+
 ## Fonction d'installation
 
 function configmanagerInstall() {
