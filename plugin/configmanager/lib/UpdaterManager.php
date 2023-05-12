@@ -92,9 +92,9 @@ class UpdaterManager {
         logg("End update to v$nextVersion", 'INFO');
     }
 
-    protected function rewritePathFile($filename) {
+    protected function rewritePathFile($filename, $ignoreExist = false) {
         if (substr($filename, 0, 7) === 'plugin/') {
-            return $this->treatPlugin($filename);
+            return $this->treatPlugin($filename, $ignoreExist);
         } elseif (substr($filename, 0, 6) === 'theme/') {
             return $this->treatTheme($filename);
         } elseif (substr($filename, 0, 5) === 'core/') {
@@ -110,10 +110,10 @@ class UpdaterManager {
         return self::REMOTE . '299ko/v' . $version . '/' . $filename;
     }
 
-    protected function treatPlugin($filename) {
+    protected function treatPlugin($filename, $ignoreExist) {
         preg_match('/^plugin\/(\w+)\/(.*)$/i', $filename, $matches);
         $plugin = $matches[1];
-        if (is_dir(PLUGINS . $plugin) === false) {
+        if (is_dir(PLUGINS . $plugin) === false && $ignoreExist === false) {
             // plugin is not installed, no treatment
             return false;
         }
@@ -147,7 +147,9 @@ class UpdaterManager {
             // Remote file dont exist
             return;
         }
+        $this->createDirectories($localFileName);
         if (@file_put_contents($localFileName, $content, LOCK_EX)) {
+            logg("$localFileName was modified", 'INFO');
             return true;
         }
         logg("unable to write $localFileName", 'ERROR');
@@ -155,16 +157,14 @@ class UpdaterManager {
     }
     
     protected function processAdd($file, $version) {
-        $localFileName = $this->rewritePathFile($file);
-        if ($localFileName !== false) {
-            return;
-        }
+        $localFileName = $this->rewritePathFile($file, true);
         $remoteFile = $this->getRemoteFile($file, $version);
         $content = $this->getRemoteFileContent($remoteFile, 'ERROR');
         if ($content === false) {
             // Remote file dont exist
             return;
         }
+        $this->createDirectories($localFileName);
         if (@file_put_contents($localFileName, $content, LOCK_EX)) {
             logg("file $localFileName Added");
             return true;
@@ -180,10 +180,51 @@ class UpdaterManager {
         }
         if (@unlink($localFileName)) {
             logg("file $localFileName Deleted");
+            $this->deleteEmptydirectory($localFileName);
             return true;
         }
         logg("unable to delete $localFileName", 'ERROR');
         return false;
+    }
+    
+    /**
+     * Create nested directories for a file, with full relative path
+     * @param string Path File
+     */
+    protected function createDirectories($pathFile) {
+        $arrPath = explode('/', $pathFile);
+        array_pop($arrPath);
+        $path = '';
+        foreach ($arrPath as $dir) {
+            $path .= $dir . '/';
+        }
+        if (!is_dir($path)) {
+            if (mkdir($path, 0775, true)) {
+                logg("$path folder has been created");
+            } else {
+                logg("Impossible to create $path directory", 'ERROR');
+            }
+        }
+    }
+    
+    /**
+     * Delete Folder from a file path, if folder is empty
+     * @param string Path File
+     */
+    protected function deleteEmptydirectory($pathFile) {
+        $arrPath = explode('/', $pathFile);
+        array_pop($arrPath);
+        $path = '';
+        foreach ($arrPath as $dir) {
+            $path .= $dir . '/';
+        }
+        if (is_dir($path) && !(new \FilesystemIterator($path))->valid()) {
+            if (rmdir($path)) {
+                logg("$path (empty folder) has been deleted");
+            } else {
+                logg("Impossible to delete $path directory", 'ERROR');
+            }
+        }
     }
 
     /**

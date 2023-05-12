@@ -7,8 +7,10 @@ All notable changes to this project will be documented in this file.
 ## V1.2.0
 
 ### Added
+- ConfigManager can now update site with a simple click
 - Global 'IS_ADMIN' available on each page
 - Hooks beforeRunPlugin & adminBeforeRunPlugin, called before the displayed page
+- Add a description in site to display in banner
 
 ### Changed
 - Admin menu is generated out of header.php
@@ -23,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Antispam : Issue on radio click (JS)
+- TinyCME : Use FA icon in editor without edit sources
 
 ## V1.1.0
 
