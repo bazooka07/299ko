@@ -4,7 +4,7 @@
         {% HOOK.frontHead %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>{% SHOW.titleTag %}</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5" />
         <meta name="description" content="{% SHOW.metaDescriptionTag %}" />
         <link rel="icon" href="{% SHOW.themeIcon %}" />
         {% SHOW.linkTags %}

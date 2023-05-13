@@ -9,7 +9,7 @@ include_once(THEMES . $core->getConfigVal('theme') . '/functions.php');
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?php show::titleTag(); ?></title>
         <base href="<?php show::siteUrl(); ?>/" />
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5" />
         <meta name="description" content="<?php show::metaDescriptionTag(); ?>" />
         <link rel="icon" href="<?php show::themeIcon(); ?>" />
         <?php show::linkTags(); ?>
