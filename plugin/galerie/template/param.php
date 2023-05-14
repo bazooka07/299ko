@@ -30,7 +30,7 @@
 
     <p>
         <label>Introduction</label><br>
-        <textarea class="editor" name="introduction"><?php echo $runPlugin->getConfigVal('introduction'); ?></textarea><br>
+        <textarea class="editor" name="introduction"><?php echo $core->callHook('beforeEditEditor', $runPlugin->getConfigVal('introduction')); ?></textarea><br>
         <?php filemanagerDisplayManagerButton(); ?>
     </p>
 

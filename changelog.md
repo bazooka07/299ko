@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - SEO : don't show script when Analytics ID is empty
+- Galerie : Introduction dont save content in Markdown format
 
 ## V1.1.1
 

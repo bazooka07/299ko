@@ -20,7 +20,7 @@ switch ($action) {
         if ($administrator->isAuthorized()) {
             $runPlugin->setConfigVal('label', trim($_POST['label']));
             $runPlugin->setConfigVal('order', trim($_POST['order']));
-            $runPlugin->setConfigVal('introduction', trim($_POST['introduction']));
+            $runPlugin->setConfigVal('introduction', $core->callHook('beforeSaveEditor', trim($_POST['introduction'])));
             $runPlugin->setConfigVal('showTitles', trim($_POST['showTitles']));
             $runPlugin->setConfigVal('size', trim($_POST['size']));
             if ($pluginsManager->savePluginConfig($runPlugin)) {
