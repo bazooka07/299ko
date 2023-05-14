@@ -21,7 +21,7 @@
                     <div class="main_nav">
                         <ul id="navigation">
                             <li class="site"><a target="_blank" href="../">Voir le site</a></li>
-                            {{ show.adminNavigation }}
+                                {{ show.adminNavigation }}
                             <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}">Déconnexion</a></li>
                             <p class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/">Just using 299ko {{ VERSION }}</a>
@@ -35,27 +35,29 @@
             </div>
             <div id="content_mask">
                 <div id="content" class="{{ runPlugin.getName }}-admin">
-                {% IF runPlugin.getParamTemplate %}
-                    <a title="Paramètres" data-fancybox id="param_link" href="#" data-src="#param_panel"><i class="fa-solid fa-screwdriver-wrench"></i></a>
-                    <div id="param_panel">
-                        <div class="content">
-                            <h2>Paramètres</h2>
-                            {% INCLUDE runPlugin.getParamTemplate %}
+                    {% IF runPlugin.getParamTemplate %}
+                        <a title="Paramètres" data-fancybox id="param_link" href="#" data-src="#param_panel"><i class="fa-solid fa-screwdriver-wrench"></i></a>
+                        <div id="param_panel">
+                            <div class="content">
+                                <h2>Paramètres</h2>
+                                {% INCLUDE runPlugin.getParamTemplate %}
+                            </div>
                         </div>
-                    </div>
-                {% ENDIF %}
-                {% IF runPlugin.getHelpTemplate %}
-                    <a title="Aide" data-fancybox id="help_link" href="#" data-src="#help_panel"><i class="fa-solid fa-circle-question"></i></a>
-                    <div id="help_panel">   
-                        <div class="content">
-                            <h2>Aide</h2>
-                            {% INCLUDE runPlugin.getHelpTemplate %}
+                    {% ENDIF %}
+                    {% IF runPlugin.getHelpTemplate %}
+                        <a title="Aide" data-fancybox id="help_link" href="#" data-src="#help_panel"><i class="fa-solid fa-circle-question"></i></a>
+                        <div id="help_panel">   
+                            <div class="content">
+                                <h2>Aide</h2>
+                                {% INCLUDE runPlugin.getHelpTemplate %}
+                            </div>
                         </div>
+                    {% ENDIF %}
+                    <div id="page-infos">
+                        <h2>{{ runPlugin.getInfoVal(name) }}</h2>
+                        {% HOOK.afterAdminTitle %}
                     </div>
-                {% ENDIF %}
-                <h2>{{ runPlugin.getInfoVal(name) }}</h2>
-                {% HOOK.afterAdminTitle %}	
-                {{ CONTENT }}
+                    {{ CONTENT }}
                 </div>
             </div>
         </div>
