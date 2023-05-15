@@ -21,19 +21,46 @@ function tinymceInstall() {
 ## Hooks
 
 function tinymceAdminHead() {
-    echo "<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-  <script>
-  tinymce.init({
-    selector: 'textarea.editor',
-    plugins: [
-      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
-      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-      'save table contextmenu directionality emoticons template paste textcolor'
-    ],
-    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
-    theme: 'modern'
-  });
-  </script>";
+    $uploadUrl = util::urlBuild('index.php?p=filemanager&action=upload&view=api&token=' . administrator::getToken(), true);
+    $url = util::urlBuild(PLUGINS . 'tinymce/lib/tinymce/tinymce.min.js');
+    $options = "language: 'fr_FR',
+        images_upload_url: '" . $uploadUrl . "',
+        automatic_uploads: true,
+        plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
+        toolbar:
+    'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | charmap emoticons | insertfile image link codesample | fullscreen'";
+
+    echo "<script src='" . $url . "'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        tinymce.init({
+          selector: 'textarea.editor', " . $options . ",
+        });
+
+        function mceAdd(item){
+            tinyMCE.execCommand('mceAddEditor', false, { id: item.id, options: {" . $options . "}})
+        }
+
+        function mceEnd(item){
+            tinyMCE.execCommand('mceRemoveEditor', false, { id: item.id});
+        }
+
+        Fancybox.bind('[data-src=\'#param_panel\']', {
+            on: {
+                'ready' : (fancybox, eventName) => {
+                    document.querySelectorAll('#param_panel textarea.editor').forEach(function (item, index) {
+                        mceAdd(item);
+                    });
+                },
+                'init' : (fancybox, eventName) => {
+                    document.querySelectorAll('#param_panel textarea.editor').forEach(function (item, index) {
+                        mceEnd(item);
+                    });
+                }
+            }
+        });
+    });
+</script>";
 }
 
 ## Code relatif au plugin

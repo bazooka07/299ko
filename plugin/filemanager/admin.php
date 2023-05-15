@@ -35,7 +35,7 @@ if ($view === 'ajax') {
     if ($action === 'upload') {
         if (isset($_FILES['image']['name']) != '') {
             $image = $_FILES['image']['name'];
-            if ($manager->uploadFile('image')) {
+            if ($manager->uploadFile('image') !== false) {
                 echo json_encode(['success' => 1]);
                 die();
             } else {
@@ -47,6 +47,44 @@ if ($view === 'ajax') {
         $deleted = $manager->deleteFile($_POST['filename']);
         echo json_encode(['success' => $deleted]);
         die();
+    }
+} elseif ($view === 'api') {
+    if ($action === 'upload') {
+        if (!$administrator->isAuthorized()) {
+            header("HTTP/1.1 500 Server Error");
+        }
+        //reset($_FILES);
+        $temp = current($_FILES);
+        if (is_uploaded_file($temp['tmp_name'])) {
+
+            // Sanitize input
+            if (preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $temp['name'])) {
+                header("HTTP/1.1 400 Invalid file name.");
+                return;
+            }
+
+            // Verify extension
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+                header("HTTP/1.1 400 Invalid extension.");
+                return;
+            }
+            
+            $uploaded = $manager->uploadFile('file');
+            if ($uploaded !== false) {
+                echo json_encode(['location' => $uploaded]);
+                die();
+            }
+
+            $imageFolder = UPLOAD;
+
+            $filetowrite = $imageFolder . $temp['name'];
+            move_uploaded_file($temp['tmp_name'], $filetowrite);
+
+            $baseurl = util::urlBuild('');
+
+            echo json_encode(array('location' => $baseurl . $filetowrite));
+            die();
+        }
     }
 }
 

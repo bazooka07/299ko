@@ -11,16 +11,19 @@ All notable changes to this project will be documented in this file.
 - Global 'IS_ADMIN' available on each page
 - Hooks beforeRunPlugin & adminBeforeRunPlugin, called before the displayed page
 - Add a description in site to display in banner
+- Auto upload and manual upload image in TinyMCE
 
 ### Changed
 - Admin menu is generated out of header.php
 - Admin menu in CSS, always visible on wide screen
 - Add currentPlugin class (CSS)  on current Plugin in Admin menu
 - Redirect to item after save (blog, page, galerie)
+- TinyMCE v6
 
 ### Fixed
 - SEO : don't show script when Analytics ID is empty
 - Galerie : Introduction dont save content in Markdown format
+- Galerie : TinyMCE introduction
 
 ## V1.1.1
 

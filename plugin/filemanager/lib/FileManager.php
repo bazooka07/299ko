@@ -59,7 +59,8 @@ class FileManager {
         $fileName = util::strToUrl(pathinfo($file['name'], PATHINFO_FILENAME));
         $fileExt  = pathinfo($file['name'], PATHINFO_EXTENSION);
         if (move_uploaded_file($file['tmp_name'], $this->directory . $fileName . '-' . time() . '.' . $fileExt)) {
-            return true;
+            $file = new File($fileName . '-' . time() . '.' . $fileExt, $this->directory);
+            return $file->getUrl();
         } else {
             return false;
         }
