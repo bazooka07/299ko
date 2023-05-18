@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         setTimeout(function () {
             fadeOut(item);
-        }, 5000 + index * 5000);
+        }, 8000 + index * 8000);
 
     });
 

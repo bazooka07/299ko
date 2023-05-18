@@ -27,22 +27,22 @@ defined('ROOT') OR exit('No direct script access allowed');
     </head>
     <body>
         <div id="container">
-            <div id="header">
+            <aside id="header">
                 <nav>
                     <label id="labelBurger" for="burger"><i class="fa-solid fa-bars"></i></label>
                     <input type="checkbox" id="burger"/>
-                    <div class="main_nav">
+                    <div class="main_nav" role="navigation" aria-label="Navigation d'administration">
                         <ul id="navigation">
                             <li class="site"><a target="_blank" href="../">Voir le site</a></li>
                             <?php show::adminNavigation(); ?>
                             <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
-                            <p class="just_using">
+                            <li class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
-                            </p>
+                            </li>
                         </ul>
                     </div>
                 </nav>
-            </div>
+            </aside>
             <div id="alert-msg">
                 <?php show::displayMsg(); ?>
             </div>

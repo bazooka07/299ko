@@ -14,22 +14,22 @@
     </head>
     <body>
         <div id="container">
-            <div id="header">
+            <aside id="header">
                 <nav>
                     <label id="labelBurger" for="burger"><i class="fa-solid fa-bars"></i></label>
                     <input type="checkbox" id="burger"/>
-                    <div class="main_nav">
+                    <div class="main_nav" role="navigation" aria-label="Navigation d'administration">
                         <ul id="navigation">
                             <li class="site"><a target="_blank" href="../">Voir le site</a></li>
                                 {{ show.adminNavigation }}
                             <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}">Déconnexion</a></li>
-                            <p class="just_using">
+                            <li class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/">Just using 299ko {{ VERSION }}</a>
-                            </p>
+                            </li>
                         </ul>
                     </div>
                 </nav>
-            </div>
+            </aside>
             <div id="alert-msg">
                 {{ show.displayMsg }}
             </div>
