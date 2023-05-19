@@ -70,11 +70,11 @@ h1{
     font-size:22px
 }
 h2{
-    font-weight:normal;
-    text-transform:uppercase;
-    font-size:22px;
-    margin-bottom:60px;
-    margin-top:0px
+    font-weight:bold;
+    font-size:28px;
+    margin-bottom:30px;
+    margin-top:0px;
+    color: #1b2832;
 }
 h3{
     font-weight:normal;
@@ -142,7 +142,7 @@ input:not([type="submit"], [type="button"], [type="reset"], [type="range"], [typ
     box-shadow: 0 0 4px var(--primary-color);
 }
 
-input[type=submit], input[type=button], button, .button{
+input[type=submit], input[type=button], button, .button, [type="file"]::file-selector-button{
     text-decoration: none;
     margin: 0;
     padding: 10px 20px;
@@ -155,7 +155,7 @@ input[type=submit], input[type=button], button, .button{
     border: 1px solid rgba(0,0,0, 0.1);
 }
 
-input[type=submit]:hover, input[type=button]:hover, button:hover, .button:hover{
+input[type=submit]:hover, input[type=button]:hover, button:hover, .button:hover, [type="file"]::file-selector-button:hover{
     background: var(--primary-hover-color);
 }
 
@@ -178,6 +178,10 @@ input[type=submit].success:hover, input[type=button].success:hover, button.succe
 
 input[type=submit].active, input[type=button].active, button.active, .button.active{
     background: #14161a;
+}
+
+[type="file"]::file-selector-button{
+    margin:10px;
 }
 
 /* UTIL */
@@ -306,8 +310,8 @@ ul.tabs a, ul.tabs_style a{
 }
 
 .just_using a{
-    color: #ccc;
-    font-size: 12px;
+    color: #ddd;
+    font-size: 15px;
 }
 
 #login .just_using a{
@@ -446,6 +450,10 @@ section > footer, .card > footer {
 
 #param_link:hover, #help_link:hover{
     opacity: 1;
+}
+
+#param_link {
+    background-color: var(--warning-color);
 }
 
 #param_panel, #help_panel{
@@ -664,5 +672,3 @@ section > footer, .card > footer {
     }
 
 }
-
-

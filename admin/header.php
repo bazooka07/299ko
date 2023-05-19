@@ -37,7 +37,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                             <?php show::adminNavigation(); ?>
                             <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>">Déconnexion</a></li>
                             <li class="just_using">
-                                <a target="_blank" href="https://github.com/299ko/">Just using 299ko <?php echo VERSION; ?></a>
+                                <a target="_blank" href="https://github.com/299ko/"><i class="fa-solid fa-flask"></i> Just using 299ko <?php echo VERSION; ?></a>
                             </li>
                         </ul>
                     </div>

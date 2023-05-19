@@ -25,9 +25,10 @@ function configmanagerInstall() {
 
 function configManagerDisplayInstallFile() {
     if (file_exists(ROOT . 'install.php')) {
-        echo "<div style='padding:20px;background-color: #FFD38A;border-left-color: #8C5600;color : #6C6C6C;'>
+        echo "<div class='msg warning'>
             <p>Le fichier install.php est toujours présent. Pour plus de sécurité, il est conseillé de le supprimer.<br/>
             Si l'installation de 299ko s'est déroulée correctement, cliquez sur le bouton ci-dessous pour le supprimer</p>
-            <div style='text-align:center'><a class='button alert' href='index.php?p=configmanager&action=del_install&token=" . administrator::getToken() . "'>Supprimer le fichier install</a></div></div>";
+            <div style='text-align:center'><a class='button' href='index.php?p=configmanager&action=del_install&token=" . administrator::getToken() . "'>Supprimer le fichier install</a></div>"
+                . "<a href='#' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
     }
 }
