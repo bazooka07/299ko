@@ -6,6 +6,7 @@
     border-radius: 3px;
     padding: 4px;
     margin: 5px;
+    font-size: 12px;
 }
 
 #content.galerie-admin a.category:hover {

@@ -9,48 +9,50 @@
 defined('ROOT') OR exit('No direct script access allowed');
 ?>
 
-<h3>Ajouter un fichier</h3>
-<label id="custom-file-label" for="customFile">Ajouter un fichier</label>
-<input type="file" name="image_file" id="customFile" onchange="onSetFilename(this)">
-<progress value="0" max="100" id="filesProgressAjax"></progress>
-<button id="btnUpload" type="button" onclick="uploadFile()">Envoyer le fichier</button>
+<section>
+    <header>Ajouter un fichier</header>
+    <label id="custom-file-label" for="customFile">Ajouter un fichier</label>
+    <input type="file" name="image_file" id="customFile" onchange="onSetFilename(this)">
+    <progress value="0" max="100" id="filesProgressAjax"></progress>
+    <button id="btnUpload" type="button" onclick="uploadFile()">Envoyer le fichier</button>
+</section>
+<section>
+    <header>Liste des fichiers</header>
 
-<h3>Liste des fichiers</h3>
-
-<table id="fm-listview">
-    <thead>
-        <tr>
-            <td>Nom</td>
-            <td>Dernière modification</td>
-            <td>Voir</td>
-            <td>URL</td>
-            <td>Supprimer</td>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        foreach ($manager->getFolders() as $item) {
-            echo '<tr><td>' . $item->name . '</td>';
-            echo '<td></td><td></td></tr>';
-        }
-
-        foreach ($manager->getFiles() as $item) {
-            echo '<tr id="' . $item->name . '"><td>' . $item->name . '</td>';
-            echo '<td>' . date('d/m/Y à H:i:s', $item->getFileMTime()) . '</td>';
-            if ($item->isPicture()) {
-                echo '<td><a class="fm-link" href="' . $item->getUrl() . '" data-fancybox data-caption="' . $item->name . '">'
-                . '<i class="fa-solid fa-eye"></i></a></td>';
-            } else {
-                echo '<td></td>';
+    <table id="fm-listview">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Dernière modification</th>
+                <th>Voir</th>
+                <th>URL</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($manager->getFolders() as $item) {
+                echo '<tr><td>' . $item->name . '</td>';
+                echo '<td></td><td></td></tr>';
             }
-            echo '<td><a class="fm-link" href="' . $item->getUrl() . '"><i class="fa-solid fa-link"></i></a></td>';
-            echo '<td><a class="fm-link alert" href="javascript:deleteFile(\'' . $item->name . '\')"><i class="fa-solid fa-trash"></i></a></td>';
-            echo '</tr>';
-        }
-        ?>
-    </tbody>
-</table>
 
+            foreach ($manager->getFiles() as $item) {
+                echo '<tr id="' . $item->name . '"><td>' . $item->name . '</td>';
+                echo '<td>' . date('d/m/Y à H:i:s', $item->getFileMTime()) . '</td>';
+                if ($item->isPicture()) {
+                    echo '<td><a class="fm-link" href="' . $item->getUrl() . '" data-fancybox data-caption="' . $item->name . '">'
+                    . '<i class="fa-solid fa-eye"></i></a></td>';
+                } else {
+                    echo '<td></td>';
+                }
+                echo '<td><a class="fm-link" href="' . $item->getUrl() . '"><i class="fa-solid fa-link"></i></a></td>';
+                echo '<td><a class="fm-link alert" href="javascript:deleteFile(\'' . $item->name . '\')"><i class="fa-solid fa-trash"></i></a></td>';
+                echo '</tr>';
+            }
+            ?>
+        </tbody>
+    </table>
+</section>
 <script>
     function onSetFilename(data) {
         let fileName = data.value.split("\\").pop();
@@ -106,7 +108,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                     if (data.success === 0) {
                         alert("Image Uploading failed. Try again..");
                     } else {
-                        <?php if ($ajaxView) { ?>
+<?php if ($ajaxView) { ?>
                             Fancybox.close(true);
                             Fancybox.show([
                                 {
@@ -114,9 +116,9 @@ defined('ROOT') OR exit('No direct script access allowed');
                                     type: "ajax"
                                 }
                             ]);
-                            <?php } else { ?>
+<?php } else { ?>
                             window.location.href = "<?php echo $redirectUrl; ?>";
-                        <?php } ?>
+<?php } ?>
                     }
                 }
             };

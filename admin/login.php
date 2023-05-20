@@ -27,8 +27,8 @@ defined('ROOT') OR exit('No direct script access allowed');
         <div id="alert-msg">
             <?php show::displayMsg(); ?>
         </div>
-        <div id="login">
-            <h1>Connexion</h1>
+        <div id="login" class="card">
+            <header>Connexion</header>
             <form method="post" action="index.php?action=login">   
                 <?php show::adminTokenField(); ?>          
                 <p>
