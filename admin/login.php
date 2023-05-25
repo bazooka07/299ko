@@ -14,7 +14,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 <!doctype html>
 <html lang="fr">
     <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="robots" content="noindex"><meta name="googlebot" content="noindex">
         <title>299ko - Connexion</title>	

@@ -14,14 +14,14 @@
     <body>
         <div id="container">
             <div id="header">
-                <div id="header_content">
-                    <div id="mobile_menu"></div>
+                <nav id="header_content">
+                    <button id="mobile_menu" aria-label="Menu"></button>
                     <p id="siteName"><a href="{% SHOW.siteUrl %}">{% SHOW.siteName %}</a></p>
                     <ul id="navigation">
                         {% SHOW.mainNavigation %}
                         {% HOOK.endMainNavigation %}
                     </ul>
-                </div>
+                </nav>
             </div>
             <div id="alert-msg">
                 {% SHOW.displayMsg %}
