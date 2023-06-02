@@ -1,9 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    if (document.querySelector('.galerie .categories a')) {
+    if (document.querySelector('.galerie .categories button')) {
 
-        document.querySelectorAll('.galerie .categories a').forEach(function(item, index) {
+        document.querySelectorAll('.galerie .categories button').forEach(function(item, index) {
             item.addEventListener('click', function(){
                 var rel = this.getAttribute('rel');
 

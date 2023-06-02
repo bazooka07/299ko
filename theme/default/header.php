@@ -38,6 +38,8 @@ include_once(THEMES . $core->getConfigVal('theme') . '/functions.php');
                     <?php show::siteDesc(); ?>
                 </div>
             </div>
-            <div id="body">
-                <div id="content" class="<?php show::pluginId(); ?>">
+            <main id="body">     
+                <div id="pageTitle">
                     <?php show::mainTitle(); ?>
+                </div>
+                <div id="content" class="<?php show::pluginId(); ?>">

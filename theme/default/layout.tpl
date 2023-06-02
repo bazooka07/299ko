@@ -27,22 +27,24 @@
                 {% SHOW.displayMsg %}
             </div>
             <div id="banner"></div>
-            <div id="body">
-                <div id="content" class="{% SHOW.pluginId %}">
+            <main id="body">
+                <div id="pageTitle">
                     {% SHOW.mainTitle %}
+                </div>
+                <div id="content" class="{% SHOW.pluginId %}">
                     {{ CONTENT }}
                 </div>
-            </div>
-        <div id="footer">
-            <div id="footer_content">
-                {% HOOK.footer %}
-                <p>
-                    <a target='_blank' href='https://github.com/299ko/'>Just using 299ko</a> - Thème {% SHOW.theme %} - <a rel="nofollow" href="<?php echo ADMIN_PATH ?>">Administration</a>
-                </p>
-                {% HOOK.endFooter %}
+            </main>
+            <div id="footer">
+                <div id="footer_content">
+                    {% HOOK.footer %}
+                    <p>
+                        <a target='_blank' href='https://github.com/299ko/'>Just using 299ko</a> - Thème {% SHOW.theme %} - <a rel="nofollow" href="<?php echo ADMIN_PATH ?>">Administration</a>
+                    </p>
+                    {% HOOK.endFooter %}
+                </div>
             </div>
         </div>
-    </div>
-{% HOOK.endFrontBody %}
-</body>
+        {% HOOK.endFrontBody %}
+    </body>
 </html>

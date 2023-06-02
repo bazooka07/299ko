@@ -58,7 +58,7 @@ class textCaptcha {
         if (!isset($this->operation)) {
             $this->generate();
         }
-        return '<p><label>' . $this->operation . ' (en chiffres)</label><br><input required="required" type="text" name="antispam" value="" /></p>';
+        return '<p><label for="antispam">' . $this->operation . ' (en chiffres)</label><br><input required="required" type="text" name="antispam" id="antispam" value="" /></p>';
     }
 
     public function isValid() {

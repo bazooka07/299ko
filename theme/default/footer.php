@@ -1,6 +1,6 @@
 <?php defined('ROOT') OR exit('No direct script access allowed'); ?>
             </div>
-        </div>
+        </main>
         <div id="footer">
             <div id="footer_content">
                 <?php $core->callHook('footer'); ?>

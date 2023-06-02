@@ -99,7 +99,7 @@ switch ($action) {
                 $comment->setAuthor($_POST['author']);
                 $comment->setAuthorEmail($_POST['authorEmail']);
                 $comment->setDate('');
-                $comment->setContent($_POST['content']);
+                $comment->setContent($_POST['commentContent']);
                 if ($newsManager->saveComment($comment)) {
                     header('location:' . $_POST['back'] . '#comment' . $comment->getId());
                     die();
