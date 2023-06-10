@@ -246,7 +246,7 @@ code{
     padding:25px 20px;
     padding-left: 42px;
     border-radius: 4px;
-    border-left:4px solid var(--infos-hover-color);
+    border-left:12px solid var(--infos-hover-color);
     max-width: 800px;
     box-shadow: 0px 0 10px 5px rgba(0, 0, 0, 0.2);
     background-color: var(--infos-color);
@@ -389,7 +389,7 @@ code{
 }
 
 #footer_content a{
-    color: #333;
+    
 }
 
 /* MENU */
