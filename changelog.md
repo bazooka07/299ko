@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Hooks beforeRunPlugin & adminBeforeRunPlugin, called before the displayed page
 - Add a description in site to display in banner
 - Auto upload and manual upload image in TinyMCE
+- CSS vars
 
 ### Changed
 - Admin menu is generated out of header.php
@@ -19,11 +20,13 @@ All notable changes to this project will be documented in this file.
 - Add currentPlugin class (CSS)  on current Plugin in Admin menu
 - Redirect to item after save (blog, page, galerie)
 - TinyMCE v6
+- Old Normalize changed by modern-normalize and moved from core to CSS
 
 ### Fixed
 - SEO : don't show script when Analytics ID is empty
 - Galerie : Introduction dont save content in Markdown format
 - Galerie : TinyMCE introduction
+- Labels for forms
 
 ## V1.1.1
 
