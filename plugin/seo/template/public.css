@@ -33,13 +33,13 @@
 
 #seo_social_float a{
     display: block;
-    color: #fff;
+    color: var(--primary-inverse-color);
     text-transform: uppercase;
     padding: 15px;
     font-size: 19px;
     float: left;
     margin-left: 1px;
-    background: #4986b7;
+    background: var(--primary-color);
 }
 
 #seo_social_float a i {
