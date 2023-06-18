@@ -164,6 +164,7 @@ input[type=submit], input[type=button], button, .button, [type="file"]::file-sel
     border-radius: var(--section-radius);
     transition: background-color 0.5s ease;
     border: 1px solid rgba(0,0,0, 0.1);
+    display: inline-block;
 }
 
 input[type=submit]:hover, input[type=button]:hover, button:hover, .button:hover, [type="file"]::file-selector-button:hover{
