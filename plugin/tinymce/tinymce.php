@@ -27,14 +27,14 @@ function tinymceAdminHead() {
         images_upload_url: '" . $uploadUrl . "',
         automatic_uploads: true,
         plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
-        toolbar:
-    'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | charmap emoticons | insertfile image link codesample | fullscreen'";
+        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | charmap emoticons | insertfile image link codesample | fullscreen',
+        max_height: 600";
 
     echo "<script src='" . $url . "'></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         tinymce.init({
-          selector: 'textarea.editor', " . $options . ",
+            selector: 'textarea.editor', " . $options . "
         });
 
         function mceAdd(item){
