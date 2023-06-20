@@ -46,6 +46,23 @@
     --background-color: #fafafa;
     
     --body-bg-color: transparent;
+    
+    --form-border-color: #d0d0d0;
+    --form-bg-color: #fff;
+    
+    --dark-font-color: #ccc;
+    --dark-background-color: #11191f;
+    --dark-header-bg-color: #11191f;
+    --dark-header-links-color: #fff;
+    --dark-primary-color: #00acc1;
+    --dark-primary-hover-color: #0097a7;
+    --dark-primary-inverse-color: #18232c;
+    
+    --dark-section-bg-color: #141e26;
+    --dark-section-head-bg-color: #18232c;
+    
+    --dark-form-border-color: #374956;
+    --dark-form-bg-color: #11191f;
 }
 
 /* BASIC */
@@ -141,14 +158,14 @@ th,td{
 /* FORM */
 
 input[type=text], input[type=email], input[type=password], input[type=url], input[type=number], input[type=date], select{
-    border: 1px solid #d0d0d0;
+    border: 1px solid var(--form-border-color);
     padding: 15px;
     width: 100%;
     margin: 10px 0;
     border-radius: var(--section-radius);
     color: var(--font-color);
     transition: all 0.5s ease;
-    background: #fff;
+    background: var(--form-bg-color);
 }
 
 textarea{
@@ -352,7 +369,6 @@ code{
 
 #header_content a:hover{
     color:var(--primary-color);
-    background: #fff;
 }
 
 #header_content ul {
@@ -662,10 +678,9 @@ section + article, section + .card, article + section, article + .card,
 
 [type=checkbox] {
     --background-color: #ddd;
-    --color: var(--switch-color);
     width: 2.25em;
     height: 1.25em;
-    border: var(--border-width) solid var(--border-color);
+    border: var(--border-width) solid transparent;
     border-radius: 1.25em;
     background-color: var(--background-color);
     line-height: 1.25em;
@@ -767,28 +782,65 @@ section + article, section + .card, article + section, article + .card,
 
 @media (prefers-color-scheme: dark)
 {
-    body, #footer a, #header a{
-        color: #e9e9e9;
+    body{
+        color: var(--dark-font-color);
     }
     
     #navigation li ul {
-        background: #555;
+        background: var(--dark-section-bg-color);
     }
 
     #mobile_menu{
-        color: #e9e9e9;
+        color: var(--dark-header-links-color);
     }
 
     #container{
-        background: #0f0f0f;
+        background: var(--dark-background-color);
     }
 
-    #header, #footer, input[type=text], input[type=email], input[type=password], textarea, input[type=number], .contact .acceptation{
-        background: #1e1e1e;
-        color: #e9e9e9;
+    #header {
+        background: var(--dark-section-bg-color);
+        box-shadow: 0px 0px 20px 10px rgba(255,255,255, 0.10);
+    }
+    
+    #footer {
+        background: var(--dark-section-head-bg-color);
+    }
+    
+    input[type=text], input[type=email], input[type=password], textarea, input[type=number], .contact .acceptation{
+        background: var(--dark-form-bg-color);
+        color: var(--dark-font-color);
     }
 
-    h1, input[type=text], input[type=email], input[type=password], textarea, input[type=number], hr, tr, .contact .acceptation, .blog .comment, .blog .content, .blog .items li.item, #content.galerie #list li {
-        border-color: #1e1e1e !important;
+    input[type=text], input[type=email], input[type=password], textarea, input[type=number], hr, tr, .contact .acceptation, .blog .comment, .blog .content, .blog .items li.item, #content.galerie #list li {
+        border-color: var(--dark-form-border-color);
+    }
+    
+    #header_content a {
+        color:var(--dark-header-links-color);
+    }
+
+    #header_content a:hover{
+        color:var(--primary-color);
+    }
+    
+    #pageTitle, section, article, .card {
+        background: var(--dark-section-bg-color);
+        border: none;
+        box-shadow: none;
+    }
+    
+    section > header, article > header, .card > header,
+    section > footer, article > footer, .card > footer {
+        background-color: var(--dark-section-head-bg-color);
+        border: 1px solid transparent;
+    }
+    
+    [type=checkbox] {
+        background-color: #374956;
+    }
+    
+    [type=checkbox]:checked {
+        background-color: var(--primary-color);
     }
 }
