@@ -7,6 +7,9 @@ if ($nextVersion) {
     <div class="msg info">
         <p>Une nouvelle version est disponible.<br/>
             Cliquez ci-dessous pour mettre à jour votre site en version <?php echo $nextVersion; ?></p>
+        <p>N'oubliez pas de faire une sauvegarde de votre site avant d'effectuer cette miseà jour.</p>
+        <p>Vous pouvez consulter le <a href="https://github.com/299Ko/299ko/blob/master/changelog.md"
+                                       target="_blank">changelog des versions de 299Ko ici</a>.</p>
         <div style='text-align:center'><a class='button alert' href='index.php?p=configmanager&action=update&token=<?php echo administrator::getToken(); ?>'>
                 Mettre à jour le site</a></div>
         <a href='#' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a>

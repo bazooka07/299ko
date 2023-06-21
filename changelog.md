@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.2.1
+
+### Fixed
+- Admin buttons overlap
+- TinyMCE : Add vertical scrollbar
+- [TinyMCE : Change icons order](https://github.com/299Ko/299ko/issues/23)
+- [Dark mode in public view with CSS vars](https://github.com/299Ko/299ko/issues/22)
+
 ## V1.2.0
 
 ### Added
