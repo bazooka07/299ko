@@ -96,7 +96,7 @@ defined('ROOT') OR exit('No direct script access allowed');
             formData.append('image', image_files[0]);
             let xhr = new XMLHttpRequest();
             xhr.open("POST", '<?php echo $uploadUrl; ?>', true);
-            xhr.addEventListener("progress", function (e) {
+            xhr.upload.addEventListener("progress", function (e) {
                 if (e.lengthComputable) {
                     let percentComplete = e.loaded / e.total * 100;
                     document.getElementById("filesProgressAjax").value = percentComplete;
@@ -106,7 +106,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     const data = JSON.parse(this.responseText);
                     if (data.success === 0) {
-                        alert("Image Uploading failed. Try again..");
+                        alert("Echec de l'envoi. Veuillez réessayer.");
                     } else {
 <?php if ($ajaxView) { ?>
                             Fancybox.close(true);
