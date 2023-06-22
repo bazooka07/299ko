@@ -35,7 +35,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                     <p>Entrez l'email administrateur et validez. Si celui-ci est correct, vous recevrez un nouveau mot de passe qu'il faudra confirmer immédiatement via le lien de validation.</p>
                     <p>
                         <label for="adminEmail">Email administrateur</label><br>
-                        <input style="display:none;" type="text" name="_email" value="" />
+                        <input style="display:none;" type="text" name="_email" value="" autocomplete="off" />
                         <input type="email" id="adminEmail" name="adminEmail" required>
                     </p>
                     <input type="submit" class="button" value="Valider" />

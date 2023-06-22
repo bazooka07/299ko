@@ -33,7 +33,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                 <?php show::adminTokenField(); ?>          
                 <p>
                     <label for="adminEmail">Email</label><br>
-                    <input style="display:none;" type="text" name="_email" value="" />
+                    <input style="display:none;" type="text" name="_email" value="" autocomplete="off" />
                     <input type="email" id="adminEmail" name="adminEmail" required>
                 </p>
                 <p><label for="adminPwd">Mot de passe</label>
