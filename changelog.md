@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.2.2
+
+### Changed
+
+- FileManager v1.1
+
+### Fixed
+
+- Firefox autocompletion for honeypot
+- Progress while FileManager upload ajax view
+
 ## V1.2.1
 
 ### Fixed
