@@ -20,4 +20,23 @@ class Folder {
         $this->directory = $directory;
     }
     
+    public function delete() {
+        if (!is_dir($this->directory . $this->name)) {
+            return false;
+        }
+        $manager = new FileManager($this->directory . $this->name);
+        
+        $error = $manager->deleteAllFiles();
+        if ($error) {
+            return false;
+        }
+        
+        $error = $manager->deleteAllFolders();
+        if ($error) {
+            return false;
+        }
+        
+        return rmdir($this->directory . $this->name);        
+    }
+    
 }

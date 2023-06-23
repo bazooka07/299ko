@@ -12,20 +12,36 @@ defined('ROOT') OR exit('No direct script access allowed');
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $view = isset($_GET['view']) ? $_GET['view'] : null;
 
-if (isset($_POST['dir'])) {
-    $dir = $_POST['dir'];
-} else {
-    $dir = UPLOAD . 'files/';
+$dir = $_POST['dir'] ?? $_GET['dir'] ?? '';
+$dir = rawurldecode($dir);
+
+if ($dir === 'Back%To%Home%') {
+    $dir = '';
 }
+if ($dir !== '') {
+
+    $dirParts = explode('/', $dir);
+    if (end($dirParts) === '..') {
+        // Up to parent folder
+        array_pop($dirParts);
+        array_pop($dirParts);
+    }
+
+    $dir = implode('/', $dirParts);
+} else {
+    $dirParts = [];
+}
+$fullDir = UPLOAD . 'files/' . $dir;
 
 require_once(PLUGINS . 'filemanager/lib/FileManager.php');
-$manager = new FileManager($dir);
+$manager = new FileManager($fullDir);
 $uploadUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
 $deleteUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=delete&token=' . administrator::getToken(), true);
+$createUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=create&token=' . administrator::getToken(), true);
 $ajaxView = $view === 'ajax' ? true : false;
 
 $fancyUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
-$redirectUrl = util::urlBuild('index.php?p=filemanager', true);
+$redirectUrl = util::urlBuild('index.php?p=filemanager&token=' . administrator::getToken(), true);
 
 if ($view === 'ajax') {
     if (!$administrator->isAuthorized()) {
@@ -44,8 +60,19 @@ if ($view === 'ajax') {
             }
         }
     } elseif ($action === 'delete') {
-        $deleted = $manager->deleteFile($_POST['filename']);
-        echo json_encode(['success' => $deleted]);
+        if (isset($_POST['filename'])) {
+            // Delete File
+            $deleted = $manager->deleteFile($_POST['filename']);
+            echo json_encode(['success' => $deleted]);
+            die();
+        } elseif (isset($_POST['foldername'])) {
+            $deleted = $manager->deleteFolder($_POST['foldername']);
+            echo json_encode(['success' => $deleted]);
+            die();
+        }
+    } elseif ($action === 'create') {
+        $created = $manager->createFolder($_POST['folderName']);
+        echo json_encode(['success' => $created]);
         die();
     }
 } elseif ($view === 'api') {
@@ -64,12 +91,15 @@ if ($view === 'ajax') {
             }
 
             // Verify extension
-            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), 
+                    ["gif", "jpg", "png", "ico", "bmp", "jpeg"])) {
                 header("HTTP/1.1 400 Invalid extension.");
                 return;
             }
+
+            $tinyManager = new FileManager(UPLOAD . 'files/API');
             
-            $uploaded = $manager->uploadFile('file');
+            $uploaded = $tinyManager->uploadFile('file');
             if ($uploaded !== false) {
                 echo json_encode(['location' => $uploaded]);
                 die();

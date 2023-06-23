@@ -1,7 +1,7 @@
 {
-    "name" : "FileManager",
-    "description" :"Gestionnaire de fichiers",
+    "name" : "Gestionnaire de fichiers",
+    "description" :"Un gestionnaire de fichiers pour télécharger et organiser vos médias",
     "authorEmail" : "mx.koder@gmail.com",
     "authorWebsite" : "https://299ko.ovh",
-    "version" : "1.0"
+    "version" : "1.1"
 }

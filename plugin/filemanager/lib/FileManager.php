@@ -31,6 +31,9 @@ class FileManager {
     
     public function __construct($directory) {
         $this->directory = rtrim($directory, '/') . '/';
+        if (!is_dir($this->directory)) {
+            mkdir($this->directory, 0755);
+        }
         $this->hydrateChildren();
     }
     
@@ -68,9 +71,48 @@ class FileManager {
     
     public function deleteFile($filename) {
         if (isset($this->subFiles[$filename])) {
-            return $this->subFiles[$filename]->delete();
+            $error = $this->subFiles[$filename]->delete();
+            if (!$error) {
+                unset($this->subFiles[$filename]);
+                return true;
+            }
         }
         return false;
+    }
+    
+    public function deleteFolder($foldername) {
+        if (isset($this->subDir[$foldername])) {
+            $error = $this->subDir[$foldername]->delete();
+            if (!$error) {
+                unset($this->subDir[$foldername]);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function deleteAllFiles() {
+        $error = false;
+        foreach ($this->subFiles as $file) {
+            if (!$file->delete()) {
+                $error = true;
+            }
+        }
+        return $error;
+    }
+    
+    public function deleteAllFolders() {
+        $error = false;
+        foreach ($this->subDir as $folder) {
+            if (!$folder->delete()) {
+                $error = true;
+            }
+        }
+        return $error;
+    }
+    
+    public function createFolder($name) {
+        return mkdir($this->directory . $name, 0755);
     }
     
     
