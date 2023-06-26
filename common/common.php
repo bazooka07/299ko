@@ -15,6 +15,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 include_once(ROOT . 'common/config.php');
 include_once(COMMON . 'util.class.php');
 include_once(COMMON . 'core.class.php');
+include_once(COMMON . 'lang.class.php');
 include_once(COMMON . 'pluginsManager.class.php');
 include_once(COMMON . 'plugin.class.php');
 include_once(COMMON . 'show.class.php');
@@ -28,6 +29,7 @@ $pluginsManager = pluginsManager::getInstance();
 foreach ($pluginsManager->getPlugins() as $plugin) {
     if ($plugin->getConfigVal('activate')) {
         include_once($plugin->getLibFile());
+        $plugin->loadLangFile();
         foreach ($plugin->getHooks() as $name => $function) {
             $core->addHook($name, $function);
         }

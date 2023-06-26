@@ -95,6 +95,8 @@ class Template {
      * {% URL(blog&p=ttt&yyy).admin
      * {% INCLUDE My_Page %}
      * {% IF MY_VAR %} {% IF MY_VAR !== 25 %} ... {% ELSE %} ... {% ENDIF %}
+     * {{ Lang.key }}
+     * {{ Lang.key2(5, moi) }}
      * {{ MY_VAR }}
      * {% FOR MY_VAR IN MY_VARS %} ... {{MY_VAR.name}} ... {% ENDFOR %}
      */
@@ -104,6 +106,7 @@ class Template {
         $this->content = preg_replace_callback('#\{\% *IF +(.+) *([\=|\<|\>|\!&]{1,3}) +(.+) *\%\}#iU', 'self::_complexe_if_replace', $this->content);
         $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', 'self::_simple_if_replace', $this->content);
         $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', 'self::_callHook', $this->content);
+        $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#iU', 'self::_getLang', $this->content);
         $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', 'self::_include', $this->content);
         $this->content = preg_replace('#\{\{ *(.+) *\}\}#iU', '<?php $this->_show_var(\'$1\'); ?>', $this->content);
         $this->content = preg_replace_callback('#\{\% *FOR +(.+) +IN +(.+) *\%\}#i', 'self::_replace_for', $this->content);
@@ -182,6 +185,24 @@ class Template {
         }
         // Action Hook
         return '<?php core::getInstance()->callHook(\'' . $name . '\'); ?>';
+    }
+    
+    protected function _getLang($matches) {
+        $posAcc = strpos($matches[1], '(');
+        $args = '';
+        $name = $matches[1];
+        if ($posAcc !== false) {
+            $args = substr($name, $posAcc);
+            $name = substr($name, 0, $posAcc);
+        }
+        $args = str_replace('(', '', $args);
+        $args = str_replace(')', '', $args);
+        if ($args !== '') {
+            $params = '$this->getVar(\'' . $args . '\', $this->data)';
+            return '<?php echo lang::get(\'' . $name . '\', ...' . $params . '); ?>';
+        } else {
+            return '<?php echo lang::get(\'' . $name . '\'); ?>';
+        }
     }
 
     protected function _replace_for($matches) {

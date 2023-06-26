@@ -21,6 +21,8 @@ class core {
     private $pluginToCall;
     private $js;
     private $css;
+    
+    private $locale;
 
     /**
      * Logger is a resource file
@@ -60,6 +62,12 @@ class core {
                 $this->pluginToCall = $this->getConfigVal('defaultAdminPlugin');
             }
         }
+        $this->locale = $this->getConfigVal('lang');
+        if ($this->locale === false) {
+            $this->locale = 'fr';
+        }
+        lang::setLocale($this->locale);
+        lang::loadLanguageFile(COMMON . 'langs/');
         $this->css[] = FONTICON;
         $this->css[] = FANCYCSS;
         $this->js[] = FANCYJS;

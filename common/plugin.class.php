@@ -294,7 +294,9 @@ class plugin {
             return true;
         return false;
     }
+    
+    public function loadLangFile() {
+        lang::loadLanguageFile(PLUGINS . $this->name . '/langs/');
+    }
 
 }
-
-?>
