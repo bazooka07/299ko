@@ -401,9 +401,15 @@ ul.tabs a, ul.tabs_style a{
 
 /* STRUCTURE */
 
-#login{
+#login {
     width: 100%;
     max-width: 400px;
+    margin: 0px auto;
+}
+
+#install {
+    width: 100%;
+    max-width: 600px;
     margin: 0px auto;
 }
 

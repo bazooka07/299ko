@@ -29,6 +29,10 @@ class lang {
      */
     protected static $data = [];
     
+    public static $availablesLocales = [
+        'fr' => 'Français'
+    ];
+    
     /**
      * Set the language locale
      * @param string $locale

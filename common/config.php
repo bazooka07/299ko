@@ -10,7 +10,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-define('VERSION', '1.2.2');
+define('VERSION', '1.3.0');
 define('COMMON', ROOT . 'common/');
 define('DATA', ROOT . 'data/');
 define('UPLOAD', ROOT . 'data/upload/');

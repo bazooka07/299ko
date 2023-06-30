@@ -21,7 +21,6 @@ class core {
     private $pluginToCall;
     private $js;
     private $css;
-    
     private $locale;
 
     /**
@@ -33,7 +32,9 @@ class core {
     ## Constructeur
 
     public function __construct() {
-        $this->logger = fopen(DATA . 'logs.txt', 'a+');
+        
+        $this->createLogger();
+        
         // Timezone
         date_default_timezone_set(date_default_timezone_get());
         // Construction du tableau de configuration
@@ -64,7 +65,12 @@ class core {
         }
         $this->locale = $this->getConfigVal('lang');
         if ($this->locale === false) {
-            $this->locale = 'fr';
+            $navLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            if (file_exists(COMMON . 'langs/' . $navLang . '.ini')) {
+                $this->locale = $navLang;
+            } else {
+                $this->locale = 'fr';
+            }
         }
         lang::setLocale($this->locale);
         lang::loadLanguageFile(COMMON . 'langs/');
@@ -302,6 +308,13 @@ class core {
         @file_put_contents(ROOT . '.htaccess', $content);
     }
 
+    protected function createLogger() {
+        if (is_dir(DATA)) {
+            $this->logger = fopen(DATA . 'logs.txt', 'a+');
+        }
+        
+    }
+
     /**
      * Add a log into log file
      * 
@@ -311,13 +324,16 @@ class core {
      */
     public function log($message, $severity = 'INFO') {
         $date = date('Y-m-d H:i:s');
-        fwrite($this->logger, "[$date] [$severity] : $message\n");
+        if ($this->logger) {
+            fwrite($this->logger, "[$date] [$severity] : $message\n");
+        }
     }
 
     function __destruct() {
-        fclose($this->logger);
+        if ($this->logger) {
+            fclose($this->logger);
+        }
     }
-
 }
 
 /**
