@@ -90,7 +90,6 @@ defined('ROOT') OR exit('No direct script access allowed');
                         </div>
                     </div>
                     <?php
-                    //echo '<td>' . date('d/m/Y à H:i:s', $item->getFileMTime()) . '</td>';
                 }
                 ?>
             </div>

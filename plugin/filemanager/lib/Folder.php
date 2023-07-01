@@ -17,7 +17,7 @@ class Folder {
     
     public function __construct($name, $directory) {
         $this->name = $name;
-        $this->directory = $directory;
+        $this->directory = trim($directory, '/') . '/';
     }
     
     public function delete() {

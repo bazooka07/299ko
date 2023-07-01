@@ -55,19 +55,24 @@ include_once(ROOT . 'admin/header.php');
         <section>
             <header>Contenu de la news</header>
             <p>
-                <label>Titre</label><br>
-                <input type="text" name="name" value="<?php echo $news->getName(); ?>" required="required" />
+                <label for="name">Titre</label><br>
+                <input type="text" name="name" id="name" value="<?php echo $news->getName(); ?>" required="required" />
             </p>
             <?php if ($showDate) { ?>
                 <p>
-                    <label>Date</label><br>
-                    <input placeholder="Exemple : 2017-07-06 12:28:51" type="date" name="date" value="<?php echo $news->getDate(); ?>" required="required" />
+                    <label for="date">Date</label><br>
+                    <input placeholder="Exemple : 2017-07-06 12:28:51" type="date" name="date" id="date" value="<?php echo $news->getDate(); ?>" required="required" />
                 </p>
             <?php } ?>
 
             <p>
-                <label>Contenu</label><br>
-                <textarea name="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $news->getContent()); ?></textarea><br>
+                <label for="content">Contenu</label><br>
+                <textarea name="content" id="content" class="editor"><?php echo $core->callHook('beforeEditEditor', $news->getContent()); ?></textarea><br>
+                <?php filemanagerDisplayManagerButton(); ?>
+            </p>
+            <p>
+                <label for="intro">Contenu d'introduction</label><br>
+                <textarea name="intro" id="intro" class="editor"><?php echo $core->callHook('beforeEditEditor', $news->getIntro()); ?></textarea><br>
                 <?php filemanagerDisplayManagerButton(); ?>
             </p>
         </section>

@@ -31,7 +31,7 @@ if ($dir !== '') {
 } else {
     $dirParts = [];
 }
-$fullDir = UPLOAD . 'files/' . $dir;
+$fullDir = UPLOAD . 'files/' . trim($dir, '/');
 
 require_once(PLUGINS . 'filemanager/lib/FileManager.php');
 $manager = new FileManager($fullDir);

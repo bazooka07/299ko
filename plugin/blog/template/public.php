@@ -18,7 +18,11 @@
                             <?php if ($runPlugin->getConfigVal('comments') && !$v['commentsOff']) { ?> | <?php echo $newsManager->countComments($v['id']); ?> commentaire<?php if ($newsManager->countComments($v['id']) > 1) echo 's' ?><?php } ?></p>
                     </div>
                 </header><?php
-                echo $v['content'];
+                if ($v['intro']) {
+                    echo $v['intro'];
+                } else {
+                    echo $v['content'];
+                }
             } else {
                 ?>
                 <h2>
@@ -56,6 +60,25 @@
         </header>
         <?php
         echo $item->getContent();
+        if ($runPlugin->getConfigVal('displayAuthor')) {
+            ?>
+        <footer>
+            <div class='blog-author'>
+                <div class='blog-avatar'>
+                    <img src='<?php echo $runPlugin->getConfigVal('authorAvatar'); ?>' alt='<?php echo $runPlugin->getConfigVal('authorName'); ?>'/>
+                </div>
+                <div class='blog-infos'>
+                    <div class='blog-infos-name'>
+                        <span><?php echo $runPlugin->getConfigVal('authorName'); ?></span>
+                    </div>
+                    <div class='blog-infos-bio'>
+                        <?php echo $runPlugin->getConfigVal('authorBio'); ?>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <?php
+        }
         ?>
     </article>
     <?php if ($runPlugin->getConfigVal('comments') && !$item->getCommentsOff()) { ?>
