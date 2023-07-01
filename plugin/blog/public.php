@@ -58,6 +58,7 @@ switch ($action) {
                     $news[$k]['date'] = util::FormatDate($date, 'en', 'fr');
                     $news[$k]['id'] = $v->getId();
                     $news[$k]['content'] = $v->getContent();
+                    $news[$k]['intro'] = $v->getIntro();
                     $news[$k]['url'] = $runPlugin->getPublicUrl() . util::strToUrl($v->getName()) . '-' . $v->getId() . '.html';
                     $news[$k]['img'] = $v->getImg();
                     $news[$k]['commentsOff'] = $v->getcommentsOff();

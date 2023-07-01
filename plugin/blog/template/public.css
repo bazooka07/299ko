@@ -1,0 +1,27 @@
+.blog-author {
+    display: flex;
+}
+
+.blog-avatar {
+     
+}
+
+.blog-avatar img {
+    max-width: 80px;
+    border-radius: 50%;
+    border:2px solid #ccc;
+    box-shadow: 0 0 5px rgba(0,0,0,0.15);
+}
+
+.blog-infos {
+    margin-left: 20px;
+}
+
+.blog-infos-name span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.blog-infos-bio {
+    font-size: 12px;
+}

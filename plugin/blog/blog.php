@@ -138,6 +138,7 @@ class newsManager {
                 'id' => $v->getId(),
                 'name' => $v->getName(),
                 'content' => $v->getContent(),
+                'intro' => $v->getIntro(),
                 'date' => $v->getDate(),
                 'draft' => $v->getDraft(),
                 'img' => $v->getImg(),
@@ -225,6 +226,7 @@ class news {
     private $name;
     private $date;
     private $content;
+    private $intro;
     private $draft;
     private $img;
     private $commentsOff;
@@ -234,6 +236,7 @@ class news {
             $this->id = $val['id'];
             $this->name = $val['name'];
             $this->content = $val['content'];
+            $this->intro = $val['intro'] ?? '';
             $this->date = $val['date'];
             $this->draft = $val['draft'];
             $this->img = (isset($val['img']) ? $val['img'] : '');
@@ -251,6 +254,10 @@ class news {
 
     public function setContent($val) {
         $this->content = trim($val);
+    }
+    
+    public function setIntro($val) {
+        $this->intro = trim($val);
     }
 
     public function setDate($val) {
@@ -282,6 +289,10 @@ class news {
 
     public function getContent() {
         return $this->content;
+    }
+    
+    public function getIntro() {
+        return ($this->intro === '' ? false : $this->intro);
     }
 
     public function getDate() {

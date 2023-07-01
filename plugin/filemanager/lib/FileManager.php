@@ -30,7 +30,7 @@ class FileManager {
     protected array $subFiles = [];
     
     public function __construct($directory) {
-        $this->directory = rtrim($directory, '/') . '/';
+        $this->directory = trim($directory, '/') . '/';
         if (!is_dir($this->directory)) {
             mkdir($this->directory, 0755);
         }

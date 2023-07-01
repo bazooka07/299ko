@@ -22,6 +22,10 @@ switch ($action) {
             $runPlugin->setConfigVal('itemsByPage', trim(intval($_REQUEST['itemsByPage'])));
             $runPlugin->setConfigVal('hideContent', (isset($_POST['hideContent']) ? 1 : 0));
             $runPlugin->setConfigVal('comments', (isset($_POST['comments']) ? 1 : 0));
+            $runPlugin->setConfigVal('displayAuthor', (isset($_POST['displayAuthor']) ? 1 : 0));
+            $runPlugin->setConfigVal('authorName', trim($_POST['authorName']));
+            $runPlugin->setConfigVal('authorAvatar', trim($_POST['authorAvatar']));
+            $runPlugin->setConfigVal('authorBio', $core->callHook('beforeSaveEditor',$_POST['authorBio']));
             $pluginsManager->savePluginConfig($runPlugin);
             header('location:index.php?p=blog');
             die();
@@ -45,6 +49,7 @@ switch ($action) {
             $news = ($_REQUEST['id']) ? $newsManager->create($_REQUEST['id']) : new news();
             $news->setName($_REQUEST['name']);
             $news->setContent($core->callHook('beforeSaveEditor', $_REQUEST['content']));
+            $news->setIntro($core->callHook('beforeSaveEditor', $_REQUEST['intro']));
             $news->setDraft((isset($_POST['draft']) ? 1 : 0));
             if (!isset($_REQUEST['date']) || $_REQUEST['date'] == "")
                 $news->setDate($news->getDate());
