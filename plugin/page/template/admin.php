@@ -6,11 +6,9 @@ if ($mode == 'list') {
     ?>
     <section>
         <header>Liste des pages</header>
-        <ul class="tabs_style">
-            <li><a class="button" href="index.php?p=page&amp;action=edit">Ajouter une page</a></li>
-            <li><a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a></li>
-            <li><a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a></li>
-        </ul>
+            <a class="button" href="index.php?p=page&amp;action=edit">Ajouter une page</a>
+            <a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a>
+            <a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a>
         <?php if ($lost != '') { ?>
             <p>Des pages "fantômes" pouvant engendrer des dysfonctionnements ont été trouvées. <a href="index.php?p=page&amp;action=maintenance&id=<?php echo $lost; ?>&token=<?php echo administrator::getToken(); ?>">Cliquez ici</a> pour exécuter le script de maintenance.</p>
         <?php } ?>

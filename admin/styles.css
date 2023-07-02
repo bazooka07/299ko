@@ -123,6 +123,10 @@ th{
 
 /* FORM */
 
+.form {
+    margin-bottom: 20px;
+}
+
 input[type=text], input[type=email], input[type=password], input[type=url], input[type=number], input[type=date], select{
     border: 1px solid #d0d0d0;
     padding: 15px;
@@ -188,13 +192,27 @@ input[type=submit].success:hover, input[type=button].success:hover, button.succe
     background: var(--success-hover-color);
 }
 
-
 input[type=submit].active, input[type=button].active, button.active, .button.active{
     background: #14161a;
 }
 
 [type="file"]::file-selector-button{
     margin:10px;
+}
+
+button[type=submit].floating, [type=submit].button.floating {
+    position: fixed;
+    bottom: 20px;
+    right:20px;
+    border-radius: 50%;
+    width: 58px;
+    height: 58px;
+    text-align: center;
+    box-shadow: 0 0 30px 10px rgba(0,0,0,0.15);
+    padding: 0;
+    font-size: 25px;
+    line-height: 25px;
+    z-index: 998;
 }
 
 /* UTIL */
@@ -205,19 +223,101 @@ ul.no_bullet{
 
 /* TABS */
 
-ul.tabs, ul.tabs_style{
-    list-style: none inside;
+.tabs-container{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    background: var(--section-bg-color);
+    border-radius: var(--section-radius);
+    box-shadow: 0 0 30px 10px rgba(0,0,0,0.05);
+    margin: 30px 5px;
     overflow: hidden;
 }
 
-ul.tabs li, ul.tabs_style li{
-    float: left;
-    margin-right: 5px;
+.tabs-header {
+    display:flex;
+    flex-wrap:wrap;
+    padding:0;
+    background: var(--section-head-bg-color);
+    margin: 0;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgba(100,100,100,0.1);
 }
 
-ul.tabs a, ul.tabs_style a{
-    display: block;
-    margin-bottom: 15px;
+.tabs-header > li {
+    cursor:pointer;
+    flex-grow:1;
+    padding:30px;
+    list-style-type: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.5s ease;
+    border-right: 1px solid rgba(100,100,100,0.1);
+}
+
+.tabs-header > li:last-child {
+    border:none;
+}
+
+.tabs-header > li.active, .tabs-header > li.active:hover {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    background-color: #233242;
+    color:#fff;
+}
+
+.tabs-header > li:hover {
+    background-color: #e5e5e5;
+}
+
+.tabs {
+    display:flex;
+}
+
+.tab {
+    padding:30px;
+    color:#333;
+    width: 100%;
+}
+
+/* Tooltips */
+
+div.tooltip {
+    display: inline-block;
+    position: relative;
+}
+
+div.tooltip:after {
+    font: var(--fa-font-solid);
+    content: "\f05a";
+    font-size: 23px;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+div.tooltip > span {
+    position: absolute;
+    min-width: 100px;
+    max-width: 50vw;
+    padding: 20px;
+    visibility: hidden;
+    opacity: 0;
+    background: white;
+    transition: all .250s cubic-bezier(0, 0, 0.2, 1);
+    color: #484848;
+    border: 1px solid #cecece;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    z-index: 4;
+    cursor: initial;
+    width: max-content;
+    font-size: 15px;
+    cursor: none;
+}
+
+div.tooltip:hover > span {
+    transform: translate3d(-50%, 0, 0);
+    visibility: visible;
+    opacity: 1;
 }
 
 /* ALERT */
@@ -681,7 +781,7 @@ section > footer, .card > footer {
 
 @media only screen and (max-width: 960px){
 
-    body, input[type=text], input[type=email], input[type=password], input[type=url], input[type=number], input[type=date], textarea, input[type=submit], input[type=button], button, .button{
+    body, input[type=text], input[type=email], input[type=password], input[type=url], input[type=number], input[type=date], textarea, input[type=submit], input[type=button], button, .button, .tooltip>span{
         font-size: 12px !important;
     }
 
@@ -691,6 +791,12 @@ section > footer, .card > footer {
         margin: 1px 0;
         width: 100%;
         text-align: center;
+    }
+    
+    button[type=submit].floating, [type=submit].button.floating {
+        font-size: 18px;
+        width: 48px;
+        height: 48px;
     }
 
     #header{
