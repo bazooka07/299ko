@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.2.3
+
+### Changed
+
+- Experimental : Use tabs instead long page for blog editing item
+
+### Added
+
+- Blog Author bloc
+- Experimental : Form Help on Blog/Param
+
 ## V1.2.2
 
 ### Changed
