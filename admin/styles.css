@@ -101,7 +101,8 @@ ul,ol{
     list-style-position:inside
 }
 img{
-    max-width:100%
+    max-width:100%;
+    height: auto;
 }
 table{
     width:100%;
@@ -208,11 +209,12 @@ button[type=submit].floating, [type=submit].button.floating {
     width: 58px;
     height: 58px;
     text-align: center;
-    box-shadow: 0 0 30px 10px rgba(0,0,0,0.15);
+    box-shadow: 2px 2px 3px #999;
     padding: 0;
     font-size: 25px;
     line-height: 25px;
     z-index: 998;
+    border: none;
 }
 
 /* UTIL */

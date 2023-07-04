@@ -120,6 +120,9 @@ class util {
     ## Retourne un tableau provenant d'un fichier au format json
 
     public static function readJsonFile($file, $assoc = true) {
+        if (!file_exists($file)) {
+            return false;
+        }
         return json_decode(@file_get_contents($file), $assoc);
     }
 

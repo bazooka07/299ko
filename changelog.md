@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## V1.2.4
+
+### Changed
+
+- Updates are now displayed in every admin pages
+- ConfigManager plugin is using cache to check only once a day a new update
+
+### Fixed
+
+- Files _after and _beforeChangeFiles couldnt get called
+- V1.2.3 Issue with blog config changes
+
 ## V1.2.3
 
 ### Changed
