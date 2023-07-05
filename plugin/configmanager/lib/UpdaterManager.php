@@ -259,7 +259,7 @@ class UpdaterManager {
     }
     
     protected function runBeforeChangeFiles($nextVersion) {
-        $remoteFile = $this->getRemoteFile('_beforeChangeFiles.php', $nextVersion);
+        $remoteFile = self::REMOTE . 'versions/main/core/' . $nextVersion .'/_beforeChangeFiles.php';
         $content = $this->getRemoteFileContent($remoteFile);
         if ($content === false) {
             // No script to run before change files
@@ -275,7 +275,7 @@ class UpdaterManager {
     }
     
     protected function runAfterChangeFiles($nextVersion) {
-        $remoteFile = $this->getRemoteFile('_afterChangeFiles.php', $nextVersion);
+        $remoteFile = self::REMOTE . 'versions/main/core/' . $nextVersion .'/_afterChangeFiles.php';
         $content = $this->getRemoteFileContent($remoteFile);
         if ($content === false) {
             // No script to run before change files

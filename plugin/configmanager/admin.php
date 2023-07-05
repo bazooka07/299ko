@@ -16,21 +16,20 @@ $action = (isset($_GET['action'])) ? $_GET['action'] : '';
 $error = false;
 $passwordError = false;
 
-$updaterManager = new UpdaterManager();
-if ($updaterManager) {
-    $nextVersion = $updaterManager->getNextVersion();
-} else {
-    $nextVersion = false;
-}
-
-
 switch ($action) {
     case 'update':
+        $updaterManager = new UpdaterManager();
+        if ($updaterManager) {
+            $nextVersion = $updaterManager->getNextVersion();
+        } else {
+            $nextVersion = false;
+        }
         if ($nextVersion && $administrator->isAuthorized()) {
             $updaterManager->update();
             show::msg("La version $nextVersion a été installée. Consultez le fichier logs.txt pour en savoir plus.", 'success');
-                header('location:index.php?p=configmanager');
-                die();
+            unlink($file = DATA_PLUGIN . 'configmanager/cache.json');
+            header('location:index.php?p=configmanager');
+            die();
         }
         break;
     case 'del_install':

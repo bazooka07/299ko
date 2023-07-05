@@ -6,10 +6,8 @@ include_once(ROOT . 'admin/header.php');
 <?php if ($mode == 'list') { ?>
     <section>
         <header>Liste des images</header>
-        <ul class="tabs_style">
-            <li><a class="button" href="index.php?p=galerie&action=edit">Ajouter</a></li>
-            <li><a class="button showall" data-state="hidden" href="javascript:">Basculer sur l'affichage des éléments cachés</a></li>
-        </ul>
+            <a class="button" href="index.php?p=galerie&action=edit">Ajouter</a>
+            <a class="button showall" data-state="hidden" href="javascript:">Basculer sur l'affichage des éléments cachés</a>
         <table>
             <tr>
                 <th>Aperçu</th>

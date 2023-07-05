@@ -1,3 +1,4 @@
 {
-    "afterAdminTitle" : "configManagerDisplayInstallFile"
+    "afterAdminTitle" : "configManagerDisplayInstallFile",
+    "adminBeforeRunPlugin" : "configManagerCheckNewVersion"
 }
