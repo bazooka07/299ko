@@ -21,7 +21,7 @@
                     <div class="main_nav" role="navigation" aria-label="{{ Lang.core-nav-admin }}">
                         <ul id="navigation">
                             <li class="site"><a target="_blank" href="../">{{ Lang.core-goto-site }}</a></li>
-                                {{ show.adminNavigation }} {{ Lang.key }} {{ Lang.key2(VERSION, moi) }}
+                                {{ show.adminNavigation }}
                             <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}">{{ Lang.disconnection }}</a></li>
                             <li class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/"><i class="fa-solid fa-flask"></i> {{ Lang.site-just-using(VERSION) }}</a>
