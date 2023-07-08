@@ -299,7 +299,7 @@ div.tooltip:after {
 div.tooltip > span {
     position: absolute;
     min-width: 100px;
-    max-width: 50vw;
+    max-width: min(50vw, 300px);
     padding: 20px;
     visibility: hidden;
     opacity: 0;
@@ -313,11 +313,11 @@ div.tooltip > span {
     cursor: initial;
     width: max-content;
     font-size: 15px;
-    cursor: none;
+    right:0;
 }
 
 div.tooltip:hover > span {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(20px, 0, 0);
     visibility: visible;
     opacity: 1;
 }

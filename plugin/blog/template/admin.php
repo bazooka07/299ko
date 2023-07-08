@@ -6,8 +6,8 @@ include_once(ROOT . 'admin/header.php');
 <?php if ($mode == 'list') { ?>
     <section>
         <header>Liste des articles de blog</header>
-            <a class="button" href="index.php?p=blog&action=edit">Ajouter</a>
-            <a target="_blank" class="button" href="<?php echo $runPlugin->getPublicUrl(); ?>rss.html">Flux RSS</a>
+        <a class="button" href="index.php?p=blog&action=edit">Ajouter</a>
+        <a target="_blank" class="button" href="<?php echo $runPlugin->getPublicUrl(); ?>rss.html">Flux RSS</a>
         <table>
             <tr>
                 <th>Titre</th>
@@ -41,10 +41,11 @@ include_once(ROOT . 'admin/header.php');
             <ul class="tabs-header">
                 <li class="default-tab"><i class="fa-solid fa-file-pen"></i> Contenu</li>
                 <li><i class="fa-regular fa-newspaper"></i> Introduction</li>
+                <li><i class="fa-regular fa-thumbs-up"></i> SEO</li>
                 <li><i class="fa-solid fa-heading"></i> Titre</li>
                 <li><i class="fa-solid fa-sliders"></i> Paramètres</li>
                 <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
-                <li><i class="fa-regular fa-image"></i> Image à la une</li>
+                    <li><i class="fa-regular fa-image"></i> Image à la une</li>
                 <?php } ?>
             </ul>
             <ul class="tabs">
@@ -57,6 +58,46 @@ include_once(ROOT . 'admin/header.php');
                     <label for="intro">Contenu d'introduction</label><br>
                     <textarea name="intro" id="intro" class="editor"><?php echo $core->callHook('beforeEditEditor', $news->getIntro()); ?></textarea><br>
                     <?php filemanagerDisplayManagerButton(); ?>
+                </li>
+                <li class="tab">
+                    <div class='form'>
+                        <label for="seoDesc">Description pour les réseaux sociaux</label>
+                        <div class='tooltip'>
+                            <span id='seoDescDesc'>Une ou 2 phrases résumant l'article. Il est recommandé de ne pas dépasser les 250 caractères.</span>
+                        </div>
+                        <textarea name="seoDesc" id="seoDesc" aria-describedby="seoDescDesc"><?php echo $news->getSEODesc(); ?></textarea>
+                        <div id='seoDescProgress'></div>
+                        <div id='seoDescCounter'></div>
+                        <script>
+                            function refreshSEODescCounter() {
+                                var length = document.getElementById('seoDesc').value.length;
+                                var progress = document.getElementById('seoDescProgress');
+                                document.getElementById('seoDescCounter').innerHTML = length + ' caractère(s)';
+                                if (length <= 100 || length > 250) {
+                                    progress.classList.remove("good", "care");
+                                    progress.classList.add("warning");
+                                } else if (length <= 160) {
+                                    progress.classList.remove("good", "warning");
+                                    progress.classList.add("care");
+                                } else {
+                                    progress.classList.remove("care", "warning");
+                                    progress.classList.add("good");
+                                }
+                                //alert(document.getElementById('seoDesc').style.width);
+                                progress.style.width = (100 / 250 * length) + "%";
+                            }
+
+                            document.addEventListener("DOMContentLoaded", function () {
+                                refreshSEODescCounter();
+                            });
+                            document.getElementById('seoDesc').addEventListener('keyup', function () {
+                                refreshSEODescCounter();
+                            });
+                            document.getElementById('seoDesc').addEventListener('paste', function () {
+                                refreshSEODescCounter();
+                            });
+                        </script>
+                    </div>                    
                 </li>
                 <li class='tab'>
                     <label for="name">Titre</label><br>
@@ -79,15 +120,15 @@ include_once(ROOT . 'admin/header.php');
                         </p>
                     <?php } ?>
                 </li>
-                        <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
-            <li class='tab'>
-                <header>Image à la une</header>
-                    <?php if (galerie::searchByfileName($news->getImg())) { ?><input type="checkbox" name="delImg" id="delImg" /><label for="delImg">Supprimer l'image à la une</label>
-                    <?php } else { ?><label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" /><?php } ?>
-                    <br>
-                    <?php if (galerie::searchByfileName($news->getImg())) { ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $news->getImg(); ?>" alt="<?php echo $news->getImg(); ?>" /><?php } ?>
-            </li>
-        <?php } ?>
+                <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
+                    <li class='tab'>
+                        <header>Image à la une</header>
+                        <?php if (galerie::searchByfileName($news->getImg())) { ?><input type="checkbox" name="delImg" id="delImg" /><label for="delImg">Supprimer l'image à la une</label>
+                        <?php } else { ?><label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" /><?php } ?>
+                        <br>
+                        <?php if (galerie::searchByfileName($news->getImg())) { ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $news->getImg(); ?>" alt="<?php echo $news->getImg(); ?>" /><?php } ?>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
         <p><button type="submit" class="floating button" title='Enregistrer'><i class="fa-regular fa-floppy-disk"></i></button></p>

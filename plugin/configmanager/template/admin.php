@@ -68,6 +68,10 @@ include_once(ROOT . 'admin/header.php');
     <section>
         <header>Configuration avancée</header>
         <p>
+            <label id='delCacheDesc'>Supprimer le cache du site peut être utile si vous n'arrivez pas à mettre à jour 299Ko :</label><br>
+            <a aria-describedby="delCacheDesc" class="button" href="index.php?p=configmanager&action=delcache&token=<?php echo administrator::getToken() ?>">Supprimer le cache</a>
+        </p>
+        <p>
             <input <?php if ($core->getConfigVal('debug')) { ?>checked<?php } ?> type="checkbox" name="debug" /> <label for="debug">Mode débogage</label> 
         </p>
         <p>

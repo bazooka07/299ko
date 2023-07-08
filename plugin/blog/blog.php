@@ -30,12 +30,6 @@ function blogEndFrontHead() {
     global $runPlugin;
     $core = core::getInstance();
     echo '<link rel="alternate" type="application/rss+xml" href="' . $core->getConfigVal('siteUrl') . '/blog/rss.html" title="' . $core->getConfigVal('siteName') . '">' . "\n";
-    if ($runPlugin && $runPlugin->getName() == 'blog' && isset($_GET['id'])) {
-        global $item;
-        $pluginsManager = pluginsManager::getInstance();
-        if ($item && $pluginsManager->isActivePlugin('galerie') && galerie::searchByfileName($item->getImg()))
-            echo '<meta property="og:image" content="' . $core->getConfigVal('siteUrl') . '/' . str_replace('./', '', UPLOAD) . 'galerie/' . $item->getImg() . '" />';
-    }
 }
 
 ## Code relatif au plugin
@@ -139,6 +133,7 @@ class newsManager {
                 'name' => $v->getName(),
                 'content' => $v->getContent(),
                 'intro' => $v->getIntro(),
+                'seoDesc' => $v->getSEODesc(),
                 'date' => $v->getDate(),
                 'draft' => $v->getDraft(),
                 'img' => $v->getImg(),
@@ -227,6 +222,7 @@ class news {
     private $date;
     private $content;
     private $intro;
+    private $seoDesc;
     private $draft;
     private $img;
     private $commentsOff;
@@ -237,6 +233,7 @@ class news {
             $this->name = $val['name'];
             $this->content = $val['content'];
             $this->intro = $val['intro'] ?? '';
+            $this->seoDesc = $val['seoDesc'] ?? '';
             $this->date = $val['date'];
             $this->draft = $val['draft'];
             $this->img = (isset($val['img']) ? $val['img'] : '');
@@ -258,6 +255,10 @@ class news {
     
     public function setIntro($val) {
         $this->intro = trim($val);
+    }
+    
+    public function setSEODesc($val) {
+        $this->seoDesc = trim($val);
     }
 
     public function setDate($val) {
@@ -293,6 +294,10 @@ class news {
     
     public function getIntro() {
         return ($this->intro === '' ? false : $this->intro);
+    }
+    
+    public function getSEODesc() {
+        return ($this->seoDesc === '' ? false : $this->seoDesc);
     }
 
     public function getDate() {

@@ -177,9 +177,25 @@ class util {
         if ($admin) {
             $base .= 'admin/';
         }
-        return $base . ltrim($uri, '/') ;
+        $url = $base . ltrim($uri, '/') ;
+        return str_replace('/./', '/', $url);
+    }
+    
+    /**
+     * Return current page URL
+     * 
+     * @return string
+     */
+    public static function getCurrentURL() {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $url = "https";
+        } else {
+            $url = "http";
+        }
+        $url .= "://";
+        $url .= $_SERVER['HTTP_HOST'];
+        $url .= $_SERVER['REQUEST_URI'];
+        return $url;
     }
 
 }
-
-?>

@@ -21,6 +21,11 @@ class core {
     private $pluginToCall;
     private $js;
     private $css;
+    
+    /**
+     * Metas are used by plugins to display metas property or other in <head> HTML
+     */
+    private $metas = [];
 
     /**
      * Logger is a resource file
@@ -133,6 +138,14 @@ class core {
 
     public function getCss() {
         return $this->css;
+    }
+    
+    public function addMeta(string $meta) {
+        $this->metas[] = $meta;
+    }
+    
+    public function getMetas() {
+        return $this->metas;
     }
 
     ## Détermine si 299ko est installé
