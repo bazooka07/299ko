@@ -36,6 +36,9 @@ class core {
     ## Constructeur
 
     public function __construct() {
+        if (!is_dir(DATA))
+            mkdir(DATA);
+
         $this->logger = fopen(DATA . 'logs.txt', 'a+');
         // Timezone
         date_default_timezone_set(date_default_timezone_get());
