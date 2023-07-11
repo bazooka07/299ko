@@ -80,6 +80,11 @@ function seoGetSocialVars() {
         'Linkedin' => 'linkedin',
         'Viadeo' => 'viadeo',
         'GitHub' => 'github',
-        "Mastodon" => 'mastodon'
+        'Gitlab' => 'gitlab',
+        "Mastodon" => 'mastodon',
+        "Twitch" => 'twitch',
+        "Discord" => 'discord',
+        "Codepen" => 'codepen',
+        "Tumblr" => 'tumblr',
     ];
 }
