@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- New brands for SEO plugin
+
+### Fixed
+
+- Issue during install with logger when data folder dont exist
+
 ## V1.2.5
 
 ### Added
