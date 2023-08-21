@@ -99,6 +99,15 @@ class show {
                 echo '<script type="text/javascript" src="' . $core->getConfigVal('siteUrl') . '/' . 'theme/' . $core->getConfigVal('theme') . '/scripts.js' . '"></script>';
         }
     }
+    
+    public static function showMetas() {
+        $str = '';
+        $core = core::getInstance();
+        foreach ($core->getMetas() as $meta) {
+            $str .= $meta . "\n";
+        }
+        echo $str;
+    }
 
     ## Affiche un champ de formulaire contenant le jeton de session (admin)
 

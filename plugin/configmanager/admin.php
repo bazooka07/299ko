@@ -42,6 +42,16 @@ switch ($action) {
             }
         }
         break;
+    case 'delcache':
+        if ($administrator->isAuthorized()) {
+            $del = unlink(DATA_PLUGIN . 'configmanager/cache.json');
+            if ($del) {
+                show::msg("Le cache a été vidé", 'success');
+                header('location:index.php?p=configmanager');
+                die();
+            }
+        }
+        break;
     case 'save':
         if ($administrator->isAuthorized()) {
             $config = array(

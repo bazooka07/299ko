@@ -37,7 +37,7 @@ include_once(ROOT . 'admin/header.php');
         foreach ($social as $k => $v) {
             ?>
             <p>
-                <label for="<?php echo $v; ?>"><?php echo $k; ?></label><br>
+                <label for="<?php echo $v; ?>"><i class="fa-brands fa-<?php echo $v; ?>"></i>&nbsp;<?php echo $k; ?></label><br>
                 <input placeholder="" type="text" name="<?php echo $v; ?>" id="<?php echo $v; ?>" value="<?php echo $runPlugin->getConfigVal($v); ?>" />
             </p>
 <?php } ?>

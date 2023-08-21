@@ -50,6 +50,7 @@ switch ($action) {
             $news->setName($_REQUEST['name']);
             $news->setContent($core->callHook('beforeSaveEditor', $_REQUEST['content']));
             $news->setIntro($core->callHook('beforeSaveEditor', $_REQUEST['intro']));
+            $news->setSEODesc($_REQUEST['seoDesc']);
             $news->setDraft((isset($_POST['draft']) ? 1 : 0));
             if (!isset($_REQUEST['date']) || $_REQUEST['date'] == "")
                 $news->setDate($news->getDate());

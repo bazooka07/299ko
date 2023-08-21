@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- New brands for SEO plugin
+
+### Fixed
+
+- Issue during install with logger when data folder dont exist
+
+## V1.2.5
+
+### Added
+
+- OpenGraph for socials networks in blog article
+- Socials Description in blog article
+- Add button to refresh cache in configManager plugin
+- Add func (show class) to display personnalized metas
+
+### Fixed
+
+- 1.2.3 & 1.2.4 blog config issue
+- util::urlBuild relative path issue
+
+
 ## V1.2.4
 
 ### Changed

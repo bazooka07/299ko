@@ -81,6 +81,20 @@ switch ($action) {
         if (!$item)
             $core->error404();
         $newsManager->loadComments($item->getId());
+        $core->addMeta('<meta property="og:url" content="'. util::getCurrentURL() .'" />');
+        $core->addMeta('<meta property="twitter:url" content="'. util::getCurrentURL() .'" />');
+        $core->addMeta('<meta property="og:type" content="article" />');
+        $core->addMeta('<meta property="og:title" content="'. $item->getName() .'" />');
+        $core->addMeta('<meta name="twitter:card" content="summary" />');
+        $core->addMeta('<meta name="twitter:title" content="'. $item->getName() .'" />');
+        $core->addMeta('<meta property="og:description" content="'. $item->getSEODesc() .'" />');
+        $core->addMeta('<meta name="twitter:description" content="'. $item->getSEODesc() .'" />');
+        
+        if ($pluginsManager->isActivePlugin('galerie') && galerie::searchByfileName($item->getImg())) {
+            $core->addMeta('<meta property="og:image" content="'. util::urlBuild(UPLOAD . 'galerie/' . $item->getImg()) .'" />');
+            $core->addMeta('<meta name="twitter:image" content="'. util::urlBuild(UPLOAD . 'galerie/' . $item->getImg()) .'" />');
+        }
+        
         $antispamField = ($antispam) ? $antispam->show() : '';
         // Traitements divers : métas, fil d'ariane...
         $runPlugin->setMainTitle($item->getName());
