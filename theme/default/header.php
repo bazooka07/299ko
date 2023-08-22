@@ -39,8 +39,11 @@ include_once(THEMES . $core->getConfigVal('theme') . '/functions.php');
                     <?php show::siteDesc(); ?>
                 </div>
             </div>
-            <main id="body">     
-                <div id="pageTitle">
-                    <?php show::mainTitle(); ?>
-                </div>
+            <main id="body">
+                <?php if ($core->getConfigVal('hideTitles') == 0) {
+                    ?>
+                    <div id="pageTitle">
+                        <?php show::mainTitle(); ?>
+                    </div>
+                <?php } ?>
                 <div id="content" class="<?php show::pluginId(); ?>">
