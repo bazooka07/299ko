@@ -54,9 +54,15 @@ switch ($action) {
         break;
     case 'save':
         if ($administrator->isAuthorized()) {
+            if (array_key_exists($_POST['siteDesc'], lang::$availablesLocales)) {
+                $lang = $_POST['siteDesc'];
+            } else {
+                $lang = lang::getLocale();
+            }
             $config = array(
                 'siteName' => (trim($_POST['siteName']) != '') ? trim($_POST['siteName']) : 'Démo',
                 'siteDesc' => (trim($_POST['siteDesc']) != '') ? trim($_POST['siteDesc']) : '',
+                'siteLang' => $lang,
                 'adminEmail' => trim($_POST['adminEmail']),
                 'siteUrl' => (trim($_POST['siteUrl']) != '') ? trim($_POST['siteUrl']) : $core->getConfigVal('siteUrl'),
                 'theme' => $_POST['theme'],

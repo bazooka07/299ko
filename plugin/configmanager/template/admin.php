@@ -40,7 +40,16 @@ include_once(ROOT . 'admin/header.php');
             <label for="siteDesc">Description du site</label><br>
             <input type="text" name="siteDesc" value="<?php echo $core->getConfigVal('siteDesc'); ?>"/>
         </p>
-        <p style="<?php if ($pluginsManager->isActivePlugin('customizer')) { ?>display:none;<?php } ?>">
+        <p>
+            <label for="siteLang">Langue du site</label><br>
+            <select name="siteLang">
+                <?php
+                foreach (lang::$availablesLocales as $k => $v) { ?>
+                <option <?php if ($k == lang::getLocale()) { ?>selected<?php } ?> value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                <?php } ?>
+            </select>
+        </p>
+        <p>
             <label>Thème</label><br>
             <select name="theme">
                 <?php foreach ($core->getThemes() as $k => $v) { ?>
