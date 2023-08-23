@@ -53,7 +53,13 @@ if (!$administrator->isLogged() && $core->detectAdminMode() != 'lostpwd')
     include_once('login.php');
 elseif ($core->detectAdminMode() == 'plugin') {
     $core->callHook('adminBeforeRunPlugin');
-    if ($runPlugin->getAdminTemplate()) {
+    if ($core->detectAjaxRequest()) {
+        if ($administrator->isAuthorized() && $runPlugin->getAdminAjaxFile() !== false) {
+            include($runPlugin->getAdminAjaxFile());
+        } else {
+            header("HTTP/1.1 500 Server Error");
+        }
+    } elseif ($runPlugin->getAdminTemplate()) {
         if (util::getFileExtension($runPlugin->getAdminTemplate()) === 'tpl') {
             $layout = new Template(ADMIN_PATH . 'layout.tpl');
             $tpl = new Template($runPlugin->getAdminTemplate());

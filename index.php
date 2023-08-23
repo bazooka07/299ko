@@ -19,9 +19,15 @@ Template::addGlobal('IS_ADMIN', IS_ADMIN);
 
 $core->callHook('beforeRunPlugin');
 
-if (!$runPlugin || $runPlugin->getConfigVal('activate') < 1)
+if (!$runPlugin || $runPlugin->getConfigVal('activate') < 1) {
     $core->error404();
-elseif ($runPlugin->getPublicFile()) {
+} elseif ($core->detectAjaxRequest()) {
+    if ($runPlugin->getPublicAjaxFile() !== false) {
+        include($runPlugin->getPublicAjaxFile());
+    } else {
+        header("HTTP/1.1 500 Server Error");
+    }
+} elseif ($runPlugin->getPublicFile()) {
     if (util::getFileExtension($runPlugin->getPublicTemplate()) === 'tpl' && file_exists(THEMES . $core->getConfigVal('theme') . '/layout.tpl')) {
         $layout = new Template(THEMES . $core->getConfigVal('theme') . '/layout.tpl');
         $tpl = new Template($runPlugin->getPublicTemplate());

@@ -240,6 +240,12 @@ class core {
         elseif (isset($_GET['p']))
             return 'plugin';
     }
+    
+    public function detectAjaxRequest() {
+        $ajaxGet = $_GET['request'] ?? false;
+        $ajaxPost = $_POST['request'] ?? false;
+        return ($ajaxGet === 'ajax' || $ajaxPost === 'ajax');
+    }
 
     ## Renvoi une page 404
 

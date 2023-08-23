@@ -30,6 +30,8 @@ class plugin {
     private $dataPath;
     private $publicTemplate;
     private $adminTemplate;
+    private $publicAjaxFile;
+    private $adminAjaxFile;
     private $initConfig;
     private $navigation;
     private $publicCssFile;
@@ -68,6 +70,12 @@ class plugin {
         $this->publicFile = (file_exists(PLUGINS . $this->name . '/public.php')) ? PLUGINS . $this->name . '/public.php' : false;
         // Controlleur en mode admin
         $this->adminFile = (file_exists(PLUGINS . $this->name . '/admin.php')) ? PLUGINS . $this->name . '/admin.php' : false;
+        
+        // Controlleur admin Ajax
+        $this->adminAjaxFile = (file_exists(PLUGINS . $this->name . '/admin-ajax.php')) ? PLUGINS . $this->name . '/admin-ajax.php' : false;
+        // Controlleur public Ajax
+        $this->publicAjaxFile = (file_exists(PLUGINS . $this->name . '/public-ajax.php')) ? PLUGINS . $this->name . '/public-ajax.php' : false;
+        
         // CSS
         $this->publicCssFile = (file_exists(PLUGINS . $this->name . '/template/public.css')) ? PLUGINS . $this->name . '/template/public.css' : false;
         $this->adminCssFile = (file_exists(PLUGINS . $this->name . '/template/admin.css')) ? PLUGINS . $this->name . '/template/admin.css' : false;
@@ -175,6 +183,14 @@ class plugin {
 
     public function getAdminFile() {
         return $this->adminFile;
+    }
+    
+    public function getPublicAjaxFile() {
+        return $this->publicAjaxFile;
+    }
+
+    public function getAdminAjaxFile() {
+        return $this->adminAjaxFile;
     }
 
     public function getPublicCssFile() {
