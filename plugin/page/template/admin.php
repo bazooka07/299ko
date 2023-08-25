@@ -6,9 +6,9 @@ if ($mode == 'list') {
     ?>
     <section>
         <header>Liste des pages</header>
-            <a class="button" href="index.php?p=page&amp;action=edit">Ajouter une page</a>
-            <a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a>
-            <a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a>
+        <a class="button" href="index.php?p=page&amp;action=edit">Ajouter une page</a>
+        <a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a>
+        <a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a>
         <?php if ($lost != '') { ?>
             <p>Des pages "fantômes" pouvant engendrer des dysfonctionnements ont été trouvées. <a href="index.php?p=page&amp;action=maintenance&id=<?php echo $lost; ?>&token=<?php echo administrator::getToken(); ?>">Cliquez ici</a> pour exécuter le script de maintenance.</p>
         <?php } ?>
@@ -34,9 +34,11 @@ if ($mode == 'list') {
                                 <a class="down" href="index.php?p=page&action=down&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
                             </td>
                             <td>
-                                <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItem->getId(); ?>">Modifier</a> 
-                                <?php if (!$pageItem->getIsHomepage() && $pageItem->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItem->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
-                                                            return false;">Supprimer</a><?php } ?>	
+                                <div role="group">
+                                    <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItem->getId(); ?>">Modifier</a> 
+                                    <?php if (!$pageItem->getIsHomepage() && $pageItem->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItem->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
+                                                                return false;">Supprimer</a><?php } ?>	
+                                </div>
                             </td>
                         </tr>
                         <?php
@@ -51,9 +53,11 @@ if ($mode == 'list') {
                                         <a class="down" href="index.php?p=page&action=down&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
                                     </td>
                                     <td>
-                                        <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItemChild->getId(); ?>">Modifier</a> 
-                                        <?php if (!$pageItemChild->getIsHomepage() && $pageItemChild->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItemChild->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
+                                        <div role="group">
+                                            <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItemChild->getId(); ?>">Modifier</a> 
+                                            <?php if (!$pageItemChild->getIsHomepage() && $pageItemChild->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItemChild->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
                                                                             return false;">Supprimer</a><?php } ?>	
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php
