@@ -1,7 +1,8 @@
 {
-	"name" : "TinyMCE",
-	"description" : "Editeur WYSIWYG",
-    "authorEmail" : "",
-    "authorWebsite" : "",
-	"version" : "none"
+    "name": "TinyMCE",
+    "icon" : "fa-solid fa-spell-check",
+    "description": "Editeur WYSIWYG",
+    "authorEmail": "",
+    "authorWebsite": "",
+    "version": "none"
 }

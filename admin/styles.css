@@ -607,35 +607,40 @@ section > footer, .card > footer {
 
 /* New Menu */
 
-#header nav {
+#adminNav {
     width: 250px;
     margin: 0;
     padding: 0;
     height: 100vh;
     background: var(--nav-bg-color);
     overflow-y: auto;
+    transition: all 0.4s ease;
 }
 
-#header nav .main_nav {
+#adminNav .main_nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-#header nav .main_nav ul{
+#adminNav .main_nav ul{
     margin: 0;
     padding: 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-#header nav .main_nav li{
+#adminNav .main_nav li{
     display: block;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-#header nav .main_nav a {
+#adminNav.withoutText .main_nav li, #adminNav.withoutText #nav-change-container{
+    text-align: center;
+}
+
+#adminNav .main_nav a {
     display: block;
     margin: 0;
     padding: 10px 20px;
@@ -643,13 +648,38 @@ section > footer, .card > footer {
     border-left:2px solid transparent;
 }
 
-#header nav .main_nav a:hover {
+#adminNav .main_nav a i {
+    margin-right: 6px;
+}
+
+#adminNav .main_nav a:hover {
     background: rgba(0,0,0,0.1);
     color:#fff;
     border-left:2px solid #1095c1;
 }
 
 #labelBurger, #burger {
+    display: none;
+}
+
+#navigation {
+    overflow: hidden;
+}
+
+#adminNav #nav-change-container {
+    text-align: right;
+}
+
+#navigation #nav-icon-grow:before {
+    font: var(--fa-font-solid);
+    content: "\f0c9";
+}
+
+#adminNav.withoutText {
+    width:70px;
+}
+
+#adminNav.withoutText #navigation li a span {
     display: none;
 }
 
@@ -850,7 +880,7 @@ section > footer, .card > footer {
         margin: 40px 0;
     }
 
-    #header nav {
+    #adminNav, #adminNav.withoutText {
         margin: 0 auto;
         width: 100%;
         height: auto;
@@ -860,7 +890,7 @@ section > footer, .card > footer {
         padding: 8px;
     }
 
-    #header nav .main_nav {
+    #adminNav .main_nav {
         display: none;
         flex-direction: column;
         max-height: 0;
@@ -868,12 +898,20 @@ section > footer, .card > footer {
         transition: max-height 0.5s ease-out;
     }
 
-    #header nav .main_nav a {
+    #adminNav .main_nav a {
         display: block;
         margin: 0;
         padding: 10px;
         color: white;
         font-size: 14px;
+    }
+    
+    #adminNav #navigation #nav-change-container, #adminNav.withoutText #navigation #nav-change-container {
+        display: none;
+    }
+    
+    #adminNav #navigation li a span, #adminNav.withoutText #navigation li a span {
+        display: inline-block;
     }
 
     #labelBurger {

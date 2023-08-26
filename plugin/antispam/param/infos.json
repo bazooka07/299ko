@@ -1,5 +1,6 @@
 {
     "name" : "Antispam",
+    "icon" : "fa-solid fa-shield-virus",
     "description" : "Protège vos formulaires des robots spammeurs",
     "authorEmail" : "mx.koder@gmail.com",
     "authorWebsite" : "https://maxkoder.fr",

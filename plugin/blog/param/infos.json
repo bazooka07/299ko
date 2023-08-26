@@ -1,5 +1,6 @@
 {
     "name" : "Blog",
+    "icon" : "fa-regular fa-newspaper",
     "description" : "Gestion d'un mini blog",
     "authorEmail" : "",
     "authorWebsite" : "",

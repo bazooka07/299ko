@@ -1,5 +1,6 @@
 {
     "name" : "Galerie",
+    "icon" : "fa-regular fa-images",
     "description" : "Une galerie photos simple et épurée",
     "authorEmail" : "",
     "authorWebsite" : "",

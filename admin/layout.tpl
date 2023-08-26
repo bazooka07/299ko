@@ -15,16 +15,17 @@
     <body>
         <div id="container">
             <aside id="header">
-                <nav>
+                <nav id="adminNav">
                     <label id="labelBurger" for="burger"><i class="fa-solid fa-bars"></i></label>
                     <input type="checkbox" id="burger"/>
                     <div class="main_nav" role="navigation" aria-label="{{ Lang.core-nav-admin }}">
                         <ul id="navigation">
-                            <li class="site"><a target="_blank" href="../">{{ Lang.core-goto-site }}</a></li>
+                            <li id="nav-change-container"><a role="button" href="#" onClick="changeMainNav()"><i title="{{ Lang.admin-change-sidebar-width }}" id="nav-icon-grow"></i></a></li>
+                            <li class="site"><a target="_blank" href="../"><i title="{{ Lang.core-goto-site }}" class="fa-regular fa-eye"></i><span>{{ Lang.core-goto-site }}</span></a></li>
                                 {{ show.adminNavigation }}
-                            <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}">{{ Lang.disconnection }}</a></li>
+                            <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}"><i title="{{ Lang.disconnection }}" class="fa-solid fa-arrow-right-from-bracket"></i><span>{{ Lang.disconnection }}</span></a></li>
                             <li class="just_using">
-                                <a target="_blank" href="https://github.com/299ko/"><i class="fa-solid fa-flask"></i> {{ Lang.site-just-using(VERSION) }}</a>
+                                <a target="_blank" href="https://github.com/299ko/"><i title="{{ Lang.site-just-using(VERSION) }}" class="fa-solid fa-flask"></i><span>{{ Lang.site-just-using(VERSION) }}</span></a>
                             </li>
                         </ul>
                     </div>

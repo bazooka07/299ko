@@ -258,21 +258,29 @@ class show {
             $arrPlugins = [];
             foreach ($pluginsManager->getPlugins() as $k => $v) {
                 if ($v->getConfigVal('activate') && $v->getAdminFile()) {
-                    $arrPlugins[$v->getInfoVal('name')] = $v->getName(); 
+                    $arrPlugins[$v->getInfoVal('name')]['name'] = $v->getName();
+                    $arrPlugins[$v->getInfoVal('name')]['icon'] = $v->getInfoVal('icon');
+                    $arrPlugins[$v->getInfoVal('name')]['label'] = $v->getInfoVal('name');
                 }
             }
             ksort($arrPlugins, SORT_STRING);
             $currentPlugin = core::getInstance()->getPluginToCall();
-            foreach ($arrPlugins as $label => $name) {
+            foreach ($arrPlugins as $label) {
                 $data .= '<li';
-                if ($currentPlugin === $name) {
+                if ($currentPlugin === $label['name']) {
                     $data .= ' class="activePlugin"';
                 }
-                $data .= '><a href="index.php?p=' . $name . '"' ;
-                if ($currentPlugin === $name) {
+                $data .= '><a href="index.php?p=' . $label['name'] . '"' ;
+                if ($currentPlugin === $label['name']) {
                     $data .= ' aria-current="page"';
                 }
-                $data .= '>' . $label . '</a></li>';
+                $data .= '>';
+                $icon = $label['icon'];
+                if ($icon == false) {
+                    $icon = "fa-regular fa-font-awesome";
+                }
+                $data .= '<i title="'. $label['label'] .'" class="' . $icon . '"></i>';
+                $data .= '<span>' . $label['label'] . '</span></a></li>';
             }
             echo $data;
         }
@@ -332,4 +340,4 @@ class show {
 
 }
 
-?>
+}
