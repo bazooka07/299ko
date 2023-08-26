@@ -46,4 +46,6 @@ include_once(THEMES . $core->getConfigVal('theme') . '/functions.php');
                         <?php show::mainTitle(); ?>
                     </div>
                 <?php } ?>
-                <div id="content" class="<?php show::pluginId(); ?>">
+                <div id="body-page">
+                    <?php show::displayPublicSidebar(); ?>
+                    <div id="content" class="<?php show::pluginId(); ?>">

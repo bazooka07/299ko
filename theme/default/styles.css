@@ -391,6 +391,28 @@ code{
 }
 
 #content{
+    flex-shrink: 3;
+}
+
+#body-page {
+    display: flex;
+    align-items: flex-start;
+}
+
+#modulesSidebar {
+    min-width: 250px;
+    max-width: 299px;
+    order: 99;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.sidebarModuleContent {
+    margin: -20px;
+}
+
+#modulesSidebar .sidebarModule > header {
+    padding:10px;
 }
 
 #footer{

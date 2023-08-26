@@ -23,7 +23,7 @@ else
     $action = '';
 $antispam = ($pluginsManager->isActivePlugin('antispam')) ? new antispam() : false;
 $newsManager = new newsManager();
-
+show::addSidebarPublicModule('Ploop', "Je suis un module");
 switch ($action) {
     case '':
         // Mode d'affichage

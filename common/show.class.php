@@ -15,6 +15,11 @@ defined('ROOT') OR exit('No direct script access allowed');
 class show {
 
     /**
+     * @var array Modules
+     */
+    protected static $sidebarPublicModules = [];
+    
+    /**
      * Add a message to display in the next view, saved in session
      * 
      * Class can be error, success, info (default), warning
@@ -337,7 +342,40 @@ class show {
         if (file_exists($icon))
             echo $icon;
     }
+    
+    /**
+     * Add a module in the Public Sidebar
+     * 
+     * @param string Title
+     * @param string Content
+     */
+    public static function addSidebarPublicModule(string $title, string $content) {
+        self::$sidebarPublicModules[] = [
+            'title' => $title,
+            'content' => $content
+        ];
+    }
 
-}
+    /**
+     * Display the Public Sidebar
+     */
+    public static function displayPublicSidebar() {
+        if (function_exists('displayPublicSidebar')) {
+            call_user_func('displayPublicSidebar');
+            return;
+        }
+        if (empty(self::$sidebarPublicModules)) {
+            return;
+        }
+        echo '<aside id="modulesSidebar">';
+        foreach (self::$sidebarPublicModules as $module) {
+            echo '<div class="sidebarModule card">';
+            echo '<header class="sidebarModuleTitle">' . $module['title'] . '</header>';
+            echo '<div class="sidebarModuleContent">';
+            echo $module['content'];
+            echo '</div></div>';
+        }
+        echo '</aside>';
+    }
 
 }

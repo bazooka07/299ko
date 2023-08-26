@@ -33,8 +33,11 @@
                     {{ SHOW.mainTitle }}
                 </div>
                 {% ENDIF %}
-                <div id="content" class="{{ SHOW.pluginId }}">
-                    {{ CONTENT }}
+                <div id="body-page">
+                    <?php show::displayPublicSidebar(); ?>
+                    <div id="content" class="{{ SHOW.pluginId }}">
+                        {{ CONTENT }}
+                    </div>
                 </div>
             </main>
             <div id="footer">
