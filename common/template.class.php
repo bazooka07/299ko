@@ -42,7 +42,7 @@ class Template {
      *
      * @static
      * @param string Var key
-     * @param string Value
+     * @param mixed Value
      */
     public static function addGlobal($key, $value) {
         self::$const[$key] = $value;
@@ -53,7 +53,7 @@ class Template {
      * Datas can be string, numeric... or array and objects
      *
      * @param string Var key
-     * @param string Value
+     * @param mixed Value
      */
     public function set($key, $value) {
         $this->data[$key] = $value;
@@ -95,16 +95,21 @@ class Template {
      * {% URL(blog&p=ttt&yyy).admin
      * {% INCLUDE My_Page %}
      * {% IF MY_VAR %} {% IF MY_VAR !== 25 %} ... {% ELSE %} ... {% ENDIF %}
+     * {% ELSEIF ( false == 0 && true == 1 ) && plop === "plo" && 5 === 5 %}
      * {{ Lang.key }}
-     * {{ Lang.key2(5, moi) }}
+     * {{ Lang.key2(5, "moi") }}
      * {{ MY_VAR }}
      * {% FOR MY_VAR IN MY_VARS %} ... {{MY_VAR.name}} ... {% ENDFOR %}
+     * {% FOR key , val IN plop %} ... {{ key }} - {{ val.propertie }} ... {% ENDFOR %}
+     * {% SET plop = ["plo", 5] %}
+     * {% DUMP plop %}
      */
     protected function parse() {
         $this->content = preg_replace_callback('#\{\% *NOPARSE *\%\}(.*)\{\% *ENDNOPARSE *\%\}#isU', 'self::_no_parse', $this->content);
         $this->content = preg_replace('#\{\#(.*)\#\}#isU', '<?php /* $1 */ ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *IF +(.+) *([\=|\<|\>|\!&]{1,3}) +(.+) *\%\}#iU', 'self::_complexe_if_replace', $this->content);
-        $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', 'self::_simple_if_replace', $this->content);
+        $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', 'self::_ifReplace', $this->content);
+        $this->content = preg_replace_callback('#\{% *SET (.+) = (.+) *%\}#iU', 'self::_setReplace', $this->content);
+        $this->content = preg_replace_callback('#\{% *DUMP (.+) *%\}#iU', 'self::_dumpReplace', $this->content);
         $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', 'self::_callHook', $this->content);
         $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#iU', 'self::_getLang', $this->content);
         $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', 'self::_include', $this->content);
@@ -113,13 +118,11 @@ class Template {
         $this->content = preg_replace('#\{\% *ENDFOR *\%\}#i', '<?php endforeach; ?>', $this->content);
         $this->content = preg_replace('#\{\% *ENDIF *\%\}#i', '<?php } ?>', $this->content);
         $this->content = preg_replace('#\{\% *ELSE *\%\}#i', '<?php }else{ ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *([\=|\<|\>|\!&]{1,3}) +(.+) *\%\}#iU', 'self::_complexe_elseif_replace', $this->content);
-        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *\%\}#iU', 'self::_simple_elseif_replace', $this->content);
+        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *\%\}#iU', 'self::_elseifReplace', $this->content);
         $this->content = str_replace('#/§&µ&§;#', '{', $this->content);
     }
 
     protected function _no_parse($matches) {
-        //return htmlentities($matches[1]);
         return str_replace('{', '#/§&µ&§;#', htmlentities($matches[1]));
     }
 
@@ -128,32 +131,40 @@ class Template {
     }
 
     protected function simpleReplaceVar($var) {
+        if (preg_match('#([\=|\<|\>\(\)|\!&]{1,3}|false|true)#i', $var)) {
+            return $var;
+        }
         if (!is_numeric($var)) {
             return '$this->getVar(\'' . $var . '\', $this->data)';
         }
         return $var;
     }
 
-    protected function complexReplace($matches) {
-        $first = $this->simpleReplaceVar($matches[1]);
-        $thirst = $this->simpleReplaceVar($matches[3]);
-        return $first . ' ' . $matches[2] . ' ' . $thirst . '){ ?>';
+    protected function listReplaceVars($matches) {
+        $end = '';
+        $varList = explode(' ',trim($matches));
+        foreach($varList as $v) {
+            if ($v !== '') {
+                $end .= $this->simpleReplaceVar($v);
+            }
+        }
+        return $end;
     }
 
-    protected function _complexe_if_replace($matches) {
-        return '<?php if(' . $this->complexReplace($matches);
+    protected function _ifReplace($matches) {
+        return '<?php if(' . $this->listReplaceVars($matches[1]) . '){ ?>';
     }
 
-    protected function _complexe_elseif_replace($matches) {
-        return '<?php } elseif(' . $this->complexReplace($matches);
+    protected function _setReplace($matches) {
+        return '<?php $this->data[\'' . $matches[1] .'\'] = $this->getVar(\'' . $matches[2] .'\', $this->data); ?>';
     }
 
-    protected function _simple_if_replace($matches) {
-        return '<?php if(' . $this->simpleReplaceVar($matches[1]) . '){ ?>';
+    protected function _dumpReplace($matches) {
+        return '<pre><?php var_dump($this->getVar(\'' . $matches[1] .'\', $this->data)); ?></pre>';
     }
 
-    protected function _simple_elseif_replace($matches) {
-        return '<?php } elseif(' . $this->simpleReplaceVar($matches[1]) . '){ ?>';
+    protected function _elseifReplace($matches) {
+        return '<?php } elseif(' . $this->listReplaceVars($matches[1]) . '){ ?>';
     }
 
     protected function _include($matches) {
@@ -199,7 +210,7 @@ class Template {
         $args = str_replace(')', '', $args);
         if ($args !== '') {
             $params = '$this->getVar(\'' . $args . '\', $this->data)';
-            return '<?php echo lang::get(\'' . $name . '\', ...' . $params . '); ?>';
+            return '<?php echo lang::get(\'' . $name . '\', ' . $params . '); ?>';
         } else {
             return '<?php echo lang::get(\'' . $name . '\'); ?>';
         }
@@ -233,6 +244,14 @@ class Template {
         $var = trim($var);
         if ($var === '')
             return '';
+
+        if (preg_match('#^"([^"]+)"$#ix', $var, $match)) {
+            if (isset($match[1])) {
+                // string
+                return $match[1];
+            }
+        }
+
         if (preg_match('#\[ *(.+) *\]#iU', $var, $matches)) {
             $parts = explode(',', $matches[1]);
             $arr = [];
