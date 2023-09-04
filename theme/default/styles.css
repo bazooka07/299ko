@@ -392,6 +392,7 @@ code{
 
 #content{
     flex-shrink: 3;
+    flex-grow: 1;
 }
 
 #body-page {

@@ -30,7 +30,7 @@ defined('ROOT') OR exit('No direct script access allowed');
         </div>
         <div id="login" class="card">
             <header><?php echo lang::get('core-connection'); ?></header>
-            <form method="post" action="index.php?action=login">   
+            <form method="post" action="<?php echo util::urlBuild('?action=login', true); ?>">   
                 <?php show::adminTokenField(); ?>          
                 <p>
                     <label for="adminEmail"><?php echo lang::get('email'); ?></label><br>
@@ -43,7 +43,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                     <input type="button" class="button alert" value="<?php echo lang::get('quit'); ?>" rel="<?php echo $core->getConfigVal('siteUrl'); ?>" />
                     <input type="submit" class="button" value="<?php echo lang::get('validate'); ?>" />
                 </p>
-                <p><a href="index.php?action=lostpwd&token=<?php echo $administrator->getToken(); ?>"><?php echo lang::get('lost-password'); ?></a></p>
+                <p><a href=".?action=lostpwd&token=<?php echo $administrator->getToken(); ?>"><?php echo lang::get('lost-password'); ?></a></p>
                 <p class="just_using"><a target="_blank" href="https://github.com/299ko/"><?php echo lang::get('site-just-using', ''); ?></a>
                 </p>
             </form>

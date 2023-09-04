@@ -131,7 +131,7 @@ class Template {
     }
 
     protected function simpleReplaceVar($var) {
-        if (preg_match('#([\=|\<|\>\(\)|\!&]{1,3}|false|true)#i', $var)) {
+        if (preg_match('#^([\=|\<|\>\(\)|\!&]{1,3}$|true|false)#i', $var)) {
             return $var;
         }
         if (!is_numeric($var)) {

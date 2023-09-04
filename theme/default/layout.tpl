@@ -9,7 +9,7 @@
         <link rel="icon" href="{{ SHOW.themeIcon }}" />
         {{ SHOW.linkTags }}
         {{ SHOW.scriptTags }}
-        {% HOOK.endFrontHead %}
+        {% HOOK.endFrontHead %}        
     </head>
     <body>
         <div id="container">

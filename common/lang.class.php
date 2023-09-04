@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2023, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -85,7 +85,12 @@ class lang {
         }
         $args = func_get_args();
         unset($args[0]);
+
+        if (is_array($args[1])) {
+            return vsprintf(self::$data[$name], $args[1]);
+        }
         return vsprintf(self::$data[$name], $args);
+
     }
 
 }

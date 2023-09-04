@@ -78,10 +78,10 @@ class plugin {
         
         // CSS
         $this->publicCssFile = (file_exists(PLUGINS . $this->name . '/template/public.css')) ? PLUGINS . $this->name . '/template/public.css' : false;
-        $this->adminCssFile = (file_exists(PLUGINS . $this->name . '/template/admin.css')) ? PLUGINS . $this->name . '/template/admin.css' : false;
+        $this->adminCssFile = (file_exists(PLUGINS . $this->name . '/template/admin.css')) ? util::urlBuild(PLUGINS . $this->name . '/template/admin.css') : false;
         // JS
         $this->publicJsFile = (file_exists(PLUGINS . $this->name . '/template/public.js')) ? PLUGINS . $this->name . '/template/public.js' : false;
-        $this->adminJsFile = (file_exists(PLUGINS . $this->name . '/template/admin.js')) ? PLUGINS . $this->name . '/template/admin.js' : false;
+        $this->adminJsFile = (file_exists(PLUGINS . $this->name . '/template/admin.js')) ? util::urlBuild(PLUGINS . $this->name . '/template/admin.js') : false;
         // Répertoir de sauvegarde des données internes du plugin
         $this->dataPath = (is_dir(DATA_PLUGIN . $this->name)) ? DATA_PLUGIN . $this->name . '/' : false;
         // Configuration d'usine

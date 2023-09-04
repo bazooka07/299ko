@@ -36,7 +36,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                             <li id="nav-change-container"><a role="button" href="#" onClick="changeMainNav()"><i title="<?php echo lang::get('admin-change-sidebar-width'); ?>" id="nav-icon-grow"></i></a></li>
                             <li class="site"><a target="_blank" href="../"><i title="<?php echo lang::get('core-goto-site'); ?>" class="fa-regular fa-eye"></i><span><?php echo lang::get('core-goto-site'); ?></span></a></li>
                             <?php show::adminNavigation(); ?>
-                            <li class="site"><a href="index.php?action=logout&token=<?php echo administrator::getToken(); ?>"><i title="<?php echo lang::get('core-disconnection'); ?>" class="fa-solid fa-arrow-right-from-bracket"></i><span><?php echo lang::get('core-disconnection'); ?></span></a></li>
+                            <li class="site"><a href="<?php echo util::urlBuild('?action=logout&token=' . administrator::getToken(), true); ?>"><i title="<?php echo lang::get('core-disconnection'); ?>" class="fa-solid fa-arrow-right-from-bracket"></i><span><?php echo lang::get('core-disconnection'); ?></span></a></li>
                             <li class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/"><i title="<?php echo lang::get('site-just-using', VERSION); ?>" class="fa-solid fa-flask"></i><span><?php echo lang::get('site-just-using', VERSION); ?></span></a>
                             </li>
