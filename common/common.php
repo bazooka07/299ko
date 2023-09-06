@@ -11,16 +11,26 @@
  * @package 299Ko https://github.com/299Ko/299ko
  */
 session_start();
-defined('ROOT') OR exit('No direct script access allowed');
+defined('ROOT') or exit('No direct script access allowed');
+
 include_once(ROOT . 'common/config.php');
-include_once(COMMON . 'util.class.php');
-include_once(COMMON . 'core.class.php');
-include_once(COMMON . 'lang.class.php');
-include_once(COMMON . 'pluginsManager.class.php');
-include_once(COMMON . 'plugin.class.php');
-include_once(COMMON . 'show.class.php');
-include_once(COMMON . 'template.class.php');
+
+// Load all php files in COMMON directory
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON));
+foreach ($iterator as $file)
+{
+    if ($file->isFile() && pathinfo($file, PATHINFO_EXTENSION) === 'php')
+    {
+        include_once($file);
+    }
+}
+
+$router = router::getInstance();
+
+define('ADMIN_MODE', substr($router->getCleanURI(), 0, 6) === '/admin');
+
 $core = core::getInstance();
+
 if (!$core->isInstalled()) {
     header('location:' . ROOT . 'install.php');
     die();
@@ -30,11 +40,13 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
     if ($plugin->getConfigVal('activate')) {
         include_once($plugin->getLibFile());
         $plugin->loadLangFile();
+        $plugin->loadRoutes();
         foreach ($plugin->getHooks() as $name => $function) {
             $core->addHook($name, $function);
         }
     }
 }
+
 ## $runPLugin représente le plugin en cours d'execution et s'utilise avec la classe plugin & pluginsManager
 $runPlugin = $pluginsManager->getPlugin($core->getPluginToCall());
 
@@ -44,8 +56,9 @@ Template::addGlobal('UPLOAD', UPLOAD);
 Template::addGlobal('DATA_PLUGIN', DATA_PLUGIN);
 Template::addGlobal('THEMES', THEMES);
 Template::addGlobal('PLUGINS', PLUGINS);
-Template::addGlobal('THEME_PATH', THEMES . $core->getConfigVal('theme') . '/' );
+Template::addGlobal('THEME_PATH', THEMES . $core->getConfigVal('theme') . '/');
 Template::addGlobal('VERSION', VERSION);
 Template::addGlobal('runPlugin', $runPlugin);
+Template::addGlobal('pluginsManager', $pluginsManager);
 Template::addGlobal('CORE', $core);
 Template::addGlobal('ADMIN_PATH', ADMIN_PATH);

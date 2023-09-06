@@ -21,7 +21,7 @@ function tinymceInstall() {
 ## Hooks
 
 function tinymceAdminHead() {
-    $uploadUrl = util::urlBuild('index.php?p=filemanager&action=upload&view=api&token=' . administrator::getToken(), true);
+    $uploadUrl = util::urlBuild('?p=filemanager&action=upload&view=api&token=' . administrator::getToken(), true);
     $url = util::urlBuild(PLUGINS . 'tinymce/lib/tinymce/tinymce.min.js');
     $options = "language: 'fr_FR',
         images_upload_url: '" . $uploadUrl . "',

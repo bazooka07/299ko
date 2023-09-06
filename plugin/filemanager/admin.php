@@ -35,13 +35,13 @@ $fullDir = UPLOAD . 'files/' . trim($dir, '/');
 
 require_once(PLUGINS . 'filemanager/lib/FileManager.php');
 $manager = new FileManager($fullDir);
-$uploadUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
-$deleteUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=delete&token=' . administrator::getToken(), true);
-$createUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=create&token=' . administrator::getToken(), true);
+$uploadUrl = util::urlBuild('?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
+$deleteUrl = util::urlBuild('?p=filemanager&view=ajax&action=delete&token=' . administrator::getToken(), true);
+$createUrl = util::urlBuild('?p=filemanager&view=ajax&action=create&token=' . administrator::getToken(), true);
 $ajaxView = $view === 'ajax' ? true : false;
 
-$fancyUrl = util::urlBuild('index.php?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
-$redirectUrl = util::urlBuild('index.php?p=filemanager&token=' . administrator::getToken(), true);
+$fancyUrl = util::urlBuild('?p=filemanager&view=ajax&action=upload&token=' . administrator::getToken(), true);
+$redirectUrl = util::urlBuild('?p=filemanager&token=' . administrator::getToken(), true);
 
 if ($view === 'ajax') {
     if (!$administrator->isAuthorized()) {

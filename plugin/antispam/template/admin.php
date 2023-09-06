@@ -29,7 +29,7 @@ include_once(ROOT . 'admin/header.php');
 </script>
 <section>
     <header>Configuration de l'antispam</header>
-    <form method="post" action="index.php?p=antispam&action=saveconf">
+    <form method="post" action="?p=antispam&action=saveconf">
         <?php show::adminTokenField(); ?>
         <p>
             <input <?php if ($runPlugin->getConfigVal('type') === 'useText') { ?>checked<?php } ?> type="radio" name="captcha" value="useText" id="radioText"/><label for="radioText">Utiliser un captcha texte</label>

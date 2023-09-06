@@ -53,13 +53,13 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             }
         }
-        header('location:index.php?p=pluginsmanager');
+        header('location:.?p=pluginsmanager');
         die();
         break;
     case 'maintenance':
         if ($administrator->isAuthorized())
             $pluginsManager->installPlugin($_GET['plugin'], true);
-        header('location:index.php?p=pluginsmanager');
+        header('location:.?p=pluginsmanager');
         die();
         break;
 }

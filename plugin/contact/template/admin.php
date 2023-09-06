@@ -5,7 +5,7 @@ include_once(ROOT . 'admin/header.php');
 
 <section>
     <header>Contenu</header>
-    <form method="post" action="index.php?p=contact&action=save">
+    <form method="post" action=".?p=contact&action=save">
         <?php show::adminTokenField(); ?>
         <p>
             <label for="content1">Avant le formulaire</label>
@@ -28,7 +28,7 @@ include_once(ROOT . 'admin/header.php');
         <textarea readonly="readonly" id='savedMails'><?php echo $emails; ?></textarea>
     </p>
 
-    <a href="index.php?p=contact&action=emptymails&token=<?php echo administrator::getToken(); ?>" class="button alert"
+    <a href=".?p=contact&action=emptymails&token=<?php echo administrator::getToken(); ?>" class="button alert"
        onclick="return(confirm('Êtes-vous sûr de vouloir vider la base des adresses mail collectées ?'));">Supprimer la base</a> 
 
 </section>

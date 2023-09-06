@@ -23,7 +23,7 @@
                             <li id="nav-change-container"><a role="button" href="#" onClick="changeMainNav()"><i title="{{ Lang.admin-change-sidebar-width }}" id="nav-icon-grow"></i></a></li>
                             <li class="site"><a target="_blank" href="../"><i title="{{ Lang.core-goto-site }}" class="fa-regular fa-eye"></i><span>{{ Lang.core-goto-site }}</span></a></li>
                                 {{ show.adminNavigation }}
-                            <li class="site"><a href="index.php?action=logout&token={{ administrator.getToken }}"><i title="{{ Lang.disconnection }}" class="fa-solid fa-arrow-right-from-bracket"></i><span>{{ Lang.disconnection }}</span></a></li>
+                            <li class="site"><a href=".?action=logout&token={{ administrator.getToken }}"><i title="{{ Lang.core-disconnection }}" class="fa-solid fa-arrow-right-from-bracket"></i><span>{{ Lang.core-disconnection }}</span></a></li>
                             <li class="just_using">
                                 <a target="_blank" href="https://github.com/299ko/"><i title="{{ Lang.site-just-using(VERSION) }}" class="fa-solid fa-flask"></i><span>{{ Lang.site-just-using(VERSION) }}</span></a>
                             </li>

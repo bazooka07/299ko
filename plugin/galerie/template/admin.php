@@ -6,7 +6,7 @@ include_once(ROOT . 'admin/header.php');
 <?php if ($mode == 'list') { ?>
     <section>
         <header>Liste des images</header>
-            <a class="button" href="index.php?p=galerie&action=edit">Ajouter</a>
+            <a class="button" href=".?p=galerie&action=edit">Ajouter</a>
             <a class="button showall" data-state="hidden" href="javascript:">Basculer sur l'affichage des éléments cachés</a>
         <table>
             <tr>
@@ -23,8 +23,8 @@ include_once(ROOT . 'admin/header.php');
                     <td><?php echo $v->getCategory(); ?></td>
                     <td><input readonly="readonly" type="text" value="<?php echo $core->getConfigVal('siteUrl') . str_replace('..', '', UPLOAD) . 'galerie/' . $v->getImg(); ?>" /></td>
                     <td>
-                        <a href="index.php?p=galerie&action=edit&id=<?php echo $v->getId(); ?>" class="button">Modifier</a>
-                        <a href="index.php?p=galerie&action=del&id=<?php echo $v->getId(); ?>&token=<?php echo administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
+                        <a href=".?p=galerie&action=edit&id=<?php echo $v->getId(); ?>" class="button">Modifier</a>
+                        <a href=".?p=galerie&action=del&id=<?php echo $v->getId(); ?>&token=<?php echo administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
                                         return false;" class="button alert">Supprimer</a>
                     </td>
                 </tr>
@@ -34,7 +34,7 @@ include_once(ROOT . 'admin/header.php');
 <?php } ?>
 
 <?php if ($mode == 'edit') { ?>
-    <form method="post" action="index.php?p=galerie&action=save" enctype="multipart/form-data">
+    <form method="post" action=".?p=galerie&action=save" enctype="multipart/form-data">
         <?php show::adminTokenField(); ?>
         <section>
             <input type="hidden" name="id" value="<?php echo $item->getId(); ?>" />

@@ -31,7 +31,7 @@ defined('ROOT') OR exit('No direct script access allowed');
         <div id="login">
             <h1><?php echo lang::get('core-password-change'); ?></h1>
             <?php if ($step == 'form') { ?>
-                <form method="post" action="index.php?action=lostpwd&step=send">   
+                <form method="post" action=".?action=lostpwd&step=send">   
                     <?php show::adminTokenField(); ?>
                     <p><?php echo lang::get('core-ask-change-password'); ?></p>
                     <p>
@@ -53,7 +53,7 @@ defined('ROOT') OR exit('No direct script access allowed');
                 </ul>
             <?php } elseif ($step == 'confirm') { ?>
                 <p><?php echo lang::get('core-lost-password-success'); ?></p>
-                <p><a class="button" href="index.php"><?php echo lang::get('core-login'); ?></a></p>
+                <p><a class="button" href="."><?php echo lang::get('core-login'); ?></a></p>
             <?php } ?>
             <p class="just_using"><a target="_blank" href="https://github.com/299ko/"><?php echo lang::get('site-just-using', ''); ?></a>
             </p>

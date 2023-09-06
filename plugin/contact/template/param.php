@@ -1,6 +1,6 @@
 <?php defined('ROOT') OR exit('No direct script access allowed'); ?>
 
-<form method="post" action="index.php?p=contact&action=save&fromparam=1">
+<form method="post" action=".?p=contact&action=save&fromparam=1">
     <?php show::adminTokenField(); ?>
     <p>
         <label for="copy">Destinataire en copie</label><br>

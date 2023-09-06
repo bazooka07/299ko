@@ -63,11 +63,23 @@ class core {
             define('ISHOMEPAGE', false);
             $this->pluginToCall = $_GET['p'];
         } else {
-            define('ISHOMEPAGE', true);
-            if (ROOT == './') {
-                $this->pluginToCall = $this->getConfigVal('defaultPlugin');
+            $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
+            if (ADMIN_MODE) {
+                if (isset($parts[1]) && $parts[1] !== '') {
+                    define('ISHOMEPAGE', false);
+                    $this->pluginToCall = $parts[1];
+                } else {
+                    $this->pluginToCall = $this->getConfigVal('defaultAdminPlugin');
+                    define('ISHOMEPAGE', true);
+                }
             } else {
-                $this->pluginToCall = $this->getConfigVal('defaultAdminPlugin');
+                if (isset($parts[0]) && $parts[0] !== '') {
+                    define('ISHOMEPAGE', false);
+                    $this->pluginToCall = $parts[0];
+                } else {
+                    $this->pluginToCall = $this->getConfigVal('defaultPlugin');
+                    define('ISHOMEPAGE', true);
+                }
             }
         }
         $this->locale = $this->getConfigVal('lang');

@@ -314,5 +314,17 @@ class plugin {
     public function loadLangFile() {
         lang::loadLanguageFile(PLUGINS . $this->name . '/langs/');
     }
+    
+    public function loadRoutes() {
+        if (is_file(PLUGINS . $this->name . '/param/routes.php')) {
+            require_once PLUGINS . $this->name . '/param/routes.php';
+        }
+    }
+    
+    public function loadControllers() {
+        foreach (glob(PLUGINS . $this->name . '/controllers/' . "*.php") as $file) {
+            include_once $file;
+        }
+    }
 
 }

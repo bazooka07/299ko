@@ -101,10 +101,8 @@ defined('ROOT') OR exit('No direct script access allowed');
         Créer un dossier
     </header>
     <label for="addFolderName">Nom du dossier à créer</label>
-    <form>
-        <input id="addFolderName" name="addFolderName" type="text" />
-        <button class="success" id="addFolderNameValidate" data-fancybox-close tabindex="-1" onClick="goCreateFolder(document.getElementById('addFolderName').value)">Créer le dossier</button>
-    </form>
+    <input id="addFolderName" name="addFolderName" type="text" />
+    <button class="success" id="addFolderNameValidate" data-fancybox-close tabindex="-1" onClick="goCreateFolder(document.getElementById('addFolderName').value)">Créer le dossier</button>
 </section>
 <script>
     function onSetFilename(data) {
@@ -174,6 +172,7 @@ defined('ROOT') OR exit('No direct script access allowed');
     }
 
     function refreshView(folderName) {
+        
 <?php if ($ajaxView) { ?>
             Fancybox.close(true);
             Fancybox.show([

@@ -33,7 +33,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=seo');
+            header('location:.?p=seo');
             die();
         }
         break;

@@ -10,12 +10,9 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-define('ROOT', '../');
-include_once(ROOT . 'common/common.php');
-include_once(COMMON . 'administrator.class.php');
+
 $administrator = new administrator($core->getConfigVal('adminEmail'), $core->getConfigVal('adminPwd'));
-define('IS_ADMIN', $administrator->isLogged());
-Template::addGlobal('IS_ADMIN', IS_ADMIN);
+
 if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
     // quelques contrôle et temps mort volontaire avant le login...
     sleep(2);
@@ -23,7 +20,7 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
         // authentification
         if ($administrator->login($_POST['adminEmail'], $_POST['adminPwd'])) {
             show::msg("Vous êtes maintenant loggués en tant qu'administrateur", 'success');
-            header('location:index.php');
+            header('location:' . util::urlBuild('', true));
             die();
         } else {
             show::msg("Mot de passe incorrect", 'error');
@@ -32,7 +29,7 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
     }
 } elseif ($administrator->isAuthorized() && $core->detectAdminMode() == 'logout') {
     $administrator->logout();
-    header('location:index.php');
+    header('location:' . util::urlBuild('', true));
     die();
 } elseif ($administrator->isAuthorized() && $core->detectAdminMode() == 'lostpwd') {
     $step = (isset($_GET['step']) ? $_GET['step'] : 'form');
@@ -49,6 +46,7 @@ if ($administrator->isAuthorized() && $core->detectAdminMode() == 'login') {
     }
     include_once('lostpwd.php');
 }
+
 if (!$administrator->isLogged() && $core->detectAdminMode() != 'lostpwd')
     include_once('login.php');
 elseif ($core->detectAdminMode() == 'plugin') {

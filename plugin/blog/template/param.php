@@ -1,4 +1,4 @@
-<form method="post" action="index.php?p=blog&action=saveconf">
+<form method="post" action=".?p=blog&action=saveconf">
     <?php show::adminTokenField(); ?>
     <script>
         function onCheckAuthor() {

@@ -25,6 +25,6 @@ function filemanagerInstall() {
  */
 function filemanagerDisplayManagerButton() {
     echo '<a class="button fmUploadButton" data-fancybox data-type="ajax" '
-    . 'href="index.php?p=filemanager&view=ajax&token='
+    . 'href="?p=filemanager&view=ajax&token='
     . administrator::getToken() .'"><i class="fa-solid fa-file-image"></i> Gestionnaire de fichiers</a>';
 }

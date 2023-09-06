@@ -1,6 +1,6 @@
 <?php defined('ROOT') OR exit('No direct script access allowed'); ?>
 
-<form method="post" action="index.php?p=galerie&action=saveconf">
+<form method="post" action=".?p=galerie&action=saveconf">
     <?php show::adminTokenField(); ?>
 
     <p>

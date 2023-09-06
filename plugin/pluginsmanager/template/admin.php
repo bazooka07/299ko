@@ -4,7 +4,7 @@ include_once(ROOT . 'admin/header.php');
 ?>
 <section>
     <header>Liste des plugins</header>
-    <form method="post" action="index.php?p=pluginsmanager&action=save" id="pluginsmanagerForm">
+    <form method="post" action=".?p=pluginsmanager&action=save" id="pluginsmanagerForm">
         <?php show::adminTokenField(); ?> 
         <table>
             <thead>
@@ -20,7 +20,7 @@ include_once(ROOT . 'admin/header.php');
                         <td>
                             <?php echo $plugin->getInfoVal('name'); ?>
                             <?php if ($plugin->getInfoVal('version') != 'none') { ?> (version <?php echo $plugin->getInfoVal('version'); ?>)<?php } ?> : <?php echo $plugin->getInfoVal('description'); ?>
-                            <?php if ($plugin->getConfigVal('activate') && !$plugin->isInstalled()) { ?><p><a class="button" href="index.php?p=pluginsmanager&action=maintenance&plugin=<?php echo $plugin->getName(); ?>&token=<?php echo administrator::getToken(); ?>">Maintenance requise</a><?php } ?></p>
+                            <?php if ($plugin->getConfigVal('activate') && !$plugin->isInstalled()) { ?><p><a class="button" href=".?p=pluginsmanager&action=maintenance&plugin=<?php echo $plugin->getName(); ?>&token=<?php echo administrator::getToken(); ?>">Maintenance requise</a><?php } ?></p>
                         </td>
                         <td>
                             <select name="priority[<?php echo $plugin->getName(); ?>]" onchange="document.getElementById('pluginsmanagerForm').submit();">

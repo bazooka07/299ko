@@ -60,7 +60,7 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             else
                 show::msg("Une erreur est survenue", 'error');
-            header('location:index.php?p=page&action=edit&id=' . $pageItem->getId());
+            header('location:.?p=page&action=edit&id=' . $pageItem->getId());
             die();
         }
         break;
@@ -80,7 +80,7 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             else
                 show::msg("Une erreur est survenue", 'error');
-            header('location:index.php?p=page');
+            header('location:.?p=page');
             die();
         }
         break;
@@ -90,7 +90,7 @@ switch ($action) {
             $newPos = $pageItem->getPosition() - 1.5;
             $pageItem->setPosition($newPos);
             $page->save($pageItem);
-            header('location:index.php?p=page');
+            header('location:.?p=page');
             die();
         }
         break;
@@ -100,7 +100,7 @@ switch ($action) {
             $newPos = $pageItem->getPosition() + 1.5;
             $pageItem->setPosition($newPos);
             $page->save($pageItem);
-            header('location:index.php?p=page');
+            header('location:.?p=page');
             die();
         }
         break;
@@ -111,7 +111,7 @@ switch ($action) {
                 $pageItem = $page->create($v);
                 $page->del($pageItem);
             }
-        header('location:index.php?p=page');
+        header('location:.?p=page');
         die();
         break;
     default:

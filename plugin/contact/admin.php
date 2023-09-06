@@ -28,7 +28,7 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             else
                 show::msg("Une erreur est survenue", 'error');
-            header('location:index.php?p=contact');
+            header('location:.?p=contact');
             die();
         }
         break;
@@ -36,7 +36,7 @@ switch ($action) {
         if ($administrator->isAuthorized()) {
             util::writeJsonFile(DATA_PLUGIN . 'contact/emails.json', []);
             show::msg("La base des emails a été vidée", 'info');
-            header('location:index.php?p=contact');
+            header('location:.?p=contact');
             die();
         }
         break;

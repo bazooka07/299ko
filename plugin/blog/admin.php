@@ -27,7 +27,7 @@ switch ($action) {
             $runPlugin->setConfigVal('authorAvatar', trim($_POST['authorAvatar']));
             $runPlugin->setConfigVal('authorBio', $core->callHook('beforeSaveEditor',$_POST['authorBio']));
             $pluginsManager->savePluginConfig($runPlugin);
-            header('location:index.php?p=blog');
+            header('location:.?p=blog');
             die();
         }
         break;
@@ -63,7 +63,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=blog&action=edit&id=' . $news->getId());
+            header('location:.?p=blog&action=edit&id=' . $news->getId());
             die();
         }
         break;
@@ -80,7 +80,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=blog');
+            header('location:.?p=blog');
             die();
         }
         break;
@@ -97,7 +97,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=blog&action=listcomments&id=' . $_GET['id']);
+            header('location:.?p=blog&action=listcomments&id=' . $_GET['id']);
             die();
         }
         break;
@@ -112,7 +112,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=blog&action=listcomments&id=' . $_GET['id']);
+            header('location:.?p=blog&action=listcomments&id=' . $_GET['id']);
             die();
         }
         break;

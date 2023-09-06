@@ -72,12 +72,12 @@ class show {
             }
             foreach ($pluginsManager->getPlugins() as $k => $plugin)
                 if ($plugin->getConfigval('activate') == 1) {
-                    if (ROOT == './' && $plugin->getConfigVal('activate') && $plugin->getPublicCssFile())
-                        echo '<link href="' . $plugin->getPublicCssFile() . '" rel="stylesheet" type="text/css" />';
-                    elseif (ROOT == '../' && $plugin->getConfigVal('activate') && $plugin->getAdminCssFile())
+                    if (!ADMIN_MODE && $plugin->getConfigVal('activate') && $plugin->getPublicCssFile())
+                        echo '<link href="' . util::urlBuild($plugin->getPublicCssFile()) . '" rel="stylesheet" type="text/css" />';
+                    elseif (ADMIN_MODE && $plugin->getConfigVal('activate') && $plugin->getAdminCssFile())
                         echo '<link href="' . $plugin->getAdminCssFile() . '" rel="stylesheet" type="text/css" />';
                 }
-            if (ROOT == './')
+            if (!ADMIN_MODE)
                 echo '<link href="' . $core->getConfigVal('siteUrl') . '/' . 'theme/' . $core->getConfigVal('theme') . '/styles.css" rel="stylesheet" type="text/css" />';
         }
     }
@@ -95,12 +95,12 @@ class show {
             }
             foreach ($pluginsManager->getPlugins() as $k => $plugin)
                 if ($plugin->getConfigval('activate') == 1) {
-                    if (ROOT == './' && $plugin->getConfigVal('activate') && $plugin->getPublicJsFile())
-                        echo '<script type="text/javascript" src="' . $plugin->getPublicJsFile() . '"></script>';
-                    elseif (ROOT == '../' && $plugin->getConfigVal('activate') && $plugin->getAdminJsFile())
+                    if (!ADMIN_MODE && $plugin->getConfigVal('activate') && $plugin->getPublicJsFile())
+                        echo '<script type="text/javascript" src="' . util::urlBuild($plugin->getPublicJsFile()) . '"></script>';
+                    elseif (ADMIN_MODE && $plugin->getConfigVal('activate') && $plugin->getAdminJsFile())
                         echo '<script type="text/javascript" src="' . $plugin->getAdminJsFile() . '"></script>';
                 }
-            if (ROOT == './')
+            if (!ADMIN_MODE)
                 echo '<script type="text/javascript" src="' . $core->getConfigVal('siteUrl') . '/' . 'theme/' . $core->getConfigVal('theme') . '/scripts.js' . '"></script>';
         }
     }
@@ -275,7 +275,7 @@ class show {
                 if ($currentPlugin === $label['name']) {
                     $data .= ' class="activePlugin"';
                 }
-                $data .= '><a href="index.php?p=' . $label['name'] . '"' ;
+                $data .= '><a href="?p=' . $label['name'] . '"' ;
                 if ($currentPlugin === $label['name']) {
                     $data .= ' aria-current="page"';
                 }
@@ -340,7 +340,7 @@ class show {
         $core = core::getInstance();
         $icon = 'theme/' . $core->getConfigVal('theme') . '/icon.png';
         if (file_exists($icon))
-            echo $icon;
+            echo util::urlBuild($icon);
     }
     
     /**

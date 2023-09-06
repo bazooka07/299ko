@@ -3,7 +3,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 include_once(ROOT . 'admin/header.php');
 ?>
 
-<form method="post" action="index.php?p=seo&action=save">
+<form method="post" action=".?p=seo&action=save">
     <?php
     show::adminTokenField();
     $position = $runPlugin->getConfigVal('position');

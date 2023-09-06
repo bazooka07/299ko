@@ -28,7 +28,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=galerie');
+            header('location:.?p=galerie');
             die();
         }
         break;
@@ -45,7 +45,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=galerie&action=edit&id=' . $item->getId());
+            header('location:.?p=galerie&action=edit&id=' . $item->getId());
             die();
         }
         break;
@@ -57,7 +57,7 @@ switch ($action) {
             } else {
                 show::msg("Une erreur est survenue", 'error');
             }
-            header('location:index.php?p=galerie');
+            header('location:.?p=galerie');
             die();
         }
         break;

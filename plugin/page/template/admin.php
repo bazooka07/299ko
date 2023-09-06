@@ -6,11 +6,11 @@ if ($mode == 'list') {
     ?>
     <section>
         <header>Liste des pages</header>
-        <a class="button" href="index.php?p=page&amp;action=edit">Ajouter une page</a>
-        <a class="button" href="index.php?p=page&amp;action=edit&parent=1">Ajouter un item parent</a>
-        <a class="button" href="index.php?p=page&amp;action=edit&link=1">Ajouter un lien externe</a>
+        <a class="button" href=".?p=page&amp;action=edit">Ajouter une page</a>
+        <a class="button" href=".?p=page&amp;action=edit&parent=1">Ajouter un item parent</a>
+        <a class="button" href=".?p=page&amp;action=edit&link=1">Ajouter un lien externe</a>
         <?php if ($lost != '') { ?>
-            <p>Des pages "fantômes" pouvant engendrer des dysfonctionnements ont été trouvées. <a href="index.php?p=page&amp;action=maintenance&id=<?php echo $lost; ?>&token=<?php echo administrator::getToken(); ?>">Cliquez ici</a> pour exécuter le script de maintenance.</p>
+            <p>Des pages "fantômes" pouvant engendrer des dysfonctionnements ont été trouvées. <a href=".?p=page&amp;action=maintenance&id=<?php echo $lost; ?>&token=<?php echo administrator::getToken(); ?>">Cliquez ici</a> pour exécuter le script de maintenance.</p>
         <?php } ?>
         <table>
             <thead>
@@ -30,13 +30,13 @@ if ($mode == 'list') {
                             <td><?php echo $pageItem->getName(); ?></td>
                             <td><?php if ($pageItem->targetIs() != 'parent') { ?><input readonly="readonly" type="text" value="<?php echo $page->makeUrl($pageItem); ?>" /><?php } ?></td>
                             <td>
-                                <a class="up" href="index.php?p=page&action=up&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
-                                <a class="down" href="index.php?p=page&action=down&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
+                                <a class="up" href=".?p=page&action=up&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
+                                <a class="down" href=".?p=page&action=down&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
                             </td>
                             <td>
                                 <div role="group">
-                                    <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItem->getId(); ?>">Modifier</a> 
-                                    <?php if (!$pageItem->getIsHomepage() && $pageItem->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItem->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
+                                    <a class="button" href=".?p=page&amp;action=edit&amp;id=<?php echo $pageItem->getId(); ?>">Modifier</a> 
+                                    <?php if (!$pageItem->getIsHomepage() && $pageItem->targetIs() != 'plugin') { ?><a class="button alert" href=".?p=page&amp;action=del&amp;id=<?php echo $pageItem->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
                                                                 return false;">Supprimer</a><?php } ?>	
                                 </div>
                             </td>
@@ -49,13 +49,13 @@ if ($mode == 'list') {
                                     <td>▸ <?php echo $pageItemChild->getName(); ?></td>
                                     <td><input readonly="readonly" type="text" value="<?php echo $page->makeUrl($pageItemChild); ?>" /></td>
                                     <td>
-                                        <a class="up" href="index.php?p=page&action=up&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
-                                        <a class="down" href="index.php?p=page&action=down&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
+                                        <a class="up" href=".?p=page&action=up&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
+                                        <a class="down" href=".?p=page&action=down&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
                                     </td>
                                     <td>
                                         <div role="group">
-                                            <a class="button" href="index.php?p=page&amp;action=edit&amp;id=<?php echo $pageItemChild->getId(); ?>">Modifier</a> 
-                                            <?php if (!$pageItemChild->getIsHomepage() && $pageItemChild->targetIs() != 'plugin') { ?><a class="button alert" href="index.php?p=page&amp;action=del&amp;id=<?php echo $pageItemChild->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
+                                            <a class="button" href=".?p=page&amp;action=edit&amp;id=<?php echo $pageItemChild->getId(); ?>">Modifier</a> 
+                                            <?php if (!$pageItemChild->getIsHomepage() && $pageItemChild->targetIs() != 'plugin') { ?><a class="button alert" href=".?p=page&amp;action=del&amp;id=<?php echo $pageItemChild->getId() . '&amp;token=' . administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
                                                                             return false;">Supprimer</a><?php } ?>	
                                         </div>
                                     </td>
@@ -70,7 +70,7 @@ if ($mode == 'list') {
 <?php } ?>
 
 <?php if ($mode == 'edit' && !$isLink && !$isParent && $pageItem->targetIs() != 'plugin') { ?>
-    <form method="post" action="index.php?p=page&amp;action=save" enctype="multipart/form-data">
+    <form method="post" action=".?p=page&amp;action=save" enctype="multipart/form-data">
         <?php show::adminTokenField(); ?>
         <section>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
@@ -180,7 +180,7 @@ if ($mode == 'list') {
 <?php if ($mode == 'edit' && ($isLink || $pageItem->targetIs() == 'plugin')) { ?>
     <section>
         <header>Modifier le lien</header>
-        <form method="post" action="index.php?p=page&amp;action=save">
+        <form method="post" action=".?p=page&amp;action=save">
             <?php show::adminTokenField(); ?>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
             <!--<input type="hidden" name="position" value="<?php echo $pageItem->getPosition(); ?>" />-->
@@ -240,7 +240,7 @@ if ($mode == 'list') {
 <?php if ($mode == 'edit' && $isParent) { ?>
     <section>
         <header>Modifier le parent</header>
-        <form method="post" action="index.php?p=page&amp;action=save">
+        <form method="post" action=".?p=page&amp;action=save">
             <?php show::adminTokenField(); ?>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
             <!--<input type="hidden" name="position" value="<?php echo $pageItem->getPosition(); ?>" />-->

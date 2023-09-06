@@ -21,7 +21,7 @@ if ($action === 'saveconf') {
                     trim($_POST['recaptchaPublicKey']) == '' || trim($_POST['recaptchaSecretKey']) == '') {
                 // Empty keys
                 show::msg("Les clés de ReCaptcha ne peuvent pas être vides", 'error');
-                header('location:index.php?p=antispam');
+                header('location:.?p=antispam');
                 die();
             }
             // Save ReCaptcha
@@ -34,7 +34,7 @@ if ($action === 'saveconf') {
 
         show::msg("Les modifications ont été enregistrées", 'success');
 
-        header('location:index.php?p=antispam');
+        header('location:?p=antispam');
         die();
     }
 }

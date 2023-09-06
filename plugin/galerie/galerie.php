@@ -197,8 +197,6 @@ class galerieItem {
 
     public function setTitle($val) {
         $val = trim($val);
-        if ($val == '')
-            $val = $core->lang("News unnamed");
         $this->title = $val;
     }
 
@@ -248,6 +246,10 @@ class galerieItem {
         return $this->img;
     }
 
+    public function getUrl():string {
+        return util::urlBuild(UPLOAD . 'galerie/' . $this->img);
+    }
+
     public function getCategory() {
         return $this->category;
     }
@@ -268,7 +270,7 @@ class galerieItem {
  * @param  string  $type       'auto' => prend le coté le plus grand
  *                             'width' => prend la largeur en référence
  *                             'height' => prend la hauteur en référence
- * @param  boleen  $upload 	   true si c'est une image uploadée, false si c'est le chemin d'une image déjà sur le serveur
+ * @param  booleen  $upload 	   true si c'est une image uploadée, false si c'est le chemin d'une image déjà sur le serveur
  * @return string              'success' => redimentionnement effectué avec succès
  *                             'wrong_path' => le chemin du fichier est incorrect
  *                             'no_img' => le fichier n'est pas une image
