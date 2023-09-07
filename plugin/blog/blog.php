@@ -29,7 +29,7 @@ function blogInstall() {
 function blogEndFrontHead() {
     global $runPlugin;
     $core = core::getInstance();
-    echo '<link rel="alternate" type="application/rss+xml" href="' . $core->getConfigVal('siteUrl') . '/blog/rss.html" title="' . $core->getConfigVal('siteName') . '">' . "\n";
+    echo '<link rel="alternate" type="application/rss+xml" href="' . router::getInstance()->generate('blog-rss') . '" title="' . $core->getConfigVal('siteName') . '">' . "\n";
 }
 
 ## Code relatif au plugin
@@ -291,6 +291,10 @@ class news {
     public function getContent() {
         return $this->content;
     }
+
+    public function getUrl() {
+        return router::getInstance()->generate('blog-read', ['name' => util::strToUrl($this->name), 'id' => $this->id]);
+    }
     
     public function getIntro() {
         return ($this->intro === '' ? false : $this->intro);
@@ -310,6 +314,10 @@ class news {
 
     public function getImg() {
         return $this->img;
+    }
+
+    public function getImgUrl() {
+        return util::urlBuild(UPLOAD . 'galerie/' . $this->img);
     }
 
     public function getCommentsOff() {
