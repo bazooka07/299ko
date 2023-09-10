@@ -15,13 +15,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 ## Fonction d'installation
 
 function blogInstall() {
-    $core = core::getInstance();
-    $htaccess = $core->getHtaccess();
-    $htaccess .= "\nRewriteRule ^blog/([a-z-0-9]+)-([0-9]+).html$  index.php?p=blog&url=$1&id=$2 [L]";
-    $htaccess .= "\nRewriteRule ^blog/([0-9]+)/$  index.php?p=blog&page=$1 [L]";
-    $htaccess .= "\nRewriteRule ^blog/rss.html$  index.php?p=blog&rss=1 [L]";
-    $htaccess .= "\nRewriteRule ^blog/send.html$  index.php?p=blog&send=1 [L]";
-    $core->saveHtaccess($htaccess);
+
 }
 
 ## Hooks

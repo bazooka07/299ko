@@ -295,12 +295,6 @@ class core {
     public function install() {
         $install = true;
         @chmod(ROOT . '.htaccess', 0604);
-        if (!file_exists(ROOT . '.htaccess')) {
-            $rewriteBase = str_replace(array('index.php', 'install.php', 'admin/'), '', $_SERVER['PHP_SELF']);
-            $temp = "Options -Indexes\nOptions +FollowSymlinks\nRewriteEngine On\nRewriteBase " . $rewriteBase . "\nRewriteRule ^admin/$  admin/ [L]\nRewriteRule ^([a-z-0-9_]+)/$  index.php?p=$1 [L]\nErrorDocument 404 /index.php?p=404";
-            if (!@file_put_contents(ROOT . '.htaccess', $temp, 0604))
-                $install = false;
-        }
         if (!is_dir(DATA) && (!@mkdir(DATA) || !@chmod(DATA, 0755)))
             $install = false;
         if ($install) {

@@ -36,10 +36,6 @@ function pageInstall() {
                 . '<li><a href="https://docs.299ko.ovh/shelves/documentation">Documentation de 299Ko</a></li></ul>');
         $page->save($pageItem);
     }
-    $core = core::getInstance();
-    $htaccess = $core->getHtaccess();
-    $htaccess .= "\nRewriteRule ^page/([a-z-0-9]+)-([0-9]+).html$  index.php?p=page&url=$1&id=$2 [L]";
-    $core->saveHtaccess($htaccess);
 }
 
 ## Hooks
