@@ -42,6 +42,10 @@ class plugin {
     private $helpTemplate;
     private $publicUrl;
 
+    private bool $isCallableOnPublic = false;
+
+    private array $callablePublic = [];
+
     ## Constructeur
 
     public function __construct($name, $config = array(), $infos = array(), $hooks = array(), $initConfig = array()) {
@@ -68,6 +72,7 @@ class plugin {
         $this->libFile = (file_exists(PLUGINS . $this->name . '/' . $this->name . '.php')) ? PLUGINS . $this->name . '/' . $this->name . '.php' : false;
         // Controlleur en mode public
         $this->publicFile = (file_exists(PLUGINS . $this->name . '/public.php')) ? PLUGINS . $this->name . '/public.php' : false;
+        $this->setCallables();
         // Controlleur en mode admin
         $this->adminFile = (file_exists(PLUGINS . $this->name . '/admin.php')) ? PLUGINS . $this->name . '/admin.php' : false;
         
@@ -91,6 +96,15 @@ class plugin {
         // URL public
         $this->publicUrl = $core->getConfigVal('siteUrl') . '/' . $this->name . '/';
         $this->determineTemplatesFiles();
+    }
+
+    protected function setCallables() {
+        $homePublic = $this->getInfoVal('homePublicMethod') ?? false;
+        if ($homePublic) {
+            list($controller, $action) = explode('#', $homePublic);
+            $this->callablePublic = [$controller, $action];
+            $this->isCallableOnPublic = true;
+        }
     }
 
     /**
@@ -146,7 +160,7 @@ class plugin {
     }
 
     public function getInfoVal($val) {
-        return $this->infos[$val];
+        return $this->infos[$val] ?? false;
     }
 
     public function getName() {
@@ -327,4 +341,18 @@ class plugin {
         }
     }
 
+
+	/**
+	 * @return bool
+	 */
+	public function getIsCallableOnPublic(): bool {
+		return $this->isCallableOnPublic;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCallablePublic(): array {
+		return $this->callablePublic;
+	}
 }

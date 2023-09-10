@@ -26,7 +26,7 @@ class router extends AltoRouter {
 
         parent::__construct();
         $this->setBasePath(str_replace('\\', '/', BASE_PATH));
-        //$this->map('GET', '/', 'CoreController#renderHome', 'home');
+        $this->map('GET', '/', 'CoreController#renderHome', 'home');
         //$this->map('GET', '/users/[i:id]/', 'UserController#showDetails', 'user' );
         //echo $this->generate('user', ['id' => 5]);
         //echo util::urlBuild($this->generate('user', ['id' => 5]));

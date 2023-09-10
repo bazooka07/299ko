@@ -4,5 +4,6 @@
     "description" : "Gestion d'un mini blog",
     "authorEmail" : "",
     "authorWebsite" : "",
-    "version" : "1.2"
+    "version" : "1.2",
+    "homePublicMethod" : "BlogListController#home"
 }

@@ -4,5 +4,6 @@
     "description" : "Formulaire de contact",
     "authorEmail" : "",
     "authorWebsite" : "",
-    "version" : "none"
+    "version" : "none",
+    "homePublicMethod" : "ContactController#home"
 }

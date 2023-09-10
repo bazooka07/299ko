@@ -4,5 +4,6 @@
     "description" : "Gestion des pages et du menu",
     "authorEmail" : "",
     "authorWebsite" : "",
-    "version" : "none"
+    "version" : "none",
+    "homePublicMethod" : "PageController#home"
 }
