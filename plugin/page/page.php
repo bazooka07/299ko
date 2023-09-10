@@ -242,7 +242,7 @@ class page {
         $core = core::getInstance();
         // => Page
         if ($obj->targetIs() == 'page')
-            $temp = ($core->getConfigVal('defaultPlugin') == 'page' && $obj->getIsHomepage()) ? $core->getConfigVal('siteUrl') : $core->getConfigVal('siteUrl') . '/page/' . util::strToUrl(preg_replace ("#\<i.+\<\/i\>#i", '', $obj->getName())) . '-' . $obj->getId() . '.html';
+            $temp = ($core->getConfigVal('defaultPlugin') == 'page' && $obj->getIsHomepage()) ? $core->getConfigVal('siteUrl') : router::getInstance()->generate('page-read', ['name' => util::strToUrl(preg_replace ("#\<i.+\<\/i\>#i", '', $obj->getName())), 'id' => $obj->getId()]);
         // => URL
         elseif ($obj->targetIs() == 'url')
             $temp = $obj->getTarget();
@@ -488,6 +488,10 @@ class pageItem {
 
     public function getImg() {
         return $this->img;
+    }
+
+    public function getImgUrl() {
+        return util::urlBuild(UPLOAD . 'galerie/' . $this->img);
     }
 
     public function targetIs() {

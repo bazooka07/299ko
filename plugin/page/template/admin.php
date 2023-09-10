@@ -30,8 +30,8 @@ if ($mode == 'list') {
                             <td><?php echo $pageItem->getName(); ?></td>
                             <td><?php if ($pageItem->targetIs() != 'parent') { ?><input readonly="readonly" type="text" value="<?php echo $page->makeUrl($pageItem); ?>" /><?php } ?></td>
                             <td>
-                                <a class="up" href=".?p=page&action=up&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
-                                <a class="down" href=".?p=page&action=down&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
+                                <a class="up" href=".?p=page&action=up&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><i class="fa-regular fa-circle-up" title="Monter l'élément"></i></a>
+                                <a class="down" href=".?p=page&action=down&id=<?php echo $pageItem->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><i class="fa-regular fa-circle-down" title="Descendre l'élément"></i></a>
                             </td>
                             <td>
                                 <div role="group">
@@ -49,8 +49,8 @@ if ($mode == 'list') {
                                     <td>▸ <?php echo $pageItemChild->getName(); ?></td>
                                     <td><input readonly="readonly" type="text" value="<?php echo $page->makeUrl($pageItemChild); ?>" /></td>
                                     <td>
-                                        <a class="up" href=".?p=page&action=up&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/up.png" alt="icon" /></a>&nbsp;
-                                        <a class="down" href=".?p=page&action=down&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><img src="<?php echo PLUGINS; ?>page/template/down.png" alt="icon" /></a>
+                                        <a class="up" href=".?p=page&action=up&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><i class="fa-regular fa-circle-up" title="Monter l'élément"></i></a>
+                                        <a class="down" href=".?p=page&action=down&id=<?php echo $pageItemChild->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><i class="fa-regular fa-circle-down" title="Descendre l'élément"></i></a>
                                     </td>
                                     <td>
                                         <div role="group">
@@ -167,7 +167,7 @@ if ($mode == 'list') {
                         <label for="delImg">Supprimer l'image à la une</label>
                     <?php } else { ?><label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" /><?php } ?>
                     <br><br>
-                    <?php if (galerie::searchByfileName($pageItem->getImg())) { ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $pageItem->getImg(); ?>" alt="<?php echo $pageItem->getImg(); ?>" /><?php } ?>
+                    <?php if (galerie::searchByfileName($pageItem->getImg())) { ?><img src="<?php echo $pageItem->getImgUrl(); ?>" alt="<?php echo $pageItem->getImg(); ?>" /><?php } ?>
                 </p>
             </section>
         <?php } ?>

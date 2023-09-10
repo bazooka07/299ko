@@ -18,10 +18,10 @@ include_once(ROOT . 'admin/header.php');
             </tr>
             <?php foreach ($galerie->getItems() as $k => $v) { ?>
                 <tr class="<?php if ($v->getHidden()) { ?>hidden<?php } else { ?>visible<?php } ?>">
-                    <td><img width="128" src="<?php echo UPLOAD . 'galerie/' . $v->getImg(); ?>" alt="<?php echo $v->getImg(); ?>" /></td>
+                    <td><img width="128" src="<?php echo $v->getUrl(); ?>" alt="<?php echo $v->getImg(); ?>" /></td>
                     <td><?php echo $v->getTitle(); ?></td>
                     <td><?php echo $v->getCategory(); ?></td>
-                    <td><input readonly="readonly" type="text" value="<?php echo $core->getConfigVal('siteUrl') . str_replace('..', '', UPLOAD) . 'galerie/' . $v->getImg(); ?>" /></td>
+                    <td><input readonly="readonly" type="text" value="<?php echo $v->getUrl(); ?>" /></td>
                     <td>
                         <a href=".?p=galerie&action=edit&id=<?php echo $v->getId(); ?>" class="button">Modifier</a>
                         <a href=".?p=galerie&action=del&id=<?php echo $v->getId(); ?>&token=<?php echo administrator::getToken(); ?>" onclick = "if (!confirm('Supprimer cet élément ?'))
