@@ -138,9 +138,7 @@ include_once(ROOT . 'admin/header.php');
 <?php if ($mode == 'listcomments') { ?>
     <section>
         <header>Liste des commentaires</header>
-        <ul class="tabs_style">
-            <li><a class="button" href=".?p=blog">Retour à la liste des news</a></li>
-        </ul>
+        <a class="button" href=".?p=blog">Retour à la liste des news</a>
         <table>
             <tr>
                 <th>Commentaire</th>
