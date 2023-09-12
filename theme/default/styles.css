@@ -63,6 +63,11 @@
     
     --dark-form-border-color: #374956;
     --dark-form-bg-color: #11191f;
+
+    /** Sidebar order: 99 for right sidebar, or 0 for left sidebar */
+    --sidebar-order:99;
+    --sidebar-min-width:250px;
+    --sidebar-max-width:299px;
 }
 
 /* BASIC */
@@ -401,9 +406,9 @@ code{
 }
 
 #modulesSidebar {
-    min-width: 250px;
-    max-width: 299px;
-    order: 99;
+    min-width: var(--sidebar-min-width);
+    max-width: var(--sidebar-max-width);
+    order: var(--sidebar-order);
     margin-left: 20px;
     font-size: 16px;
 }

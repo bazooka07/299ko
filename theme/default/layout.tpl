@@ -34,7 +34,7 @@
                 </div>
                 {% ENDIF %}
                 <div id="body-page">
-                    <?php show::displayPublicSidebar(); ?>
+                    {{ show.displayPublicSidebar() }}
                     <div id="content" class="{{ SHOW.pluginId }}">
                         {{ CONTENT }}
                     </div>
