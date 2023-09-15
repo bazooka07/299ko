@@ -242,8 +242,8 @@ class Template {
      */
     protected function getVar($var, $parent) {
         $var = trim($var);
-        if ($var === '')
-            return '';
+        if ($var === '' || $var === 'true' || $var === 'false')
+            return $var;
 
         if (preg_match('#^"([^"]+)"$#ix', $var, $match)) {
             if (isset($match[1])) {

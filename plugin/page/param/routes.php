@@ -12,4 +12,4 @@ defined('ROOT') OR exit('No direct script access allowed');
 $router = router::getInstance();
 
 $router->map('GET|POST', '/page[/?]', 'PageController#home', 'page-home');
-$router->map('GET|POST', '/page/[a:name]-[i:id].html', 'PageController#read', 'page-read');
+$router->map('GET|POST', '/page/[*:name]-[i:id].html', 'PageController#read', 'page-read');

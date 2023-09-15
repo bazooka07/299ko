@@ -126,7 +126,7 @@ include_once(ROOT . 'admin/header.php');
                         <?php if (galerie::searchByfileName($news->getImg())) { ?><input type="checkbox" name="delImg" id="delImg" /><label for="delImg">Supprimer l'image à la une</label>
                         <?php } else { ?><label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" /><?php } ?>
                         <br>
-                        <?php if (galerie::searchByfileName($news->getImg())) { ?><img src="<?php echo UPLOAD; ?>galerie/<?php echo $news->getImg(); ?>" alt="<?php echo $news->getImg(); ?>" /><?php } ?>
+                        <?php if (galerie::searchByfileName($news->getImg())) { ?><img src="<?php echo $news->getImgUrl(); ?>" alt="<?php echo $news->getImg(); ?>" /><?php } ?>
                     </li>
                 <?php } ?>
             </ul>
