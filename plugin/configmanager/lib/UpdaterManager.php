@@ -86,7 +86,7 @@ class UpdaterManager {
             $this->processAdd($fileArray, $nextVersion);
         }
         foreach ($files['D'] as $fileArray) {
-            $this->processDelete($fileArray, $nextVersion);
+            $this->processDelete($fileArray);
         }
         $this->runAfterChangeFiles($nextVersion);
         logg("End update to v$nextVersion", 'INFO');
@@ -97,8 +97,8 @@ class UpdaterManager {
             return $this->treatPlugin($filename, $ignoreExist);
         } elseif (substr($filename, 0, 6) === 'theme/') {
             return $this->treatTheme($filename);
-        } elseif (substr($filename, 0, 5) === 'core/') {
-            return $this->treatCore($filename);
+        // } elseif (substr($filename, 0, 5) === 'core/') {
+        //     return $this->treatCore($filename);
         } elseif (substr($filename, 0, 7) === 'common/') {
             return $this->treatCommon($filename);
         } else {
@@ -125,10 +125,10 @@ class UpdaterManager {
         return THEMES . $matches[1];
     }
     
-    protected function treatCore($filename) {
-        preg_match('/^core\/(.*)$/i', $filename, $matches);
-        return CORE . $matches[1];
-    }
+    // protected function treatCore($filename) {
+    //     preg_match('/^core\/(.*)$/i', $filename, $matches);
+    //     return CORE . $matches[1];
+    // }
     
     protected function treatCommon($filename) {
         preg_match('/^common\/(.*)$/i', $filename, $matches);
