@@ -49,7 +49,9 @@ class router extends AltoRouter {
     }
 
     public function generate($routeName, array $params = []):string {
-        return util::urlBuild(parent::generate($routeName, $params));
+		$parsed = parse_url(util::urlBuild(""));
+		$base = $parsed["scheme"] . '://' . $parsed["host"];
+        return $base . parent::generate($routeName, $params);
     }
 
 }

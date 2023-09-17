@@ -68,8 +68,9 @@ class PageController extends Controller
                 $response = new PublicResponse();
                 $tpl = new Template($pageFile);
             } else {
+				$core = $this->core;
                 include_once(THEMES . $this->core->getConfigVal('theme') . '/header.php');
-                include_once(THEMES . $this->core->getConfigVal('theme') . '/' . $pageItem->getFile());
+                include_once(THEMES . $this->core->getConfigVal('theme') . '/' . $this->pageItem->getFile());
                 include_once(THEMES . $this->core->getConfigVal('theme') . '/footer.php');
                 die();
             }

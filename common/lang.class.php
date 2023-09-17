@@ -30,7 +30,8 @@ class lang {
     protected static $data = [];
     
     public static $availablesLocales = [
-        'fr' => 'Français'
+        'fr' => 'Français',
+        'en' => 'English'
     ];
     
     /**

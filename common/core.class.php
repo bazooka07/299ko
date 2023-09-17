@@ -82,7 +82,7 @@ class core {
                 }
             }
         }
-        $this->locale = $this->getConfigVal('lang');
+        $this->locale = $this->getConfigVal('siteLang');
         if ($this->locale === false) {
             $navLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
             if (file_exists(COMMON . 'langs/' . $navLang . '.ini')) {

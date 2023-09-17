@@ -54,8 +54,8 @@ switch ($action) {
         break;
     case 'save':
         if ($administrator->isAuthorized()) {
-            if (array_key_exists($_POST['siteDesc'], lang::$availablesLocales)) {
-                $lang = $_POST['siteDesc'];
+            if (array_key_exists($_POST['siteLang'], lang::$availablesLocales)) {
+                $lang = $_POST['siteLang'];
             } else {
                 $lang = lang::getLocale();
             }
