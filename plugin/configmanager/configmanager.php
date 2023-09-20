@@ -50,7 +50,13 @@ function configManagerCheckNewVersion() {
             }
         } else {
             // Newer version exist in cache
-            $nextVersion = $lastVersion;
+            if ($lastVersion > VERSION) {
+                $nextVersion = $lastVersion;
+            } else {
+                // Actual version (testing) is higher than official release
+                $nextVersion = false;
+            }
+            
         }
     } else {
         // No cache

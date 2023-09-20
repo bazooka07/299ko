@@ -78,7 +78,10 @@ class UpdaterManager {
         $files = json_decode($rawFiles, true);
         
         logg("Begin update to v$nextVersion", 'INFO');
-        $this->runBeforeChangeFiles($nextVersion);
+        if (!$this->runBeforeChangeFiles($nextVersion)) {
+            logg('Update aborted', 'ERROR');
+            return;
+        }
         foreach ($files['M'] as $fileArray) {
             $this->processModify($fileArray, $nextVersion);
         }
@@ -88,7 +91,9 @@ class UpdaterManager {
         foreach ($files['D'] as $fileArray) {
             $this->processDelete($fileArray);
         }
-        $this->runAfterChangeFiles($nextVersion);
+        if (!$this->runAfterChangeFiles($nextVersion)) {
+            logg('Update may be not successfull', 'ERROR');
+        }
         logg("End update to v$nextVersion", 'INFO');
     }
 
@@ -267,9 +272,9 @@ class UpdaterManager {
         }
         $tmpFile = PLUGINS . 'configmanager' . '/tmp_beforeChangeFiles.php';
         if (@file_put_contents($tmpFile, $content, LOCK_EX)) {
-            require_once $tmpFile;
+            $success = require_once $tmpFile;
             @unlink($tmpFile);
-            return true;
+            return $success;
         }
         return false;
     }
@@ -283,9 +288,9 @@ class UpdaterManager {
         }
         $tmpFile = PLUGINS . 'configmanager' . '/tmp_afterChangeFiles.php';
         if (@file_put_contents($tmpFile, $content, LOCK_EX)) {
-            require_once $tmpFile;
+            $success = require_once $tmpFile;
             @unlink($tmpFile);
-            return true;
+            return $success;
         }
         return false;
     }
