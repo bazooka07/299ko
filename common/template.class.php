@@ -242,9 +242,11 @@ class Template {
      */
     protected function getVar($var, $parent) {
         $var = trim($var);
+        // Check if the string is empty, true or false
         if ($var === '' || $var === 'true' || $var === 'false')
             return $var;
 
+        // Check if the string is a string
         if (preg_match('#^"([^"]+)"$#ix', $var, $match)) {
             if (isset($match[1])) {
                 // string
@@ -252,31 +254,38 @@ class Template {
             }
         }
 
+        // Check if the string is an array
         if (preg_match('#\[ *(.+) *\]#iU', $var, $matches)) {
             $parts = explode(',', $matches[1]);
             $arr = [];
+            // Loop through the parts and get the variables
             foreach ($parts as $part) {
                 $arr[] = $this->getVar($part, $this->data);
             }
             return $arr;
         }
+        // Get the position of the parentheses
         $posAcc = strpos($var, '(');
         $args = '';
         if ($posAcc !== false) {
+            // Separate the var and the arguments
             $args = substr($var, $posAcc);
             $var = substr($var, 0, $posAcc);
         }
+        // Exploding separated variables
         $vars = explode(',', $var);
         if (count($vars) === 1) {
             // One var only
         } else {
             $arr = [];
+            // Loop through the variables and make an array with them
             foreach ($vars as $v) {
                 $arr[] = $this->getVar($v, $this->data);
             }
             return $arr;
         }
 
+        // Get the parts
         $parts = explode('.', $var);
         if (count($parts) === 1) {
             // No child
@@ -284,9 +293,14 @@ class Template {
         } else {
             // At least 1 child
             $name = array_shift($parts);
-            if (!is_array($name) && !is_callable($name) && !is_object($name) && !isset($this->data[$name]) && !class_exists($name))
+            // Check if the name is a variable, callable, object, array or class
+            if (!is_array($name) && !is_callable($name) && !is_object($name) && !isset($this->data[$name]) && !class_exists($name)) {
+                // Unknown $name
                 return false;
+            }
+                
             $new_parent = $this->getSubVar($name, $parent);
+            // Glue resting $parts
             $var = join('.', $parts) . $args;
             // call recursive
             return $this->getVar($var, $new_parent);
