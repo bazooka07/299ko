@@ -28,7 +28,7 @@ function configManagerDisplayInstallFile() {
         echo "<div class='msg warning'>
                 <p>Le fichier install.php est toujours présent. Pour plus de sécurité, il est conseillé de le supprimer.<br/>
                 Si l'installation de 299ko s'est déroulée correctement, cliquez sur le bouton ci-dessous pour le supprimer</p>
-                <div style='text-align:center'><a class='button' href='index.php?p=configmanager&action=del_install&token=" . administrator::getToken() . "'>Supprimer le fichier install</a></div>"
+                <div style='text-align:center'><a class='button' href='?p=configmanager&action=del_install&token=" . administrator::getToken() . "'>Supprimer le fichier install</a></div>"
         . "<a href='#' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
     }
 }
@@ -73,7 +73,7 @@ function configmanagerDisplayNewVersion($nextVersion) {
         <p>N'oubliez pas de faire une sauvegarde de votre site avant d'effectuer cette mise à jour.</p>
         <p>Vous pouvez consulter le <a href='https://github.com/299Ko/299ko/blob/master/changelog.md'
                                        target='_blank'>changelog des versions de 299Ko ici</a>.</p>
-        <div style='text-align:center'><a class='button alert' href='index.php?p=configmanager&action=update&token=" . administrator::getToken() . "'>Mettre à jour le site</a></div>");
+        <div style='text-align:center'><a class='button alert' href='?p=configmanager&action=update&token=" . administrator::getToken() . "'>Mettre à jour le site</a></div>");
 }
 
 function configmanagerGetNewVersion() {

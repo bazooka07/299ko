@@ -28,7 +28,7 @@ switch ($action) {
             $updaterManager->update();
             show::msg("La version $nextVersion a été installée. Consultez le fichier logs.txt pour en savoir plus.", 'success');
             unlink($file = DATA_PLUGIN . 'configmanager/cache.json');
-            header(util::urlBuild('?p=configmanager', true));
+            header('location:' . util::urlBuild('?p=configmanager', true));
             die();
         }
         break;
@@ -37,7 +37,7 @@ switch ($action) {
             $del = unlink(ROOT . 'install.php');
             if ($del) {
                 show::msg("Le fichier install.php a bien été supprimé", 'success');
-                header(util::urlBuild('?p=configmanager', true));
+                header('location:' . util::urlBuild('?p=configmanager', true));
                 die();
             }
         }
@@ -47,7 +47,7 @@ switch ($action) {
             $del = unlink(DATA_PLUGIN . 'configmanager/cache.json');
             if ($del) {
                 show::msg("Le cache a été vidé", 'success');
-                header(util::urlBuild('?p=configmanager', true));
+                header('location:' . util::urlBuild('?p=configmanager', true));
                 die();
             }
         }
@@ -87,7 +87,7 @@ switch ($action) {
                 show::msg("Les modifications ont été enregistrées", 'success');
             }
             $core->saveHtaccess($_POST['htaccess']);
-            header(util::urlBuild('?p=configmanager', true));
+            header('location:' . util::urlBuild('?p=configmanager', true));
             die();
         }
         break;
