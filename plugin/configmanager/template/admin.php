@@ -15,7 +15,7 @@ include_once(ROOT . 'admin/header.php');
             <select name="defaultPlugin">
                 <?php
                 foreach ($pluginsManager->getPlugins() as $plugin)
-                    if ($plugin->getAdminFile() && $plugin->getConfigVal('activate') && ($plugin->getPublicFile()) || $plugin->getIsCallableOnPublic()) {
+                    if ($plugin->getAdminFile() && $plugin->getConfigVal('activate') && ($plugin->getPublicFile() || $plugin->getIsCallableOnPublic())) {
                         ?>
                         <option <?php if ($plugin->getIsDefaultPlugin()) { ?>selected<?php } ?> value="<?php echo $plugin->getName(); ?>"><?php echo $plugin->getInfoVal('name'); ?></option>
                     <?php } ?>

@@ -73,7 +73,7 @@ class page {
         $pluginsManager = pluginsManager::getInstance();
         // Création d'items de navigation absents (plugins)
         foreach ($pluginsManager->getPlugins() as $k => $plugin)
-            if ($plugin->getConfigVal('activate') && $plugin->getPublicFile() && $plugin->getName() != 'page') {
+        if ($plugin->getConfigVal('activate') && ($plugin->getPublicFile() || $plugin->getIsCallableOnPublic()) && $plugin->getName() != 'page') {
                 $find = false;
                 foreach ($page->getItems() as $k2 => $pageItem) {
                     if ($pageItem->getTarget() == $plugin->getName())

@@ -341,7 +341,6 @@ class plugin {
         }
     }
 
-
 	/**
 	 * @return bool
 	 */
