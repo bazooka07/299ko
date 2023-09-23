@@ -9,16 +9,10 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-session_start();
 define('ROOT', './');
+define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
 include_once(ROOT . 'common/config.php');
-include_once(COMMON . 'util.class.php');
-include_once(COMMON . 'core.class.php');
-include_once(COMMON . 'lang.class.php');
-include_once(COMMON . 'pluginsManager.class.php');
-include_once(COMMON . 'plugin.class.php');
-include_once(COMMON . 'show.class.php');
-include_once(COMMON . 'administrator.class.php');
+include_once(ROOT . 'common/common.php');
 if (file_exists(DATA . 'config.json'))
     die('Un fichier de configuration existe déjà !');
 $core = core::getInstance();
@@ -42,22 +36,23 @@ $errorDataWrite = !is_writable(DATA);
 
 $availablesLocales = Lang::$availablesLocales;
 
-if ($core->install()) {
-    $plugins = $pluginsManager->getPlugins();
-    if ($plugins != false) {
-        foreach ($plugins as $plugin) {
-            if ($plugin->getLibFile()) {
-                include_once($plugin->getLibFile());
-                $plugin->loadLangFile();
-                if (!$plugin->isInstalled())
-                    $pluginsManager->installPlugin($plugin->getName(), true);
-                $plugin->setConfigVal('activate', '1');
-                $pluginsManager->savePluginConfig($plugin);
-            }
-        }
-    }
-}
 if (count($_POST) > 0 && $administrator->isAuthorized()) {
+	if ($core->install()) {
+		$plugins = $pluginsManager->getPlugins();
+		if ($plugins != false) {
+			foreach ($plugins as $plugin) {
+				if ($plugin->getLibFile()) {
+					include_once($plugin->getLibFile());
+					$plugin->loadLangFile();
+					if (!$plugin->isInstalled())
+						$pluginsManager->installPlugin($plugin->getName(), true);
+					$plugin->setConfigVal('activate', '1');
+					$pluginsManager->savePluginConfig($plugin);
+				}
+			}
+		}
+	}
+	include(DATA . 'key.php');
     $adminPwd = $administrator->encrypt($_POST['adminPwd']);
     $adminEmail = $_POST['adminEmail'];
     $config = array(

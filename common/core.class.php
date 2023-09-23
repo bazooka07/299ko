@@ -188,7 +188,7 @@ class core {
     ## Génère l'URL du site
 
     public function makeSiteUrl() {
-        $siteUrl = str_replace(array('install.php', '/admin/index.php'), array('', ''), $_SERVER['SCRIPT_NAME']);
+        $siteUrl = str_replace(array('install.php', '/admin' ,'/index.php'), array('', '', ''), $_SERVER['SCRIPT_NAME']);
         $isSecure = false;
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
             $isSecure = true;

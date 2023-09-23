@@ -122,7 +122,7 @@ Si vous n'êtes pas l'auteur de cette demande, veuillez ignorer l'étape ci-dess
 Si vous êtes l'auteur de cette demande, veuillez confirmer le changement de mot de passe en cliquant sur le lien ci-dessous :
         
 Votre nouveau mot de passe : " . $password . "
-Lien de confirmation : " . $core->getConfigVal('siteUrl') . "/admin/index.php?action=lostpwd&step=confirm&token=" . $this->token;
+Lien de confirmation : " . $core->getConfigVal('siteUrl') . "/admin/?action=lostpwd&step=confirm&token=" . $this->token;
         util::sendEmail($from, $reply, $to, $subject, $msg);
     }
 

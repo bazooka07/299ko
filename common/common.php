@@ -31,10 +31,6 @@ define('ADMIN_MODE', substr($router->getCleanURI(), 0, 6) === '/admin');
 
 $core = core::getInstance();
 
-if (!$core->isInstalled()) {
-    header('location:' . ROOT . 'install.php');
-    die();
-}
 $pluginsManager = pluginsManager::getInstance();
 foreach ($pluginsManager->getPlugins() as $plugin) {
     if ($plugin->getConfigVal('activate')) {

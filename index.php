@@ -17,6 +17,11 @@ $administrator = new administrator($core->getConfigVal('adminEmail'), $core->get
 define('IS_ADMIN', $administrator->isLogged());
 Template::addGlobal('IS_ADMIN', IS_ADMIN);
 
+if (!$core->isInstalled()) {
+    header('location:' . ROOT . 'install.php');
+    die();
+}
+
 $match = $router->match();
 
 if (!is_array($match)) {
