@@ -54,8 +54,12 @@ class util {
         }
     }
 
-    ## Transforme une chaîne en URL
 
+    /**
+     * Formate a string to an url
+     * @param mixed $str
+     * @return string Formatted string
+     */
     public static function strToUrl($str) {
         $str = str_replace('&', 'et', $str);
         if ($str !== mb_convert_encoding(mb_convert_encoding($str, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32'))
