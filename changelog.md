@@ -2,15 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## V1.3.0
 
 ### Added
 
 - New brands for SEO plugin
+- Lang class
+- Admin menu expand
+- Public Sidebar
+- Router class
+- MVC model (for blog, contact & page)
+- Groups buttons
+- Begin to translate to English
+
+### Changed
+
+- Template Improvements
 
 ### Fixed
 
 - Issue during install with logger when data folder dont exist
+- Hide page title when selected in params
 
 ## V1.2.5
 
