@@ -15,15 +15,21 @@ defined('ROOT') or exit('No direct script access allowed');
 
 include_once(ROOT . 'common/config.php');
 
-// Load all php files in COMMON directory
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON));
-foreach ($iterator as $file)
-{
-    if ($file->isFile() && pathinfo($file, PATHINFO_EXTENSION) === 'php')
-    {
-        include_once($file);
-    }
-}
+// Autoload class in COMMON directory
+spl_autoload_register(function ($class) {
+	$className = strtolower($class);
+	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON));
+	foreach ($iterator as $file)
+	{
+		if ($file->isFile() && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+			$fileName = strtolower($file->getFilename());
+			if ($fileName === $className . '.php' || $fileName === $className . '.class.php') {
+				include_once($file);
+				break;
+			}
+		}
+	}
+});
 
 $router = router::getInstance();
 
