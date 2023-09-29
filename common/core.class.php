@@ -10,9 +10,10 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-defined('ROOT') OR exit('No direct script access allowed');
+defined('ROOT') or exit('No direct script access allowed');
 
-class core {
+class core
+{
 
     private static $instance = null;
     private $config;
@@ -22,7 +23,7 @@ class core {
     private $js;
     private $css;
     private $locale;
-    
+
     /**
      * Metas are used by plugins to display metas property or other in <head> HTML
      */
@@ -36,11 +37,12 @@ class core {
 
     ## Constructeur
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+
         if (!is_dir(DATA))
             mkdir(DATA);
-		$this->createLogger();
+        $this->createLogger();
 
         // Timezone
         date_default_timezone_set(date_default_timezone_get());
@@ -84,11 +86,15 @@ class core {
         }
         $this->locale = $this->getConfigVal('siteLang');
         if ($this->locale === false) {
-            $navLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-            if (file_exists(COMMON . 'langs/' . $navLang . '.ini')) {
-                $this->locale = $navLang;
+            if (isset($_GET['lang'])) {
+                $this->locale = $_GET['lang'];
             } else {
-                $this->locale = 'fr';
+                $navLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+                if (file_exists(COMMON . 'langs/' . $navLang . '.ini')) {
+                    $this->locale = $navLang;
+                } else {
+                    $this->locale = 'fr';
+                }
             }
         }
         lang::setLocale($this->locale);
@@ -103,7 +109,8 @@ class core {
      * 
      * @return \self
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (is_null(self::$instance))
             self::$instance = new core();
         return self::$instance;
@@ -111,19 +118,22 @@ class core {
 
     ## Retourne la liste des thèmes
 
-    public function getThemes() {
+    public function getThemes()
+    {
         return $this->themes;
     }
 
     ## Retourne la configuration complète
 
-    public function getconfig() {
+    public function getconfig()
+    {
         return $this->config;
     }
 
     ## Retourne une valeur de configuration
 
-    public function getConfigVal($k) {
+    public function getConfigVal($k)
+    {
         if (isset($this->config[$k]))
             return $this->config[$k];
         else
@@ -137,13 +147,15 @@ class core {
      * @param string $key
      * @param string $value
      */
-    public function setConfigVal($key, $value) {
+    public function setConfigVal($key, $value)
+    {
         $this->config[$key] = $value;
     }
 
     ## Retourne les infos du thème ciblé
 
-    public function getThemeInfo($k) {
+    public function getThemeInfo($k)
+    {
         if (isset($this->themes[$this->getConfigVal('theme')]))
             return $this->themes[$this->getConfigVal('theme')][$k];
         else
@@ -152,33 +164,39 @@ class core {
 
     ## Retourne l'identifiant du plugin solicité
 
-    public function getPluginToCall() {
+    public function getPluginToCall()
+    {
         return $this->pluginToCall;
     }
 
     ## Retourne le tableau de ressources JS de base
 
-    public function getJs() {
+    public function getJs()
+    {
         return $this->js;
     }
 
     ## Retourne le tableau de ressources CSS de base
 
-    public function getCss() {
+    public function getCss()
+    {
         return $this->css;
     }
-    
-    public function addMeta(string $meta) {
+
+    public function addMeta(string $meta)
+    {
         $this->metas[] = $meta;
     }
-    
-    public function getMetas() {
+
+    public function getMetas()
+    {
         return $this->metas;
     }
 
     ## Détermine si 299ko est installé
 
-    public function isInstalled() {
+    public function isInstalled()
+    {
         if (!file_exists(DATA . 'config.json'))
             return false;
         else
@@ -187,8 +205,9 @@ class core {
 
     ## Génère l'URL du site
 
-    public function makeSiteUrl() {
-        $siteUrl = str_replace(array('install.php', '/admin' ,'/index.php'), array('', '', ''), $_SERVER['SCRIPT_NAME']);
+    public function makeSiteUrl()
+    {
+        $siteUrl = str_replace(array('install.php', '/admin', '/index.php'), array('', '', ''), $_SERVER['SCRIPT_NAME']);
         $isSecure = false;
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
             $isSecure = true;
@@ -204,7 +223,8 @@ class core {
 
     ## Alimente le tableau des hooks
 
-    public function addHook($name, $function) {
+    public function addHook($name, $function)
+    {
         $this->hooks[$name][] = $function;
     }
 
@@ -217,7 +237,8 @@ class core {
      * @param   mixed   Paramètres
      * @return  mixed
      */
-    public function callHook($name, $params = null) {
+    public function callHook($name, $params = null)
+    {
         if ($params === null) {
             // Action
             $return = '';
@@ -239,7 +260,8 @@ class core {
 
     ## Detecte le mode de l'administration
 
-    public function detectAdminMode() {
+    public function detectAdminMode()
+    {
         $mode = '';
         if (isset($_GET['action']) && $_GET['action'] == 'login')
             return 'login';
@@ -252,8 +274,9 @@ class core {
         elseif (isset($_GET['p']))
             return 'plugin';
     }
-    
-    public function detectAjaxRequest() {
+
+    public function detectAjaxRequest()
+    {
         $ajaxGet = $_GET['request'] ?? false;
         $ajaxPost = $_POST['request'] ?? false;
         return ($ajaxGet === 'ajax' || $ajaxPost === 'ajax');
@@ -261,7 +284,8 @@ class core {
 
     ## Renvoi une page 404
 
-    public function error404($mainTitle = '404') {
+    public function error404($mainTitle = '404')
+    {
         $core = $this;
         global $runPlugin;
         if ($runPlugin)
@@ -276,7 +300,8 @@ class core {
 
     ## Update le fichier de configuration
 
-    public function saveConfig($val, $append = array()) {
+    public function saveConfig($val, $append = array())
+    {
         $config = util::readJsonFile(DATA . 'config.json', true);
         $config = array_merge($config, $append);
         foreach ($config as $k => $v)
@@ -292,7 +317,8 @@ class core {
 
     ## Installation de 299ko
 
-    public function install() {
+    public function install()
+    {
         $install = true;
         @chmod(ROOT . '.htaccess', 0604);
         if (!is_dir(DATA) && (!@mkdir(DATA) || !@chmod(DATA, 0755)))
@@ -313,10 +339,12 @@ class core {
             if (!file_exists(__FILE__) || !@chmod(__FILE__, 0644))
                 $install = false;
             $key = uniqid(true);
-            if (!file_exists(DATA . 'key.php') && !@file_put_contents(DATA
-                            . 'key.php', "<?php\ndefined('ROOT') OR exit"
-                            . "('No direct script access allowed');"
-                            . "\ndefine('KEY', '$key'); ?>", 0604))
+            if (
+                !file_exists(DATA . 'key.php') && !@file_put_contents(DATA
+                    . 'key.php', "<?php\ndefined('ROOT') OR exit"
+                    . "('No direct script access allowed');"
+                    . "\ndefine('KEY', '$key'); ?>", 0604)
+            )
                 $install = false;
         }
         return $install;
@@ -324,22 +352,25 @@ class core {
 
     ## Retourne le contenu du fichier htaccess
 
-    public function getHtaccess() {
+    public function getHtaccess()
+    {
         return @file_get_contents(ROOT . '.htaccess');
     }
 
     ## Update le contenu du fichier htaccess
 
-    public function saveHtaccess($content) {
+    public function saveHtaccess($content)
+    {
         $content = str_replace("&amp;", "&", $content);
         @file_put_contents(ROOT . '.htaccess', $content);
     }
 
-    protected function createLogger() {
+    protected function createLogger()
+    {
         if (is_dir(DATA)) {
             $this->logger = fopen(DATA . 'logs.txt', 'a+');
         }
-        
+
     }
 
     /**
@@ -349,14 +380,16 @@ class core {
      * @param string Severity
      * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
      */
-    public function log($message, $severity = 'INFO') {
+    public function log($message, $severity = 'INFO')
+    {
         $date = date('Y-m-d H:i:s');
         if ($this->logger) {
             fwrite($this->logger, "[$date] [$severity] : $message\n");
         }
     }
 
-    function __destruct() {
+    function __destruct()
+    {
         if ($this->logger) {
             fclose($this->logger);
         }
@@ -371,6 +404,7 @@ class core {
  * @param string Severity
  * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
  */
-function logg($message, $severity = 'INFO') {
+function logg($message, $severity = 'INFO')
+{
     core::getInstance()->log($message, $severity);
 }

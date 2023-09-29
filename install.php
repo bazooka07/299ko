@@ -18,6 +18,7 @@ if (file_exists(DATA . 'config.json'))
 $core = core::getInstance();
 $administrator = new administrator();
 $pluginsManager = pluginsManager::getInstance();
+$url = core::getInstance()->makeSiteUrl() . '/install.php';
 
 // ----------------- Begin tests
 // Test PHP Version
@@ -25,8 +26,13 @@ $minPHPVersion = 7.4;
 $errorPHP = !((float) substr(phpversion(), 0, 3) >= $minPHPVersion);
 
 // Test mod_rewrite
-$modules = apache_get_modules();
-$errorRewrite = !in_array('mod_rewrite', $modules) ? true : false;
+if (function_exists('apache_get_modules')) {
+    // PHP is installed as an Apache module
+    $errorRewrite = !in_array('mod_rewrite', apache_get_modules()) ? true : false;
+} else {
+    // PHP is installed as a CGI
+    $errorRewrite = 'CGI';
+}
 
 // Test writable
 if (!is_dir(DATA)) {
@@ -108,7 +114,11 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
                 echo '</div>';
             }
 
-            if ($errorRewrite) {
+            if ($errorRewrite === 'CGI') {
+                echo '<div class="msg warning">';
+                echo Lang::get('install-php-rewrite-cgi');
+                echo '</div>';
+            } elseif ($errorRewrite) {
                 echo '<div class="msg error">';
                 echo Lang::get('install-php-rewrite-error');
                 echo '</div>';
@@ -127,7 +137,7 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
                 echo Lang::get('install-php-data-write-ok');
                 echo '</div>';
             }
-            if ($errorDataWrite || $errorPHP || $errorRewrite) {
+            if ($errorDataWrite || $errorPHP || $errorRewrite === true) {
                 echo Lang::get('install-please-check-errors');
             } else {
                 ?>
@@ -136,10 +146,14 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
                     echo '<h3>'.Lang::get('install-please-fill-fields').'</h3>';
                     ?>          
                     <p><label for="lang-select"><?php echo Lang::get('install-lang-choice'); ?></label>
-                    <select name="lang" id="lang-select">
+                    <select name="lang" id="lang-select" onchange="langChange()">
                         <?php
                         foreach (Lang::$availablesLocales as $k => $v) {
-                            echo '<option value="' . $k . '">' . $v . '</option>';
+                            if (Lang::getLocale() === $k) {
+                                echo '<option value="' . $k . '" selected>' . $v . '</option>';
+                            } else {
+                                echo '<option value="' . $k . '">' . $v . '</option>';
+                            }
                         }
                         ?>
                     </select>
@@ -168,6 +182,9 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
             function showPassword() {
                 document.getElementById("adminPwd").setAttribute("type", "text");
                 document.getElementById("showPassword").style.display = 'none';
+            }
+            function langChange() {
+                window.location.href = '<?php echo $url; ?>?lang=' + document.getElementById("lang-select").value;
             }
         </script>
     </body>
