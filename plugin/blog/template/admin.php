@@ -5,7 +5,7 @@ include_once(ROOT . 'admin/header.php');
 
 <?php if ($mode == 'list') { ?>
     <section>
-        <header>Liste des articles de blog</header>
+        <header><?php echo lang::get('blog-posts-list'); ?></header>
         <a class="button" href=".?p=blog&action=edit">Ajouter</a>
         <a target="_blank" class="button" href="<?php echo $runPlugin->getPublicUrl(); ?>rss.html">Flux RSS</a>
         <table>

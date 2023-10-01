@@ -36,6 +36,14 @@
         <input type="number" name="itemsByPage" id="itemsByPage" value="<?php echo $runPlugin->getConfigVal('itemsByPage'); ?>" />
     </div>
     <div class='form'>
+        <label for="displayTOC">Afficher la table des matières</label><br>
+        <select id="displayTOC" name="displayTOC">
+            <option value="no" <?php if ($runPlugin->getConfigVal('displayTOC') === "no") { ?>selected<?php } ?>>Non</option>
+            <option value="content" <?php if ($runPlugin->getConfigVal('displayTOC') === "content") { ?>selected<?php } ?>>Dans le contenu</option>
+            <option value="sidebar" <?php if ($runPlugin->getConfigVal('displayTOC') === "sidebar") { ?>selected<?php } ?>>Dans la Sidebar</option>
+        </select>
+    </div>
+    <div class='form'>
         <input <?php if ($runPlugin->getConfigVal('displayAuthor')) { ?>checked<?php } ?> type="checkbox" name="displayAuthor" id="displayAuthor" />
         <label for="displayAuthor">Afficher le bloc 'auteur'</label>
     </div>

@@ -51,6 +51,12 @@ class newsManager {
         return $this->items;
     }
 
+
+    /**
+     * Summary of create
+     * @param mixed $id
+     * @return \news | boolean
+     */
     public function create($id) {
         foreach ($this->items as $obj) {
             if ($obj->getId() == $id)

@@ -31,18 +31,35 @@ class BlogReadController extends Controller
         $this->runPlugin->setMainTitle($item->getName());
         $this->runPlugin->setTitleTag($item->getName());
 
+        $generatedHTML = util::generateIdForTitle(htmlspecialchars_decode($item->getContent()));
+        $toc = $this->generateTOC($generatedHTML);
+        
         $response = new PublicResponse();
         $tpl = $response->createPluginTemplate('blog', 'read');
 
         $tpl->set('antispam', $antispam);
         $tpl->set('antispamField', $antispamField);
         $tpl->set('item', $item);
+        $tpl->set('generatedHtml', $generatedHTML);
+        $tpl->set('TOC', $toc);
         $tpl->set('newsManager', $newsManager);
         $tpl->set('commentSendUrl', $this->router->generate('blog-send'));
 
         $response->addTemplate($tpl);
         return $response;
 
+    }
+
+    protected function generateTOC($html) {
+        $displayTOC = $this->runPlugin->getConfigVal('displayTOC');
+        $toc = false;
+
+        if ($displayTOC === 'content') {
+            $toc = util::generateTableOfContents($html, lang::get('blog-toc-title'));
+        } elseif ($displayTOC === 'sidebar') {
+            show::addSidebarPublicModule(lang::get('blog-toc-title'), util::generateTableOfContentAsModule($html));
+        }
+        return $toc;
     }
 
     protected function addMetas($item)

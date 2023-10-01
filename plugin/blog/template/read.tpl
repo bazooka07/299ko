@@ -16,8 +16,10 @@
 				<a href="{{ runPlugin.getPublicUrl }}">Retour à la liste</a>
 			</p>
 		</div>
+		
 	</header>
-	{{ item.getContent }}
+	{{ TOC }}
+	{{ generatedHtml }}
 	{% if runPlugin.getConfigVal("displayAuthor") %}
 		<footer>
 			<div class='blog-author'>
@@ -29,7 +31,7 @@
 						<span>{{runPlugin.getConfigVal("authorName")}}</span>
 					</div>
 					<div class='blog-infos-bio'>
-						{{runPlugin.getConfigVal("authorBio")}}
+						{{htmlspecialchars_decode(runPlugin.getConfigVal("authorBio"))}}
 					</div>
 				</div>
 			</div>
