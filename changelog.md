@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## V1.3.1
+
+### Added
+
+- Table of Content in Blog
+
+### Changed
+
+- Use spl_autoload to load all common class
+
+### Fixed
+
+- Content out of box with big images in blog
+- Install with PHP installed as a CGI
+- Mobile view Sidebar
+
 ## V1.3.0
 
 ### Added
