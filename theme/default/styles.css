@@ -793,9 +793,18 @@ section + article, section + .card, article + section, article + .card,
         display: block;
     }
 
+    #body-page {
+        display: block;
+    }
+
     #content.galerie #list li{
         width: 50%;
         height: 150px;
+    }
+
+    #modulesSidebar {
+        max-width: 100%;
+        margin-left: 0;
     }
 
 }

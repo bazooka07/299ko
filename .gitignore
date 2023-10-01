@@ -1,3 +1,6 @@
 /data/
 /.lando.yml
 *.cache.php
+/plugin/lightstats/
+/plugin/mdeditor/
+/plugin/highlight/

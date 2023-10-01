@@ -34,10 +34,10 @@
                 </div>
                 {% ENDIF %}
                 <div id="body-page">
-                    {{ show.displayPublicSidebar() }}
                     <div id="content" class="{{ SHOW.pluginId }}">
                         {{ CONTENT }}
                     </div>
+                    {{ show.displayPublicSidebar() }}
                 </div>
             </main>
             <div id="footer">
