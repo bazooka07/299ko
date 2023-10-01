@@ -734,6 +734,62 @@ section + article, section + .card, article + section, article + .card,
     margin-inline-start: calc(1.125em - var(--border-width));
 }
 
+/** Table Of Content */
+
+#content .toc-container {
+    float:right;
+    max-width: 33%;
+    border: 1px solid #efefef;
+    border-radius: var(--section-radius);
+    margin:0 0 10px 10px;
+}
+
+#content .toc-container h4 {
+    padding : 10px;
+    background-color: var(--section-head-bg-color);
+    margin: 0;
+    font-size: 14px;
+}
+
+.toc-container summary {
+    list-style-type: none;
+}
+
+.toc-container summary::marker, .toc-container summary::-webkit-details-marker { 
+    display: none;
+  }
+
+[class^="toc-level-"] {
+    font-size:12px;
+    list-style-type: none;
+    line-height: 1.5;
+    padding-left: 10px;
+}
+
+.toc-level-1 {
+    font-size: 16px;
+}
+
+.toc-level-2 {
+    font-size: 15px;
+}
+
+.toc-level-3 {
+    font-size: 14px;
+}
+
+.toc-level-4 {
+    font-size: 13px;
+}
+
+.toc-level-5 {
+    font-size: 12px;
+}
+
+.toc-level-6 {
+    font-size: 11px;
+}
+
 /* MOBILE */
 
 @media only screen and (max-width: 960px){
@@ -807,6 +863,11 @@ section + article, section + .card, article + section, article + .card,
         margin-left: 0;
     }
 
+    #content .toc-container {
+        float:none;
+        max-width:100%;
+    }
+
 }
 
 /* DARK MODE */
@@ -873,5 +934,14 @@ section + article, section + .card, article + section, article + .card,
     
     [type=checkbox]:checked {
         background-color: var(--primary-color);
+    }
+
+    #content .toc-container {
+        border: 1px solid #18232c;
+    }
+    
+    #content .toc-container h4 {
+        background-color: var(--dark-section-head-bg-color);
+        color: var(--dark-font-color);
     }
 }

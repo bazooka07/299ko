@@ -10,15 +10,17 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-defined('ROOT') OR exit('No direct script access allowed');
+defined('ROOT') or exit('No direct script access allowed');
 
-class util {
+class util
+{
     ## Tri un tableau à 2 dimenssions
     ## $data => tableau
     ## $key => index du tableau sur lequel doit se faire le tri
     ## $mode => type de tri ('desc', 'asc', 'num')
 
-    public static function sort2DimArray($data, $key, $mode) {
+    public static function sort2DimArray($data, $key, $mode)
+    {
         if ($mode == 'desc')
             $mode = SORT_DESC;
         elseif ($mode == 'asc')
@@ -42,7 +44,8 @@ class util {
      * @param  string $add      Text to add after the content if truncated
      * @return string
      */
-    public static function cutStr($str, $length, $add = '...') {
+    public static function cutStr($str, $length, $add = '...')
+    {
         $str = str_replace("<br />", "<br>", $str);
         $no_tags_content = strip_tags($str, '<p><br>');
         $no_tags_content = str_replace("<p>", "<br>", $no_tags_content);
@@ -60,7 +63,8 @@ class util {
      * @param mixed $str
      * @return string Formatted string
      */
-    public static function strToUrl($str) {
+    public static function strToUrl($str)
+    {
         $str = str_replace('&', 'et', $str);
         if ($str !== mb_convert_encoding(mb_convert_encoding($str, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32'))
             $str = mb_convert_encoding($str, 'UTF-8');
@@ -72,7 +76,8 @@ class util {
 
     ## Vérifie si la chaîne est un email valide
 
-    public static function isEmail($email) {
+    public static function isEmail($email)
+    {
         if (preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,4}$/", $email))
             return true;
         return false;
@@ -80,7 +85,8 @@ class util {
 
     ## Envoie un email
 
-    public static function sendEmail($from, $reply, $to, $subject, $msg) {
+    public static function sendEmail($from, $reply, $to, $subject, $msg)
+    {
         $headers = "From: " . $from . "\r\n";
         $headers .= "Reply-To: " . $reply . "\r\n";
         $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
@@ -93,13 +99,15 @@ class util {
 
     ## Retourne l'extension d'un fichier présent sur le serveur
 
-    public static function getFileExtension($file) {
+    public static function getFileExtension($file)
+    {
         return substr(strtolower(strrchr(basename($file), ".")), 1);
     }
 
     ## Liste un répertoire et retourne un tableau contenant les fichiers et les dossiers (séparés)
 
-    public static function scanDir($folder, $not = array()) {
+    public static function scanDir($folder, $not = array())
+    {
         $data['dir'] = array();
         $data['file'] = array();
         foreach (scandir($folder) as $file) {
@@ -115,7 +123,8 @@ class util {
 
     ## Sauvegarde un tableau dans un fichier au format json
 
-    public static function writeJsonFile($file, $data) {
+    public static function writeJsonFile($file, $data)
+    {
         if (@file_put_contents($file, json_encode($data), LOCK_EX))
             return true;
         return false;
@@ -123,7 +132,8 @@ class util {
 
     ## Retourne un tableau provenant d'un fichier au format json
 
-    public static function readJsonFile($file, $assoc = true) {
+    public static function readJsonFile($file, $assoc = true)
+    {
         if (!file_exists($file)) {
             return false;
         }
@@ -132,7 +142,8 @@ class util {
 
     ## Upload
 
-    public static function uploadFile($k, $dir, $name, $validations = array()) {
+    public static function uploadFile($k, $dir, $name, $validations = array())
+    {
         if (isset($_FILES[$k]) && $_FILES[$k]['name'] != '') {
             $extension = mb_strtolower(util::getFileExtension($_FILES[$k]['name']));
             if (isset($validations['extensions']) && !in_array($extension, $validations['extensions']))
@@ -150,7 +161,8 @@ class util {
 
     ## Formate une date
 
-    public static function formatDate($date, $langFrom = 'en', $langTo = 'en') {
+    public static function formatDate($date, $langFrom = 'en', $langTo = 'en')
+    {
         $date = substr($date, 0, 10);
         $temp = preg_split('#[-_;\. \/]#', $date);
         if ($langFrom == 'en') {
@@ -168,7 +180,7 @@ class util {
             $data = $day . '/' . $month . '/' . $year;
         return $data;
     }
-    
+
     /**
      * Build absolute URL with siteURL saved in config.json
      * 
@@ -176,21 +188,23 @@ class util {
      * @param  bool   is Admin location
      * @return string URL
      */
-    public static function urlBuild($uri, $admin = false) {
+    public static function urlBuild($uri, $admin = false)
+    {
         $base = core::getInstance()->getConfigVal('siteUrl') . '/';
         if ($admin) {
             $base .= 'admin/';
         }
-        $url = $base . ltrim($uri, '/') ;
+        $url = $base . ltrim($uri, '/');
         return str_replace('/./', '/', $url);
     }
-    
+
     /**
      * Return current page URL
      * 
      * @return string
      */
-    public static function getCurrentURL() {
+    public static function getCurrentURL()
+    {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             $url = "https";
         } else {
@@ -202,4 +216,100 @@ class util {
         return $url;
     }
 
+    /**
+     * Format HTML for add missing id to <h1-6> Title, ready for anchors
+     * @param string $htmlContent
+     * @return string
+     */
+    public static function generateIdForTitle($htmlContent): string
+    {
+        $htmlContent = preg_replace_callback(
+            '#<h([1-6])>(.*)<\/h[1-6]>#iUs',
+            function ($matches) {
+                return '<h' . $matches[1] . ' id="' . self::strToUrl($matches[2]) . '">' . $matches[2] . '</h' . $matches[1] . '>';
+            },
+            $htmlContent
+        );
+        return $htmlContent;
+    }
+
+    /**
+     * Generate Table Of Content ready to display in the Content
+     * @param string $htmlContent
+     * @param string $title
+     * @return string
+     */
+    public static function generateTableOfContents($htmlContent, $title): string
+    {
+        $toc = '<details class="toc-container">
+        <summary><header><h4>' . $title . '</h4></header>';
+        $toc .= self::generateInnerTOC($htmlContent);
+        $toc .= '</summary></details>';
+        return $toc;
+    }
+
+    /**
+     * Generate Table Of Content ready to display in the Sidebar
+     * @param mixed $htmlContent
+     * @return string
+     */
+    public static function generateTableOfContentAsModule($htmlContent): string
+    {
+        $toc = '<details class="toc-container"><summary>';
+        $toc .= self::generateInnerTOC($htmlContent);
+        $toc .= '</summary></details>';
+        return $toc;
+    }
+
+    /**
+     * Generate ol, li and a tags for the TOC
+     * @param string $htmlContent
+     * @return string
+     */
+    protected static function generateInnerTOC($htmlContent): string
+    {
+        preg_match_all(
+            '#<h([1-6]) *id="(.*)">(.*)<\/h[1-6]>#isU',
+            $htmlContent,
+            $headings,
+            PREG_SET_ORDER
+        );
+
+        $toc = '';
+        $current_level = 0;
+        $items = 0;
+        foreach ($headings as $heading) {
+            $id = $heading[2];
+            $text = $heading[3];
+            $link = '<a href="#' . $id . '">' . $text . '</a>';
+            $level = $heading[1];
+
+            if ($level > $current_level) {
+                // Create new ol and up to higher level
+                for ($a = 0; $a < $level - $current_level; $a++) {
+                    $toc .= "\n" . str_repeat("\t", $current_level * 2) . '<ol class="toc-level-' . $level . '">' . "\n" . str_repeat("\t", ($current_level * 2) + 1) . '<li>';
+                }
+                $toc .= $link;
+                $items = 1;
+            } elseif ($level === $current_level) {
+                $toc .= ($items ? '</li>' . "\n" : '') . str_repeat("\t", ($level * 2) - 1) . '<li>' . $link;
+                $items++;
+            } else {
+                // Close ol and down level
+                for ($a = 0; $a < $current_level - $level; $a++) {
+                    $toc .= "\n" . str_repeat("\t", ($level * 2) + 1) . '</li>' .
+                        "\n" . str_repeat("\t", $level * 2) . '</ol>';
+                }
+                $toc .= "\n" . str_repeat("\t", ($level * 2) - 1) . '</li>' . "\n" . str_repeat("\t", ($level * 2) - 1) . '<li>' . $link;
+                $items = 0;
+            }
+            $current_level = $level;
+        }
+        // Close all opened ol
+        for ($a = $level - 1; $a >= 0; $a--) {
+            $toc .= "\n" . str_repeat("\t", ($a * 2) + 1) . '</li>' .
+                "\n" . str_repeat("\t", $a * 2) . '</ol>';
+        }
+        return $toc;
+    }
 }
