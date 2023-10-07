@@ -22,9 +22,9 @@
 					</div>
 				</header>
 				{% if v.intro %}
-					{{v.intro}}
+					{{htmlspecialchars_decode(v.intro)}}
 				{% else %}
-					{{v.content}}
+					{{htmlspecialchars_decode(v.content)}}
 				{% endif %}
 			{% else %}
 				<h2>

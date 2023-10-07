@@ -1,5 +1,6 @@
 <?php defined('ROOT') OR exit('No direct script access allowed'); ?>
                 </div>
+                <?php show::displayPublicSidebar(); ?>
             </div>
         </main>
         <div id="footer">
