@@ -31,7 +31,7 @@ include_once(ROOT . 'admin/header.php');
 <?php } ?>
 
 <?php if ($mode == 'edit') { ?>
-    <form method="post" action=".?p=blog&action=save" enctype="multipart/form-data">
+    <form method="post" id="mainForm" action=".?p=blog&action=save" enctype="multipart/form-data">
         <?php show::adminTokenField(); ?>
         <input type="hidden" name="id" value="<?php echo $news->getId(); ?>" />
         <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
@@ -108,7 +108,7 @@ include_once(ROOT . 'admin/header.php');
                     <?php } ?>
                 </li>
                 <li class='tab'>
-                    <header>Paramètres de la news</header>
+                    <h4>Paramètres de la news</h4>
                     <p>
                         <input <?php if ($news->getdraft()) { ?>checked<?php } ?> type="checkbox" name="draft" id="draft"/>
                         <label for="draft">Ne pas publier (brouillon)</label>
@@ -119,10 +119,22 @@ include_once(ROOT . 'admin/header.php');
                             <label for="commentsOff">Désactiver les commentaires pour cet article</label>
                         </p>
                     <?php } ?>
+                    <h4>Catégories</h4><?php
+                    
+                    echo $categoriesManager->outputAsCheckbox($news->getId());?>
+
+                    <h4>Ajouter la news à une nouvelle catégorie</h4>
+                    <div class="input-field">
+                        <label class="active" for="category-add-label">Nom de la catégorie</label>
+                        <input type="text" name="category-add-label" id="category-add-label"/>
+                        <label for="category-add-parentId">Catégorie parente</label>
+                        <?php echo $categoriesManager->outputAsSelectOne(0);?>
+                    </div>
+                    
                 </li>
                 <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
                     <li class='tab'>
-                        <header>Image à la une</header>
+                        <h4>Image à la une</h4>
                         <?php if (galerie::searchByfileName($news->getImg())) { ?><input type="checkbox" name="delImg" id="delImg" /><label for="delImg">Supprimer l'image à la une</label>
                         <?php } else { ?><label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" /><?php } ?>
                         <br>
@@ -131,7 +143,7 @@ include_once(ROOT . 'admin/header.php');
                 <?php } ?>
             </ul>
         </div>
-        <p><button type="submit" class="floating button" title='Enregistrer'><i class="fa-regular fa-floppy-disk"></i></button></p>
+        <p><button id="mainSubmit" type="submit" class="floating" title='Enregistrer'><i class="fa-regular fa-floppy-disk"></i></button></p>
     </form>
 <?php } ?>
 
@@ -164,6 +176,23 @@ include_once(ROOT . 'admin/header.php');
             }
         </script>
     </section>
-<?php } ?>
+<?php } 
+if ($mode === 'editCategory') {
+    echo '<h3>Modification de la catégorie</h3>';
+        echo '<form method="post" action="?p=blog&action=saveCategory&id=' . $id . '">';
+        show::adminTokenField();
+        ?>
+        <p><label for='label'>Nom de la catégorie</label>
+            <input type="text" name="label" id="label" value="<?php echo $category->label; ?>" /></p>
+        <p><label for='parentId'>Catégorie Parente</label>
+            <?php
+            echo $categoriesManager->outputAsSelect($category->parentId, $category->id);
+            ?>
+        </p>
+        <button type="submit">Valider les modifications</button>
+        </form>
+        <?php
+}
+?>
 
 <?php include_once(ROOT . 'admin/footer.php'); ?>

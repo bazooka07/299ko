@@ -12,6 +12,8 @@ defined('ROOT') OR exit('No direct script access allowed');
 $router = router::getInstance();
 
 $router->map('GET', '/blog[/?]', 'BlogListController#home', 'blog-home');
+$router->map('GET', '/blog/cat-[*:name]-[i:id]/[i:page][/?]', 'BlogListController#categoryPage', 'blog-category-page');
+$router->map('GET', '/blog/cat-[*:name]-[i:id].html', 'BlogListController#category', 'blog-category');
 $router->map('GET', '/blog/[*:name]-[i:id].html', 'BlogReadController#read', 'blog-read');
 $router->map('POST', '/blog/send.html', 'BlogReadController#send', 'blog-send');
 $router->map('GET', '/blog/rss.html', 'BlogReadController#rss', 'blog-rss');

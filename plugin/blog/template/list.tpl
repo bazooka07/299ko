@@ -18,7 +18,16 @@
 								{{ newsManager.countComments(v.id) }}
 								commentaire{% if newsManager.countComments(v.id) > 1 %}s{% endif %}
 							{% endif %}
+							 | <span class="item-categories"><i class="fa-regular fa-folder-open"></i>
+							{% if empty(v.cats) %}
+								Non classé
+							{% else %}
+								{% for cat in v.cats %}
+									<span class="blog-label-category"><a href="{{ cat.url }}">{{ cat.label }}</a></span>
+								{% endfor %}
+							{% endif %}
 						</p>
+                    </span>
 					</div>
 				</header>
 				{% if v.intro %}
