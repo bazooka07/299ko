@@ -42,6 +42,20 @@ document.addEventListener("DOMContentLoaded", function () {
     
     window.addEventListener("resize", resizeListener);
     resizeListener();
+
+    document.querySelectorAll(".list-item-list li i").forEach(function (item) {
+        item.addEventListener('click', function () {
+            item.classList.toggle('rotate-180');
+            getNextSibling(item, 'ul.list-item-list-sub').slideToggle(400);
+        });
+    });
+
+    document.querySelectorAll("div.list-item-list i.list-item-toggle").forEach(function (item) {
+        item.addEventListener('click', function () {
+            item.classList.toggle('rotate-180');
+            getNextSibling(item.parentNode, 'div.toggle').slideToggle(400);
+        });
+    });
 });
 
 function resizeListener() {
@@ -107,3 +121,47 @@ function tabify(element){
     setTab(default_tab_index);
     tab_headers.forEach((x, i) => x.onclick = event => setTab(i));
 }
+
+
+/* plain JS slideToggle https://github.com/ericbutler555/plain-js-slidetoggle 
+ * 
+ * var sidebar = document.querySelector('#sidebar');
+ * sidebar.slideToggle(400);
+ */
+function _s(o, i, p, l) {
+    void 0 === i && (i = 400), void 0 === l && (l = !1), o.style.overflow = "hidden", l && (o.style.display = "block");
+    var n, t = window.getComputedStyle(o), s = parseFloat(t.getPropertyValue("height")), a = parseFloat(t.getPropertyValue("padding-top")), r = parseFloat(t.getPropertyValue("padding-bottom")), y = parseFloat(t.getPropertyValue("margin-top")), d = parseFloat(t.getPropertyValue("margin-bottom")), g = s / i, m = a / i, h = r / i, u = y / i, x = d / i;
+    window.requestAnimationFrame(function t(e) {
+        void 0 === n && (n = e);
+        e -= n;
+        l ? (o.style.height = g * e + "px", o.style.paddingTop = m * e + "px", o.style.paddingBottom = h * e + "px", o.style.marginTop = u * e + "px", o.style.marginBottom = x * e + "px") : (o.style.height = s - g * e + "px", o.style.paddingTop = a - m * e + "px", o.style.paddingBottom = r - h * e + "px", o.style.marginTop = y - u * e + "px", o.style.marginBottom = d - x * e + "px"), i <= e ? (o.style.height = "", o.style.paddingTop = "", o.style.paddingBottom = "", o.style.marginTop = "", o.style.marginBottom = "", o.style.overflow = "", l || (o.style.display = "none"), "function" == typeof p && p()) : window.requestAnimationFrame(t)
+    })
+}
+HTMLElement.prototype.slideToggle = function (t, e) {
+    0 === this.clientHeight ? _s(this, t, e, !0) : _s(this, t, e)
+}, HTMLElement.prototype.slideUp = function (t, e) {
+    _s(this, t, e)
+}, HTMLElement.prototype.slideDown = function (t, e) {
+    _s(this, t, e, !0)
+};
+
+/*
+ * Get Next Sibling of an element, with or without selector
+ * 
+ * var el = getNextSibling(element, 'div.class');
+ */
+
+var getNextSibling = function (elem, selector) {
+    // Get the next sibling element
+    var sibling = elem.nextElementSibling;
+    // If there's no selector, return the first sibling
+    if (!selector)
+        return sibling;
+    // If the sibling matches our selector, use it
+    // If not, jump to the next sibling and continue the loop
+    while (sibling) {
+        if (sibling.matches(selector))
+            return sibling;
+        sibling = sibling.nextElementSibling
+    }
+};
