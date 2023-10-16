@@ -63,6 +63,7 @@ class BlogReadController extends Controller
             $toc = util::generateTableOfContentAsModule($html);
             if ($toc) {
                 show::addSidebarPublicModule(lang::get('blog-toc-title'), $toc);
+                return false;
             }
         }
         return $toc;
