@@ -67,7 +67,8 @@ defined('ROOT') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <a title="<?php echo lang::get('core-help'); ?>" data-fancybox id="help_link" href="#" data-src="#help_panel"><i class="fa-solid fa-circle-question"></i></a>
-                        <?php } ?>
+                        <?php } 
+                        $core->callHook('adminToolsTemplates'); ?>
                         <div id="page-infos">
                             <h2><?php echo $runPlugin->getInfoVal('name'); ?></h2>
                             <?php $core->callHook('afterAdminTitle'); ?>
