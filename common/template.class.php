@@ -242,6 +242,15 @@ class Template {
      */
     protected function getVar($var, $parent) {
         $var = trim($var);
+
+        $concats = explode('~', $var);
+        if (count($concats) > 1) {
+            $content = '';
+            foreach ($concats as $concat) {
+                $content .= $this->getVar($concat, $this->data);
+            }
+            return $content;
+        }
         // Check if the string is empty, true or false
         if ($var === '' || $var === 'true' || $var === 'false')
             return $var;

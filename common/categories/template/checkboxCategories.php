@@ -15,7 +15,7 @@ switch ($catDisplay) {
         <div class="list-item-container">
             <?php
             if (empty($this->imbricatedCategories)) {
-                echo 'Aucune catégorie. <a data-fancybox href="#" data-src="#categories_panel">Ajoutez-en une.</a>';
+                echo lang::get($this->getPrefix() . 'none') . ' <a data-fancybox href="#" data-src="#categories_panel">' . lang::get($this->getPrefix() . 'addOne') . '</a>';
             } else { ?>
             <ul class="list-item-list">
                 <?php

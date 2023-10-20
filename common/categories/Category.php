@@ -121,4 +121,8 @@ abstract class Category implements JsonSerializable {
         $this->children[$category->id] = $category;
     }
 
+    public function getPrefix() {
+        return $this->pluginId . '.' . $this->name . '.';
+    }
+
 }

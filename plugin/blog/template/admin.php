@@ -178,7 +178,7 @@ include_once(ROOT . 'admin/header.php');
     </section>
 <?php } 
 if ($mode === 'editCategory') {
-    echo '<h3>Modification de la catégorie</h3>';
+    echo '<section><header>Modification de la catégorie</header>';
         echo '<form method="post" action="?p=blog&action=saveCategory&id=' . $id . '">';
         show::adminTokenField();
         ?>
@@ -191,6 +191,7 @@ if ($mode === 'editCategory') {
         </p>
         <button type="submit">Valider les modifications</button>
         </form>
+    </section>
         <?php
 }
 ?>

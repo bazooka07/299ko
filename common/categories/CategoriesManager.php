@@ -221,6 +221,10 @@ abstract class CategoriesManager {
         return ob_get_clean();
     }
 
+    public function getPrefix() {
+        return $this->pluginId . '.' . $this->name . '.';
+    }
+
     public static function getAllCategoriesPluginId() {
         $metas = self::getMetas();
         return array_keys($metas);
