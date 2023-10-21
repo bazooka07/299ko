@@ -167,6 +167,20 @@ class plugin {
         return $this->name;
     }
 
+    public function getTranslatedName() {
+        if (lang::get($this->name . '.name') === $this->name . '.name' ) {
+            return $this->getInfoVal('name');
+        }
+        return lang::get($this->name . '.name');
+    }
+
+    public function getTranslatedDesc() {
+        if (lang::get($this->name . '.description') === $this->name . '.description' ) {
+            return $this->getInfoVal('description');
+        }
+        return lang::get($this->name . '.description');
+    }
+
     public function getHooks() {
         return $this->hooks;
     }

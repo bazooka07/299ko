@@ -265,7 +265,7 @@ class show {
                 if ($v->getConfigVal('activate') && $v->getAdminFile()) {
                     $arrPlugins[$v->getInfoVal('name')]['name'] = $v->getName();
                     $arrPlugins[$v->getInfoVal('name')]['icon'] = $v->getInfoVal('icon');
-                    $arrPlugins[$v->getInfoVal('name')]['label'] = $v->getInfoVal('name');
+                    $arrPlugins[$v->getInfoVal('name')]['label'] = $v->getTranslatedName();
                 }
             }
             ksort($arrPlugins, SORT_STRING);

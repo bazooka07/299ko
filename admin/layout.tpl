@@ -55,7 +55,7 @@
                         </div>
                     {% ENDIF %}
                     <div id="page-infos">
-                        <h2>{{ runPlugin.getInfoVal(name) }}</h2>
+                        <h2>{{ runPlugin.getTranslatedName() }}</h2>
                         {% HOOK.afterAdminTitle %}
                     </div>
                     {{ CONTENT }}

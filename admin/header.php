@@ -70,6 +70,6 @@ defined('ROOT') OR exit('No direct script access allowed');
                         <?php } 
                         $core->callHook('adminToolsTemplates'); ?>
                         <div id="page-infos">
-                            <h2><?php echo $runPlugin->getInfoVal('name'); ?></h2>
+                            <h2><?php echo $runPlugin->getTranslatedName(); ?></h2>
                             <?php $core->callHook('afterAdminTitle'); ?>
                         </div>
