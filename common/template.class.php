@@ -99,6 +99,7 @@ class Template {
      * {{ Lang.key }}
      * {{ Lang.key2(5, "moi") }}
      * {{ MY_VAR }}
+     * {{ MY_VAR ~ "25" }}
      * {% FOR MY_VAR IN MY_VARS %} ... {{MY_VAR.name}} ... {% ENDFOR %}
      * {% FOR key , val IN plop %} ... {{ key }} - {{ val.propertie }} ... {% ENDFOR %}
      * {% SET plop = ["plo", 5] %}
@@ -242,6 +243,14 @@ class Template {
      */
     protected function getVar($var, $parent) {
         $var = trim($var);
+        $concats = explode('~', $var);
+        if (count($concats) > 1) {
+            $content = '';
+            foreach ($concats as $concat) {
+                $content .= $this->getVar($concat, $this->data);
+            }
+            return $content;
+        }
         // Check if the string is empty, true or false
         if ($var === '' || $var === 'true' || $var === 'false')
             return $var;
@@ -264,6 +273,7 @@ class Template {
             }
             return $arr;
         }
+
         // Get the position of the parentheses
         $posAcc = strpos($var, '(');
         $args = '';

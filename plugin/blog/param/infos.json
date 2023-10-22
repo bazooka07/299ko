@@ -1,7 +1,7 @@
 {
     "name" : "Blog",
     "icon" : "fa-regular fa-newspaper",
-    "description" : "Gestion d'un mini blog",
+    "description" : "Blog management",
     "authorEmail" : "",
     "authorWebsite" : "",
     "version" : "1.2",

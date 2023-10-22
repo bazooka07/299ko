@@ -18,8 +18,8 @@ include_once(ROOT . 'admin/header.php');
                 <?php foreach ($pluginsManager->getPlugins() as $plugin) { ?>
                     <tr>
                         <td>
-                            <?php echo $plugin->getInfoVal('name'); ?>
-                            <?php if ($plugin->getInfoVal('version') != 'none') { ?> (version <?php echo $plugin->getInfoVal('version'); ?>)<?php } ?> : <?php echo $plugin->getInfoVal('description'); ?>
+                            <?php echo $plugin->getTranslatedName(); ?>
+                            <?php if ($plugin->getInfoVal('version') != 'none') { ?> (version <?php echo $plugin->getInfoVal('version'); ?>)<?php } ?> : <?php echo $plugin->getTranslatedDesc(); ?>
                             <?php if ($plugin->getConfigVal('activate') && !$plugin->isInstalled()) { ?><p><a class="button" href=".?p=pluginsmanager&action=maintenance&plugin=<?php echo $plugin->getName(); ?>&token=<?php echo administrator::getToken(); ?>">Maintenance requise</a><?php } ?></p>
                         </td>
                         <td>

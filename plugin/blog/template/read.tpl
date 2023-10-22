@@ -12,8 +12,15 @@
 					{{ newsManager.countComments() }}
 					commentaire{% if newsManager.countComments() > 1 %}s{% endif %}
 				{% endif %}
-				|
-				<a href="{{ runPlugin.getPublicUrl }}">Retour à la liste</a>
+				{% if count(categories) == 0 %}
+					non classé
+				{% else %}
+					dans
+					{% for cat in categories %}
+						<span class="blog-label-category"><a href="{{ cat.url }}">{{ cat.label }}</a></span> 
+					{% endfor %}
+				{% endif %}
+				| <a href="{{ runPlugin.getPublicUrl }}">Retour à la liste</a>
 			</p>
 		</div>
 		

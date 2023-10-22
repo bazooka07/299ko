@@ -1,3 +1,4 @@
 {
-    "endFrontHead" : "blogEndFrontHead"
+    "endFrontHead" : "blogEndFrontHead",
+    "adminToolsTemplates" : "BlogAdminCategoriesTemplates"
 }

@@ -25,3 +25,19 @@
 .blog-infos-bio {
     font-size: 12px;
 }
+
+.blog-label-category {
+    position: relative;
+}
+
+.blog-label-category:after {
+    content: ',';
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.blog-label-category:last-of-type:after {
+    content: '';
+    margin-left: 0px;
+    margin-right: 0px;
+}

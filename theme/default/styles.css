@@ -422,6 +422,10 @@ code{
     padding:10px;
 }
 
+.sidebarModuleContent ul {
+    padding-left: 14px;
+}
+
 #footer{
     clear: both;
     font-size: 12px;

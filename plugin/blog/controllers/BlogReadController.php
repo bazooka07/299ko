@@ -17,6 +17,7 @@ class BlogReadController extends Controller
     {
         $antispam = ($this->pluginsManager->isActivePlugin('antispam')) ? new antispam() : false;
         $newsManager = new newsManager();
+        $categoriesManager = new BlogCategoriesManager();
 
         $item = $newsManager->create($id);
         if (!$item) {
@@ -33,15 +34,28 @@ class BlogReadController extends Controller
 
         $generatedHTML = util::generateIdForTitle(htmlspecialchars_decode($item->getContent()));
         $toc = $this->generateTOC($generatedHTML);
+
+        $categories = [];
+        foreach ($categoriesManager->getCategories() as $cat) {
+            if (in_array($item->getId(), $cat->items)) {
+                $categories[] = [
+                    'label' => $cat->label,
+                    'url' => $this->router->generate('blog-category', ['name' => util::strToUrl($cat->label), 'id' => $cat->id]),
+                ];
+            }
+        }
         
         $response = new PublicResponse();
         $tpl = $response->createPluginTemplate('blog', 'read');
+
+        show::addSidebarPublicModule('Catégories du blog',$this->generateCategoriesSidebar() );
 
         $tpl->set('antispam', $antispam);
         $tpl->set('antispamField', $antispamField);
         $tpl->set('item', $item);
         $tpl->set('generatedHtml', $generatedHTML);
         $tpl->set('TOC', $toc);
+        $tpl->set('categories', $categories);
         $tpl->set('newsManager', $newsManager);
         $tpl->set('commentSendUrl', $this->router->generate('blog-send'));
 
@@ -56,8 +70,15 @@ class BlogReadController extends Controller
 
         if ($displayTOC === 'content') {
             $toc = util::generateTableOfContents($html, lang::get('blog-toc-title'));
+            if (!$toc) {
+                return false;
+            }
         } elseif ($displayTOC === 'sidebar') {
-            show::addSidebarPublicModule(lang::get('blog-toc-title'), util::generateTableOfContentAsModule($html));
+            $toc = util::generateTableOfContentAsModule($html);
+            if ($toc) {
+                show::addSidebarPublicModule(lang::get('blog-toc-title'), $toc);
+                return false;
+            }
         }
         return $toc;
     }
@@ -109,5 +130,35 @@ class BlogReadController extends Controller
         $newsManager = new newsManager();
         echo $newsManager->rss();
         die();
+    }
+
+    protected function generateCategoriesSidebar() {
+        $content = '';
+        $categoriesManager = new BlogCategoriesManager();
+        $categories = $categoriesManager->getNestedCategories();
+        if (empty($categories)) {
+            return false;
+        }
+        $content .= '<ul>';
+        foreach ($categories as $category) {
+            $content .= $this->generateCategorySidebar($category);
+        }
+        $content .= '</ul>';
+        return $content;
+    }
+
+    protected function generateCategorySidebar($category) {
+        $router = router::getInstance();
+        $content = '<li><a href="' . $router->generate('blog-category', ['name' => util::strToUrl($category->label), 'id' => $category->id]) . '">' .
+                $category->label . '</a>';
+        if (!empty($category->children)) {
+            $content .= '<ul>';
+            foreach ($category->children as $child) {
+                $content .= $this->generateCategorySidebar($child);
+            }
+            $content .= '</ul>';
+        }
+        $content .= '</li>';
+        return $content;
     }
 }

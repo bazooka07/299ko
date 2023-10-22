@@ -243,7 +243,11 @@ class util
     {
         $toc = '<details class="toc-container">
         <summary><header><h4>' . $title . '</h4></header>';
-        $toc .= self::generateInnerTOC($htmlContent);
+        $inner = self::generateInnerTOC($htmlContent);
+        if (!$inner) {
+            return false;
+        }
+        $toc .= $inner;
         $toc .= '</summary></details>';
         return $toc;
     }
@@ -256,7 +260,11 @@ class util
     public static function generateTableOfContentAsModule($htmlContent): string
     {
         $toc = '<details class="toc-container"><summary>';
-        $toc .= self::generateInnerTOC($htmlContent);
+        $inner = self::generateInnerTOC($htmlContent);
+        if (!$inner) {
+            return false;
+        }
+        $toc .= $inner;
         $toc .= '</summary></details>';
         return $toc;
     }
@@ -304,6 +312,11 @@ class util
                 $items = 0;
             }
             $current_level = $level;
+        }
+        
+        if (!isset($level)) {
+            // No heading
+            return false;
         }
         // Close all opened ol
         for ($a = $level - 1; $a >= 0; $a--) {

@@ -14,15 +14,75 @@ defined('ROOT') OR exit('No direct script access allowed');
 
 $action = (isset($_GET['action'])) ? $_GET['action'] : '';
 $newsManager = new newsManager();
+$categoriesManager = new BlogCategoriesManager();
 
 switch ($action) {
+    case 'addCategory' :
+        if ($administrator->isAuthorized()) {
+            $label = filter_input(INPUT_POST, 'category-add-label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT) ?? 0;
+            $categoriesManager->createCategory($label, $parentId);
+            show::msg("La catégorie a été créée", 'success');
+            header('location:.?p=blog');
+            die();
+        }
+    case 'deleteCategory' :
+        $id = (int) $_GET['id'];
+        if (!$administrator->isAuthorized()) {
+            core::getInstance()->error404();
+        }
+        if ($categoriesManager->isCategoryExist($id)) {
+            if ($categoriesManager->deleteCategory($id)) {
+                show::msg('La catégorie a bien été supprimée.', 'success');
+            } else {
+                show::msg('Une erreur s\'est produite lors de la suppression de la catégorie', 'error');
+            }
+        }
+        header('location:.?p=blog');
+        die();
+    case 'editCategory' :
+        $id = (int) $_GET['id'];
+        if (!$categoriesManager->isCategoryExist($id)) {
+            show::msg('La catégorie demandée n\'existe pas', 'error');
+            header('location:.?p=blog');
+            die();
+        }
+        $category = $categoriesManager->getCategory($id);
+        $mode = 'editCategory';
+        break;
+    case 'saveCategory':
+            if (!$administrator->isAuthorized()) {
+                core::getInstance()->error404();
+            }
+            $label = filter_input(INPUT_POST, 'label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $parentId = filter_input(INPUT_POST, 'parentId', FILTER_VALIDATE_INT ?? 0);
+            $id = (int) $_GET['id'];
+            if (!$categoriesManager->isCategoryExist($id)) {
+                show::msg('La catégorie demandée n\'existe pas', 'error');
+                header('location:index.php?p=categories&plugin=' . $pluginId);
+                die();
+            }
+            $label = $_POST['label'];
+            $parentId = (int) $_POST['parentId'];
+            if ($parentId !== 0 && !$categoriesManager->isCategoryExist($parentId)) {
+                show::msg('La catégorie parente n\'existe pas', 'error');
+                header('location:.?p=blog');
+                die();
+            }
+            $categorie = $categoriesManager->getCategory($id);
+            $categorie->parentId = $parentId;
+            $categorie->label = $label;
+            $categoriesManager->saveCategory($categorie);
+            show::msg('La catégorie a bien été modifiée', 'success');
+            header('location:.?p=blog');
+            die();
     case 'saveconf':
         if ($administrator->isAuthorized()) {
             $runPlugin->setConfigVal('label', trim($_REQUEST['label']));
             $runPlugin->setConfigVal('itemsByPage', trim(intval($_REQUEST['itemsByPage'])));
             $runPlugin->setConfigVal('hideContent', (isset($_POST['hideContent']) ? 1 : 0));
             $runPlugin->setConfigVal('comments', (isset($_POST['comments']) ? 1 : 0));
-            $runPlugin->setConfigVal('displayTOC', filter_input(INPUT_POST, 'displayTOC', FILTER_SANITIZE_STRING));
+            $runPlugin->setConfigVal('displayTOC', filter_input(INPUT_POST, 'displayTOC', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $runPlugin->setConfigVal('displayAuthor', (isset($_POST['displayAuthor']) ? 1 : 0));
             $runPlugin->setConfigVal('authorName', trim($_POST['authorName']));
             $runPlugin->setConfigVal('authorAvatar', trim($_POST['authorAvatar']));
@@ -61,6 +121,17 @@ switch ($action) {
             $news->setImg($imgId);
             $news->setCommentsOff((isset($_POST['commentsOff']) ? 1 : 0));
             if ($newsManager->saveNews($news)) {
+                $blogCats = $categoriesManager->getCategories();
+                $choosenCats = [];
+                foreach ($_POST['categoriesCheckbox'] as $k => $cat) {
+                    $choosenCats[] = (int) $cat;
+                }
+                $label = filter_input(INPUT_POST, 'category-add-label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                if ($label !== '') {
+                    $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT) ?? 0;
+                    $choosenCats[] = $categoriesManager->createCategory($label, $parentId);
+                }
+                BlogCategoriesManager::saveItemToCategories($news->getId(), $choosenCats);
                 show::msg("Les modifications ont été enregistrées", 'success');
             } else {
                 show::msg("Une erreur est survenue", 'error');
