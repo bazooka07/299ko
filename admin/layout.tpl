@@ -54,6 +54,7 @@
                             </div>
                         </div>
                     {% ENDIF %}
+                    {% HOOK.adminToolsTemplates %}
                     <div id="page-infos">
                         <h2>{{ runPlugin.getTranslatedName() }}</h2>
                         {% HOOK.afterAdminTitle %}

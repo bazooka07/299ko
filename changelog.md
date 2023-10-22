@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## V1.3.2
+
+### Added
+
+- Add Categories System
+- Add Categories for Blog plugin
+- Add a hook `adminToolsTemplates` to display links tools in admin
+- Can translate plugin name & description
+- Add concatenation of strings in templates (by `~`)
+
+### Changed
+
+- Galerie in MVC
+- End of `header.php` & `footer.php` in public theme
+
+### Fixed
+
+- Blog List HTML entities
+- Blog TOC empty headings
+
 ## V1.3.1
 
 ### Added
