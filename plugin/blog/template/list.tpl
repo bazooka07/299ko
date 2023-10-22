@@ -19,7 +19,7 @@
 								commentaire{% if newsManager.countComments(v.id) > 1 %}s{% endif %}
 							{% endif %}
 							 | <span class="item-categories"><i class="fa-regular fa-folder-open"></i>
-							{% if empty(v.cats) %}
+							{% if count(v.cats) == 0 %}
 								Non classé
 							{% else %}
 								{% for cat in v.cats %}

@@ -12,7 +12,7 @@
 					{{ newsManager.countComments() }}
 					commentaire{% if newsManager.countComments() > 1 %}s{% endif %}
 				{% endif %}
-				{% if empty(categories) %}
+				{% if count(categories) == 0 %}
 					non classé
 				{% else %}
 					dans
