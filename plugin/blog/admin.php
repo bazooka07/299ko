@@ -20,7 +20,7 @@ switch ($action) {
     case 'addCategory' :
         if ($administrator->isAuthorized()) {
             $label = filter_input(INPUT_POST, 'category-add-label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT);
+            $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT) ?? 0;
             $categoriesManager->createCategory($label, $parentId);
             show::msg("La catégorie a été créée", 'success');
             header('location:.?p=blog');
@@ -55,7 +55,7 @@ switch ($action) {
                 core::getInstance()->error404();
             }
             $label = filter_input(INPUT_POST, 'label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $parentId = filter_input(INPUT_POST, 'parentId', FILTER_VALIDATE_INT);
+            $parentId = filter_input(INPUT_POST, 'parentId', FILTER_VALIDATE_INT ?? 0);
             $id = (int) $_GET['id'];
             if (!$categoriesManager->isCategoryExist($id)) {
                 show::msg('La catégorie demandée n\'existe pas', 'error');
@@ -128,7 +128,7 @@ switch ($action) {
                 }
                 $label = filter_input(INPUT_POST, 'category-add-label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 if ($label !== '') {
-                    $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT);
+                    $parentId = filter_input(INPUT_POST, 'category-add-parentId', FILTER_VALIDATE_INT) ?? 0;
                     $choosenCats[] = $categoriesManager->createCategory($label, $parentId);
                 }
                 BlogCategoriesManager::saveItemToCategories($news->getId(), $choosenCats);
