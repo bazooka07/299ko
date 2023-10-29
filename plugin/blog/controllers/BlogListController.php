@@ -19,21 +19,25 @@ class BlogListController extends Controller {
         $mode = ($newsManager->count() > 0) ? 'list' : 'list_empty';
 
         // Contruction de la pagination
-        $nbNews = count($newsManager->getItems());
+        $nbNews = $newsManager->getNbItemsToPublic();
         $newsByPage = $this->runPlugin->getConfigVal('itemsByPage');
         $nbPages = ceil($nbNews / $newsByPage);
         $start = ($currentPage - 1) * $newsByPage + 1;
         $end = $start + $newsByPage - 1;
-        $pagination = array();
-        for ($i = 0; $i != $nbPages; $i++) {
-            if ($i != 0)
-                $pagination[$i]['url'] = $this->router->generate('blog-page', ['page' => $i+1]);
-            else
-                $pagination[$i]['url'] = $this->runPlugin->getPublicUrl();
-            $pagination[$i]['num'] = $i + 1;
+        if ($nbPages > 1) {
+            $pagination = [];
+            for ($i = 0; $i != $nbPages; $i++) {
+                if ($i != 0)
+                    $pagination[$i]['url'] = $this->router->generate('blog-page', ['page' => $i+1]);
+                else
+                    $pagination[$i]['url'] = $this->runPlugin->getPublicUrl();
+                $pagination[$i]['num'] = $i + 1;
+            }
+        } else {
+            $pagination = false;
         }
         // Récupération des news
-        $news = array();
+        $news = [];
         $i = 1;
         foreach ($newsManager->getItems() as $k => $v)
             if (!$v->getDraft()) {
@@ -92,7 +96,6 @@ class BlogListController extends Controller {
         
         $start = ($currentPage - 1) * $newsByPage + 1;
         $end = $start + $newsByPage - 1;
-        $pagination = [];
         $i = 1;
         foreach ($newsManager->getItems() as $k => $v) {
             if ($v->getDraft()) {
@@ -130,12 +133,17 @@ class BlogListController extends Controller {
         if ($currentPage > $nbPages) {
             return $this->category($id, $name, 1);
         }
-        for ($i = 0; $i != $nbPages; $i++) {
-            if ($i != 0)
-                $pagination[$i]['url'] = $this->router->generate('blog-category-page', ['name' => util::strToUrl($category->label), 'id' => $category->id, 'page' => $i + 1]);
-            else
-                $pagination[$i]['url'] = $this->router->generate('blog-category', ['name' => util::strToUrl($category->label), 'id' => $category->id]);
-            $pagination[$i]['num'] = $i + 1;
+        if ($nbPages > 1) {
+            $pagination = [];
+            for ($i = 0; $i != $nbPages; $i++) {
+                if ($i != 0)
+                    $pagination[$i]['url'] = $this->router->generate('blog-category-page', ['name' => util::strToUrl($category->label), 'id' => $category->id, 'page' => $i + 1]);
+                else
+                    $pagination[$i]['url'] = $this->router->generate('blog-category', ['name' => util::strToUrl($category->label), 'id' => $category->id]);
+                $pagination[$i]['num'] = $i + 1;
+            }
+        } else {
+            $pagination = false;
         }
 
         // Traitements divers : métas, fil d'ariane...

@@ -17,15 +17,22 @@ class newsManager {
     private $items;
     private $comments;
 
+    private int $nbItemsToPublic;
+
     public function __construct() {
-        $data = array();
+        $i = 0;
+        $data = [];
         if (file_exists(ROOT . 'data/plugin/blog/blog.json')) {
             $temp = util::readJsonFile(ROOT . 'data/plugin/blog/blog.json');
             $temp = util::sort2DimArray($temp, 'date', 'desc');
             foreach ($temp as $k => $v) {
                 $data[] = new news($v);
+                if ($v['draft'] === "0") {
+                    $i++;
+                }
             }
         }
+        $this->nbItemsToPublic = $i;
         $this->items = $data;
     }
 
@@ -73,6 +80,13 @@ class newsManager {
 
     public function count() {
         return count($this->items);
+    }
+
+    /**
+     * Return number of news who can be displayed in public mode
+     */
+    public function getNbItemsToPublic() {
+        return $this->nbItemsToPublic;
     }
 
     public function rss() {

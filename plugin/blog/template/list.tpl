@@ -49,11 +49,13 @@
 			{% endif %}
 		</article>
 	{% endfor %}
-	<ul class="pagination">
-		{% for k, v in pagination %}
-			<li>
-				<a href="{{v.url}}">{{v.num}}</a>
-			</li>
-		{% endfor %}
-	</ul>
+	{% if pagination %}
+		<ul class="pagination">
+			{% for k, v in pagination %}
+				<li>
+					<a href="{{v.url}}">{{v.num}}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
 {% endif %}
