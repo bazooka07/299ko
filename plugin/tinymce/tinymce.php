@@ -28,7 +28,21 @@ function tinymceAdminHead() {
         automatic_uploads: true,
         plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
         toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | insertfile image media link | charmap emoticons codesample | fullscreen',
-        max_height: 600";
+        max_height: 600,
+		codesample_languages: [
+    { text: 'HTML', value: 'HTML' },
+	{ text: 'XML', value: 'XML' },
+	{ text: 'Tpl', value: 'twig' },
+    { text: 'JavaScript', value: 'javascript' },
+    { text: 'CSS', value: 'css' },
+    { text: 'PHP', value: 'php' },
+    { text: 'Ruby', value: 'ruby' },
+    { text: 'Python', value: 'python' },
+    { text: 'Java', value: 'java' },
+    { text: 'C', value: 'c' },
+    { text: 'C#', value: 'csharp' },
+    { text: 'C++', value: 'cpp' }
+  ],";
 
     echo "<script src='" . $url . "'></script>
 <script>
