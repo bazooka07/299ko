@@ -247,9 +247,9 @@ pre{
     white-space: -o-pre-wrap;
 }
 
-code{
-    font-size: 12px;
-    font-family: Verdana, "Lucida Grande", Lucida, Tahoma, "Trebuchet MS", Arial, Geneva, Helvetica, sans-serif;
+code, pre{
+    font-size: 14px;
+    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace
 }
 
 /* ALERT */

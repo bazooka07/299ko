@@ -384,7 +384,12 @@ class core
     {
         $date = date('Y-m-d H:i:s');
         if ($this->logger) {
-            fwrite($this->logger, "[$date] [$severity] : $message\n");
+            if (is_array($message)) {
+                fwrite($this->logger, "[$date] [$severity] : \n");
+                fwrite($this->logger, print_r($message, true));
+            } else {
+                fwrite($this->logger, "[$date] [$severity] : $message\n");
+            }
         }
     }
 
