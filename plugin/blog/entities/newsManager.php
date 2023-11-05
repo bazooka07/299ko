@@ -17,6 +17,11 @@ class newsManager {
     private $items;
     private $comments;
 
+    /**
+     * All comments from a news, non imbricated
+     */
+    protected $flatComments;
+
     private int $nbItemsToPublic;
 
     public function __construct() {
@@ -24,6 +29,9 @@ class newsManager {
         $data = [];
         if (file_exists(ROOT . 'data/plugin/blog/blog.json')) {
             $temp = util::readJsonFile(ROOT . 'data/plugin/blog/blog.json');
+            if (!is_array($temp)) {
+                $temp = [];
+            }
             $temp = util::sort2DimArray($temp, 'date', 'desc');
             foreach ($temp as $k => $v) {
                 $data[] = new news($v);
@@ -150,8 +158,12 @@ class newsManager {
         return $this->comments;
     }
 
+    public function getFlatComments() {
+        return $this->flatComments;
+    }
+
     public function createComment($id) {
-        foreach ($this->comments as $obj) {
+        foreach ($this->flatComments as $obj) {
             if ($obj->getId() == $id)
                 return $obj;
         }
@@ -159,57 +171,118 @@ class newsManager {
     }
 
     public function loadComments($idNews) {
-        if (!file_exists(@mkdir(DATA_PLUGIN . 'blog/comments/')))
-            @mkdir(DATA_PLUGIN . 'blog/comments/');
-        if (!file_exists(DATA_PLUGIN . 'blog/comments/' . $idNews . '.json'))
-            util::writeJsonFile(DATA_PLUGIN . 'blog/comments/' . $idNews . '.json', array());
-        $temp = util::readJsonFile(DATA_PLUGIN . 'blog/comments/' . $idNews . '.json');
-        $temp = util::sort2DimArray($temp, 'id', 'asc');
-        $data = array();
-        foreach ($temp as $k => $v) {
-            $data[] = new newsComment($v);
+        if (!file_exists(DATA_PLUGIN . 'blog/comments.json'))
+            util::writeJsonFile(DATA_PLUGIN . 'blog/comments.json', []);
+        $temp = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
+        $comments = $temp[$idNews] ?? [];
+        $temp = util::sort2DimArray($comments, 'id', 'asc');
+        $data = [];
+        foreach ($temp as $v) {
+            $data[$v['id']] = new newsComment($v);
         }
+        $this->flatComments = $data;
         $this->comments = $data;
+        foreach($this->comments as $k => &$com) {
+            foreach($com->repliesId as $comId) {
+                $com->replies[$comId] = $data[$comId];
+                unset($this->comments[$comId]);   
+            }
+            foreach($com->replies as &$comment) {
+                $comment = $this->hydrateReplies($comment);
+            }
+        }
+    }
+
+    public static function getLatestComments(int $nbComments = 10) {
+        $newsManager = new newsManager();
+        $rawComments = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
+        $timeComments = [];
+        foreach ($rawComments as $idNews => $comments) {
+            $news = $newsManager->create($idNews);
+            foreach ($comments as $comment) {
+                $timeComments[util::getTimestampFromDate($comment['date'])] = ['comment' => new newsComment($comment),'news' => $news];
+            }
+        }
+        krsort($timeComments);
+        return array_slice($timeComments, 0, $nbComments, true);
+    }
+
+    protected function hydrateReplies(\newsComment $comment):newsComment {
+        if (!empty($comment->repliesId)) {
+            foreach($comment->repliesId as $comId) {
+                $comment->replies[$comId] = $this->comments[$comId];
+                unset($this->comments[$comId]);
+            }
+            foreach($comment->replies as &$childComment) {
+                $childComment = $this->hydrateReplies($childComment);
+            }
+        }
+        return $comment;
+
     }
 
     public function countComments($idNews = 0) {
         if ($idNews == 0)
-            return count($this->comments);
+            return count($this->flatComments);
         else {
             $this->loadComments($idNews);
-            return count($this->comments);
+            return count($this->flatComments);
         }
     }
 
-    public function saveComment($comment = null, $idNews = null) {
-        if ($comment != null) {
-            $comment->setId(time());
-            $this->comments[] = $comment;
-            $idNews = $comment->getIdNews();
-        }
-        $data = array();
-        foreach ($this->comments as $k => $v) {
-            $data[] = array(
-                'id' => $v->getId(),
-                'idNews' => $v->getIdNews(),
-                'content' => $v->getContent(),
-                'date' => $v->getDate(),
-                'author' => $v->getAuthor(),
-                'authorEmail' => $v->getAuthorEmail(),
-            );
-        }
-        if ($comment == null && $idNews != null) {
-            $idNews = $idNews;
-        }
-        return util::writeJsonFile(DATA_PLUGIN . 'blog/comments/' . $idNews . '.json', $data);
+    public function saveComment(\newsComment $comment) {
+        $this->flatComments[$comment->getId()] = $comment;
+        $this->saveComments($comment->getIdNews());
+        return true;
     }
 
-    public function delComment($obj) {
-        foreach ($this->comments as $k => $v) {
-            if ($obj->getId() == $v->getId())
-                unset($this->comments[$k]);
+    public function addReplyToComment(\newsComment $comment, int $parentId):void {
+        if (isset($this->flatComments[$parentId]) && $comment->getIdNews()) {
+            $this->flatComments[$parentId]->repliesId[] = $comment->getId();
+            $this->flatComments[$parentId]->repliesId = array_unique($this->flatComments[$parentId]->repliesId);
+            $this->saveComments($comment->getIdNews());
         }
-        return $this->saveComment(null, $obj->getIdNews());
     }
 
+    protected function saveComments($idNews):void {
+        $rawComments = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
+        $rawComments[$idNews] = $this->flatComments;
+        $data = [];
+        foreach ($rawComments as $newsId) {
+            foreach ($newsId as $k => $v) {
+                $data[$v->getIdNews()][$k] = [
+                    'id' => $v->getId(),
+                    'idNews' => $v->getIdNews(),
+                    'content' => $v->getContent(),
+                    'date' => $v->getDate(),
+                    'author' => $v->getAuthor(),
+                    'authorEmail' => $v->getAuthorEmail(),
+                    'authorWebsite' => $v->getAuthorWebsite(),
+                    'replies' => $v->repliesId
+                ];
+            }
+        }
+        util::writeJsonFile(DATA_PLUGIN . 'blog/comments.json', $data);
+    }
+
+    /**
+     * Delete a comment and all occurences from this comment in others it was a reply
+     * and save the comments
+     * @param newsComment $obj
+     * @return bool Comment deleted
+     */
+    public function delComment(\newsComment $obj):bool {
+        $rawComments = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
+        if (isset($rawComments[$obj->getIdNews()][$obj->getId()])) {
+            $idNews = $obj->getIdNews();
+            $newsComments = &$rawComments[$idNews];
+            foreach ($newsComments as $idComment => &$comment) {
+                if (in_array($obj->getId(), $comment['replies'] )) {
+                    $comment['replies'] = array_diff($comment['replies'], [$obj->getId()]);
+                }
+            }
+            unset($rawComments[$obj->getIdNews()][$obj->getId()]);
+        }
+        return util::writeJsonFile(DATA_PLUGIN . 'blog/comments.json', $rawComments);
+    }
 }

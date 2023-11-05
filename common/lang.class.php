@@ -40,6 +40,7 @@ class lang {
      */
     public static function setLocale(string $locale) {
         self::$locale = $locale;
+        setlocale(LC_ALL, $locale);
     }
     
     /**

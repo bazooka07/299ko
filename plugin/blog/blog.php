@@ -18,6 +18,8 @@ require_once PLUGINS . 'blog/entities/newsManager.php';
 require_once PLUGINS . 'blog/entities/BlogCategoriesManager.php';
 require_once PLUGINS . 'blog/entities/BlogCategory.php';
 
+
+
 ## Fonction d'installation
 
 function blogInstall() {

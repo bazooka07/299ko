@@ -413,3 +413,15 @@ function logg($message, $severity = 'INFO')
 {
     core::getInstance()->log($message, $severity);
 }
+
+/**
+ * Debug display as print_r with <pre> tag
+ * @param mixed $message Message or var to display
+ * @return void
+ */
+function debug($message):void
+{
+    echo '<pre>';
+    print_r($message);
+    echo '</pre>';
+}

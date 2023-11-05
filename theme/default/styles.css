@@ -94,6 +94,7 @@ body{
     padding:0;
     position:relative;
     min-height: 100vh;
+    line-height: 1.4;
 }
 
 a,a:hover,a:active,a:visited{
@@ -207,6 +208,11 @@ input[type=submit], input[type=button], button, .button, [type="file"]::file-sel
     transition: background-color 0.5s ease;
     border: 1px solid rgba(0,0,0, 0.1);
     display: inline-block;
+}
+
+input[type=submit].small, input[type=button].small, button.small, .button.small, [type="file"].small::file-selector-button {
+    padding: 5px 10px;
+    font-size: 0.8em;
 }
 
 input[type=submit]:hover, input[type=button]:hover, button:hover, .button:hover, [type="file"]::file-selector-button:hover{
@@ -609,22 +615,52 @@ section + article, section + .card, article + section, article + .card,
 
 .comments-list {
     list-style-type: none;
+    padding-left: 15px;
+}
+
+article.comment {
+    border:none;
+    padding: 0;
+    margin-top: 30px;
+    margin: 50px 0;
 }
 
 .comments-item {
-    border-bottom: 1px solid #e9e9e9;
     margin-bottom: 30px;
 }
 
-.comments-list .comments-item:last-child {
-    border-bottom: none;
+.comment-author {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    padding-top: 2px;
 }
 
-.comments-item .infos{
-    font-size: 12px;
-    clear: both;
-    display: block;
-    padding: 15px;
+.comment-metadata {
+    font-size: 15px;
+}
+
+.comment-author a, .comment-metadata a {
+    color: var(--header-links-color);
+}
+
+.comment-avatar {
+    float:left;
+    margin-right: 10px;
+}
+
+.comment-avatar > img {
+    max-width: 50px;
+    border-radius: 50%;
+}
+
+.comment-content {
+    margin:25px 0;
+    font-size: 18px;
+}
+
+.comment-recent {
+    font-size: 14px;
 }
 
 /* Contact */
@@ -903,12 +939,12 @@ section + article, section + .card, article + section, article + .card,
         background: var(--dark-section-head-bg-color);
     }
     
-    input[type=text], input[type=email], input[type=password], textarea, input[type=number], .contact .acceptation{
+    input[type=text], input[type=email], input[type=password], input[type=url], textarea, input[type=number], .contact .acceptation{
         background: var(--dark-form-bg-color);
         color: var(--dark-font-color);
     }
 
-    input[type=text], input[type=email], input[type=password], textarea, input[type=number], hr, tr, .contact .acceptation, .blog .comment, .blog .content, .blog .items li.item, #content.galerie #list li {
+    input[type=text], input[type=email], input[type=password], input[type=url], textarea, input[type=number], hr, tr, .contact .acceptation, .blog .comment, .blog .content, .blog .items li.item, #content.galerie #list li {
         border-color: var(--dark-form-border-color);
     }
     
@@ -947,5 +983,9 @@ section + article, section + .card, article + section, article + .card,
     #content .toc-container h4 {
         background-color: var(--dark-section-head-bg-color);
         color: var(--dark-font-color);
+    }
+
+    .comment-author a, .comment-metadata a {
+        color: var(--dark-header-links-color);
     }
 }

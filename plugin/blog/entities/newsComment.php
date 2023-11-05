@@ -19,8 +19,17 @@ class newsComment
     private $idNews;
     private $author;
     private $authorEmail;
+    private $authorWebsite;
     private $date;
     private $content;
+
+    /**
+     * Array with ID of children comments
+     */
+    public $repliesId;
+
+
+    public $replies = [];
 
     public function __construct($val = array())
     {
@@ -31,7 +40,23 @@ class newsComment
             $this->date = $val['date'];
             $this->author = $val['author'];
             $this->authorEmail = $val['authorEmail'];
+            $this->authorWebsite = $val['authorWebsite'];
+            $this->repliesId = $val['replies'] ?? [];
+        } else {
+            $this->id = time();
         }
+    }
+
+    public function hasReplies(): bool
+    {
+        return (!empty($this->replies));
+    }
+
+    public function show()
+    {
+        $tpl = new Template(PLUGINS . 'blog/template/comment.tpl');
+        $tpl->set('comment', $this);
+        echo $tpl->output();
     }
 
     public function setId($val)
@@ -54,12 +79,17 @@ class newsComment
         $this->authorEmail = trim(strip_tags($val));
     }
 
+    public function setAuthorWebsite($val)
+    {
+        $this->authorWebsite = trim(strip_tags($val));
+    }
+
     public function setDate($val)
     {
         $val = trim($val);
         if ($val == '')
-            $val = date('Y-m-d');
-        $this->date = $val;
+            $val = new DateTime();
+        $this->date = $val->getTimestamp();
     }
 
     public function setContent($val)
@@ -85,6 +115,16 @@ class newsComment
     public function getAuthorEmail()
     {
         return $this->authorEmail;
+    }
+
+    public function getAuthorWebsite()
+    {
+        return $this->authorWebsite;
+    }
+
+    public function getAuthorAvatar()
+    {
+        return 'https://seccdn.libravatar.org/avatar/' . md5($this->authorEmail) .'?s=200';
     }
 
     public function getDate()

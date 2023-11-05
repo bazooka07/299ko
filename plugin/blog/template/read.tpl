@@ -57,38 +57,38 @@
 		{% else %}
 			<ul class="comments-list">
 				{% for k, v in newsManager.getComments() %}
-					<li class="comments-item">
-						<span class="infos">{{ v.getAuthor }}
-							|
-							{{ util::FormatDate(v.getDate(), "en", "fr") }}
-						</span>
-						<div class="comment" id="comment{{ v.getId }}">
-							<p>{{nl2br(v.getContent())}}</p>
-						</div>
-					</li>
+					{{ v. show }}
 				{% endfor %}
 			</ul>
 		{% endif %}
-		<footer>
-			<h2>Ajouter un commentaire</h2>
-			<form method="post" action="{{ commentSendUrl }}">
-				<input type="hidden" name="id" value="{{item.getId}}"/>
-				<input type="hidden" name="back" value="{{item.getUrl}}"/>
-				<p>
-					<label for="author">Pseudo</label><br>
-					<input style="display:none;" type="text" name="_author" value=""/>
-					<input type="text" name="author" id="author" required="required"/>
-				</p>
-				<p>
-					<label for="authorEmail">Email</label><br><input type="text" name="authorEmail" id="authorEmail" required="required"/></p>
-				<p>
-					<label for="commentContent">Commentaire</label><br><textarea name="commentContent" id="commentContent" required="required"></textarea>
-				</p>
-				{% if antispam %}
-					{{antispamField}}
-				{% endif %}
-				<p><input type="submit" value="Publier le commentaire"/></p>
-			</form>
-		</footer>
+		<div id="comments-add-container">
+			<div id="comments-add-respond">
+				<h2 id="comments-title" data-title="{{ Lang.blog.comments.add-comment}}">{{ Lang.blog.comments.add-comment}}</h2>
+				<form method="post" action="{{ commentSendUrl }}">
+				<button id="comments-cancel-respond" class="small" title="{{Lang.blog.comments.cancel-response}}" aria-label="{{Lang.blog.comments.cancel-response}}"><i class="fa-solid fa-xmark"></i></button>
+					<input type="hidden" name="id" value="{{item.getId}}"/>
+					<input type="hidden" name="commentParentId" id="commentParentId" value="0"/>
+					<input type="hidden" name="back" value="{{item.getUrl}}"/>
+					<p>
+						<label for="author">Nom *</label><br>
+						<input style="display:none;" type="text" name="_author" value=""/>
+						<input type="text" name="author" id="author" required="required"/>
+					</p>
+					<p>
+						<label for="authorEmail">Email *</label><br><input type="email" name="authorEmail" id="authorEmail" required="required"/></p>
+					<p>
+					<p>
+						<label for="authorWebsite">Site Web</label><br><input type="url" name="authorWebsite" id="authorWebsite"/></p>
+					<p>
+						<label for="commentContent">Commentaire *</label>
+						<textarea name="commentContent" id="commentContent" required="required"></textarea>
+					</p>
+					{% if antispam %}
+						{{antispamField}}
+					{% endif %}
+					<p><input type="submit" value="Publier le commentaire"/></p>
+				</form>
+			</div>
+		</div>
 	</section>
 {% endif %}

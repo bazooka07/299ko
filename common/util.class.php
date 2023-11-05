@@ -181,6 +181,43 @@ class util
         return $data;
     }
 
+    public static function getTimestampFromDate($date) {
+        if (is_int($date)) {
+            // Date from timestamp
+            $dateObj = new DateTime();
+            $dateObj->setTimestamp($date);
+        } else {
+            // Date from string, old version
+            $dateObj = new DateTime($date);
+        }
+        return $dateObj->getTimestamp();
+    }
+
+    public static function getDateHour($date) {
+        if (is_int($date)) {
+            // Date from timestamp
+            $dateObj = new DateTime();
+            $dateObj->setTimestamp($date);
+        } else {
+            // Date from string, old version
+            $dateObj = new DateTime($date);
+        }
+        return $dateObj->format(Lang::get("date-hour-format"));
+    }
+
+    public static function getNaturalDate($date) {
+        if (is_int($date)) {
+            // Date from timestamp
+            $dateObj = new DateTime();
+            $dateObj->setTimestamp($date);
+        } else {
+            // Date from string, old version
+            $dateObj = new DateTime($date);
+        }
+        $cal = IntlCalendar::fromDateTime($dateObj->format('Y-m-d H:i:s'));
+        return IntlDateFormatter::formatObject($cal, Lang::get("date-natural-date-hour-format"));
+    }
+
     /**
      * Build absolute URL with siteURL saved in config.json
      * 

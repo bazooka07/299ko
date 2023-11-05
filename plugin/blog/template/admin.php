@@ -156,10 +156,10 @@ include_once(ROOT . 'admin/header.php');
                 <th>Commentaire</th>
                 <th></th>
             </tr>
-            <?php foreach ($newsManager->getComments() as $k => $v) { ?>
+            <?php foreach ($newsManager->getFlatComments() as $k => $v) { ?>
                 <tr>
                     <td>
-                        <?php echo $v->getAuthor(); ?> <i><?php echo $v->getAuthorEmail(); ?></i> - <?php echo util::formatDate($v->getDate(), 'en', 'fr'); ?></b> :<br><br>
+                        <?php echo $v->getAuthor(); ?> <i><?php echo $v->getAuthorEmail(); ?></i> - <?php echo util::getNaturalDate($v->getDate()); ?></b> :<br><br>
                         <form id="comment<?php echo $v->getId(); ?>" method="post" action=".?p=blog&action=updatecomment&id=<?php echo $_GET['id']; ?>&idcomment=<?php echo $v->getId(); ?>&token=<?php echo administrator::getToken(); ?>"><textarea name="content<?php echo $v->getId(); ?>"><?php echo $v->getContent(); ?></textarea></form>
                     </td>
                     <td>
