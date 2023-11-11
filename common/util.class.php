@@ -104,12 +104,18 @@ class util
         return substr(strtolower(strrchr(basename($file), ".")), 1);
     }
 
-    ## Liste un répertoire et retourne un tableau contenant les fichiers et les dossiers (séparés)
-
-    public static function scanDir($folder, $not = array())
+    /**
+     * List a directory and return an array with files and folders (separated). This function is not recursive
+     * 
+     * @param string $folder Path to scan
+     * @param array $not Array of files to exclude
+     * @return array $data['dir] : Directories / $data['file'] : Files
+     */
+    public static function scanDir(string $folder, array $not = [])
     {
-        $data['dir'] = array();
-        $data['file'] = array();
+        $data['dir'] = [];
+        $data['file'] = [];
+        $folder = rtrim($folder, '/') . '/';
         foreach (scandir($folder) as $file) {
             if ($file[0] != '.' && !in_array($file, $not)) {
                 if (is_file($folder . $file))

@@ -78,12 +78,22 @@ class newsManager {
         return $this->save();
     }
 
-    public function delNews($obj) {
+    /**
+     * Delete a News from blog & her comments
+     * @param news $obj
+     * @return bool News correctly deleted
+     */
+    public function delNews(\news $obj):bool
+    {
+        $id = $obj->getId();
         foreach ($this->items as $k => $v) {
-            if ($obj->getId() == $v->getId())
+            if ($id == $v->getId())
                 unset($this->items[$k]);
         }
-        return $this->save();
+        if ($this->save()) {
+            return $this->deleteCommentsFromNews($id);
+        }
+        return false;
     }
 
     public function count() {
@@ -191,6 +201,12 @@ class newsManager {
                 $comment = $this->hydrateReplies($comment);
             }
         }
+    }
+
+    protected function deleteCommentsFromNews($idNews) {
+        $temp = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
+        unset($temp[$idNews]);
+        return util::writeJsonFile(DATA_PLUGIN . 'blog/comments.json', $temp);
     }
 
     public static function getLatestComments(int $nbComments = 10) {
