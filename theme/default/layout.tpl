@@ -9,6 +9,7 @@
         <link rel="icon" href="{{ SHOW.themeIcon }}" />
         {{ SHOW.linkTags }}
         {{ SHOW.scriptTags }}
+        {{ SHOW.showMetas }}
         {% HOOK.endFrontHead %}        
     </head>
     <body>
