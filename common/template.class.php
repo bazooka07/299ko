@@ -106,20 +106,20 @@ class Template {
      * {% DUMP plop %}
      */
     protected function parse() {
-        $this->content = preg_replace_callback('#\{\% *NOPARSE *\%\}(.*)\{\% *ENDNOPARSE *\%\}#isU', 'self::_no_parse', $this->content);
+        $this->content = preg_replace_callback('#\{\% *NOPARSE *\%\}(.*)\{\% *ENDNOPARSE *\%\}#isU', [$this,'_no_parse'], $this->content);
         $this->content = preg_replace('#\{\#(.*)\#\}#isU', '<?php /* $1 */ ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', 'self::_ifReplace', $this->content);
-        $this->content = preg_replace_callback('#\{% *SET (.+) = (.+) *%\}#iU', 'self::_setReplace', $this->content);
-        $this->content = preg_replace_callback('#\{% *DUMP (.+) *%\}#iU', 'self::_dumpReplace', $this->content);
-        $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', 'self::_callHook', $this->content);
-        $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#iU', 'self::_getLang', $this->content);
-        $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', 'self::_include', $this->content);
+        $this->content = preg_replace_callback('#\{\% *IF +(.+) *\%\}#iU', [$this,'_ifReplace'], $this->content);
+        $this->content = preg_replace_callback('#\{% *SET (.+) = (.+) *%\}#iU', [$this,'_setReplace'], $this->content);
+        $this->content = preg_replace_callback('#\{% *DUMP (.+) *%\}#iU', [$this,'_dumpReplace'], $this->content);
+        $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', [$this,'_callHook'], $this->content);
+        $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#iU', [$this,'_getLang'], $this->content);
+        $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', [$this,'_include'], $this->content);
         $this->content = preg_replace('#\{\{ *(.+) *\}\}#iU', '<?php $this->_show_var(\'$1\'); ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *FOR +(.+) +IN +(.+) *\%\}#i', 'self::_replace_for', $this->content);
+        $this->content = preg_replace_callback('#\{\% *FOR +(.+) +IN +(.+) *\%\}#i', [$this,'_replace_for'], $this->content);
         $this->content = preg_replace('#\{\% *ENDFOR *\%\}#i', '<?php endforeach; ?>', $this->content);
         $this->content = preg_replace('#\{\% *ENDIF *\%\}#i', '<?php } ?>', $this->content);
         $this->content = preg_replace('#\{\% *ELSE *\%\}#i', '<?php }else{ ?>', $this->content);
-        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *\%\}#iU', 'self::_elseifReplace', $this->content);
+        $this->content = preg_replace_callback('#\{\% *ELSEIF +(.+) *\%\}#iU', [$this,'_elseifReplace'], $this->content);
         $this->content = str_replace('#/§&µ&§;#', '{', $this->content);
     }
 

@@ -66,7 +66,7 @@ abstract class Category implements JsonSerializable {
 
     abstract public function getDeleteUrl():string ;
 
-    public function jsonSerialize() {
+    public function jsonSerialize():array {
         return
                 ['items' => $this->items,
                     'label' => $this->label,
