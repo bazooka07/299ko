@@ -9,8 +9,8 @@
 				{{ util::FormatDate(item.getDate(), "en", "fr") }}
 				{% if runPlugin.getConfigVal("comments") && item.getCommentsOff == false %}
 					|
-					{{ newsManager.countComments() }}
-					commentaire{% if newsManager.countComments() > 1 %}s{% endif %}
+					<a href="#comments">{{ newsManager.countComments() }}
+					commentaire{% if newsManager.countComments() > 1 %}s{% endif %}</a>
 				{% endif %}
 				{% if count(categories) == 0 %}
 					non classé

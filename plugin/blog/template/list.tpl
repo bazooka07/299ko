@@ -15,8 +15,8 @@
 						<p class="date">{{v.date}}
 							{% if runPlugin.getConfigVal("comments") && v.commentsOff == false %}
 								|
-								{{ newsManager.countComments(v.id) }}
-								commentaire{% if newsManager.countComments(v.id) > 1 %}s{% endif %}
+								<a href="{{v.url}}#comments">{{ newsManager.countComments(v.id) }}
+								commentaire{% if newsManager.countComments(v.id) > 1 %}s{% endif %}</a>
 							{% endif %}
 							 | <span class="item-categories"><i class="fa-regular fa-folder-open"></i>
 							{% if count(v.cats) == 0 %}
