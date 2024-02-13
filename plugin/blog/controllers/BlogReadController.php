@@ -138,7 +138,15 @@ class BlogReadController extends Controller
                     $comment = new newsComment();
                     $comment->setIdNews($idNews);
                     $comment->setAuthor($_POST['author']);
-                    $comment->setAuthorEmail($_POST['authorEmail']);
+                    $email = filter_input(INPUT_POST,'authorEmail', FILTER_VALIDATE_EMAIL);
+                    if ($email !== false) {
+                        $comment->setAuthorEmail($_POST['authorEmail']);
+                    } else {
+                        show::msg(Lang::get("blog.comments.bad-mail"), 'error');
+                        header('location:' . $_POST['back']);
+                        die();
+                    }
+                    
                     $comment->setAuthorWebsite(filter_input(INPUT_POST, 'authorWebsite', FILTER_VALIDATE_URL) ?? null);
                     $comment->setDate('');
                     $comment->setContent($_POST['commentContent']);

@@ -178,7 +178,6 @@ switch ($action) {
         if ($administrator->isAuthorized()) {
             $newsManager->loadComments($_GET['id']);
             $comment = $newsManager->createComment($_GET['idcomment']);
-            $newsManager->delComment($comment);
             $comment->setContent($_POST['content' . $_GET['idcomment']]);
             if ($newsManager->saveComment($comment)) {
                 show::msg("Les modifications ont été enregistrées", 'success');

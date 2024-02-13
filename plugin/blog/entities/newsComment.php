@@ -28,7 +28,6 @@ class newsComment
      */
     public $repliesId;
 
-
     public $replies = [];
 
     public function __construct($val = array())
@@ -71,17 +70,17 @@ class newsComment
 
     public function setAuthor($val)
     {
-        $this->author = trim(strip_tags($val));
+        $this->author = trim(htmlEntities($val, ENT_QUOTES));
     }
 
     public function setAuthorEmail($val)
     {
-        $this->authorEmail = trim(strip_tags($val));
+        $this->authorEmail = trim(htmlEntities($val, ENT_QUOTES));
     }
 
     public function setAuthorWebsite($val)
     {
-        $this->authorWebsite = trim(strip_tags($val));
+        $this->authorWebsite = trim(htmlEntities($val, ENT_QUOTES));
     }
 
     public function setDate($val)
@@ -94,7 +93,7 @@ class newsComment
 
     public function setContent($val)
     {
-        $this->content = trim(strip_tags($val));
+        $this->content = trim(htmlEntities($val, ENT_QUOTES));
     }
 
     public function getId()
@@ -124,7 +123,7 @@ class newsComment
 
     public function getAuthorAvatar()
     {
-        return 'https://seccdn.libravatar.org/avatar/' . md5($this->authorEmail) .'?s=200';
+        return 'https://seccdn.libravatar.org/avatar/' . md5($this->authorEmail) . '?s=200';
     }
 
     public function getDate()
