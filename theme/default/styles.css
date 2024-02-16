@@ -613,16 +613,23 @@ section + article, section + .card, article + section, article + .card,
     background: var(--primary-hover-color);
 }
 
+.comments-list:first-child {
+    padding-left: 0;
+}
 .comments-list {
     list-style-type: none;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 article.comment {
-    border:none;
+    border: none;
     padding: 0;
     margin-top: 30px;
     margin: 50px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(125, 125, 125, 0.3);
+    border-bottom-color: rgba(125, 125, 125, 0.3);
+    border-radius: 0;
 }
 
 .comments-item {
