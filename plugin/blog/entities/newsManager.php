@@ -293,6 +293,9 @@ class newsManager {
             $idNews = $obj->getIdNews();
             $newsComments = &$rawComments[$idNews];
             foreach ($newsComments as $idComment => &$comment) {
+                if (!is_array($comment['replies'])) {
+                    $comment['replies'] = [];
+                }
                 if (in_array($obj->getId(), $comment['replies'] )) {
                     $comment['replies'] = array_diff($comment['replies'], [$obj->getId()]);
                 }
