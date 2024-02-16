@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ Lang.getLocale }}">
 	<head>
 		{% HOOK.frontHead %}
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -16,7 +16,7 @@
 		<div id="container">
 			<div id="header">
 				<nav id="header_content">
-					<button id="mobile_menu" aria-label="Menu"></button>
+					<button id="mobile_menu" aria-label="{{ Lang.site-menu-label }}"></button>
 					<p id="siteName">
 						<a href="{{ SHOW.siteUrl }}">{{ SHOW.siteName }}</a>
 					</p>
@@ -51,11 +51,11 @@
 				<div id="footer_content">
 					{% HOOK.footer %}
 					<p>
-						<a target='_blank' href='https://github.com/299ko/'>Just using 299ko</a>
-						- Thème
+						<a target='_blank' href='https://github.com/299ko/'>{{ Lang.site-just-using( ) }}</a>
+						- {{ Lang.site-theme }} 
 						{{ SHOW.theme }}
 						-
-						<a rel="nofollow" href="{{ util.urlBuild("", true) }}">Administration</a>
+						<a rel="nofollow" href="{{ util.urlBuild("", true) }}">{{ Lang.site-admin }}</a>
 					</p>
 					{% HOOK.endFooter %}
 				</div>
