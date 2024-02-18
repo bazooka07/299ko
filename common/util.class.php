@@ -221,7 +221,7 @@ class util
             $dateObj = new DateTime($date);
         }
         $cal = IntlCalendar::fromDateTime($dateObj->format('Y-m-d H:i:s'));
-        return IntlDateFormatter::formatObject($cal, Lang::get("date-natural-date-hour-format"));
+        return IntlDateFormatter::formatObject($cal, Lang::get("date-natural-date-hour-format"), Lang::get('locale'));
     }
 
     /**
