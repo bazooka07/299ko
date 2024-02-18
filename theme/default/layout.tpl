@@ -51,7 +51,7 @@
 				<div id="footer_content">
 					{% HOOK.footer %}
 					<p>
-						<a target='_blank' href='https://github.com/299ko/'>{{ Lang.site-just-using( ) }}</a>
+						<a target='_blank' href='https://299ko.ovh'>{{ Lang.site-just-using( ) }}</a>
 						- {{ Lang.site-theme }} 
 						{{ SHOW.theme }}
 						-

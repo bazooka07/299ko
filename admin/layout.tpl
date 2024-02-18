@@ -25,7 +25,7 @@
                                 {{ show.adminNavigation }}
                             <li class="site"><a href=".?action=logout&token={{ administrator.getToken }}"><i title="{{ Lang.core-disconnection }}" class="fa-solid fa-arrow-right-from-bracket"></i><span>{{ Lang.core-disconnection }}</span></a></li>
                             <li class="just_using">
-                                <a target="_blank" href="https://github.com/299ko/"><i title="{{ Lang.site-just-using(VERSION) }}" class="fa-solid fa-flask"></i><span>{{ Lang.site-just-using(VERSION) }}</span></a>
+                                <a target="_blank" href="https://299ko.ovh"><i title="{{ Lang.site-just-using(VERSION) }}" class="fa-solid fa-flask"></i><span>{{ Lang.site-just-using(VERSION) }}</span></a>
                             </li>
                         </ul>
                     </div>
