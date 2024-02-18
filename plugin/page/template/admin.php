@@ -144,7 +144,7 @@ if ($mode == 'list') {
                 <input type="text" name="mainTitle" id="mainTitle" value="<?php echo $pageItem->getMainTitle(); ?>" />
             </p>
             <p>
-                <label for="file">Inclure un fichier .php au lieu du contenu
+                <label for="file">Inclure un fichier .tpl au lieu du contenu
                     <select name="file" id="file">
                         <option value="">--</option>
                         <?php foreach ($page->listTemplates() as $file) { ?>

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## V1.4.0
+
+### Added
+
+- Comments blog can be nested
+- Compatibility with PHP 8.3
+
+### Fixed
+
+- Description in banner
+- URL Generation by router when a port is specified
+- Blog metadatas
+- Remove Pagination when empty
+
+### Changed
+
+- Page template has to be in .tpl format
+
 ## V1.3.2
 
 ### Added

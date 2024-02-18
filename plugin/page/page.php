@@ -225,10 +225,10 @@ class page {
 
     public function listTemplates() {
         $core = core::getInstance();
-        $data = array();
-        $items = util::scanDir(THEMES . $core->getConfigVal('theme') . '/', array('header.php', 'footer.php', 'style.css', '404.php', 'functions.php'));
+        $data = [];
+        $items = util::scanDir(THEMES . $core->getConfigVal('theme') . '/', ['404.tpl', 'layout.tpl']);
         foreach ($items['file'] as $file) {
-            if (in_array(util::getFileExtension($file), array('htm', 'html', 'txt', 'php')))
+            if (util::getFileExtension($file) === 'tpl')
                 $data[] = $file;
         }
         return $data;

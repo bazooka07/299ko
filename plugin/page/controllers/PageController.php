@@ -66,7 +66,11 @@ class PageController extends Controller
         if (isset($pageFile) && $pageFile !== false) {
             if (util::getFileExtension($this->pageItem->getFile()) === 'tpl') {
                 $response = new PublicResponse();
+                $filephp = preg_replace('"\.tpl$"', '.php', $this->pageItem->getFile());
                 $tpl = new Template($pageFile);
+                if (file_exists(THEMES . $this->core->getConfigVal('theme') . '/' . $filephp)) {
+                    require THEMES . $this->core->getConfigVal('theme') . '/' . $filephp;
+                }
             } else {
 				$core = $this->core;
                 include_once(THEMES . $this->core->getConfigVal('theme') . '/header.php');
