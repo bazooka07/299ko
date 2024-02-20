@@ -123,8 +123,10 @@ switch ($action) {
             if ($newsManager->saveNews($news)) {
                 $blogCats = $categoriesManager->getCategories();
                 $choosenCats = [];
-                foreach ($_POST['categoriesCheckbox'] as $k => $cat) {
-                    $choosenCats[] = (int) $cat;
+                if (isset($_POST['categoriesCheckbox'])) {
+                    foreach ($_POST['categoriesCheckbox'] as $k => $cat) {
+                        $choosenCats[] = (int) $cat;
+                    }
                 }
                 $label = filter_input(INPUT_POST, 'category-add-label', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 if ($label !== '') {
