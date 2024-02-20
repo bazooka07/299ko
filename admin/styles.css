@@ -85,15 +85,8 @@ h2{
     color: #1b2832;
 }
 h3{
-    font-weight:normal;
-    text-transform:uppercase;
-    font-size:14px;
-    margin-bottom:30px;
     margin-top:30px;
     padding:15px;
-    text-align:right;
-    background:#eee;
-    font-style:italic;
 }
 ul,ol{
     padding-left:0;
@@ -328,8 +321,8 @@ div.tooltip:after {
 
 div.tooltip > span {
     position: absolute;
-    min-width: 100px;
-    max-width: min(50vw, 300px);
+    min-width: 10em;
+    max-width: min(50vw, 20em);
     padding: 20px;
     visibility: hidden;
     opacity: 0;
@@ -343,7 +336,9 @@ div.tooltip > span {
     cursor: initial;
     width: max-content;
     font-size: 15px;
-    right:0;
+    left: 50%;
+    margin-left: -10em;
+    top: 100%;
 }
 
 div.tooltip:hover > span {
@@ -740,15 +735,6 @@ section > footer, .card > footer {
     overflow-x: hidden;
 }
 
-/* HELP */
-
-#help_panel h3{
-    padding:0px;
-    text-align:left;
-    background:none;
-    margin-bottom: 0;
-}
-
 /* Custom Checkbox & radio */
 
 [type=checkbox],
@@ -962,7 +948,7 @@ tr td input.small {
     }
     
     button[type=submit].floating, [type=submit].button.floating {
-        font-size: 18px;
+        font-size: 20px !important;
         width: 48px;
         height: 48px;
     }
