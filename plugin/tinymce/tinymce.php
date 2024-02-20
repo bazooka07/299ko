@@ -26,6 +26,7 @@ function tinymceAdminHead() {
     $options = "language: 'fr_FR',
         images_upload_url: '" . $uploadUrl . "',
         automatic_uploads: true,
+        browser_spellcheck: true,
         plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
         toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | insertfile image media link | charmap emoticons codesample | fullscreen',
         max_height: 600,
