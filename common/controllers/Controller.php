@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2023, 299Ko
+ * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * 
@@ -9,17 +9,17 @@
  */
 defined('ROOT') OR exit('No direct script access allowed');
 
-class Controller {
+abstract class Controller {
     
     /**
      * Core instance
-     * @var \core
+     * @var core
      */
     protected core $core;
     
     /**
      * Router instance
-     * @var \router
+     * @var router
      */
     protected router $router;
 
@@ -29,16 +29,9 @@ class Controller {
      */
     protected pluginsManager $pluginsManager;
     
-    /**
-     * Current plugin instance
-     * @var plugin
-     */
-    protected plugin $runPlugin;
-    
     public function __construct() {
         $this->core = core::getInstance();
         $this->router = router::getInstance();
         $this->pluginsManager = pluginsManager::getInstance();
-        $this->runPlugin = $this->pluginsManager->getPlugin($this->core->getPluginToCall());
     }
 }

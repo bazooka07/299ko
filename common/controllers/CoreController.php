@@ -12,17 +12,45 @@ defined('ROOT') or exit('No direct script access allowed');
 class CoreController extends Controller
 {
 
+    protected plugin $defaultPlugin;
+
+    public function __construct() {
+        parent::__construct();
+        $pluginName = $this->core->getPluginToCall();
+
+        if (pluginsManager::isActivePlugin($pluginName)) {
+            $this->defaultPlugin = $this->pluginsManager->getPlugin($pluginName);
+        } else {
+            define('ADMIN_MODE', false);
+            $this->core->error404();
+        }
+    }
+
     public function renderHome()
     {
-        $callback = $this->runPlugin->getCallablePublic();
-
-        if (method_exists($callback[0], $callback[1])) {
-            $obj = new $callback[0]();
-            $response = call_user_func([$obj, $callback[1]]);
-            return $response;
-        } else {
-            // unreachable target
-            core::getInstance()->error404();
+        if ($this->defaultPlugin->getIsCallableOnPublic()) {
+            $callback = $this->defaultPlugin->getCallablePublic();
+            if (method_exists($callback[0], $callback[1])) {
+                $obj = new $callback[0]();
+                $response = call_user_func([$obj, $callback[1]]);
+                return $response;
+            }
         }
+        define('ADMIN_MODE', false);
+        core::getInstance()->error404();
+    }
+
+    public function renderAdminHome()
+    {
+        if ($this->defaultPlugin->getIsCallableOnAdmin()) {
+            $callback = $this->defaultPlugin->getCallableAdmin();
+            if (method_exists($callback[0], $callback[1])) {
+                $obj = new $callback[0]();
+                $response = call_user_func([$obj, $callback[1]]);
+                return $response;
+            }
+        }
+        define('ADMIN_MODE', false);
+        core::getInstance()->error404();
     }
 }
