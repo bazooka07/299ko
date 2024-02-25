@@ -61,29 +61,27 @@ class core
             $this->themes[$v] = util::readJsonFile(THEMES . $v . '/infos.json', true);
         }
         // On détermine le plugin que l'on doit executer suivant le mode (public ou admin)
-        if (isset($_GET['p'])) {
-            define('ISHOMEPAGE', false);
-            $this->pluginToCall = $_GET['p'];
+        
+
+        $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
+        if ($parts[0] === '') {
+            $this->pluginToCall = $this->getConfigVal('defaultPlugin');
+            define('ISHOMEPAGE', true);
         } else {
-            $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
-            if (ADMIN_MODE) {
+            if ($parts[0] === 'admin') {
                 if (isset($parts[1]) && $parts[1] !== '') {
-                    define('ISHOMEPAGE', false);
                     $this->pluginToCall = $parts[1];
+                    define('ISHOMEPAGE', false);
                 } else {
                     $this->pluginToCall = $this->getConfigVal('defaultAdminPlugin');
                     define('ISHOMEPAGE', true);
                 }
             } else {
-                if (isset($parts[0]) && $parts[0] !== '') {
-                    define('ISHOMEPAGE', false);
-                    $this->pluginToCall = $parts[0];
-                } else {
-                    $this->pluginToCall = $this->getConfigVal('defaultPlugin');
-                    define('ISHOMEPAGE', true);
-                }
+                $this->pluginToCall = $parts[0];
+                define('ISHOMEPAGE', false);
             }
         }
+
         $this->locale = $this->getConfigVal('siteLang');
         if ($this->locale === false) {
             if (isset($_GET['lang'])) {
@@ -164,7 +162,7 @@ class core
 
     ## Retourne l'identifiant du plugin solicité
 
-    public function getPluginToCall()
+    public function getPluginToCall():string
     {
         return $this->pluginToCall;
     }
@@ -282,19 +280,30 @@ class core
         return ($ajaxGet === 'ajax' || $ajaxPost === 'ajax');
     }
 
+    /**
+     * Redirect to an other URL and stop current connection
+     * 
+     * @param string $url
+     */
+    public function redirect(string $url):void {
+        header('location:' . $url);
+        die();
+    }
+
     ## Renvoi une page 404
 
-    public function error404($mainTitle = '404')
+    public function error404()
     {
-        $core = $this;
+        define('404_ERROR', true);
         global $runPlugin;
         if ($runPlugin)
-            $runPlugin->setMainTitle('Error 404 :(');
+            $runPlugin->setMainTitle(Lang::get('core-404-title'));
         header("HTTP/1.1 404 Not Found");
         header("Status: 404 Not Found");
-        include_once(THEMES . $this->getConfigVal('theme') . '/header.php');
-        include_once(THEMES . $this->getConfigVal('theme') . '/404.php');
-        include_once(THEMES . $this->getConfigVal('theme') . '/footer.php');
+        $response = new PublicResponse();
+        $tpl = $response->createCoreTemplate('404');
+        $response->addTemplate($tpl);
+        echo $response->output();
         die();
     }
 

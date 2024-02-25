@@ -33,7 +33,7 @@ class pluginsManager {
      * Retourne un objet plugin
      * 
      * @param string Nom du plugin
-     * @return \plugin
+     * @return plugin
      */
     public function getPlugin($name) {
         foreach ($this->plugins as $plugin) {

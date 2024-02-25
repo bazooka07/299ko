@@ -32,9 +32,6 @@ spl_autoload_register(function ($class) {
 });
 
 $router = router::getInstance();
-
-define('ADMIN_MODE', substr($router->getCleanURI(), 0, 6) === '/admin');
-
 $core = core::getInstance();
 
 $pluginsManager = pluginsManager::getInstance();
@@ -42,12 +39,18 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
     if ($plugin->getConfigVal('activate')) {
         $plugin->loadLangFile();
         $plugin->loadRoutes();
-        include_once($plugin->getLibFile());
+		if ($plugin->getLibFile() !== false) {
+			include_once($plugin->getLibFile());
+		}
         foreach ($plugin->getHooks() as $name => $function) {
             $core->addHook($name, $function);
         }
     }
 }
+
+define('IS_LOGGED', UsersManager::isLogged());
+// For futures versions
+define('IS_ADMIN', IS_LOGGED);
 
 ## $runPLugin représente le plugin en cours d'execution et s'utilise avec la classe plugin & pluginsManager
 $runPlugin = $pluginsManager->getPlugin($core->getPluginToCall());
@@ -59,8 +62,12 @@ Template::addGlobal('DATA_PLUGIN', DATA_PLUGIN);
 Template::addGlobal('THEMES', THEMES);
 Template::addGlobal('PLUGINS', PLUGINS);
 Template::addGlobal('THEME_PATH', THEMES . $core->getConfigVal('theme') . '/');
+Template::addGlobal('SITE_URL', $core->getConfigVal('siteUrl'));
 Template::addGlobal('VERSION', VERSION);
 Template::addGlobal('runPlugin', $runPlugin);
+Template::addGlobal('ROUTER', $router);
 Template::addGlobal('pluginsManager', $pluginsManager);
 Template::addGlobal('CORE', $core);
 Template::addGlobal('ADMIN_PATH', ADMIN_PATH);
+Template::addGlobal('IS_LOGGED', IS_LOGGED);
+Template::addGlobal('IS_ADMIN', IS_ADMIN);

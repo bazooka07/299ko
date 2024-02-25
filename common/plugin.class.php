@@ -46,6 +46,10 @@ class plugin {
 
     private array $callablePublic = [];
 
+    private bool $isCallableOnAdmin = false;
+
+    private array $callableAdmin = [];
+
     ## Constructeur
 
     public function __construct($name, $config = array(), $infos = array(), $hooks = array(), $initConfig = array()) {
@@ -70,16 +74,10 @@ class plugin {
         $this->setMainTitle($infos['name']);
         // Fichier php principal
         $this->libFile = (file_exists(PLUGINS . $this->name . '/' . $this->name . '.php')) ? PLUGINS . $this->name . '/' . $this->name . '.php' : false;
-        // Controlleur en mode public
-        $this->publicFile = (file_exists(PLUGINS . $this->name . '/public.php')) ? PLUGINS . $this->name . '/public.php' : false;
+
         $this->setCallables();
         // Controlleur en mode admin
         $this->adminFile = (file_exists(PLUGINS . $this->name . '/admin.php')) ? PLUGINS . $this->name . '/admin.php' : false;
-        
-        // Controlleur admin Ajax
-        $this->adminAjaxFile = (file_exists(PLUGINS . $this->name . '/admin-ajax.php')) ? PLUGINS . $this->name . '/admin-ajax.php' : false;
-        // Controlleur public Ajax
-        $this->publicAjaxFile = (file_exists(PLUGINS . $this->name . '/public-ajax.php')) ? PLUGINS . $this->name . '/public-ajax.php' : false;
         
         // CSS
         $this->publicCssFile = (file_exists(PLUGINS . $this->name . '/template/public.css')) ? PLUGINS . $this->name . '/template/public.css' : false;
@@ -104,6 +102,12 @@ class plugin {
             list($controller, $action) = explode('#', $homePublic);
             $this->callablePublic = [$controller, $action];
             $this->isCallableOnPublic = true;
+        }
+        $homeAdmin = $this->getInfoVal('homeAdminMethod') ?? false;
+        if ($homeAdmin) {
+            list($controller, $action) = explode('#', $homeAdmin);
+            $this->callableAdmin = [$controller, $action];
+            $this->isCallableOnAdmin = true;
         }
     }
 
@@ -356,6 +360,7 @@ class plugin {
     }
 
 	/**
+     * Return if this plugin is callbale in public mode
 	 * @return bool
 	 */
 	public function getIsCallableOnPublic(): bool {
@@ -363,9 +368,28 @@ class plugin {
 	}
 
 	/**
+     * Get a callable array from a plugin
+     * This callable is the plugin's homepage
 	 * @return array
 	 */
 	public function getCallablePublic(): array {
 		return $this->callablePublic;
+	}
+
+    /**
+     * Return if this plugin is callbale in admin mode
+	 * @return bool
+	 */
+	public function getIsCallableOnAdmin(): bool {
+		return $this->isCallableOnAdmin;
+	}
+
+	/**
+     * Get a callable array from a plugin
+     * This callable is the plugin's admin homepage
+	 * @return array
+	 */
+	public function getCallableAdmin(): array {
+		return $this->callableAdmin;
 	}
 }
