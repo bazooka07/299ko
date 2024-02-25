@@ -58,7 +58,7 @@ class textCaptcha {
         if (!isset($this->operation)) {
             $this->generate();
         }
-        return '<p><label for="antispam">' . $this->operation . ' (en chiffres)</label><br><input required="required" type="text" name="antispam" id="antispam" value="" /></p>';
+        return '<p><label for="antispam">' . $this->operation . lang::get('antispam.in-numbers') . '</label><br><input required="required" type="text" name="antispam" id="antispam" value="" /></p>';
     }
 
     public function isValid() {
@@ -67,24 +67,28 @@ class textCaptcha {
 
     protected function generate() {
         $numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-        $letters = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze"];
+        $letters = [];
+        foreach ($numbers as $number) {
+            $letters[] = lang::get('antispam.' . $number);
+        }
         $first = rand(0, count($numbers) - 1);
         $second = rand(0, count($numbers) - 1);
         $sign = rand(0, 1);
+        $o = lang::get('antispam.how-counts') . $letters[$first];
         if ($second <= $first && $sign == 1) {
             $r = $numbers[$first] - $numbers[$second];
-            $o = "Combien font " . $letters[$first] . " retranché(s) de " . $letters[$second] . " ?";
+            $o .= lang::get('antispam.minus-alt');
         } elseif ($second <= $first && $sign == 0) {
             $r = $numbers[$first] - $numbers[$second];
-            $o = "Combien font " . $letters[$first] . " moins " . $letters[$second] . " ?";
+            $o .= lang::get('antispam.minus');
         } elseif ($second > $first && $sign == 1) {
             $r = $numbers[$first] + $numbers[$second];
-            $o = "Combien font " . $letters[$first] . " ajouté(s) à " . $letters[$second] . " ?";
+            $o .= lang::get('antispam.plus-alt');
         } else {
             $r = $numbers[$first] + $numbers[$second];
-            $o = "Combien font " . $letters[$first] . " plus " . $letters[$second] . " ?";
+            $o .= lang::get('antispam.plus');
         }
-        $this->operation = $o;
+        $this->operation = $o . $letters[$second] . " ?";
         $this->result = $r;
         $_SESSION['antispam_result'] = sha1($this->result);
     }
