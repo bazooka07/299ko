@@ -9,7 +9,7 @@
  */
 defined('ROOT') or exit('No direct script access allowed');
 
-class PageController extends Controller
+class PageController extends PublicController
 {
 
     /**

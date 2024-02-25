@@ -9,7 +9,7 @@
  */
 defined('ROOT') OR exit('No direct script access allowed');
 
-class BlogListController extends Controller {
+class BlogListController extends PublicController {
 
     public function home($currentPage = 1)
     {

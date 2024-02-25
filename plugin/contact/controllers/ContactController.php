@@ -9,7 +9,7 @@
  */
 defined('ROOT') or exit('No direct script access allowed');
 
-class ContactController extends Controller
+class ContactController extends PublicController
 {
 
     public function home()

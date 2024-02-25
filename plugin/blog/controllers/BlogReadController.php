@@ -9,9 +9,8 @@
  */
 defined('ROOT') or exit('No direct script access allowed');
 
-class BlogReadController extends Controller
+class BlogReadController extends PublicController
 {
-
 
     public function read($name, $id)
     {

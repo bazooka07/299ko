@@ -9,7 +9,7 @@
  */
 defined('ROOT') or exit('No direct script access allowed');
 
-class GalerieController extends Controller
+class GalerieController extends PublicController
 {
 
     public function home()
