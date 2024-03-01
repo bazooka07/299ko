@@ -4,7 +4,7 @@ include_once(ROOT . 'admin/header.php');
 ?>
 
 <form id="configForm" method="post" action=".?p=configmanager&action=save" autocomplete="off">
-    <?php show::adminTokenField(); ?>
+    <?php show::tokenField(); ?>
     <section>
         <header>Paramètres du site</header>
         <p>

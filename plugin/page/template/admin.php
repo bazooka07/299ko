@@ -71,7 +71,7 @@ if ($mode == 'list') {
 
 <?php if ($mode == 'edit' && !$isLink && !$isParent && $pageItem->targetIs() != 'plugin') { ?>
     <form method="post" action=".?p=page&amp;action=save" enctype="multipart/form-data">
-        <?php show::adminTokenField(); ?>
+        <?php show::tokenField(); ?>
         <section>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
             <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
@@ -181,7 +181,7 @@ if ($mode == 'list') {
     <section>
         <header>Modifier le lien</header>
         <form method="post" action=".?p=page&amp;action=save">
-            <?php show::adminTokenField(); ?>
+            <?php show::tokenField(); ?>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
             <!--<input type="hidden" name="position" value="<?php echo $pageItem->getPosition(); ?>" />-->
             <p>
@@ -241,7 +241,7 @@ if ($mode == 'list') {
     <section>
         <header>Modifier le parent</header>
         <form method="post" action=".?p=page&amp;action=save">
-            <?php show::adminTokenField(); ?>
+            <?php show::tokenField(); ?>
             <input type="hidden" name="id" value="<?php echo $pageItem->getId(); ?>" />
             <!--<input type="hidden" name="position" value="<?php echo $pageItem->getPosition(); ?>" />-->
             <input type="hidden" name="target" value="javascript:" />

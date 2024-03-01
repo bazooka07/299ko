@@ -32,7 +32,7 @@ include_once(ROOT . 'admin/header.php');
 
 <?php if ($mode == 'edit') { ?>
     <form method="post" id="mainForm" action=".?p=blog&action=save" enctype="multipart/form-data">
-        <?php show::adminTokenField(); ?>
+        <?php show::tokenField(); ?>
         <input type="hidden" name="id" value="<?php echo $news->getId(); ?>" />
         <?php if ($pluginsManager->isActivePlugin('galerie')) { ?>
             <input type="hidden" name="imgId" value="<?php echo $news->getImg(); ?>" />
@@ -180,7 +180,7 @@ include_once(ROOT . 'admin/header.php');
 if ($mode === 'editCategory') {
     echo '<section><header>Modification de la catégorie</header>';
         echo '<form method="post" action="?p=blog&action=saveCategory&id=' . $id . '">';
-        show::adminTokenField();
+        show::tokenField();
         ?>
         <p><label for='label'>Nom de la catégorie</label>
             <input type="text" name="label" id="label" value="<?php echo $category->label; ?>" /></p>

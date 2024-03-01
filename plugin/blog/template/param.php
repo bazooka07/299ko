@@ -1,5 +1,5 @@
 <form method="post" action=".?p=blog&action=saveconf">
-    <?php show::adminTokenField(); ?>
+    <?php show::tokenField(); ?>
     <script>
         function onCheckAuthor() {
             if (document.getElementById("displayAuthor").checked) {

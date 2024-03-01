@@ -35,7 +35,7 @@ include_once(ROOT . 'admin/header.php');
 
 <?php if ($mode == 'edit') { ?>
     <form method="post" action=".?p=galerie&action=save" enctype="multipart/form-data">
-        <?php show::adminTokenField(); ?>
+        <?php show::tokenField(); ?>
         <section>
             <input type="hidden" name="id" value="<?php echo $item->getId(); ?>" />
             <header>Paramètres</header>

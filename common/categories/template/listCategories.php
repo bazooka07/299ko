@@ -32,7 +32,7 @@ switch ($catDisplay) {
             <div id="categorie-add-form-container" class="list-item-list">
                 <form id="categorie-add-form" name="categorie-add-form" method="post" action="<?php echo $this->getAddCategoryUrl(); ?>" >
 <h4 id="head-add-cat"><?php echo lang::get($this->getPrefix() . 'addCategory'); ?></h4>
-                    <?php show::adminTokenField(); ?> 
+                    <?php show::tokenField(); ?> 
                     <div class="input-field">
                         <label class="active" for="category-add-label"><?php echo lang::get($this->getPrefix() . 'categoryName'); ?></label>
                         <input type="text" name="category-add-label" id="category-add-label" required/>

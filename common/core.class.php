@@ -294,10 +294,9 @@ class core
 
     public function error404()
     {
-        define('404_ERROR', true);
-        global $runPlugin;
-        if ($runPlugin)
-            $runPlugin->setMainTitle(Lang::get('core-404-title'));
+        if (!defined('ADMIN_MODE')) {
+            define('ADMIN_MODE', false);
+        }
         header("HTTP/1.1 404 Not Found");
         header("Status: 404 Not Found");
         $response = new PublicResponse();
@@ -307,9 +306,14 @@ class core
         die();
     }
 
-    ## Update le fichier de configuration
-
-    public function saveConfig($val, $append = array())
+    /**
+     * Saves a configuration value to the config file.
+     *
+     * @param string $val The configuration value to save. 
+     * @param array $append Additional configuration values to append.
+     * @return bool True if the save was successful, false otherwise.
+     */
+    public function saveConfig(string $val, array $append = []): bool
     {
         $config = util::readJsonFile(DATA . 'config.json', true);
         $config = array_merge($config, $append);
@@ -385,7 +389,7 @@ class core
     /**
      * Add a log into log file
      * 
-     * @param string Message
+     * @param string|array Message
      * @param string Severity
      * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
      */
@@ -414,7 +418,7 @@ class core
  * Add a log into log file
  * @see \core->log()
  * 
- * @param string Message
+ * @param string|array Message
  * @param string Severity
  * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
  */

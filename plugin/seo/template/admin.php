@@ -5,7 +5,7 @@ include_once(ROOT . 'admin/header.php');
 
 <form method="post" action=".?p=seo&action=save">
     <?php
-    show::adminTokenField();
+    show::tokenField();
     $position = $runPlugin->getConfigVal('position');
     ?>
     <section>

@@ -92,8 +92,10 @@ class util
         $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
         $headers .= 'Content-Type: text/plain; charset="utf-8"' . "\r\n";
         $headers .= 'Content-Transfer-Encoding: 8bit';
-        if (@mail($to, $subject, $msg, $headers))
+        if (mail($to, $subject, $msg, $headers)) {
             return true;
+        }
+        logg('Error when sending mail', 'ERROR');
         return false;
     }
 

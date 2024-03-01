@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## V1.4.0
+## V2.0.0
 
 ### Added
 
 - Comments blog can be nested
 - Compatibility with PHP 8.3
+- Users can be stay connected (cookies)
+- Antispam fully Translated
+- New Users Plugin
 
 ### Fixed
 
@@ -19,6 +22,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Page template has to be in .tpl format
+- Users connect and managements
+- Force use responses & controllers
 
 ## V1.3.2
 

@@ -42,7 +42,7 @@ $errorDataWrite = !is_writable(DATA);
 
 $availablesLocales = Lang::$availablesLocales;
 
-if (count($_POST) > 0 && $administrator->isAuthorized()) {
+if (count($_POST) > 0) {
 	if ($core->install()) {
 		$plugins = $pluginsManager->getPlugins();
 		if ($plugins != false) {
@@ -59,12 +59,12 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
 		}
 	}
 	include(DATA . 'key.php');
-    $adminPwd = $administrator->encrypt($_POST['adminPwd']);
+    $adminPwd = UsersManager::encrypt($_POST['adminPwd']);
     $adminEmail = $_POST['adminEmail'];
     $config = array(
         'siteName' => "SiteName",
         'siteDesc' => "Description",
-        'adminPwd' => $administrator->encrypt($_POST['adminPwd']),
+        'adminPwd' => $adminPwd,
         'adminEmail' => $_POST['adminEmail'],
         'siteUrl' => $core->makeSiteUrl(),
         'theme' => 'default',
@@ -142,7 +142,6 @@ if (count($_POST) > 0 && $administrator->isAuthorized()) {
             } else {
                 ?>
                 <form method="post" action="">   
-                    <?php show::adminTokenField();
                     echo '<h3>'.Lang::get('install-please-fill-fields').'</h3>';
                     ?>          
                     <p><label for="lang-select"><?php echo Lang::get('install-lang-choice'); ?></label>

@@ -5,7 +5,7 @@ include_once(ROOT . 'admin/header.php');
 <section>
     <header>Liste des plugins</header>
     <form method="post" action=".?p=pluginsmanager&action=save" id="pluginsmanagerForm">
-        <?php show::adminTokenField(); ?> 
+        <?php show::tokenField(); ?> 
         <table>
             <thead>
                 <tr>

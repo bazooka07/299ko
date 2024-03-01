@@ -21,7 +21,6 @@ class CoreController extends Controller
         if (pluginsManager::isActivePlugin($pluginName)) {
             $this->defaultPlugin = $this->pluginsManager->getPlugin($pluginName);
         } else {
-            define('ADMIN_MODE', false);
             $this->core->error404();
         }
     }
@@ -36,7 +35,6 @@ class CoreController extends Controller
                 return $response;
             }
         }
-        define('ADMIN_MODE', false);
         core::getInstance()->error404();
     }
 
@@ -50,7 +48,6 @@ class CoreController extends Controller
                 return $response;
             }
         }
-        define('ADMIN_MODE', false);
         core::getInstance()->error404();
     }
 }

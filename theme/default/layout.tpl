@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ Lang.getLocale }}">
+<html lang="{{ Lang.short-locale }}">
 	<head>
 		{% HOOK.frontHead %}
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -52,10 +52,19 @@
 					{% HOOK.footer %}
 					<p>
 						<a target='_blank' href='https://299ko.ovh'>{{ Lang.site-just-using( ) }}</a>
-						- {{ Lang.site-theme }} 
+						-
+						{{ Lang.site-theme }}
 						{{ SHOW.theme }}
 						-
-						<a rel="nofollow" href="{{ util.urlBuild("", true) }}">{{ Lang.site-admin }}</a>
+						{% if IS_LOGGED %}
+							<a rel="nofollow" href="{{ ROUTER.generate("logout") }}">{{ Lang.core-disconnection }}</a>
+							{% if IS_ADMIN %}
+								-
+								<a rel="nofollow" href="{{ ROUTER.generate("admin") }}">{{ Lang.site-admin }}</a>
+							{% endif %}
+						{% else %}
+							<a rel="nofollow" href="{{ ROUTER.generate("login") }}">{{ Lang.core-connection }}</a>
+						{% endif %}
 					</p>
 					{% HOOK.endFooter %}
 				</div>

@@ -1,7 +1,7 @@
 <?php defined('ROOT') OR exit('No direct script access allowed'); ?>
 
 <form method="post" action=".?p=galerie&action=saveconf">
-    <?php show::adminTokenField(); ?>
+    <?php show::tokenField(); ?>
 
     <p>
         <input <?php if ($runPlugin->getConfigVal('showTitles')) { ?>checked<?php } ?> type="checkbox" name="showTitles" id="showTitles" />

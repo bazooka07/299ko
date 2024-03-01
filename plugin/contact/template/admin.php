@@ -6,7 +6,7 @@ include_once(ROOT . 'admin/header.php');
 <section>
     <header>Contenu</header>
     <form method="post" action=".?p=contact&action=save">
-        <?php show::adminTokenField(); ?>
+        <?php show::tokenField(); ?>
         <p>
             <label for="content1">Avant le formulaire</label>
                 <textarea class="editor" name="content1" id="content1"><?php echo $core->callHook('beforeEditEditor', $runPlugin->getConfigVal('content1')); ?></textarea><br>
