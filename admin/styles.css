@@ -57,10 +57,7 @@ body{
     font-size:var(--font-size);
     color:var(--font-color);
 }
-body.login{
-    background:#fff;
-    margin:120px;
-}
+
 a{
     text-decoration:none;
     color: var(--primary-color);
@@ -528,12 +525,6 @@ div.tooltip:hover > span {
 
 /* STRUCTURE */
 
-#login {
-    width: 100%;
-    max-width: 400px;
-    margin: 0px auto;
-}
-
 #install {
     width: 100%;
     max-width: 600px;
@@ -548,10 +539,6 @@ div.tooltip:hover > span {
 .just_using a{
     color: #ddd;
     font-size: 15px;
-}
-
-#login .just_using a{
-    color: #14161a;
 }
 
 #container{
@@ -971,10 +958,6 @@ tr td input.small {
 
     #param_panel, #help_panel{
         max-width: 90vw;
-    }
-
-    body.login {
-        margin: 40px 0;
     }
 
     #adminNav, #adminNav.withoutText {
