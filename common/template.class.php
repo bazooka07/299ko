@@ -264,12 +264,18 @@ class Template {
         }
 
         // Check if the string is an array
-        if (preg_match('#\[ *(.+) *\]#iU', $var, $matches)) {
+        if (preg_match('#^\[ *(.+) *\]$#iU', $var, $matches)) {
             $parts = explode(',', $matches[1]);
             $arr = [];
             // Loop through the parts and get the variables
             foreach ($parts as $part) {
-                $arr[] = $this->getVar($part, $this->data);
+                if (preg_match('#^(.+) => (.+)$#iU', trim($part), $assArray)) {
+                    // Associative array
+                    $arr[$this->getVar($assArray[1], $this->data)] = $this->getVar($assArray[2], $this->data);
+                } else {
+                    // simple array
+                    $arr[] = $this->getVar($part, $this->data);
+                }
             }
             return $arr;
         }
@@ -367,8 +373,9 @@ class Template {
                     return $parent::$var();
                 }
                 // Method
-                if ($manyArgs)
+                if ($manyArgs) {
                     return call_user_func_array([$parent, $var], $args);
+                }                    
                 if (isset($args))
                     return call_user_func_array([$parent, $var], [$args]);
                 return $parent->$var();
