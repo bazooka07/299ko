@@ -208,6 +208,7 @@ input[type=submit], input[type=button], button, .button, [type="file"]::file-sel
     transition: background-color 0.5s ease;
     border: 1px solid rgba(0,0,0, 0.1);
     display: inline-block;
+    line-height: 23px;
 }
 
 input[type=submit].small, input[type=button].small, button.small, .button.small, [type="file"].small::file-selector-button {
@@ -222,6 +223,7 @@ input[type=submit]:hover, input[type=button]:hover, button:hover, .button:hover,
 
 input[type=submit].alert, input[type=button].alert, button.alert, .button.alert{
     background: var(--alert-color);
+    color: #fff;
 }
 
 input[type=submit].alert:hover, input[type=button].alert:hover, button.alert:hover, .button.alert:hover{
