@@ -309,11 +309,11 @@ class core
     /**
      * Saves a configuration value to the config file.
      *
-     * @param string $val The configuration value to save. 
+     * @param string|array $val The configuration value to save. 
      * @param array $append Additional configuration values to append.
      * @return bool True if the save was successful, false otherwise.
      */
-    public function saveConfig(string $val, array $append = []): bool
+    public function saveConfig($val, array $append = []): bool
     {
         $config = util::readJsonFile(DATA . 'config.json', true);
         $config = array_merge($config, $append);

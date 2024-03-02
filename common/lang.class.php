@@ -50,6 +50,16 @@ class lang {
     public static function getLocale():string {
         return self::$locale;
     }
+
+    /**
+     * Get the available locales and their names
+     *
+     * @return array An array of available locales as keys and locale names as values
+     */
+    public static function getAvailablesLocales(): array
+    {
+        return self::$availablesLocales;
+    }
     
     /**
      * Load a language .ini file

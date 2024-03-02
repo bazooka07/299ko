@@ -18,10 +18,10 @@ class UsersAdminController extends AdminController {
 
         $users = UsersManager::getUsers();
         foreach ($users as $user) {
-            $user->deleteLink = $this->router->generate("users-delete", ["id" => $user->id , "token" => UsersManager::getCurrentUser()->token]);
+            $user->deleteLink = $this->router->generate("users-delete", ["id" => $user->id , "token" => $this->user->token]);
         }
         $tpl->set('users', $users);
-        $tpl->set('token', UsersManager::getCurrentUser()->token);
+        $tpl->set('token', $this->user->token);
 
         $response->addTemplate($tpl);
         return $response;

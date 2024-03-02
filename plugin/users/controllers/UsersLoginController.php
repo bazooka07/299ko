@@ -128,8 +128,6 @@ class UsersLoginController extends PublicController
         $subject = lang::get('users-lost-password-subject', $this->core->getConfigVal('siteName'));
         $msg = lang::get('users-lost-password-content', $pwd, $link);
         $mail = util::sendEmail($from, $reply, $to, $subject, $msg);
-        // Delete for commit
-        logg([$from, $reply, $to, $subject, $msg]);
         if ($mail) {
             logg('User ' . $user->mail . ' asked to reset password');
         }
