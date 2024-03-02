@@ -29,6 +29,13 @@ class UpdaterManager {
      */
     protected $metaDatas;
 
+
+    /**
+     * Indicates if the updater is ready to use
+     * @var bool
+     */
+    public bool $isReady;
+
     /**
      * REMOTE is raw Github URL
      */
@@ -37,19 +44,19 @@ class UpdaterManager {
     public function __construct() {
         if (!ini_get('allow_url_fopen')) {
             logg("Can't get remotes files", 'INFO');
-            return false;
+            $this->isReady = false;
         }
 
         $fileContent = $this->getRemoteFileContent(self::REMOTE . 'versions/main/core/versions.json');
 
         if (!$fileContent) {
-            return false;
+            $this->isReady = false;
         }
 
         $file = json_decode($fileContent, true);
         $this->lastVersion = $file['last_version'];
-
         $this->metaDatas = $file;
+        $this->isReady = true;
     }
 
     /**
@@ -95,6 +102,10 @@ class UpdaterManager {
             logg('Update may be not successfull', 'ERROR');
         }
         logg("End update to v$nextVersion", 'INFO');
+    }
+
+    public function clearCache() {
+        unlink(DATA_PLUGIN . 'configmanager/cache.json');
     }
 
     protected function rewritePathFile($filename, $ignoreExist = false) {

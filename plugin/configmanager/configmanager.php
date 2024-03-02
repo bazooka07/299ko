@@ -26,9 +26,10 @@ function configmanagerInstall() {
 function configManagerDisplayInstallFile() {
     if (file_exists(ROOT . 'install.php')) {
         echo "<div class='msg warning'>
-                <p>Le fichier install.php est toujours présent. Pour plus de sécurité, il est conseillé de le supprimer.<br/>
-                Si l'installation de 299ko s'est déroulée correctement, cliquez sur le bouton ci-dessous pour le supprimer</p>
-                <div style='text-align:center'><a class='button' href='?p=configmanager&action=del_install&token=" . administrator::getToken() . "'>Supprimer le fichier install</a></div>"
+                <p>". lang::get("configmanager-delete-install-msg") ."</p>
+                <div style='text-align:center'><a class='button' href='" . 
+                router::getInstance()->generate('configmanager-delete-install', ['token' => UsersManager::getCurrentUser()->token]) . 
+                "'>". lang::get("configmanager-delete-install") ."</a></div>"
         . "<a href='#' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
     }
 }
@@ -68,12 +69,10 @@ function configManagerCheckNewVersion() {
 }
 
 function configmanagerDisplayNewVersion($nextVersion) {
-    show::msg("<p>Une nouvelle version est disponible.<br/>
-            Cliquez ci-dessous pour mettre à jour votre site en version " . $nextVersion . "</p>
-        <p>N'oubliez pas de faire une sauvegarde de votre site avant d'effectuer cette mise à jour.</p>
-        <p>Vous pouvez consulter le <a href='https://github.com/299Ko/299ko/blob/master/changelog.md'
-                                       target='_blank'>changelog des versions de 299Ko ici</a>.</p>
-        <div style='text-align:center'><a class='button alert' href='?p=configmanager&action=update&token=" . administrator::getToken() . "'>Mettre à jour le site</a></div>");
+    show::msg("<p>". lang::get('configmanager-update-msg', $nextVersion) ."</p>
+        <div style='text-align:center'><a class='button alert' href='" .
+        router::getInstance()->generate('configmanager-update', ['token' => UsersManager::getCurrentUser()->token]) .
+        "'>". lang::get('configmanager-update') ."</a></div>");
 }
 
 function configmanagerGetNewVersion() {
