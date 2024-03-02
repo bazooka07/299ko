@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ Lang.short-locale }}">
+<html lang="{{ lang.getLocale}}">
 	<head>
 		{% HOOK.adminHead %}
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">

@@ -112,7 +112,7 @@ class Template {
         $this->content = preg_replace_callback('#\{% *SET (.+) = (.+) *%\}#iU', [$this,'_setReplace'], $this->content);
         $this->content = preg_replace_callback('#\{% *DUMP (.+) *%\}#iU', [$this,'_dumpReplace'], $this->content);
         $this->content = preg_replace_callback('#\{\% *HOOK.(.+) *\%\}#iU', [$this,'_callHook'], $this->content);
-        $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#iU', [$this,'_getLang'], $this->content);
+        $this->content = preg_replace_callback('#\{\{ *Lang.(.+) *\}\}#U', [$this,'_getLang'], $this->content);
         $this->content = preg_replace_callback('#\{\% *INCLUDE +(.+) *\%\}#iU', [$this,'_include'], $this->content);
         $this->content = preg_replace('#\{\{ *(.+) *\}\}#iU', '<?php $this->_show_var(\'$1\'); ?>', $this->content);
         $this->content = preg_replace_callback('#\{\% *FOR +(.+) +IN +(.+) *\%\}#i', [$this,'_replace_for'], $this->content);
