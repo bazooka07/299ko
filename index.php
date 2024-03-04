@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -20,7 +20,6 @@ if (!$core->isInstalled()) {
 }
 
 $match = $router->match();
-
 if (is_array($match)) {
     if ($runPlugin) {
         $runPlugin->loadControllers();
@@ -29,7 +28,7 @@ if (is_array($match)) {
     if (method_exists($controller, $action)) {
         $obj = new $controller();
         $core->callHook('beforeRunPlugin');
-        $response = call_user_func_array(array($obj,$action), $match['params']);
+        $response = call_user_func_array([$obj,$action], $match['params']);
         echo $response->output();
         die();
     } else {

@@ -210,8 +210,12 @@ class UsersManager
      */
     public static function getUsers(): array
     {
+        $userSource = util::readJsonFile(self::$file);
+        if ($userSource === false) {
+            return [];
+        }
         $users = [];
-        foreach (util::readJsonFile(self::$file) as $rawUser) {
+        foreach ($userSource as $rawUser) {
             $users[$rawUser['id']] = new User($rawUser);
         }
         return $users;

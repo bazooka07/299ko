@@ -345,7 +345,7 @@ class Template {
         if (isset($match[1])) {
             $var = str_replace($match[0], "", $var);
             $args = true;
-            $parts = explode(',', $match[1]);
+            $parts = $this->tExplode($match[1], ',');
             if (count($parts) > 1)
                 $manyArgs = true;
         } else {
@@ -412,5 +412,36 @@ class Template {
             $this->data[$key] = $value;
         }
     }
+
+    /**
+     * Explodes a string into an array, ignoring delimiters inside parentheses () or []
+     * 
+     * @param string $str The string to explode. 
+     * @param string $delimiter The delimiter to split on.
+     * @return array The exploded array.
+     */
+    protected function tExplode(string $str, string $delimiter): array
+    {
+        $ret = array();
+        $in_parenths = 0;
+        $pos = 0;
+        for ($i = 0; $i < strlen($str); $i++) {
+            $c = $str[$i];
+            if ($c == $delimiter && $in_parenths < 1) {
+                $ret[] = substr($str, $pos, $i - $pos);
+                $pos = $i + 1;
+            } elseif ($c === '(' || $c === '[')
+                $in_parenths++;
+            elseif ($c === ')' || $c === ']')
+                $in_parenths--;
+        }
+        if ($pos > 0)
+            $ret[] = substr($str, $pos);
+        if (empty($ret)) {
+            $ret[0] = $str;
+        }
+        return $ret;
+    }
+
 
 }

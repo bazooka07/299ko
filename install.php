@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -64,8 +64,6 @@ if (count($_POST) > 0) {
     $config = array(
         'siteName' => "SiteName",
         'siteDesc' => "Description",
-        'adminPwd' => $adminPwd,
-        'adminEmail' => $_POST['adminEmail'],
         'siteUrl' => $core->makeSiteUrl(),
         'theme' => 'default',
         'hideTitles' => '0',
@@ -78,6 +76,10 @@ if (count($_POST) > 0) {
         show::msg(Lang::get('install-problem-during-install'), 'error');
     } else {
         $_SESSION['installOk'] = true;
+        $user = new User();
+        $user->email = $adminEmail;
+        $user->pwd = $adminPwd;
+        $user->save();
         show::msg(Lang::get('install-successfull'), 'success');
         header('location:admin/');
         die();
@@ -142,7 +144,7 @@ if (count($_POST) > 0) {
             } else {
                 ?>
                 <form method="post" action="">   
-                    echo '<h3>'.Lang::get('install-please-fill-fields').'</h3>';
+                    echo '<h3>'.lang::get('install-please-fill-fields').'</h3>';
                     ?>          
                     <p><label for="lang-select"><?php echo Lang::get('install-lang-choice'); ?></label>
                     <select name="lang" id="lang-select" onchange="langChange()">
