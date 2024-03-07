@@ -34,7 +34,10 @@ class AdminController extends Controller {
         } else {
             $this->core->error404();
         }
-        define('ADMIN_MODE', true);
+
+        if (!defined('ADMIN_MODE')) {
+            define('ADMIN_MODE', true);
+        }
         $this->user = UsersManager::getCurrentUser();
     }
         

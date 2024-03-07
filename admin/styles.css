@@ -242,6 +242,14 @@ ul.no_bullet{
     transition: transform 0.4s ease;
 }
 
+.overflow-auto {
+    overflow: auto;
+}
+
+.small {
+    font-size: 0.7em;
+}
+
 
 /* TABS */
 
@@ -334,7 +342,7 @@ div.tooltip > span {
     width: max-content;
     font-size: 15px;
     left: 50%;
-    margin-left: -10em;
+    margin-left: -20em;
     top: 100%;
 }
 

@@ -186,8 +186,6 @@ class Template {
         if ($posAcc !== false) {
             $args = substr($matches[1], $posAcc);
             $name = substr($matches[1], 0, $posAcc);
-            $args = str_replace('(', '', $args);
-            $args = str_replace(')', '', $args);
         } else {
             $name = $matches[1];
         }

@@ -213,6 +213,18 @@ class util
         return $dateObj->format(Lang::get("date-hour-format"));
     }
 
+    public static function getDate($date) :string {
+        if (is_int($date)) {
+            // Date from timestamp
+            $dateObj = new DateTime();
+            $dateObj->setTimestamp($date);
+        } else {
+            // Date from string, old version
+            $dateObj = new DateTime($date);
+        }
+        return $dateObj->format(Lang::get("date-only"));
+    }
+
     public static function getNaturalDate($date) {
         if (is_int($date)) {
             // Date from timestamp

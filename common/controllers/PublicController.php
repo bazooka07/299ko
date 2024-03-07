@@ -31,7 +31,9 @@ class PublicController extends Controller {
         } else {
             $this->core->error404();
         }
-        define('ADMIN_MODE', false);
+        if (!defined('ADMIN_MODE')) {
+            define('ADMIN_MODE', false);
+        }
         $this->user = UsersManager::getCurrentUser() ? UsersManager::getCurrentUser() : null;
     }
 
