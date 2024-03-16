@@ -48,9 +48,14 @@ class ContactController extends PublicController
             }
         }
         if (!$sendError) {
-            if ($_POST['_name'] == '' && strchr($_SERVER['HTTP_REFERER'], 'contact') && contactSend())
-                show::msg("Message envoyé", 'success');
-            else {
+            if ($_POST['_name'] == '' && strchr($_SERVER['HTTP_REFERER'], 'contact') !== false) {
+                if (contactSend()) {
+                    show::msg("Message envoyé", 'success');
+                } else {
+                    show::msg("Une erreur est survenue", 'error');
+                    $sendError = true;
+                }
+            } else {
                 show::msg("Champ(s) incomplet(s) ou email invalide", 'error');
                 $sendError = true;
             }
