@@ -721,7 +721,7 @@ section > footer, .card > footer {
     background-color: var(--success-color);
 }
 
-#param_panel, #help_panel, #categories_panel{
+#param_panel, #help_panel{
     display: none;
 }
 
@@ -1033,3 +1033,17 @@ tr td input.small {
         position: relative;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    *:not([aria-busy=true]),
+    :not([aria-busy=true])::before,
+    :not([aria-busy=true])::after {
+      background-attachment: initial !important;
+      animation-duration: 1ms !important;
+      animation-delay: -1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-delay: 0s !important;
+      transition-duration: 0s !important;
+    }
+  }

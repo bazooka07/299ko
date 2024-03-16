@@ -48,8 +48,6 @@ abstract class CategoriesManager {
 
     protected static $file;
 
-    protected string $addCategoryUrl;
-
     public function __construct() {
         self::$file = DATA_PLUGIN . $this->pluginId . '/categories-' . $this->name . '.json';
         $this->getCategoriesFromMetas();
@@ -90,9 +88,11 @@ abstract class CategoriesManager {
         return $cat->id;
     }
 
-    public function getAddCategoryUrl() {
-        return util::urlBuild($this->addCategoryUrl, true);
-    }
+    abstract public function getAddCategoryUrl():string;
+
+    abstract public function getDeleteUrl():string;
+
+    abstract public function getAjaxDisplayListUrl():string;
 
     public function saveCategory(Category $category) {
         $oldCategory = $this->categories[$category->id];
@@ -160,6 +160,10 @@ abstract class CategoriesManager {
         foreach ($metas as $k => $v) {
             $this->categories[$k] = new $this->className($k);
         }
+        // Order categories by label ASC
+        uasort($this->categories, function($a, $b) {
+            return strcmp($a->label, $b->label);
+        });
         $this->imbricateCategories();
     }
 
@@ -168,13 +172,13 @@ abstract class CategoriesManager {
             return;
         }
         $categories = $this->categories;
-        foreach ($categories as $category) {
+        foreach ($categories as $k => $category) {
             if ($category->parentId != 0) {
                 foreach ($this->categories as $cat) {
                     $res = $cat->getCategoryById($category->parentId);
                     if (is_object($res)) {
                         $res->addChild($category);
-                        unset($categories[$category->id]);
+                        unset($categories[$k]);
                         break 1;
                     }
                 }
@@ -193,21 +197,21 @@ abstract class CategoriesManager {
         }
     }
 
-    public function outputAsCheckbox($itemId) {
+    public function outputAsCheckbox($itemId = 0) {
         $catDisplay = 'root';
         ob_start();
         require COMMON . 'categories/template/checkboxCategories.php';
         return ob_get_clean();
     }
 
-    public function outputAsSelect($parentId, $categoryId) {
+    public function outputAsSelect($parentId, $categoryId, $fieldName = "parentId") {
         $catDisplay = 'root';
         ob_start();
         require COMMON . 'categories/template/selectCategory.php';
         return ob_get_clean();
     }
     
-    public function outputAsSelectOne($itemId) {
+    public function outputAsSelectOne($itemId, $fieldName = 'category-one') {
         $catDisplay = 'root';
         ob_start();
         require COMMON . 'categories/template/selectOneCategory.php';

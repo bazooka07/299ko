@@ -74,9 +74,10 @@ class news
 
     public function setDate($val)
     {
-        $val = trim($val);
-        if ($val == '')
+        if ($val === null || empty($val)) {
             $val = date('Y-m-d');
+        }
+        $val = trim($val);
         $this->date = $val;
     }
 

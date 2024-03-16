@@ -68,7 +68,7 @@ class show {
             $core = core::getInstance();
             $pluginsManager = pluginsManager::getInstance();
             foreach ($core->getCss() as $k => $v) {
-                echo '<link href="' . $v . '" rel="stylesheet" type="text/css" />';
+                echo '<link href="' . util::urlBuild($v) . '" rel="stylesheet" type="text/css" />';
             }
             foreach ($pluginsManager->getPlugins() as $k => $plugin)
                 if ($plugin->getConfigval('activate') == 1) {
@@ -91,7 +91,7 @@ class show {
             $core = core::getInstance();
             $pluginsManager = pluginsManager::getInstance();
             foreach ($core->getJs() as $k => $v) {
-                echo '<script type="text/javascript" src="' . $v . '"></script>';
+                echo '<script type="text/javascript" src="' . util::urlBuild($v) . '"></script>';
             }
             foreach ($pluginsManager->getPlugins() as $k => $plugin)
                 if ($plugin->getConfigval('activate') == 1) {

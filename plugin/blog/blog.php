@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -40,13 +40,9 @@ function BlogAdminCategoriesTemplates() {
     }
 
     $catsManager = new BlogCategoriesManager();
-    echo '<section id="categories_panel">';
-    echo '<header>Gestion des catégories du blog</header>';
-    echo $catsManager->outputAsList();
-    echo '</section>';
 
-    echo '<a title="Gérer les catégories" id="cat_link" data-fancybox href="#" data-src="#categories_panel"'
-        . '"><i class="fa-regular fa-folder-open"></i></a>';
+    echo '<a title="Gérer les catégories" id="cat_link" data-fancybox data-type="ajax" href="#" data-src="' . 
+    $catsManager->getAjaxDisplayListUrl() . '"><i class="fa-regular fa-folder-open"></i></a>';
 }
 
 

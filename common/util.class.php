@@ -247,6 +247,10 @@ class util
      */
     public static function urlBuild($uri, $admin = false)
     {
+        if (isset(parse_url($uri)['host'])) {
+            // Absolute URL
+            return $uri;
+        }
         $base = core::getInstance()->getConfigVal('siteUrl') . '/';
         if ($admin) {
             $base .= 'admin/';

@@ -16,11 +16,5 @@ class BlogCategory extends Category {
     protected bool $nested = true;
     protected bool $chooseMany = true;
 
-    public function getEditUrl() :string {
-        return '?p=blog&action=editCategory&id=' . $this->id;
-    }
 
-    public function getDeleteUrl() :string {
-        return '?p=blog&action=deleteCategory&id=' . $this->id;
-    }
 }

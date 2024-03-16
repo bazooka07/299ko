@@ -97,53 +97,58 @@ class BlogListController extends PublicController {
         $start = ($currentPage - 1) * $newsByPage + 1;
         $end = $start + $newsByPage - 1;
         $i = 1;
-        foreach ($newsManager->getItems() as $k => $v) {
-            if ($v->getDraft()) {
-                continue;
-            }
-            if (in_array($v->getId(), $category->items)) {
-                $date = $v->getDate();
-                if ($i >= $start && $i <= $end) {
-                    $news[$k]['name'] = $v->getName();
-                    $news[$k]['date'] = util::FormatDate($date, 'en', 'fr');
-                    $news[$k]['id'] = $v->getId();
-                    $news[$k]['cats'] = [];
-                    foreach ($categoriesManager->getCategories() as $cat) {
-                        if (in_array($v->getId(), $cat->items)) {
-                            $news[$k]['cats'][] = [
-                                'label' => $cat->label,
-                                'url' => $this->router->generate('blog-category', ['name' => util::strToUrl($cat->label), 'id' => $cat->id]),
-                            ];
-                        }
-                    }
-                    $news[$k]['content'] = $v->getContent();
-                    $news[$k]['intro'] = $v->getIntro();
-                    $news[$k]['url'] = $this->runPlugin->getPublicUrl() . util::strToUrl($v->getName()) . '-' . $v->getId() . '.html';
-                    $news[$k]['img'] = $v->getImg();
-                    $news[$k]['imgUrl'] = util::urlBuild(UPLOAD . 'galerie/' . $v->getImg());
-                    $news[$k]['commentsOff'] = $v->getcommentsOff();
-                    
+        if (!empty($news)) {
+            foreach ($newsManager->getItems() as $k => $v) {
+                if ($v->getDraft()) {
+                    continue;
                 }
-                $i++;
+                if (in_array($v->getId(), $category->items)) {
+                    $date = $v->getDate();
+                    if ($i >= $start && $i <= $end) {
+                        $news[$k]['name'] = $v->getName();
+                        $news[$k]['date'] = util::FormatDate($date, 'en', 'fr');
+                        $news[$k]['id'] = $v->getId();
+                        $news[$k]['cats'] = [];
+                        foreach ($categoriesManager->getCategories() as $cat) {
+                            if (in_array($v->getId(), $cat->items)) {
+                                $news[$k]['cats'][] = [
+                                    'label' => $cat->label,
+                                    'url' => $this->router->generate('blog-category', ['name' => util::strToUrl($cat->label), 'id' => $cat->id]),
+                                ];
+                            }
+                        }
+                        $news[$k]['content'] = $v->getContent();
+                        $news[$k]['intro'] = $v->getIntro();
+                        $news[$k]['url'] = $this->runPlugin->getPublicUrl() . util::strToUrl($v->getName()) . '-' . $v->getId() . '.html';
+                        $news[$k]['img'] = $v->getImg();
+                        $news[$k]['imgUrl'] = util::urlBuild(UPLOAD . 'galerie/' . $v->getImg());
+                        $news[$k]['commentsOff'] = $v->getcommentsOff();
+                        
+                    }
+                    $i++;
+                }
             }
-        }
-        $nbNews = $i -1;
-        $mode = ($nbNews > 0) ? 'list' : 'list_empty';
-        $nbPages = ceil($nbNews / $newsByPage);
-        if ($currentPage > $nbPages) {
-            return $this->category($id, $name, 1);
-        }
-        if ($nbPages > 1) {
-            $pagination = [];
-            for ($i = 0; $i != $nbPages; $i++) {
-                if ($i != 0)
-                    $pagination[$i]['url'] = $this->router->generate('blog-category-page', ['name' => util::strToUrl($category->label), 'id' => $category->id, 'page' => $i + 1]);
-                else
-                    $pagination[$i]['url'] = $this->router->generate('blog-category', ['name' => util::strToUrl($category->label), 'id' => $category->id]);
-                $pagination[$i]['num'] = $i + 1;
+            $nbNews = $i -1;
+            $mode = ($nbNews > 0) ? 'list' : 'list_empty';
+            $nbPages = ceil($nbNews / $newsByPage);
+            if ($currentPage > $nbPages) {
+                return $this->category($id, $name, 1);
+            }
+            if ($nbPages > 1) {
+                $pagination = [];
+                for ($i = 0; $i != $nbPages; $i++) {
+                    if ($i != 0)
+                        $pagination[$i]['url'] = $this->router->generate('blog-category-page', ['name' => util::strToUrl($category->label), 'id' => $category->id, 'page' => $i + 1]);
+                    else
+                        $pagination[$i]['url'] = $this->router->generate('blog-category', ['name' => util::strToUrl($category->label), 'id' => $category->id]);
+                    $pagination[$i]['num'] = $i + 1;
+                }
+            } else {
+                $pagination = false;
             }
         } else {
             $pagination = false;
+            $mode = 'list_empty';
         }
 
         // Traitements divers : métas, fil d'ariane...

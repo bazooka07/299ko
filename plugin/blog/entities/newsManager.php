@@ -25,6 +25,7 @@ class newsManager {
     private int $nbItemsToPublic;
 
     public function __construct() {
+        $categoriesManager = new BlogCategoriesManager();
         $i = 0;
         $data = [];
         if (file_exists(ROOT . 'data/plugin/blog/blog.json')) {
@@ -34,6 +35,16 @@ class newsManager {
             }
             $temp = util::sort2DimArray($temp, 'date', 'desc');
             foreach ($temp as $k => $v) {
+                $categories = [];
+                foreach ($categoriesManager->getCategories() as $cat) {
+                    if (in_array($v['id'], $cat->items)) {
+                        $categories['categories'][$cat->id] = [
+                            'label' => $cat->label,
+                            'url' => router::getInstance()->generate('blog-category', ['name' => util::strToUrl($cat->label), 'id' => $cat->id]),
+                        ];
+                    }
+                }
+                $v = array_merge($v, $categories);
                 $data[] = new news($v);
                 if ($v['draft'] === "0") {
                     $i++;
@@ -153,7 +164,6 @@ class newsManager {
                 'date' => $v->getDate(),
                 'draft' => $v->getDraft(),
                 'img' => $v->getImg(),
-                'categories' => $v->categories,
                 'commentsOff' => $v->getCommentsOff(),
             );
         }
@@ -247,6 +257,7 @@ class newsManager {
     }
 
     public function saveComment(\newsComment $comment) {
+        
         $this->flatComments[$comment->getId()] = $comment;
         $this->saveComments($comment->getIdNews());
         return true;
@@ -262,10 +273,17 @@ class newsManager {
 
     protected function saveComments($idNews):void {
         $rawComments = util::readJsonFile(DATA_PLUGIN . 'blog/comments.json');
-        $rawComments[$idNews] = $this->flatComments;
+        $objData = [];
+        foreach ($rawComments as $newsId => $comment) {
+            foreach ($comment as $idComment => $v) {
+                $objData[$newsId][$idComment] = new newsComment($v);
+            }
+        }
+        $objData[$idNews] = $this->flatComments;
         $data = [];
-        foreach ($rawComments as $newsId) {
+        foreach ($objData as $newsId) {
             foreach ($newsId as $k => $v) {
+                logg($newsId);
                 $data[$v->getIdNews()][$k] = [
                     'id' => $v->getId(),
                     'idNews' => $v->getIdNews(),

@@ -16,7 +16,7 @@ switch ($catDisplay) {
             return;
         }
         ?>
-        <select name="category-one">
+        <select name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>">
             <option value="0">Aucune catégorie</option>
         
         <?php

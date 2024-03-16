@@ -12,7 +12,7 @@ switch ($catDisplay) {
     case 'root':
         // Categories Container
         ?>
-        <select name="parentId" id="parentId">
+        <select name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>">
             <option value="0" <?php if ($parentId == 0) echo ' selected'; ?> >-- Pas de catégorie parente</option>
         
         <?php

@@ -62,9 +62,6 @@ abstract class Category implements JsonSerializable {
         }
     }
 
-    abstract public function getEditUrl():string ;
-
-    abstract public function getDeleteUrl():string ;
 
     public function jsonSerialize():array {
         return

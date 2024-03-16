@@ -31,7 +31,7 @@
 			</div>
 			<div id="banner">
 				<div id="siteDesc">
-					<?php show::siteDesc(); ?>
+					{{ SHOW.siteDesc}}
 				</div>
 			</div>
 			<main id="body">

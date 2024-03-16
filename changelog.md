@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file.
 - Users can be stay connected (cookies)
 - Antispam fully Translated
 - New Users Plugin
+- Themes can modify plugins templates
+- Blog fully translated & MVC
+- Responses as API
 
 ### Fixed
 

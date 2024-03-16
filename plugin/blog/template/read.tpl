@@ -13,7 +13,7 @@
 					commentaire{% if newsManager.countComments() > 1 %}s{% endif %}</a>
 				{% endif %}
 				{% if count(categories) == 0 %}
-					non classé
+					{{ Lang.blog.categories.none}}
 				{% else %}
 					dans
 					{% for cat in categories %}

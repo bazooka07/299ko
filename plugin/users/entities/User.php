@@ -94,6 +94,17 @@ class User implements JsonSerializable
             }
             return false;
         }
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $data = json_decode($content, true);
+            if (isset($data['token'])) {
+                if ($data['token'] === $this->token) {
+                    return true;
+                }
+                return false;
+            }
+        }
         if (!isset($_REQUEST['token']))
             return false;
         if ($_REQUEST['token'] != $this->token)

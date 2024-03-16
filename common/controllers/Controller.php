@@ -28,10 +28,21 @@ abstract class Controller {
      * @var pluginsManager
      */
     protected pluginsManager $pluginsManager;
+
+    /**
+     * JSON data sent by fetch, used for API
+     * @var array
+     */
+    protected array $jsonData = [];
     
     public function __construct() {
         $this->core = core::getInstance();
         $this->router = router::getInstance();
         $this->pluginsManager = pluginsManager::getInstance();
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $this->jsonData = json_decode($content, true);
+        }
     }
 }
