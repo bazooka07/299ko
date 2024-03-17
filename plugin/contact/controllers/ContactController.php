@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2023, 299Ko
+ * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * 
@@ -43,24 +43,23 @@ class ContactController extends PublicController
         sleep(2);
         if ($antispam) {
             if (!$antispam->isValid()) {
-                show::msg("Antispam invalide, veuillez réessayer", 'error');
+                show::msg(lang::get('antispam.invalid-captcha'), 'error');
                 $sendError = true;
             }
         }
         if (!$sendError) {
             if ($_POST['_name'] == '' && strchr($_SERVER['HTTP_REFERER'], 'contact') !== false) {
                 if (contactSend()) {
-                    show::msg("Message envoyé", 'success');
+                    show::msg(lang::get('contact.msg-sent'), 'success');
                 } else {
-                    show::msg("Une erreur est survenue", 'error');
+                    show::msg(lang::get('something-wrong'), 'error');
                     $sendError = true;
                 }
             } else {
-                show::msg("Champ(s) incomplet(s) ou email invalide", 'error');
+                show::msg(lang::get('contact.fiels-error'), 'error');
                 $sendError = true;
             }
         }
-
         return $this->home();
     }
 }

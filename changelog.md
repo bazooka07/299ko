@@ -12,7 +12,8 @@ All notable changes to this project will be documented in this file.
 - Antispam fully Translated
 - New Users Plugin
 - Themes can modify plugins templates
-- Blog fully translated & MVC
+- Blog plugin fully translated & MVC
+- Contact plugin fully translated & MVC
 - Responses as API
 
 ### Fixed
@@ -21,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - URL Generation by router when a port is specified
 - Blog metadatas
 - Remove Pagination when empty
+- Contact : Bad message when mail function is not available
 
 ### Changed
 
