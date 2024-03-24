@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2023, 299Ko
+ * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * 
@@ -241,6 +241,7 @@ class Template {
      */
     protected function getVar($var, $parent) {
         $var = trim($var);
+        if ($var === "" || $var === '""') return "";
         $concats = explode('~', $var);
         if (count($concats) > 1) {
             $content = '';
