@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 - Blog plugin fully translated & MVC
 - Contact plugin fully translated & MVC
 - Responses as API
+- FileManager MVC & translated
+- TinyMCE : Add images from FileManager
 
 ### Fixed
 
@@ -23,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Blog metadatas
 - Remove Pagination when empty
 - Contact : Bad message when mail function is not available
+- Blog : empty categories
 
 ### Changed
 

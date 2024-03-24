@@ -21,7 +21,7 @@ function tinymceInstall() {
 ## Hooks
 
 function tinymceAdminHead() {
-    $uploadUrl = util::urlBuild('?p=filemanager&action=upload&view=api&token=' . administrator::getToken(), true);
+    $uploadUrl = router::getInstance()->generate('filemanager-upload-api', ['token' => UsersManager::getCurrentUser()->token]);
     $url = util::urlBuild(PLUGINS . 'tinymce/lib/tinymce/tinymce.min.js');
     $options = "language: '". lang::get('locale'). "',
         images_upload_url: '" . $uploadUrl . "',
@@ -78,4 +78,14 @@ function tinymceAdminHead() {
 </script>";
 }
 
-## Code relatif au plugin
+function tinymceInsertScriptBeforeEditor() {
+    echo '<script>' .
+    'function processInsertImgInEditor(editorId, imgUrl) {
+        var ed = tinyMCE.get(editorId);
+        var range = ed.selection.getRng();
+        var newNode = ed.getDoc().createElement ( "img" );
+        newNode.src=imgUrl;
+        range.insertNode(newNode);  
+    }
+    </script>';
+}
