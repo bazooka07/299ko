@@ -18,9 +18,7 @@
         </ul>
         <ul class="tabs">
             <li class="tab">
-                <label for="content">{{Lang.blog-content}}</label><br>
-                <textarea name="content" id="content" class="editor">{%HOOK.beforeEditEditor(news.getContent())%}</textarea><br>
-                {{filemanagerDisplayManagerButton()}}
+                {{ contentEditor }}
             </li>
             <li class="tab">
                 <label for="intro">{{Lang.blog-intro-content}}</label><br>

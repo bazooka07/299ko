@@ -76,6 +76,10 @@ class BlogAdminPostsController extends AdminController
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('blog', 'admin-edit');
 
+        $contentEditor = new Editor('content', $news->getContent(), lang::get('blog-content'));
+
+        $tpl->set('contentEditor', $contentEditor);
+        $tpl->set('news', $news);
         $tpl->set('news', $news);
         $tpl->set('showDate', $showDate);
         $tpl->set('categoriesManager', $this->categoriesManager);
@@ -102,9 +106,12 @@ class BlogAdminPostsController extends AdminController
                 $imgId = $galerie->getLastId() . '.' . util::getFileExtension($_FILES['file']['name']);
             }
         }
+        $contentEditor = new Editor('content', '', lang::get('blog-content'));
+
+
         $news = ($_REQUEST['id']) ? $this->newsManager->create($_REQUEST['id']) : new news();
         $news->setName($_REQUEST['name']);
-        $news->setContent($this->core->callHook('beforeSaveEditor', htmlspecialchars($_REQUEST['content'])));
+        $news->setContent($contentEditor->getPostContent());
         $news->setIntro($this->core->callHook('beforeSaveEditor', htmlspecialchars($_REQUEST['intro'])));
         $news->setSEODesc($_REQUEST['seoDesc']);
         $news->setDraft((isset($_POST['draft']) ? 1 : 0));
