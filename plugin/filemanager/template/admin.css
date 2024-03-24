@@ -44,7 +44,7 @@
 }
 
 #fm-listview .fm-thumb {
-    width:100px;
+    width:114px;
     height:140px;
     display: inline-block;
     overflow: hidden;
@@ -88,8 +88,8 @@
 }
 
 #fm-listview .fm-folder, #fm-listview .fm-picture, #fm-listview .fm-file {
-    height:100px;
-    width:100px;
+    height:114px;
+    width:114px;
     display: block;
     overflow: hidden;
 }
@@ -110,7 +110,7 @@
 }
 
 #fm-listview .fm-thumb .fm-title:hover {
-    max-height:100px;
+    max-height:114px;
 }
 
 #fm-listview .fm-folder > i, #fm-listview .fm-file > i {
@@ -134,6 +134,19 @@
     background-position: center;
 }
 
-#fmAddAFolder {
+#fmAddAFolder, #fmRedirectFlat {
     display: none;
 }
+
+#filesProgressAjax {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 15px;
+    display: none;
+}
+
+#filesProgressAjax::-webkit-progress-bar, #filesProgressAjax::-webkit-progress-value, #filesProgressAjax::-moz-progress-bar {
+    background-color: var(--primary-color);
+  }

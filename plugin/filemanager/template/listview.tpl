@@ -1,110 +1,98 @@
-<?php
-/**
- * @copyright (C) 2022, 299Ko
- * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
- * @author Maxence Cauderlier <mx.koder@gmail.com>
- * 
- * @package 299Ko https://github.com/299Ko/299ko
- */
-defined('ROOT') OR exit('No direct script access allowed');
-?>
-
 <section id='fm-listview-container'>
     <header>
-        <label id="custom-file-label" for="customFile">Ajouter un fichier</label>
+        <label id="custom-file-label" for="customFile">{{ Lang.filemanager.add-file }}</label>
         <input type="file" name="image_file" id="customFile" onchange="onSetFilename(this)">
-        <input id='dirInput' type='hidden' value='<?php echo rawurlencode($dir); ?>'>
+        <input id='dirInput' type='hidden' value='{{ dir }}'>
+        <button id="btnUpload" type="button" onclick="uploadFile()">{{ Lang.filemanager.send-file }}</button>
         <progress value="0" max="100" id="filesProgressAjax"></progress>
-        <button id="btnUpload" type="button" onclick="uploadFile()">Envoyer le fichier</button>
     </header>
     <div id='fm-breadcrumb-container'>
         <div id='fm-breadcrumb'>
-            <a onclick='refreshView("<?php echo rawurlencode('Back%To%Home%'); ?>")'><i class="fa-solid fa-house"></i></a>
-            <?php
-            $fullPath = '';
-            foreach ($dirParts as $item) {
-                if ($item === '') {
-                    continue;
-                }
-                $fullPath .= $item . '/';
-                echo '<a onclick="refreshView(\'' . rawurlencode($fullPath) . '\')">' . $item . '</a>';
-            }
-            ?>
+            <a onclick='refreshView("Back%To%Home%")'><i class="fa-solid fa-house"></i></a>
+            {% set fullPath = "" %}
+            {% for item in dirParts %}
+                {% if item != "" %}
+                    {% set fullPath = fullPath ~ item ~ "/" %}
+                    <a onclick="refreshView('{{ fullPath }}')">{{ item }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
         <div id='fm-add-folder'>
-            <a class="button" onClick='displayNewFolder()'><i class="fa-solid fa-folder-plus"></i> Créer un dossier</a>
+            <a class="button" onClick='displayNewFolder()'><i class="fa-solid fa-folder-plus"></i> {{ Lang.filemanager.add-folder }}</a>
         </div>
     </div>
 
     <div id="fm-listview">
         <div id="fm-view-files">
-            <?php
-            if ($dir !== '') {
-                ?>
+            {% if dir != "" %}
                 <div class='fm-thumb'>
-                    <div class='fm-folder' onClick='refreshView("<?php echo rawurlencode($dir . '/..'); ?>")'>
+                    <div class='fm-folder' onClick='refreshView("{{ dir }}/..")'>
                         <i class="fa-solid fa-arrow-turn-up"></i>
-                        <p class='fm-title' title='Remonter vers le dossier parent'>..</p>
+                        <p class='fm-title' title='{{ Lang.filemanager.go-up }}'>..</p>
                     </div>
                     <div class='fm-actions'>
-                        Dossier parent
+                        {{ Lang.filemanager.parent-folder }}
                     </div>
                 </div>
-                <?php
-            }
-            foreach ($manager->getFolders() as $item) {
-                ?>
-                <div class='fm-thumb' id='<?php echo $item->name; ?>'>
-                    <div class='fm-folder' title='<?php echo $item->name; ?>' onClick='refreshView("<?php echo rawurlencode($dir . '/' . $item->name); ?>")'>
+            {% endif %}
+            {% for item in manager.getFolders() %}
+                <div class='fm-thumb' id='{{ item.name }}'>
+                    <div class='fm-folder' title='{{ item.name }}' onClick='refreshView("{{ dir }}/{{ item.name }}")'>
                         <i class="fa-regular fa-folder-open"></i>
-                        <p class='fm-title' title='<?php echo $item->name; ?>'><?php echo $item->name; ?></p>
+                        <p class='fm-title' title='{{ item.name }}'>{{ item.name }}</p>
                     </div>
                     <div class='fm-actions'>
-                        <a class="fm-link alert" href="javascript:deleteFolder('<?php echo $item->name; ?>')"><i class="fa-solid fa-trash"></i></a>
+                        <a class="fm-link alert" href="javascript:deleteFolder('{{ item.name }}')"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 </div>
-                <?php
-            }
+            {% endfor %}
 
-            foreach ($manager->getFiles() as $item) {
-                ?>
-                <div class='fm-thumb' id='<?php echo $item->name; ?>'>
-                    <?php
-                    if ($item->isPicture()) {
-                        ?><div class='fm-picture'><?php
-                            echo '<a style="background-image: url(\'' . $item->getUrl() . '\')" class="fm-link" href="' . $item->getUrl() .
-                            '" data-fancybox data-caption="' . $item->name . '" title="' . $item->name . '"></a>';
-                        } else {
-                            ?><div class='fm-file'><?php
-                                echo '<i class="fa-regular fa-file" title="' . $item->name . '"></i>';
-                            }
-                            ?>
-                            <p class='fm-title' title='<?php echo $item->name; ?>'><?php echo $item->name; ?></p>
+            {% for item in manager.getFiles() %}
+                <div class='fm-thumb' id='{{ item.name }}'>
+                    {% if item.isPicture() %}
+                        <div class='fm-picture'>
+                            <a style="background-image: url('{{ item.getUrl() }}')" class="fm-link" href="{{ item.getUrl() }}" data-fancybox data-caption="{{ item.name }}" title="{{ item.name }}"></a>
                         </div>
-                        <div class='fm-actions'>
-                            <?php
-                            echo '<a class="fm-link" onClick="copyToClipboard(\'' . $item->getUrl() . '\')"><i class="fa-regular fa-clipboard"></i></a>';
-                            echo '<a class="fm-link" href="' . $item->getUrl() . '"><i class="fa-solid fa-link"></i></a>';
-                            echo '<a class="fm-link alert" href="javascript:deleteFile(\'' . $item->name . '\')"><i class="fa-solid fa-trash"></i></a>';
-                            ?>
+                    {% else %}
+                        <div class='fm-file'>
+                            <i class="fa-regular fa-file" title="{{ item.name }}"></i>
                         </div>
+                    {% endif %}
+                    <p class='fm-title' title='{{ item.name }}'>{{ item.name }}</p>
+                    <div class='fm-actions'>
+                        <a class="fm-link" onClick="copyToClipboard('{{ item.getUrl() }}')"><i class="fa-regular fa-clipboard"></i></a>
+                        <a class="fm-link" href="{{ item.getUrl() }}"><i class="fa-solid fa-link"></i></a>
+                        <a class="fm-link alert" href="javascript:deleteFile('{{ item.name }}')"><i class="fa-solid fa-trash"></i></a>
+                        {% if item.isPicture() && editor != false %}
+                            <a onclick="insertImgInEditor('{{editor}}', '{{item.getUrl()}}')" ><i class="fa-solid fa-laptop-code"></i></a>
+                        {% endif %}
                     </div>
-                    <?php
-                }
-                ?>
-            </div>
+                </div>
+            {% endfor %}
         </div>
+    </div>
 </section>
 
 <section id="fmAddAFolder">
     <header>
-        Créer un dossier
+        {{ Lang.filemanager.add-folder }}
     </header>
-    <label for="addFolderName">Nom du dossier à créer</label>
+    <label for="addFolderName">{{ Lang.filemanager.folder-name }}</label>
     <input id="addFolderName" name="addFolderName" type="text" />
-    <button class="success" id="addFolderNameValidate" data-fancybox-close tabindex="-1" onClick="goCreateFolder(document.getElementById('addFolderName').value)">Créer le dossier</button>
+    <button class="success" id="addFolderNameValidate" data-fancybox-close tabindex="-1" onClick="goCreateFolder(document.getElementById('addFolderName').value)">{{ Lang.filemanager.add-folder }}</button>
 </section>
+
+<form id="fmRedirectFlat" method="POST" action=" {{ redirectUrl }}">
+    <input type="text" id="fmCurrDir" name="fmCurrDir" value="{{ dir }}" />
+    <input type="text" id="fmFolderToSee" name="fmFolderToSee" value="" />
+</form>
 <script>
+    function insertImgInEditor(editorId, imgUrl) {
+        processInsertImgInEditor(editorId, imgUrl);
+        {% if ajaxView %}
+            Fancybox.close();
+        {% endif %}
+    }
     function onSetFilename(data) {
         let fileName = data.value.split("\\").pop();
         document.getElementById("custom-file-label").innerText = fileName;
@@ -117,7 +105,7 @@ defined('ROOT') OR exit('No direct script access allowed');
     function goCreateFolder(folderName) {
         if (folderName === '') {
             Toastify({
-                text: "Le nom de dossier ne peut être vide",
+                text: "{{ Lang.filemanager.folder-name-empty }}",
                 className: "error"
             }).showToast();
             Fancybox.show([{src: "#fmAddAFolder", type: "inline"}]);
@@ -128,18 +116,18 @@ defined('ROOT') OR exit('No direct script access allowed');
         formData.append('folderName', folderName);
         formData.append('dir', document.getElementById("dirInput").value);
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", '<?php echo $createUrl; ?>', true);
+        xhr.open("POST", '{{ createUrl }}', true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const data = JSON.parse(this.responseText);
                 if (data.success === 0) {
                     Toastify({
-                        text: "Impossible de créer le dossier",
+                        text: "{{ Lang.filemanager.folder-creation-failed }}",
                         className: "error"
                     }).showToast();
                 } else {
                     Toastify({
-                        text: "Dossier " + name + " créé",
+                        text: "{{ Lang.filemanager.folder-created }}",
                         className: "success"
                     }).showToast();
                 }
@@ -147,24 +135,24 @@ defined('ROOT') OR exit('No direct script access allowed');
         };
         xhr.send(formData);
 
-        refreshView("<?php echo rawurlencode($dir . '/'); ?>" + folderName);
+        refreshView("{{ dir }}/" + folderName);
     }
 
     function copyToClipboard(text) {
         if (!navigator.clipboard) {
             Toastify({
-                text: "Impossible de copier dans le presse-papiers",
+                text: "{{ Lang.filemanager.clipboard-unavailable }}",
                 className: "error"
             }).showToast();
         } else {
             navigator.clipboard.writeText(text).then(() => {
                 Toastify({
-                    text: "Copié dans le presse-papiers",
+                    text: "{{ Lang.filemanager.copied-to-clipboard }}",
                     className: "success"
                 }).showToast();
             }, () => {
                 Toastify({
-                    text: "Impossible de copier dans le presse-papiers",
+                    text: "{{ Lang.filemanager.copy-failed }}",
                     className: "error"
                 }).showToast();
             });
@@ -172,41 +160,43 @@ defined('ROOT') OR exit('No direct script access allowed');
     }
 
     function refreshView(folderName) {
-        
-<?php if ($ajaxView) { ?>
-            Fancybox.close(true);
-            Fancybox.show([
+        {% if ajaxView %}
+            let data = "fmFolderToSee=" + folderName + "&token={{ token }}&editor={{ editor}}";
+            Fancybox.close();
+                new Fancybox([
                 {
-                    src: "<?php echo $redirectUrl . '&view=ajax&dir=' ?>" + folderName,
-                    type: "ajax"
-                }
-            ]);
-<?php } else { ?>
-            window.location.href = "<?php echo $redirectUrl . '&dir=' ?>" + folderName;
-<?php } ?>
+                    src: '{{ redirectAjaxUrl }}',
+                    type: "ajax",
+                    ajax : data
+                },
+                ],);
+        {% else %}
+            document.querySelector('#fmFolderToSee').value = folderName;
+            document.querySelector('#fmRedirectFlat').submit();
+        {% endif %}
     }
 
     function deleteFile(name) {
-        if (!confirm("Êtes-vous sûr de vouloir supprimer ce fichier ?")) {
+        if (!confirm("{{ Lang.confirm.deleteItem }}")) {
             return;
         }
 
         let formData = new FormData();
         formData.append('filename', name);
-        formData.append('dir', document.getElementById("dirInput").value);
+        formData.append('fmFolderToSee', document.getElementById("dirInput").value);
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", '<?php echo $deleteUrl; ?>', true);
+        xhr.open("POST", '{{ deleteUrl }}', true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const data = JSON.parse(this.responseText);
                 if (data.success === 0) {
                     Toastify({
-                        text: "Impossible de supprimer l'élément " + name,
+                        text: "{{ Lang.core-item-not-deleted }}" + name,
                         className: "error"
                     }).showToast();
                 } else {
                     Toastify({
-                        text: "Fichier " + name + " supprimé",
+                        text: "{{ Lang.core-item-deleted }}" + name,
                         className: "success"
                     }).showToast();
                     const item = document.getElementById(name);
@@ -221,26 +211,26 @@ defined('ROOT') OR exit('No direct script access allowed');
     }
 
     function deleteFolder(name) {
-        if (!confirm("Êtes-vous sûr de vouloir supprimer ce dossier ? Tous les dossiers et fichiers contenus dans ce dossier seront supprimés.")) {
+        if (!confirm("{{ Lang.confirm.deleteItem }}")) {
             return;
         }
 
         let formData = new FormData();
         formData.append('foldername', name);
-        formData.append('dir', document.getElementById("dirInput").value);
+        formData.append('fmFolderToSee', document.getElementById("dirInput").value);
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", '<?php echo $deleteUrl; ?>', true);
+        xhr.open("POST", '{{ deleteUrl }}', true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const data = JSON.parse(this.responseText);
                 if (data.success === 0) {
                     Toastify({
-                        text: "Impossible de supprimer le dossier " + name,
+                        text: "{{ Lang.core-item-not-deleted }}" + name,
                         className: "error"
                     }).showToast();
                 } else {
                     Toastify({
-                        text: "Dossier " + name + " supprimé",
+                        text: "{{ Lang.core-item-deleted }}" + name,
                         className: "success"
                     }).showToast();
                     const item = document.getElementById(name);
@@ -254,18 +244,18 @@ defined('ROOT') OR exit('No direct script access allowed');
         xhr.send(formData);
     }
 
-
     function uploadFile() {
         const image_files = document.getElementById('customFile').files;
         document.getElementById("filesProgressAjax").style.visibility = 'visible';
         if (image_files.length) {
+            document.getElementById("filesProgressAjax").style.display = "block";
             document.getElementById("btnUpload").innerHTML = '<i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>';
             document.getElementById("btnUpload").setAttribute('disabled', true);
             let formData = new FormData();
             formData.append('image', image_files[0]);
-            formData.append('dir', document.getElementById("dirInput").value);
+            formData.append('fmFolderToSee', document.getElementById("dirInput").value);
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", '<?php echo $uploadUrl; ?>', true);
+            xhr.open("POST", '{{ uploadUrl }}', true);
             xhr.upload.addEventListener("progress", function (e) {
                 if (e.lengthComputable) {
                     let percentComplete = e.loaded / e.total * 100;
@@ -277,21 +267,20 @@ defined('ROOT') OR exit('No direct script access allowed');
                     const data = JSON.parse(this.responseText);
                     if (data.success === 0) {
                         Toastify({
-                            text: "Echec de l'envoi du fichier",
+                            text: "{{ Lang.filemanager.upload-failed }}",
                             className: "error"
                         }).showToast();
                     } else {
-                        refreshView("<?php echo rawurlencode($dir); ?>");
+                        refreshView("{{ dir }}");
                     }
                 }
             };
             xhr.send(formData);
         } else {
             Toastify({
-                text: "Aucun fichier sélectionné",
+                text: "{{ Lang.filemanager.no-file-selected }}",
                 className: "error"
             }).showToast();
         }
     }
-    ;
 </script>
