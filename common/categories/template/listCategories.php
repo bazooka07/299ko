@@ -54,16 +54,12 @@ switch ($catDisplay) {
             function BlogEditCategoryDisplay(id) {
                 let data = "id=" + id + "&token=" + '<?php echo UsersManager::getCurrentUser()->token; ?>';
                 new Fancybox([
-            {
-              src: '<?php echo $this->getEditUrl(); ?>',
-              type: "ajax",
-              ajax : data
-            },
-          ],
-          {
-            plop: "je suis"
-          }
-        );
+                {
+                    src: '<?php echo $this->getEditUrl(); ?>',
+                    type: "ajax",
+                    ajax : data
+                },
+                ],);
             };
 
             async function BlogAddCategory() {

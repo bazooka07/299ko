@@ -115,6 +115,16 @@ abstract class CategoriesManager {
         return true;
     }
 
+    public function getCategoriesWhereItem(int $itemId) {
+        $cats = [];
+        foreach ($this->categories as $cat) {
+            if (in_array($itemId, $cat->items)) {
+                $cats[$cat->id] = $cat;
+            }
+        }
+        return $cats;
+    }
+
     public function deleteCategory($id) {
         if (!isset($this->categories[$id])) {
             return false;
