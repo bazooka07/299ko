@@ -51,7 +51,7 @@
         </p>
     </section>
     <section>
-        <header>Configuration avancée</header>
+        <header>{{Lang.configmanager-advanced-settings}}</header>
         <p>
             <label id='delCacheDesc'>{{Lang.configmanager-delete-cache-desc}}</label><br>
             <a aria-describedby="delCacheDesc" class="button" href="{{cacheClearLink}}">{{Lang.configmanager-delete-cache}}</a>
