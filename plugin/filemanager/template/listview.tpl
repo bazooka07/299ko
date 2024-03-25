@@ -90,7 +90,7 @@
     function insertImgInEditor(editorId, imgUrl) {
         processInsertImgInEditor(editorId, imgUrl);
         {% if ajaxView %}
-            Fancybox.close();
+            Fancybox.close(false);
         {% endif %}
     }
     function onSetFilename(data) {
@@ -162,7 +162,7 @@
     function refreshView(folderName) {
         {% if ajaxView %}
             let data = "fmFolderToSee=" + folderName + "&token={{ token }}&editor={{ editor}}";
-            Fancybox.close();
+            Fancybox.close(false);
                 new Fancybox([
                 {
                     src: '{{ redirectAjaxUrl }}',

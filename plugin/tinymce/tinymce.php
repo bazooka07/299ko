@@ -23,7 +23,7 @@ function tinymceInstall() {
 function tinymceAdminHead() {
     $uploadUrl = router::getInstance()->generate('filemanager-upload-api', ['token' => UsersManager::getCurrentUser()->token]);
     $url = util::urlBuild(PLUGINS . 'tinymce/lib/tinymce/tinymce.min.js');
-    $options = "language: '". lang::get('locale'). "',
+    $options = "language: '". lang::getLocale(). "',
         images_upload_url: '" . $uploadUrl . "',
         automatic_uploads: true,
         browser_spellcheck: true,
