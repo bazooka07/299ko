@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - FileManager MVC & translated
 - TinyMCE : Add images from FileManager
 - Galerie : MVC & translated
+- PluginsManager : MVC & translated
 
 ### Fixed
 

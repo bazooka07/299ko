@@ -4,5 +4,6 @@
     "description" : "Gestion des plugins",
     "authorEmail" : "",
     "authorWebsite" : "",
-    "version" : "none"
+    "version" : "none",
+    "homeAdminMethod" : "PluginsManagerController#list"
 }
