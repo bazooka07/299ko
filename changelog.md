@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Responses as API
 - FileManager MVC & translated
 - TinyMCE : Add images from FileManager
+- Galerie : MVC & translated
 
 ### Fixed
 

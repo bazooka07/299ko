@@ -9,10 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('.galerie-admin .showall').addEventListener('click', function () {
             if (this.dataset.state === 'hidden') {
                 this.dataset.state = 'displayed';
-                this.innerHTML = 'Masquer les éléments cachés';
+                this.innerHTML = '{{ Lang.galerie.hide-hidden }}';
             } else {
                 this.dataset.state = 'hidden';
-                this.innerHTML = 'Basculer sur l\'affichage des éléments cachés';
+                this.innerHTML = '{{ Lang.galerie.toggle-hidden }}';
             }
             document.querySelectorAll('tr.visible').forEach(function (item) {
                 if (item.style.display != 'none') {
