@@ -187,13 +187,13 @@ class galerieItem {
 
     public function __construct($data = array()) {
         if (count($data) > 0) {
-            $this->id = $data['id'];
-            $this->title = $data['title'];
-            $this->content = $data['content'];
-            $this->date = $data['date'];
-            $this->img = $data['img'];
-            $this->category = $data['category'];
-            $this->hidden = (isset($data['hidden'])) ? $data['hidden'] : 0;
+            $this->id = $data['id'] ?? '';
+            $this->title = $data['title'] ?? '';
+            $this->content = $data['content'] ?? '';
+            $this->date = $data['date'] ?? date('Y-m-d');
+            $this->img = $data['img'] ?? '';
+            $this->category = $data['category'] ?? '';
+            $this->hidden = $data['hidden'] ?? 0;
         }
     }
 
