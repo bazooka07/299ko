@@ -290,6 +290,7 @@ class page {
                 $pos = $i + 1;
                 $items[$i]['position'] = $pos;
             }
+            util::writeJsonFile($this->pagesFile, $items);
             if ($array)
                 return $items;
             foreach ($items as $pageItem) {
@@ -459,6 +460,8 @@ class pageItem {
     }
 
     public function getTarget() {
+        if ($this->target == 'url')
+            return '';
         return $this->target;
     }
 
@@ -491,16 +494,18 @@ class pageItem {
     }
 
     public function targetIs() {
-        if ($this->getTarget() == '')
+        if ($this->target == '')
             return 'page';
-        elseif ($this->getTarget() == 'javascript:')
+        elseif ($this->target == 'javascript:')
             return 'parent';
-        elseif (filter_var($this->getTarget(), FILTER_VALIDATE_URL))
+        elseif (filter_var($this->target, FILTER_VALIDATE_URL) || $this->target == 'url')
             return 'url';
-        else
+        else 
             return 'plugin';
     }
 
-}
+    public function isVisibleOnList():bool {
+        return $this->targetIs() != "plugin" || ($this->targetIs() == "plugin" && pluginsManager::isActivePlugin($this->getTarget()));
+    }
 
-?>
+}
