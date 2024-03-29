@@ -99,7 +99,7 @@
                 <li class='tab'>
                     <h4>{{Lang.blog-featured-img}}</h4>
                     {% if news.getImg() %}
-                        <input type="checkbox" name="delImg" id="delImg" /><label for="delImg">Supprimer l'image à la une</label>
+                        <input type="checkbox" name="delImg" id="delImg" /><label for="delImg">{{ Lang.galerie.delete-featured-image }}</label>
                     {% else %}
                          <label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" />
                     {% endif %}
@@ -108,7 +108,7 @@
                         <img src="{{ news.getImgUrl() }}" alt="{{ news.getImg() }}" />
                     {% endif %}
                 </li>
-            <?php } ?>
+            {% endif %}
         </ul>
     </div>
     <p><button id="mainSubmit" type="submit" class="floating" title='Enregistrer'><i class="fa-regular fa-floppy-disk"></i></button></p>

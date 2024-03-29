@@ -99,8 +99,6 @@ class BlogAdminPostsController extends AdminController
                 $galerie = new galerie();
                 $img = new galerieItem(array('category' => ''));
                 $img->setTitle($_POST['name'] . ' ('.lang::get('blog-featured-img').')');
-                $img->setContent('');
-                $img->setDate(date('Y-m-d H:i:s'));
                 $img->setHidden(1);
                 $galerie->saveItem($img);
                 $imgId = $galerie->getLastId() . '.' . util::getFileExtension($_FILES['file']['name']);
