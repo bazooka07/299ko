@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -47,6 +47,8 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
         }
     }
 }
+
+lang::loadLanguageFile(THEMES . $core->getConfigVal('theme') . '/langs/');
 
 define('IS_LOGGED', UsersManager::isLogged());
 // For futures versions
