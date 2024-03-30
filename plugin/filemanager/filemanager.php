@@ -29,6 +29,6 @@ function filemanagerDisplayManagerButton($textareaId = false):string {
     return '<a class="button fmUploadButton" data-fancybox data-type="ajax" '
     . 'href="' . router::getInstance()->generate('filemanager-view-ajax-home', 
     ['token' => UsersManager::getCurrentUser()->token,
-    'editor' => $textareaId]) .'"/><i class="fa-solid fa-file-image"></i> Gestionnaire de fichiers</a>';
+    'editor' => $textareaId]) .'"/><i class="fa-solid fa-file-image"></i> '. lang::get('filemanager.button-label').'</a>';
     
 }
