@@ -14,9 +14,8 @@ define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
 include_once(ROOT . 'common/config.php');
 include_once(ROOT . 'common/common.php');
 if (file_exists(DATA . 'config.json'))
-    die('Un fichier de configuration existe déjà !');
+    die('A config file is already exist');
 $core = core::getInstance();
-$administrator = new administrator();
 $pluginsManager = pluginsManager::getInstance();
 $url = core::getInstance()->makeSiteUrl() . '/install.php';
 
@@ -40,7 +39,7 @@ if (!is_dir(DATA)) {
 }
 $errorDataWrite = !is_writable(DATA);
 
-$availablesLocales = Lang::$availablesLocales;
+$availablesLocales = lang::$availablesLocales;
 
 if (count($_POST) > 0) {
 	if ($core->install()) {
@@ -70,17 +69,17 @@ if (count($_POST) > 0) {
         'defaultPlugin' => 'page',
         'debug' => '0',
         'defaultAdminPlugin' => 'page',
-        'lang' => $_POST['lang'],
+        'siteLang' => $_POST['lang-select'],
     );
     if (!@file_put_contents(DATA . 'config.json', json_encode($config)) || !@chmod(DATA . 'config.json', 0600)) {
-        show::msg(Lang::get('install-problem-during-install'), 'error');
+        show::msg(lang::get('install-problem-during-install'), 'error');
     } else {
         $_SESSION['installOk'] = true;
         $user = new User();
         $user->email = $adminEmail;
         $user->pwd = $adminPwd;
         $user->save();
-        show::msg(Lang::get('install-successfull'), 'success');
+        show::msg(lang::get('install-successfull'), 'success');
         header('location:admin/');
         die();
     }
@@ -92,7 +91,7 @@ if (count($_POST) > 0) {
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>299ko - <?php echo Lang::get('install-installation'); ?></title>	
+        <title>299ko - <?php echo lang::get('install-installation'); ?></title>	
         <link rel="stylesheet" href="admin/styles.css" media="all">
         <link rel="stylesheet" href="<?php echo FONTICON; ?>" />
     </head>
@@ -103,54 +102,54 @@ if (count($_POST) > 0) {
         </div>
         <section id="install">
             <header>
-                <h1 class="text-center"><?php echo Lang::get('install-installation'); ?></h1>
+                <h1 class="text-center"><?php echo lang::get('install-installation'); ?></h1>
             </header>
             <?php
             if ($errorPHP) {
                 echo '<div class="msg error">';
-                echo Lang::get('install-php-version-error', (float) substr(phpversion(), 0, 3), $minPHPVersion);
+                echo lang::get('install-php-version-error', (float) substr(phpversion(), 0, 3), $minPHPVersion);
                 echo '</div>';
             } else {
                 echo '<div class="msg success">';
-                echo Lang::get('install-php-version-ok', $minPHPVersion);
+                echo lang::get('install-php-version-ok', $minPHPVersion);
                 echo '</div>';
             }
 
             if ($errorRewrite === 'CGI') {
                 echo '<div class="msg warning">';
-                echo Lang::get('install-php-rewrite-cgi');
+                echo lang::get('install-php-rewrite-cgi');
                 echo '</div>';
             } elseif ($errorRewrite) {
                 echo '<div class="msg error">';
-                echo Lang::get('install-php-rewrite-error');
+                echo lang::get('install-php-rewrite-error');
                 echo '</div>';
             } else {
                 echo '<div class="msg success">';
-                echo Lang::get('install-php-rewrite-ok');
+                echo lang::get('install-php-rewrite-ok');
                 echo '</div>';
             }
 
             if ($errorDataWrite) {
                 echo '<div class="msg error">';
-                echo Lang::get('install-php-data-write-error');
+                echo lang::get('install-php-data-write-error');
                 echo '</div>';
             } else {
                 echo '<div class="msg success">';
-                echo Lang::get('install-php-data-write-ok');
+                echo lang::get('install-php-data-write-ok');
                 echo '</div>';
             }
             if ($errorDataWrite || $errorPHP || $errorRewrite === true) {
-                echo Lang::get('install-please-check-errors');
+                echo lang::get('install-please-check-errors');
             } else {
                 ?>
                 <form method="post" action="">   
-                    echo '<h3>'.lang::get('install-please-fill-fields').'</h3>';
+                    <?php echo '<h3>'.lang::get('install-please-fill-fields').'</h3>';
                     ?>          
-                    <p><label for="lang-select"><?php echo Lang::get('install-lang-choice'); ?></label>
-                    <select name="lang" id="lang-select" onchange="langChange()">
+                    <p><label for="lang-select"><?php echo lang::get('install-lang-choice'); ?></label>
+                    <select name="lang-select" id="lang-select" onchange="langChange()">
                         <?php
-                        foreach (Lang::$availablesLocales as $k => $v) {
-                            if (Lang::getLocale() === $k) {
+                        foreach (lang::$availablesLocales as $k => $v) {
+                            if (lang::getLocale() === $k) {
                                 echo '<option value="' . $k . '" selected>' . $v . '</option>';
                             } else {
                                 echo '<option value="' . $k . '">' . $v . '</option>';
@@ -160,19 +159,19 @@ if (count($_POST) > 0) {
                     </select>
                     </p>
                     <p>
-                        <label for="adminEmail"><?php echo Lang::get('email'); ?></label><br>
+                        <label for="adminEmail"><?php echo lang::get('email'); ?></label><br>
                         <input type="email" name="adminEmail" required="required">
                     </p>
                     <p>
-                        <label for="adminPwd"><?php echo Lang::get('password'); ?></label><br>
+                        <label for="adminPwd"><?php echo lang::get('password'); ?></label><br>
                         <input type="password" name="adminPwd" id="adminPwd" required="required">
                     </p>
                     <p>
-                        <a id="showPassword" href="javascript:showPassword()" class="button success"><?php echo Lang::get('install-show-password'); ?></a>
-                        <button type="submit" class="button success"><?php echo Lang::get('submit'); ?></button>
+                        <a id="showPassword" href="javascript:showPassword()" class="button success"><?php echo lang::get('install-show-password'); ?></a>
+                        <button type="submit" class="button success"><?php echo lang::get('submit'); ?></button>
                     </p>
                     </form>
-                    <footer><a target="_blank" href="https://github.com/299ko/"><?php echo Lang::get('site-just-using', VERSION); ?></a>
+                    <footer><a target="_blank" href="https://github.com/299ko/"><?php echo lang::get('site-just-using', VERSION); ?></a>
                     </footer>
                 
                 <?php

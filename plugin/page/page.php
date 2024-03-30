@@ -18,22 +18,22 @@ function pageInstall() {
     $page = new page();
     if (count($page->getItems()) < 1) {
         $pageItem = new pageItem();
-        $pageItem->setName('Accueil');
+        $pageItem->setName(lang::get('page.home'));
         $pageItem->setPosition(1);
         $pageItem->setIsHomepage(1);
-        $pageItem->setContent('<p>Félicitations, l\'installation de 299ko s\'est déroulée avec succès !<br>Par mesure de sécurité, vous devez maintenant supprimer le fichier install.php du répertoire d\'installation.</p>');
+        $pageItem->setContent('<p>'. lang::get('page.home-content').'</p>');
         $pageItem->setIsHidden(0);
         $page->save($pageItem);
         $page = new page();
         $page = new page();
         $pageItem = new pageItem();
-        $pageItem->setName('Liens');
+        $pageItem->setName(lang::get('page.links'));
         $pageItem->setPosition(2);
-        $pageItem->setContent('<ul><li><a href="https://github.com/299Ko">Suivre 299Ko sur GitHub</a></li>'
-                . '<li><a href="https://facebook.com/299kocms/">Suivre 299Ko sur Facebook</a></li>'
-                . '<li><a href="https://twitter.com/299kocms">Suivre 299Ko sur Twitter</a></li>'
-                . '<li><a href="https://299ko.ovh">Site Officiel 299Ko</a></li>'
-                . '<li><a href="https://docs.299ko.ovh/shelves/documentation">Documentation de 299Ko</a></li></ul>');
+        $pageItem->setContent('<ul><li><a href="https://github.com/299Ko">'. lang::get('page.links-git') .'</a></li>'
+                . '<li><a href="https://facebook.com/299kocms/">'. lang::get('page.links-fb') .'</a></li>'
+                . '<li><a href="https://twitter.com/299kocms">'. lang::get('page.links-twt') .'</a></li>'
+                . '<li><a href="https://299ko.ovh">'. lang::get('page.links-site') .'</a></li>'
+                . '<li><a href="https://docs.299ko.ovh">'. lang::get('page.links-doc') .'</a></li></ul>');
         $page->save($pageItem);
     }
 }
