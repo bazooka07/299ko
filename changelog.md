@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - PluginsManager : MVC & translated
 - Page : MVC & translated
 - SEO : MVC & translated
+- Allow langs in theme
 
 ### Fixed
 
