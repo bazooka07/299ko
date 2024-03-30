@@ -15,7 +15,11 @@ defined('ROOT') OR exit('No pagesFileect script access allowed');
 ## Fonction d'installation
 
 function contactInstall() {
-    util::writeJsonFile(DATA_PLUGIN . 'contact/emails.json', array());
+    util::writeJsonFile(DATA_PLUGIN . 'contact/emails.json', []);
+    $data = util::readJsonFile(DATA_PLUGIN . 'contact/config.json');
+    lang::loadLanguageFile(PLUGINS . 'contact/langs/');
+    $data['acceptation'] = lang::get('contact.default-acceptation');
+    util::writeJsonFile(DATA_PLUGIN . 'contact/config.json', $data);
 }
 
 ## Hooks

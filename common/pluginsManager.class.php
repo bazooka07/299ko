@@ -70,11 +70,19 @@ class pluginsManager {
         util::writeJsonFile(DATA_PLUGIN . $name . '/config.json', $config);
         chmod(DATA_PLUGIN . $name . '/config.json', 0644);
         // Appel de la fonction d'installation du plugin
-        if (function_exists($name . 'Install'))
-            call_user_func($name . 'Install');
+        if (file_exists(PLUGINS . $name . '/' . $name . '.php')) {
+            require_once (PLUGINS . $name . '/' . $name . '.php');
+            if (function_exists($name . 'Install')) {
+                logg("Call function '" . $name . "Install");
+                call_user_func($name . 'Install');
+            }
+        }
         // Check du fichier config
-        if (!file_exists(DATA_PLUGIN . $name . '/config.json'))
+        if (!file_exists(DATA_PLUGIN . $name . '/config.json')) {
+            logg("Plugin $name can't be installed", "error");
             return false;
+        }
+        logg("Plugin $name successfully installed", "success");
         return true;
     }
 
