@@ -131,6 +131,10 @@ class news
         return $this->date;
     }
 
+    public function getReadableDate() {
+        return util::getDate($this->date);
+    }
+
     public function getDraft()
     {
         return $this->draft;
