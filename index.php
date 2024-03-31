@@ -19,6 +19,13 @@ if (!$core->isInstalled()) {
     die();
 }
 
+define('IS_LOGGED', UsersManager::isLogged());
+// For futures versions
+define('IS_ADMIN', IS_LOGGED);
+
+Template::addGlobal('IS_LOGGED', IS_LOGGED);
+Template::addGlobal('IS_ADMIN', IS_ADMIN);
+
 $match = $router->match();
 if (is_array($match)) {
     if ($runPlugin) {

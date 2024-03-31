@@ -50,10 +50,6 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
 
 lang::loadLanguageFile(THEMES . $core->getConfigVal('theme') . '/langs/');
 
-define('IS_LOGGED', UsersManager::isLogged());
-// For futures versions
-define('IS_ADMIN', IS_LOGGED);
-
 ## $runPLugin représente le plugin en cours d'execution et s'utilise avec la classe plugin & pluginsManager
 $runPlugin = $pluginsManager->getPlugin($core->getPluginToCall());
 
@@ -72,5 +68,3 @@ Template::addGlobal('ROUTER', $router);
 Template::addGlobal('pluginsManager', $pluginsManager);
 Template::addGlobal('CORE', $core);
 Template::addGlobal('ADMIN_PATH', ADMIN_PATH);
-Template::addGlobal('IS_LOGGED', IS_LOGGED);
-Template::addGlobal('IS_ADMIN', IS_ADMIN);

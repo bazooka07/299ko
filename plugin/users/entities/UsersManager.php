@@ -249,6 +249,9 @@ class UsersManager
      */
     public static function getNextId(): int
     {
+        if (empty(self::getUsers())) {
+            return 1;
+        }
         return max(array_keys(self::getUsers())) + 1;
     }
 }

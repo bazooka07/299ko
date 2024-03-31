@@ -9,6 +9,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
+ini_set('display_errors', 1);
 define('ROOT', './');
 define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
 include_once(ROOT . 'common/config.php');
@@ -71,16 +72,21 @@ if (count($_POST) > 0) {
         'defaultAdminPlugin' => 'page',
         'siteLang' => $_POST['lang-select'],
     );
-    if (!@file_put_contents(DATA . 'config.json', json_encode($config)) || !@chmod(DATA . 'config.json', 0600)) {
+    if (!file_put_contents(DATA . 'config.json', json_encode($config)) || !chmod(DATA . 'config.json', 0600)) {
+        logg('Error while writing config file', 'ERROR');
         show::msg(lang::get('install-problem-during-install'), 'error');
+        header('location:' . $core->makeSiteUrl() );
+        die();
     } else {
         $_SESSION['installOk'] = true;
+        logg('Plugins installation done', 'SUCCESS');
         $user = new User();
         $user->email = $adminEmail;
         $user->pwd = $adminPwd;
         $user->save();
-        show::msg(lang::get('install-successfull'), 'success');
-        header('location:admin/');
+        logg('Admin user created, end of install', 'SUCCESS');
+        show::msg(lang::get('install-successfull'), 'SUCCESS');
+        header('location:' . $core->makeSiteUrl() );
         die();
     }
 }
