@@ -5,7 +5,7 @@
 				<img class="featured" src="{{ pageItem.getImgUrl }}" alt="{{ pageItem.getName }}"/>
 			</header>
 		{% endif %}
-		{{ pageItem.getContent }}
+		{{ htmlspecialchars_decode(pageItem.getContent) }}
 	{% else %}
 		<header>
 			<div class="item-head">
