@@ -16,7 +16,7 @@
         </div>
     </header>
     {% if galerie.countItems() == false %}
-        <p>{{Lang.no-item-found}}</p>
+        <p>{{Lang.galerie.no-item-found}}</p>
     {% else %}
         <ul id="list">
             {% for k, obj in galerie.getItems() %}

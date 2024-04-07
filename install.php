@@ -85,7 +85,7 @@ if (count($_POST) > 0) {
         $user->pwd = $adminPwd;
         $user->save();
         logg('Admin user created, end of install', 'SUCCESS');
-        show::msg(lang::get('install-successfull'), 'SUCCESS');
+        show::msg(lang::get('install-successfull'), 'success');
         header('location:' . $core->makeSiteUrl() );
         die();
     }

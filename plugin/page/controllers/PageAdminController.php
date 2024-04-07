@@ -143,7 +143,7 @@ class PageAdminController extends AdminController {
             return $this->list();
         }
         $response = new AdminResponse();
-        if ($pageItem->targetIs() === 'url') {
+        if ($pageItem->targetIs() === 'url' || $pageItem->targetIs() === 'plugin') {
             $tpl = $response->createPluginTemplate('page', 'edit-link');
         } elseif ($pageItem->targetIs() === 'parent') {
             $tpl = $response->createPluginTemplate('page', 'edit-parent');
