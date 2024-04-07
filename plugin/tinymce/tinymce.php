@@ -30,6 +30,7 @@ function tinymceAdminHead() {
         plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
         toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | insertfile image media link | charmap emoticons codesample | fullscreen',
         max_height: 600,
+        image_caption: true,
 		codesample_languages: [
     { text: 'HTML', value: 'HTML' },
 	{ text: 'XML', value: 'XML' },
