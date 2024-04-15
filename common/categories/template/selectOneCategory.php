@@ -12,12 +12,14 @@ switch ($catDisplay) {
     case 'root':
         // Categories Container
         if (empty($this->imbricatedCategories)) {
-            echo 'Aucune catégorie. <a href="index.php?p=categories&plugin=' . $this->pluginId . '"> Ajoutez en une</a>';
+            $noCategoriesText = lang::get('blog.categories.none');
+            $addCategoryLink = '<a href="index.php?p=categories&plugin=' . $this->pluginId . '">' . lang::get('blog.categories.addOne') . '</a>';
+            echo $noCategoriesText . ' ' . $addCategoryLink;
             return;
         }
         ?>
         <select name="<?php echo $fieldName; ?>" id="<?php echo $fieldName; ?>">
-            <option value="0">Aucune catégorie</option>
+            <option value="0">{{ Lang.blog.categories.none }}</option>
         
         <?php
         foreach ($this->imbricatedCategories as $cat) {

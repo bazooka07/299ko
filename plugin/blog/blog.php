@@ -41,8 +41,7 @@ function BlogAdminCategoriesTemplates() {
 
     $catsManager = new BlogCategoriesManager();
 
-    echo '<a title="Gérer les catégories" id="cat_link" data-fancybox data-type="ajax" href="#" data-src="' . 
-    $catsManager->getAjaxDisplayListUrl() . '"><i class="fa-regular fa-folder-open"></i></a>';
+    echo '<a title="' . lang::get('blog-categories-management-title') . '" id="cat_link" data-fancybox data-type="ajax" href="#" data-src="' .  $catsManager->getAjaxDisplayListUrl() . '"><i class="fa-regular fa-folder-open"></i></a>';
 }
 
 

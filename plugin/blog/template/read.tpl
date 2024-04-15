@@ -92,7 +92,7 @@
 					{% if antispam %}
 						{{antispamField}}
 					{% endif %}
-					<p><input type="submit" value="{{ Lang.blog.comments-publish }}"/></p>
+					<p><input type="submit" value="{{ Lang.contact.form_send }}"/></p>
 				</form>
 			</div>
 		</div>
