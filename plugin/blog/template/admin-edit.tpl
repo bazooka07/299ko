@@ -101,7 +101,7 @@
                     {% if news.getImg() %}
                         <input type="checkbox" name="delImg" id="delImg" /><label for="delImg">{{ Lang.galerie.delete-featured-image }}</label>
                     {% else %}
-                         <label for="file">Fichier (png, jpg, jpeg, gif)</label><br><input type="file" name="file" id="file" accept="image/*" />
+                         <label for="file">{{Lang.page.file}}</label><br><input type="file" name="file" id="file" accept="image/*" />
                     {% endif %}
                     <br>
                     {% if news.getImg() %}
@@ -111,5 +111,5 @@
             {% endif %}
         </ul>
     </div>
-    <p><button id="mainSubmit" type="submit" class="floating" title='Enregistrer'><i class="fa-regular fa-floppy-disk"></i></button></p>
+    <p><button id="mainSubmit" type="submit" class="floating" title='{{ Lang.save }}'><i class="fa-regular fa-floppy-disk"></i></button></p>
 </form>

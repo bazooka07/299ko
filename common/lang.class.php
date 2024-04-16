@@ -31,7 +31,8 @@ class lang {
     
     public static $availablesLocales = [
         'fr' => 'Français',
-        'en' => 'English'
+        'en' => 'English',
+        'ru' => 'Russian'
     ];
     
     /**

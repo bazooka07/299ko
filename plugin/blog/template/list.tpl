@@ -1,5 +1,5 @@
 {% if mode === "list_empty" %}
-	<p>Aucun élément n'a été trouvé.</p>
+	<p>{{Lang.galerie.no-item-found}}</p>
 {% else %}
 	{% for k, v in news %}
 		<article>
