@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -39,7 +39,6 @@ class core
 
     public function __construct()
     {
-
         if (!is_dir(DATA))
             mkdir(DATA);
         $this->createLogger();
@@ -62,8 +61,13 @@ class core
         }
         // On détermine le plugin que l'on doit executer suivant le mode (public ou admin)
         
-
         $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
+        if ($parts[0] === 'index.php') {
+            array_shift($parts);
+        }
+        if (!isset($parts[0])) {
+            $parts[0] = '';
+        }
         if ($parts[0] === '') {
             $this->pluginToCall = $this->getConfigVal('defaultPlugin');
             define('ISHOMEPAGE', true);

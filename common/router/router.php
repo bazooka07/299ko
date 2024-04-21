@@ -17,22 +17,40 @@ class router extends AltoRouter {
      */
     private static $instance;
 
+    protected static $url;
+
     private function __construct() {
         if (!empty($_SERVER['REQUEST_URL'])) {
-            $url = $_SERVER['REQUEST_URL'];
+            $url = $this->stripFbclid($_SERVER['REQUEST_URL']);
         } else {
-            $url = $_SERVER['REQUEST_URI'];
+            $url = $this->stripFbclid($_SERVER['REQUEST_URI']);
         }
-
+        $url = str_replace('index.php', '', $url);
+        $url = str_replace('//', '/', $url);
+        self::$url = $url;
         parent::__construct();
         $this->setBasePath(str_replace('\\', '/', BASE_PATH));
         $this->map('GET', '/', 'CoreController#renderHome', 'home');
+        $this->map('GET', '/index.php[/?]', 'CoreController#renderHome');
         $this->map('GET', '/admin/', 'CoreController#renderAdminHome', 'admin');
     }
     
     public function getCleanURI() {
-        $requestUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        $requestUrl = self::$url;
         return substr($requestUrl, strlen($this->basePath));
+    }
+
+    protected function stripFbclid($url) {
+        $patterns = array(
+                '/(\?|&)fbclid=[^&]*$/' => '',
+                '/\?fbclid=[^&]*&/' => '?',
+                '/&fbclid=[^&]*&/' => '&'
+        );
+
+        $search = array_keys($patterns);
+        $replace = array_values($patterns);
+
+        return preg_replace($search, $replace, $url);
     }
 
     /**
@@ -49,6 +67,10 @@ class router extends AltoRouter {
     public function generate($routeName, array $params = []):string {
 		$base = rtrim(util::urlBuild(""),'/');
         return $base . parent::generate($routeName, $params);
+    }
+
+    public function match ($requestUrl = null, $requestMethod = null) {
+        return parent::match(self::$url);
     }
 
 }
