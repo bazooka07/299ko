@@ -47,7 +47,7 @@ class UsersAdminManagementController extends AdminController {
 
     public function edit($id) {
         $user = UsersManager::getUserById($id);
-        if ($user === false) {
+        if ($user === null) {
             $this->core->redirect($this->router->generate('users-admin-home'));
         }
         $response = new AdminResponse();
@@ -68,7 +68,7 @@ class UsersAdminManagementController extends AdminController {
         $pwd = filter_input(INPUT_POST, 'pwd', FILTER_UNSAFE_RAW) ?? false;
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT) ?? false;
         $user = UsersManager::getUserById($id);
-        if (!$mail || !$id || $user === false) {
+        if (!$mail || !$id || $user === null) {
             show::msg(Lang::get('users-credentials-issue'), 'error');
             $this->core->redirect($this->router->generate('users-admin-home'));
         }
@@ -96,7 +96,7 @@ class UsersAdminManagementController extends AdminController {
             $this->core->redirect($this->router->generate('users-admin-home'));
         }
         $user = UsersManager::getUserById($id);
-        if ($user === false) {
+        if ($user === null) {
             show::msg(Lang::get('users-credentials-issue'), 'error');
             $this->core->redirect($this->router->generate('users-admin-home'));
         }

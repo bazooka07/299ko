@@ -118,7 +118,7 @@ class show {
 
     public static function tokenField() {
         $user = UsersManager::getCurrentUser();
-        if (!$user) {
+        if ($user === null) {
             return "";
         }
         echo '<input type="hidden" name="token" value="' . $user->token . '" />';

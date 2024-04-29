@@ -86,7 +86,7 @@ class UsersManager
      */
     public static function isLogged(): bool
     {
-        if (self::getCurrentUser() === false) {
+        if (self::getCurrentUser() === null) {
             // Try to connect by cookies
             if (isset($_COOKIE['koAutoConnect']) && is_string($_COOKIE['koAutoConnect'])) {
                 return self::loginByCookies();
@@ -145,7 +145,7 @@ class UsersManager
      * @param int $id The ID of the user to retrieve.
      * @return User|false The User object if found, false if not found.
      */
-    public static function getUserById(int $id): User|false
+    public static function getUserById(int $id): ?User
     {
         $users = self::getUsers();
         foreach ($users as $user) {
@@ -153,17 +153,17 @@ class UsersManager
                 return $user;
             }
         }
-        return false;
+        return null;
     }
 
     /**
      * Return the current User, if connected by session
      * @return User|false User or false if not connected
      */
-    public static function getCurrentUser(): User|false
+    public static function getCurrentUser(): ?User
     {
         if (!isset($_SESSION['email'])) {
-            return false;
+            return null;
         }
         $user = self::getUser($_SESSION['email']);
         if ($user !== false) {
@@ -171,7 +171,7 @@ class UsersManager
                 return $user;
             }
         }
-        return false;
+        return null;
     }
 
     /**
