@@ -32,6 +32,8 @@ All notable changes to this project will be documented in this file.
 - Remove Pagination when empty
 - Contact : Bad message when mail function is not available
 - Blog : empty categories
+- TinyMCE : Upload img URL issue when CMS is in a sub directory
+- Page : URL issue when CMS is in a sub directory
 
 ### Changed
 
