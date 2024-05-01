@@ -23,6 +23,18 @@ class File {
     public function getUrl() {
         return util::urlBuild($this->directory . $this->name);
     }
+
+    public function getRelUrl() {
+        $parts = explode('/', $this->directory);
+        $dir = '';
+        foreach ($parts as $part) {
+            if ($part === '.' || $part === '..' || $part === '') {
+                continue;
+            }
+            $dir .= $part . '/';
+        }
+        return $dir . ltrim($this->name,'/');
+    }
     
     public function isPicture() {
         if (in_array(util::getFileExtension($this->name), ['gif', 'jpg', 'jpeg','png','bmp'])) {

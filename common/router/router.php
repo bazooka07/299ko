@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2023, 299Ko
+ * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * 
@@ -46,10 +46,8 @@ class router extends AltoRouter {
                 '/\?fbclid=[^&]*&/' => '?',
                 '/&fbclid=[^&]*&/' => '&'
         );
-
         $search = array_keys($patterns);
         $replace = array_values($patterns);
-
         return preg_replace($search, $replace, $url);
     }
 
@@ -65,8 +63,7 @@ class router extends AltoRouter {
     }
 
     public function generate($routeName, array $params = []):string {
-		$base = rtrim(util::urlBuild(""),'/');
-        return $base . parent::generate($routeName, $params);
+        return parent::generate($routeName, $params);
     }
 
     public function match ($requestUrl = null, $requestMethod = null) {

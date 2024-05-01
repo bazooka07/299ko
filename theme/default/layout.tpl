@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
 		<meta name="description" content="{{ SHOW.metaDescriptionTag }}"/>
 		<link rel="icon" href="{{ SHOW.themeIcon }}"/>
+		<base href="{{ SHOW.siteUrl }}/">
 		{{ SHOW.linkTags }}
 		{{ SHOW.scriptTags }}
 		{{ SHOW.showMetas }}

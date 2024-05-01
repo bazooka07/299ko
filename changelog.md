@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - Page : MVC & translated
 - SEO : MVC & translated
 - Allow langs in theme
+- Russian language
 
 ### Fixed
 

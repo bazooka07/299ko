@@ -64,7 +64,7 @@
                         <a class="fm-link" href="{{ item.getUrl() }}"><i class="fa-solid fa-link"></i></a>
                         <a class="fm-link alert" href="javascript:deleteFile('{{ item.name }}')"><i class="fa-solid fa-trash"></i></a>
                         {% if item.isPicture() && editor != false %}
-                            <a onclick="insertImgInEditor('{{editor}}', '{{item.getUrl()}}')" ><i class="fa-solid fa-laptop-code"></i></a>
+                            <a onclick="insertImgInEditor('{{editor}}', '{{item.getRelUrl()}}')" ><i class="fa-solid fa-laptop-code"></i></a>
                         {% endif %}
                     </div>
                 </div>
