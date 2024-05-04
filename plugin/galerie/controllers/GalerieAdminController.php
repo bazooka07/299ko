@@ -62,7 +62,7 @@ class GalerieAdminController extends AdminController
             return $this->home();
         }
         $galerie = new galerie();
-        $contentEditor = new Editor('content', '', lang::get('galerie.content'));
+        $contentEditor = new Editor('galContent', '', lang::get('galerie.content'));
 
         $item = ($_REQUEST['id']) ? $galerie->createItem($_REQUEST['id']) : new galerieItem();
         $item->setCategory($_REQUEST['category']);
@@ -82,7 +82,7 @@ class GalerieAdminController extends AdminController
         if (!$this->user->isAuthorized()) {
             return $this->home();
         }
-        $introEditor = new editor('introduction', '', lang::get('galerie.introduction'), true);
+        $introEditor = new Editor('introduction', '', lang::get('galerie.introduction'), true);
         $this->runPlugin->setConfigVal('label', trim($_POST['label']));
         $this->runPlugin->setConfigVal('order', trim($_POST['order']));
         $this->runPlugin->setConfigVal('introduction', $introEditor->getPostContent() );
@@ -99,7 +99,7 @@ class GalerieAdminController extends AdminController
     protected function renderEdit(galerieItem $item) {
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('galerie', 'admin');
-        $contentEditor = new Editor('content', $item->getContent(), lang::get('galerie.content'));
+        $contentEditor = new Editor('galContent', $item->getContent(), lang::get('galerie.content'));
 
         $galerie = new galerie();
         if ($item->getDate() == '')

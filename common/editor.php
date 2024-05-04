@@ -12,7 +12,7 @@ defined('ROOT') OR exit('No direct script access allowed');
 /**
  * Editor is a class to simplify how plugins works with textarea and the editor
  */
-class editor {
+class Editor {
     
     /**
      * Textarea ID

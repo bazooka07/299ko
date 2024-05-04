@@ -31,7 +31,7 @@ function galerieEndFrontHead() {
 
 function galerieGenerateEditor() {
     global $runPlugin;
-    $introEditor = new editor('introduction', $runPlugin->getConfigVal('introduction'), lang::get('galerie.introduction'), true);
+    $introEditor = new Editor('introduction', $runPlugin->getConfigVal('introduction'), lang::get('galerie.introduction'), true);
     return $introEditor;
 }
 

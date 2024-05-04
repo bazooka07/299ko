@@ -99,7 +99,7 @@ class PageAdminController extends AdminController {
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('page', 'edit');
 
-        $contentEditor = new editor('content', '', lang::get('page.content'), true);
+        $contentEditor = new Editor('pageContent', '', lang::get('page.content'), true);
         $tpl->set('page', $page);
         $tpl->set('token', $this->user->token);
         $tpl->set('pageItem', $pageItem);
@@ -149,7 +149,7 @@ class PageAdminController extends AdminController {
             $tpl = $response->createPluginTemplate('page', 'edit-parent');
         } else {
             $tpl = $response->createPluginTemplate('page', 'edit');
-            $contentEditor = new editor('content', $pageItem->getContent(), lang::get('page.content'), true);
+            $contentEditor = new Editor('pageContent', $pageItem->getContent(), lang::get('page.content'), true);
             $tpl->set('contentEditor', $contentEditor);
         }
         $tpl->set('page', $page);
@@ -165,7 +165,7 @@ class PageAdminController extends AdminController {
             return $this->list();
         }
         $page = new page();
-        $contentEditor = new editor('content', '', lang::get('page.content'), true);
+        $contentEditor = new Editor('pageContent', '', lang::get('page.content'), true);
         $imgId = (isset($_POST['delImg'])) ? '' : $_REQUEST['imgId'] ?? '';
         if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
             if ($this->pluginsManager->isActivePlugin('galerie')) {
