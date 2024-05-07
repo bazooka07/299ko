@@ -54,7 +54,7 @@ class show {
             return;
         }
         foreach ($_SESSION['flash_msg'] as $msg) {
-            echo '<div class="msg ' . $msg['class'] . '"><p>' . $msg['content'] . '</p><a href="#" class="msg-button-close"><i class="fa-solid fa-xmark"></i></a></div>';
+            echo '<div class="msg ' . $msg['class'] . '"><p>' . $msg['content'] . '</p><a href="javascript:" class="msg-button-close"><i class="fa-solid fa-xmark"></i></a></div>';
         }
         unset($_SESSION['flash_msg']);
     }

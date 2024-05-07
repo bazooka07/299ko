@@ -30,7 +30,7 @@ function configManagerDisplayInstallFile() {
                 <div style='text-align:center'><a class='button' href='" . 
                 router::getInstance()->generate('configmanager-delete-install', ['token' => UsersManager::getCurrentUser()->token]) . 
                 "'>". lang::get("configmanager-delete-install") ."</a></div>"
-        . "<a href='#' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
+        . "<a href='javascript:' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
     }
 }
 
