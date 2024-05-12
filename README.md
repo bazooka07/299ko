@@ -1,10 +1,18 @@
 # 299ko
 
-299ko est un CMS français, simple, léger et personnalisable, permettant la réalisation de sites vitrines en quelques clics. Il supporte des [plugins](https://github.com/299Ko/plugins) ainsi que des thèmes.
+299ko is a flat-file PHP CMS, simple, light and customizable, allowing the creation of showcase sites in a few clicks. It supports [plugins](https://github.com/299Ko/plugins) as well as themes. 299ko is now multilingual,and uses its own template engine (syntax similar to Twig) for creating renderings, in order to make website creation accessible to anyone.
 
-Site officiel : https://299ko.ovh
+No need for a database: The CMS uses .json files to store its data, which makes maintenance and backups very easy.
 
-Support : https://community.299ko.ovh/
+## Installation
+
+Installation guide is available here : https://docs.299ko.ovh/english/setup/installation
+
+## Links
+
+Official Website : https://299ko.ovh
+
+Support (forum) : https://community.299ko.ovh/
 
 Documentation : https://docs.299ko.ovh/
 
