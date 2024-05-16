@@ -26,7 +26,7 @@ class UsersManager
     /**
      * Logs in a user with the provided email and password.
      * 
-     * @param string $mail The user's email address
+     * @param string $email The user's email address
      * @param string $password The user's password
      * @param bool $useCookies Whether to set auth cookies after successful login
      * @return bool True if login succeeded, false otherwise

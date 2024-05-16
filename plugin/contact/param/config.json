@@ -4,5 +4,6 @@
     "content2" : "",
     "label" : "Contact",
     "copy" : "",
-    "acceptation" : ""
+    "acceptation" : "",
+    "userMailId": 1
 }

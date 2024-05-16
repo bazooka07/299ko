@@ -42,7 +42,7 @@ function contactSend() {
     if (!util::isEmail($reply) || $name == '' || $firstName == '' || $msg == '')
         return false;
     contactSave($reply);
-    $to = $core->getConfigVal('adminEmail');
+    $to = UsersManager::getUserById($runPlugin->getConfigVal('userMailId'))->email;
     $subject = 'Contact ' . $core->getConfigVal('siteName');
     $msg = $msg . "\n\n----------\n\n" . $name . " " . $firstName . " (" . $reply . ")";
     if (util::isEmail($runPlugin->getConfigVal('copy')))

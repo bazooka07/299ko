@@ -14,7 +14,11 @@ class ContactAdminController extends AdminController {
     public function home() {
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('contact', 'admin-contact');
+        
+        $selectedUserId = $this->runPlugin->getConfigVal('userMailId');
 
+        Template::addGlobal('contactUsers', UsersManager::getUsers());
+        Template::addGlobal('contactSelected', $selectedUserId);
         $tpl->set('token', $this->user->token);
         $tpl->set('emails', implode("\n", util::readJsonFile(DATA_PLUGIN . 'contact/emails.json')));
         $response->addTemplate($tpl);
@@ -28,6 +32,7 @@ class ContactAdminController extends AdminController {
         $this->runPlugin->setConfigVal('label', $_POST['label']);
         $this->runPlugin->setConfigVal('copy', $_POST['copy']);
         $this->runPlugin->setConfigVal('acceptation', $_POST['acceptation']);
+        $this->runPlugin->setConfigVal('userMailId', (int) $_POST['selectedUser']);
 
         return $this->savePluginConf();
     }

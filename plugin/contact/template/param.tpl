@@ -9,6 +9,16 @@
         <input type="text" name="label" id="label" value="{{ runPlugin.getConfigVal("label") }}" required />
     </p>
     <p>
+        <label for="selectedUser">{{ Lang.contact.select-user }}</label><br>
+        <select name="selectedUser" id="selectedUser">
+        {% for user in contactUsers %}
+             <option value='{{user.id}}'
+                {% if contactSelected == user.id %} selected {% endif %}
+            >{{ user.email }}</option>
+        {% endfor %}
+        </select>
+    </p>
+    <p>
         <label for="acceptation">{{ Lang.contact.form_acceptance_text }}</label><br>
         <textarea name="acceptation" id="acceptation">{{ runPlugin.getConfigVal("acceptation") }}</textarea>
     </p>
