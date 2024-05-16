@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2024, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -28,10 +28,6 @@ class plugin {
     private $adminFile;
     private $paramTemplate;
     private $dataPath;
-    private $publicTemplate;
-    private $adminTemplate;
-    private $publicAjaxFile;
-    private $adminAjaxFile;
     private $initConfig;
     private $navigation;
     private $publicCssFile;
@@ -76,8 +72,6 @@ class plugin {
         $this->libFile = (file_exists(PLUGINS . $this->name . '/' . $this->name . '.php')) ? PLUGINS . $this->name . '/' . $this->name . '.php' : false;
 
         $this->setCallables();
-        // Controlleur en mode admin
-        $this->adminFile = (file_exists(PLUGINS . $this->name . '/admin.php')) ? PLUGINS . $this->name . '/admin.php' : false;
         
         // CSS
         $this->publicCssFile = (file_exists(PLUGINS . $this->name . '/template/public.css')) ? PLUGINS . $this->name . '/template/public.css' : false;
@@ -117,38 +111,17 @@ class plugin {
     protected function determineTemplatesFiles() {
         $core = core::getInstance();
         // Template public (peut etre le template par defaut ou un template présent dans le dossier du theme portant le nom du plugin)
-        if (file_exists(THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.tpl'))
-            $this->publicTemplate = THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.tpl';
-        elseif (file_exists(THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php'))
-            $this->publicTemplate = THEMES . $core->getConfigVal('theme') . '/' . $this->name . '.php';
-        elseif (file_exists(PLUGINS . $this->name . '/template/public.tpl'))
-            $this->publicTemplate = PLUGINS . $this->name . '/template/public.tpl';
-        elseif (file_exists(PLUGINS . $this->name . '/template/public.php'))
-            $this->publicTemplate = PLUGINS . $this->name . '/template/public.php';
-        else
-            $this->publicTemplate = false;
-
-        // Template admin
-        if (file_exists(PLUGINS . $this->name . '/template/admin.tpl'))
-            $this->adminTemplate = PLUGINS . $this->name . '/template/admin.tpl';
-        elseif (file_exists(PLUGINS . $this->name . '/template/admin.php'))
-            $this->adminTemplate = PLUGINS . $this->name . '/template/admin.php';
-        else
-            $this->adminTemplate = false;
+       
 
         // Template parametres
         if (file_exists(PLUGINS . $this->name . '/template/param.tpl'))
             $this->paramTemplate = PLUGINS . $this->name . '/template/param.tpl';
-        elseif (file_exists(PLUGINS . $this->name . '/template/param.php'))
-            $this->paramTemplate = PLUGINS . $this->name . '/template/param.php';
         else
             $this->paramTemplate = false;
 
         // Template d'aide
         if (file_exists(PLUGINS . $this->name . '/template/help.tpl'))
             $this->helpTemplate = PLUGINS . $this->name . '/template/help.tpl';
-        elseif (file_exists(PLUGINS . $this->name . '/template/help.php'))
-            $this->helpTemplate = PLUGINS . $this->name . '/template/help.php';
         else
             $this->helpTemplate = false;
     }
@@ -217,14 +190,6 @@ class plugin {
         return $this->adminFile;
     }
     
-    public function getPublicAjaxFile() {
-        return $this->publicAjaxFile;
-    }
-
-    public function getAdminAjaxFile() {
-        return $this->adminAjaxFile;
-    }
-
     public function getPublicCssFile() {
         return $this->publicCssFile;
     }
@@ -243,14 +208,6 @@ class plugin {
 
     public function getDataPath() {
         return $this->dataPath;
-    }
-
-    public function getPublicTemplate() {
-        return $this->publicTemplate;
-    }
-
-    public function getAdminTemplate() {
-        return $this->adminTemplate;
     }
 
     public function getParamTemplate() {
