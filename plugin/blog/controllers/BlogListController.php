@@ -84,7 +84,7 @@ class BlogListController extends PublicController
         return $response;
     }
 
-    public function category($id, $name, $currentPage = 1)
+    public function category($name,$id, $currentPage = 1)
     {
         $categoriesManager = new BlogCategoriesManager();
         $category = $categoriesManager->getCategory($id);
@@ -135,7 +135,7 @@ class BlogListController extends PublicController
         if ($mode === 'list') {
             $nbPages = ceil($nbNews / $newsByPage);
             if ($currentPage > $nbPages) {
-                return $this->category($id, $name, 1);
+                return $this->category($name,$id, 1);
             }
             if ($nbPages > 1) {
                 $pagination = [];
@@ -183,6 +183,6 @@ class BlogListController extends PublicController
     public function categoryPage(int $id, string $name, int $page)
     {
         $page = $page > 1 ? $page : 1;
-        return $this->category($id, $name, $page);
+        return $this->category($name,$id, $page);
     }
 }
