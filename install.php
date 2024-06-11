@@ -6,16 +6,20 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
+
 ini_set('display_errors', 1);
-define('ROOT', './');
-define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
-include_once(ROOT . 'common/config.php');
-include_once(ROOT . 'common/common.php');
-if (file_exists(DATA . 'config.json'))
+
+const ROOT = './';
+
+include_once ROOT . 'common/common.php';
+
+if (file_exists(DATA . 'config.json')) {
     die('A config file is already exist');
+}
+
 $core = core::getInstance();
 $pluginsManager = pluginsManager::getInstance();
 $url = core::getInstance()->makeSiteUrl() . '/install.php';
@@ -97,7 +101,7 @@ if (count($_POST) > 0) {
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>299ko - <?php echo lang::get('install-installation'); ?></title>	
+        <title>299ko - <?php echo lang::get('install-installation'); ?></title>
         <link rel="stylesheet" href="admin/styles.css" media="all">
         <link rel="stylesheet" href="<?php echo FONTICON; ?>" />
     </head>
@@ -148,9 +152,9 @@ if (count($_POST) > 0) {
                 echo lang::get('install-please-check-errors');
             } else {
                 ?>
-                <form method="post" action="">   
+                <form method="post" action="">
                     <?php echo '<h3>'.lang::get('install-please-fill-fields').'</h3>';
-                    ?>          
+                    ?>
                     <p><label for="lang-select"><?php echo lang::get('install-lang-choice'); ?></label>
                     <select name="lang-select" id="lang-select" onchange="langChange()">
                         <?php
@@ -179,7 +183,7 @@ if (count($_POST) > 0) {
                     </form>
                     <footer><a target="_blank" href="https://github.com/299ko/"><?php echo lang::get('site-just-using', VERSION); ?></a>
                     </footer>
-                
+
                 <?php
             }
             ?>

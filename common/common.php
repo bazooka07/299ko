@@ -7,13 +7,16 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
+
 session_start();
 defined('ROOT') or exit('No direct script access allowed');
 
-include_once(ROOT . 'common/config.php');
+define('BASE_PATH', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
+
+include_once ROOT . 'common/config.php';
 
 // Autoload class in COMMON directory
 spl_autoload_register(function ($class) {
@@ -40,7 +43,7 @@ foreach ($pluginsManager->getPlugins() as $plugin) {
         $plugin->loadLangFile();
         $plugin->loadRoutes();
 		if ($plugin->getLibFile() !== false) {
-			include_once($plugin->getLibFile());
+			include_once $plugin->getLibFile();
 		}
         foreach ($plugin->getHooks() as $name => $function) {
             $core->addHook($name, $function);
