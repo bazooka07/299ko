@@ -10,7 +10,10 @@
  *
  * @package 299Ko https://github.com/299Ko/299ko
  */
-defined('ROOT') or exit('No direct script access allowed');
+
+const ACCESS_DENIED = 'Access denied !';
+
+defined('ROOT') or exit('Access denied!');
 
 class core
 {
@@ -361,7 +364,7 @@ class core
             ob_start();
             echo '<?php' . PHP_EOL;
 ?>
-defined('ROOT') or exit('Direct script access forbidden !');
+defined('ROOT') or exit('<?= ACCESS_DENIED ?>');
 const KEY = '<?= $key ?>';
 <?php
             if(!@file_put_contents($filename, ob_get_clean() . PHP_EOL, 0604)) {
