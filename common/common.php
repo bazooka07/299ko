@@ -20,16 +20,13 @@ include_once ROOT . 'common/config.php';
 
 // Autoload class in COMMON directory
 spl_autoload_register(function ($class) {
-	$className = strtolower($class);
+	$pattern = '#^' . $class . '(?:\.class)?\.php$#i';
 	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON));
-	foreach ($iterator as $file)
+	foreach ($iterator as $fileInfo) // $fileInfo is a SplFileInfo object
 	{
-		if ($file->isFile() && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-			$fileName = strtolower($file->getFilename());
-			if ($fileName === $className . '.php' || $fileName === $className . '.class.php') {
-				include_once($file);
-				break;
-			}
+		if ($fileInfo->isFile() && preg_match($pattern , $fileInfo->getFileName())) {
+			include_once $fileInfo; // as $fileInfo->__toString()
+			return;
 		}
 	}
 });
