@@ -29,14 +29,33 @@ function tinymceAdminHead() {
         convert_urls: false,
         document_base_url : '" . core::getInstance()->getConfigVal('siteUrl') . "/',
         browser_spellcheck: true,
+        image_advtab: true,
         plugins: 'advlist anchor autolink autoresize charmap code codesample emoticons fullscreen help image insertdatetime link lists media nonbreaking searchreplace table visualblocks visualchars wordcount',
-        toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | insertfile image media link | charmap emoticons codesample | fullscreen',
+        toolbar: 'blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor removeformat | insertfile image media link | dialog-add-icon charmap emoticons codesample | fullscreen',
         max_height: 600,
         image_caption: true,
+        content_css: [
+			'" . util::urlBuild(PLUGINS . 'tinymce/template/editor.css') . "',
+            '" . FONTICON . "',
+		],
+        setup: (editor) => {
+            editor.ui.registry.addButton('dialog-add-icon', {
+              icon: 'user',
+              tooltip: '". addslashes(lang::get('tiny.choose-icon-title')) . "',
+              onAction: () => editor.windowManager.open(dialogIcon)
+            })
+          },
+        style_formats: [
+            { name: 'success', title: '".addslashes(lang::get('warning.success')). "', block: 'div', classes: [ 'success' ]},
+            { name: 'warning', title: '".addslashes(lang::get('warning.warning')). "', block: 'div', classes: [ 'warning' ]},
+            { name: 'error', title: '".addslashes(lang::get('warning.error')). "', block: 'div', classes: [ 'error' ]},
+            { name: 'info', title: '". addslashes(lang::get('warning.info')). "', block: 'div', classes: [ 'info' ]} 
+        ],
+        style_formats_merge: true,
 		codesample_languages: [
     { text: 'HTML', value: 'HTML' },
 	{ text: 'XML', value: 'XML' },
-	{ text: 'Tpl', value: 'twig' },
+	{ text: 'Tpl', value: 'tpl' },
     { text: 'JavaScript', value: 'javascript' },
     { text: 'CSS', value: 'css' },
     { text: 'PHP', value: 'php' },
@@ -45,14 +64,49 @@ function tinymceAdminHead() {
     { text: 'Java', value: 'java' },
     { text: 'C', value: 'c' },
     { text: 'C#', value: 'csharp' },
-    { text: 'C++', value: 'cpp' }
-  ],";
+    { text: 'C++', value: 'cpp' },
+  ]";
 
     echo "<script src='" . $url . "'></script>
 <script>
+const dialogIcon =  {
+    title: '". addslashes(lang::get('tiny.choose-icon-title')) . "',
+    body: {
+      type: 'panel',
+      items: [
+        {
+          type: 'input',
+          name: 'iconCode',
+          placeholder: '<i class=\'fa-brands fa-font-awesome\'></i>',
+          label: '". addslashes(lang::get('tiny.enter-icon-code')) . "'
+        }
+      ]
+    },
+    buttons: [
+      {
+        type: 'cancel',
+        name: 'closeButton',
+        text: '". addslashes(lang::get('cancel')) ."'
+      },
+      {
+        type: 'submit',
+        name: 'submitButton',
+        buttonType: 'primary',
+        text : '". addslashes(lang::get('validate')) ."'
+      }
+    ],
+    onSubmit: (api) => {
+      const data = api.getData();
+      let insertText = data.iconCode.replace('<i class=', '<span class=');
+    insertText = insertText.replace('></i>', '>&nbsp;</span> ');
+  
+      tinymce.activeEditor.execCommand('InsertHTML', false, insertText);
+      api.close();
+    }
+  };
     document.addEventListener('DOMContentLoaded', function () {
         tinymce.init({
-            selector: 'textarea.editor', " . $options . "
+            selector: 'textarea.editor',license_key: 'gpl', " . $options . "
         });
 
         function mceAdd(item){

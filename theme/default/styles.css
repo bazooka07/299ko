@@ -299,7 +299,7 @@ code, pre{
     left: 0;
 }
 
-.msg, .msg.info {
+.msg, .msg.info, div.info, div.success, div.warning, div.error {
     position: relative;
     margin:18px auto;
     padding:25px 20px;
@@ -311,6 +311,9 @@ code, pre{
     background-color: var(--infos-color);
     color: #fff;
     font-size:18px;
+}
+
+.msg, .msg.info{
     z-index: 995;
 }
 
@@ -318,7 +321,7 @@ code, pre{
     z-index: 996;
 }
 
-.msg:before, .msg.info:before {
+.msg:before, .msg.info:before, div.info:before, div.success:before, div.warning:before, div.error:before {
     font: var(--fa-font-solid);
     content: "\f05a";
     font-size: 23px;
@@ -332,27 +335,27 @@ code, pre{
     color : #fff;
 }
 
-.msg.success {
+.msg.success, div.success {
     background-color: var(--success-color);
     border-left-color: var(--success-hover-color);
 }
-.msg.success:before {
+.msg.success:before, div.success:before {
     content: "\f058";
 }
 
-.msg.error {
+.msg.error, div.error {
     background-color: var(--alert-color);
     border-left-color: var(--alert-hover-color);
 }
-.msg.error:before {
+.msg.error:before, div.error:before {
     content: "\f057";
 }
 
-.msg.warning {
+.msg.warning, div.warning {
     background-color: var(--warning-color);
     border-left-color: var(--warning-hover-color);
 }
-.msg.warning:before {
+.msg.warning:before, div.warning:before {
     content: "\f06a";
 }
 
