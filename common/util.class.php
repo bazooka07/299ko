@@ -78,9 +78,7 @@ class util
 
     public static function isEmail($email)
     {
-        if (preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,4}$/", $email))
-            return true;
-        return false;
+        return (filter_var($email, FILTER_VALIDATE_EMAIL) === false) ? false : true;
     }
 
     ## Envoie un email
