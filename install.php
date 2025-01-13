@@ -93,7 +93,7 @@ if (count($_POST) > 0) {
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html lang="<?php echo lang::getLocale() ?>">
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

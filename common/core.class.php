@@ -39,8 +39,9 @@ class core
 
     public function __construct()
     {
-        if (!is_dir(DATA))
-            mkdir(DATA);
+        if (!is_dir(DATA)) {
+            @mkdir(DATA);
+        }
         $this->createLogger();
 
         // Timezone

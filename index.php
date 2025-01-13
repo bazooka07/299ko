@@ -10,8 +10,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-define('ROOT', './');
-define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
+const ROOT = './';
 include_once(ROOT . 'common/common.php');
 
 if (!$core->isInstalled()) {
