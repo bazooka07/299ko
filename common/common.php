@@ -11,7 +11,9 @@
  * @package 299Ko https://github.com/299Ko/299ko
  */
 session_start();
-defined('ROOT') or exit('No direct script access allowed');
+defined('ROOT') or exit('Access denied!');
+
+define('BASE_PATH', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
 
 include_once(ROOT . 'common/config.php');
 

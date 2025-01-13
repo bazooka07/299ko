@@ -10,7 +10,7 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-defined('ROOT') or exit('No direct script access allowed');
+defined('ROOT') or exit('Access denied!');
 
 class core
 {
@@ -359,7 +359,7 @@ class core
             if (
                 !file_exists(DATA . 'key.php') && !@file_put_contents(DATA
                     . 'key.php', "<?php\ndefined('ROOT') OR exit"
-                    . "('No direct script access allowed');"
+                    . "('Access denied!');"
                     . "\ndefine('KEY', '$key'); ?>", 0604)
             )
                 $install = false;
