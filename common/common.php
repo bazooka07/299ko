@@ -7,7 +7,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 session_start();
@@ -23,7 +23,7 @@ spl_autoload_register(function ($class) {
 	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON));
 	foreach ($iterator as $fileInfo) // $fileInfo is a SplFileInfo object
 	{
-		if ($fileInfo->isFile() && preg_match($pattern , $fileInfo->getFileName())) {
+		if ($fileInfo->isFile() && preg_match($pattern, $fileInfo->getFileName())) {
 			include_once $fileInfo; // as $fileInfo->__toString()
 			return;
 		}
@@ -35,19 +35,23 @@ $core = core::getInstance();
 
 $pluginsManager = pluginsManager::getInstance();
 foreach ($pluginsManager->getPlugins() as $plugin) {
-    if ($plugin->getConfigVal('activate')) {
-        $plugin->loadLangFile();
-        $plugin->loadRoutes();
+	if ($plugin->getConfigVal('activate')) {
+		$plugin->loadLangFile();
+		$plugin->loadRoutes();
 		if ($plugin->getLibFile() !== false) {
 			include_once($plugin->getLibFile());
 		}
-        foreach ($plugin->getHooks() as $name => $function) {
-            $core->addHook($name, $function);
-        }
-    }
+		foreach ($plugin->getHooks() as $name => $function) {
+			$core->addHook($name, $function);
+		}
+	}
 }
 
 lang::loadLanguageFile(THEMES . $core->getConfigVal('theme') . '/langs/');
+$themeFunctionsFile = THEMES . $core->getConfigVal('theme') . '/functions.php';
+if (file_exists($themeFunctionsFile)) {
+	include_once($themeFunctionsFile);
+}
 
 ## $runPLugin représente le plugin en cours d'execution et s'utilise avec la classe plugin & pluginsManager
 $runPlugin = $pluginsManager->getPlugin($core->getPluginToCall());
