@@ -7,7 +7,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 
@@ -52,6 +52,11 @@ class core
         // Construction du tableau de configuration
         // Exemple : array('siteName' => 'val', 'siteUrl' => 'val2')
         $this->config = util::readJsonFile(DATA . 'config.json', true);
+        if(is_array($this->config)) {
+            # Installation done !
+            $this->config['siteUrl'] = $this->makeSiteUrl();
+        }
+
         // Réglage de l'error reporting suivant le paramètre debug
         if ($this->config && $this->config['debug']) {
             ini_set('display_errors', 1);
@@ -64,7 +69,7 @@ class core
             $this->themes[$v] = util::readJsonFile(THEMES . $v . '/infos.json', true);
         }
         // On détermine le plugin que l'on doit executer suivant le mode (public ou admin)
-        
+
         $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
         if ($parts[0] === 'index.php') {
             array_shift($parts);
@@ -112,7 +117,7 @@ class core
 
     /**
      * Return Core Instance
-     * 
+     *
      * @return \self
      */
     public static function getInstance()
@@ -149,7 +154,7 @@ class core
     /**
      * Set up a config val.
      * This setting will not be saved
-     * 
+     *
      * @param string $key
      * @param string $value
      */
@@ -213,18 +218,7 @@ class core
 
     public function makeSiteUrl()
     {
-        $siteUrl = str_replace(array('install.php', '/admin', '/index.php'), array('', '', ''), $_SERVER['SCRIPT_NAME']);
-        $isSecure = false;
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-            $isSecure = true;
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on')
-            $isSecure = true;
-        $REQUEST_PROTOCOL = $isSecure ? 'https' : 'http';
-        $siteUrl = $REQUEST_PROTOCOL . '://' . $_SERVER['HTTP_HOST'] . $siteUrl;
-        $pos = mb_strlen($siteUrl) - 1;
-        if ($siteUrl[$pos] == '/')
-            $siteUrl = substr($siteUrl, 0, -1);
-        return $siteUrl;
+        return preg_replace('#/?(?:admin|in(?:stall|dex)\.php)$#', '', $_SERVER['SCRIPT_NAME']);
     }
 
     ## Alimente le tableau des hooks
@@ -238,7 +232,7 @@ class core
      * Permet d'appeler un hook
      * Si un paramètre est fourni, celui-ci sera passé de fonction en fonction Hook de filtre).
      * Sinon, la valeur de retour sera concaténé à chaque fonction (Hook d'action).
-     * 
+     *
      * @param   string  Nom du hook
      * @param   mixed   Paramètres
      * @return  mixed
@@ -290,7 +284,7 @@ class core
 
     /**
      * Redirect to an other URL and stop current connection
-     * 
+     *
      * @param string $url
      */
     public function redirect(string $url):void {
@@ -317,7 +311,7 @@ class core
     /**
      * Saves a configuration value to the config file.
      *
-     * @param string|array $val The configuration value to save. 
+     * @param string|array $val The configuration value to save.
      * @param array $append Additional configuration values to append.
      * @return bool True if the save was successful, false otherwise.
      */
@@ -400,7 +394,7 @@ const KEY = '<?= $key ?>';
 
     /**
      * Add a log into log file
-     * 
+     *
      * @param string|array Message
      * @param string Severity
      * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
@@ -429,7 +423,7 @@ const KEY = '<?= $key ?>';
 /**
  * Add a log into log file
  * @see \core->log()
- * 
+ *
  * @param string|array Message
  * @param string Severity
  * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
@@ -452,3 +446,4 @@ function debug($message):void
 </pre>
 <?php
 }
+

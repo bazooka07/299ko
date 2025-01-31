@@ -68,7 +68,7 @@ if (count($_POST) > 0) {
     $config = array(
         'siteName' => "SiteName",
         'siteDesc' => "Description",
-        'siteUrl' => $core->makeSiteUrl(),
+        # 'siteUrl' => $core->makeSiteUrl(),
         'theme' => 'default',
         'hideTitles' => '0',
         'defaultPlugin' => 'page',
@@ -79,7 +79,7 @@ if (count($_POST) > 0) {
     if (!file_put_contents(DATA . 'config.json', json_encode($config)) || !chmod(DATA . 'config.json', 0600)) {
         logg('Error while writing config file', 'ERROR');
         show::msg(lang::get('install-problem-during-install'), 'error');
-        header('location:' . $core->makeSiteUrl() );
+        header('Location: install.php');
         die();
     } else {
         $_SESSION['installOk'] = true;
@@ -90,7 +90,7 @@ if (count($_POST) > 0) {
         $user->save();
         logg('Admin user created, end of install', 'SUCCESS');
         show::msg(lang::get('install-successfull'), 'success');
-        header('location:' . $core->makeSiteUrl() );
+        header('Location: index.php');
         die();
     }
 }
@@ -213,3 +213,4 @@ if (count($_POST) > 0) {
         </script>
     </body>
 </html>
+
