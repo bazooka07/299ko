@@ -21,7 +21,7 @@ include_once ROOT . 'common/config.php';
 // Autoload class in COMMON directory
 spl_autoload_register(function ($class) {
 	$pattern = '#^' . $class . '(?:\.class)?\.php$#i';
-	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON), FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS));
+	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS));
 	foreach ($iterator as $fileInfo) // $fileInfo is a SplFileInfo object
 	{
 		if (preg_match($pattern , $fileInfo->getFileName())) {
