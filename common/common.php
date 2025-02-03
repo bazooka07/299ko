@@ -20,12 +20,19 @@ include_once ROOT . 'common/config.php';
 
 // Autoload class in COMMON directory
 spl_autoload_register(function ($class) {
-	$pattern = '#^' . $class . '(?:\.class)?\.php$#i';
-	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(COMMON, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS));
-	foreach ($iterator as $fileInfo) // $fileInfo is a SplFileInfo object
+	if(!defined('COMMON')) {
+		die('Const COMMON undefined !');
+	}
+
+	$pattern = '#\b' . $class . '(?:\.class)?\.php$#i';
+	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
+		COMMON, 
+		FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS
+	));
+	foreach ($iterator as $pathname=>$fileinfo) // $fileInfo is a SplFileInfo object
 	{
-		if (preg_match($pattern , $fileInfo->getFileName())) {
-			include_once $fileInfo; // as $fileInfo->__toString()
+		if (preg_match($pattern , $pathname)) {
+			include_once $pathname;
 			return;
 		}
 	}
