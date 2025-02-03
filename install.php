@@ -6,7 +6,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 
@@ -25,9 +25,6 @@ $pluginsManager = pluginsManager::getInstance();
 $url = core::getInstance()->makeSiteUrl() . '/install.php';
 
 // ----------------- Begin tests
-// Test PHP Version
-$minPHPVersion = 7.4;
-$errorPHP = !((float) substr(phpversion(), 0, 3) >= $minPHPVersion);
 
 // Test mod_rewrite
 if (function_exists('apache_get_modules')) {
@@ -46,35 +43,35 @@ $errorDataWrite = !is_writable(DATA);
 
 $availablesLocales = lang::$availablesLocales;
 
-if (count($_POST) > 0) {
-	if ($core->install()) {
-		$plugins = $pluginsManager->getPlugins();
-		if ($plugins != false) {
-			foreach ($plugins as $plugin) {
-				if ($plugin->getLibFile()) {
-					include_once($plugin->getLibFile());
-					$plugin->loadLangFile();
-					if (!$plugin->isInstalled())
-						$pluginsManager->installPlugin($plugin->getName(), true);
-					$plugin->setConfigVal('activate', '1');
-					$pluginsManager->savePluginConfig($plugin);
-				}
-			}
-		}
-	}
-	include(DATA . 'key.php');
-    $adminPwd = UsersManager::encrypt($_POST['adminPwd']);
-    $adminEmail = $_POST['adminEmail'];
+if (filter_input(INPUT_POST, 'adminEmail', FILTER_VALIDATE_EMAIL) and  !empty($_POST['adminPwd'])) {
+    if ($core->install()) {
+        $plugins = $pluginsManager->getPlugins();
+        if ($plugins != false) {
+            foreach ($plugins as $plugin) {
+                if ($plugin->getLibFile()) {
+                    include_once($plugin->getLibFile());
+                    $plugin->loadLangFile();
+                    if (!$plugin->isInstalled())
+                        $pluginsManager->installPlugin($plugin->getName(), true);
+                    $plugin->setConfigVal('activate', '1');
+                    $pluginsManager->savePluginConfig($plugin);
+                }
+            }
+        }
+    }
+    include DATA . 'key.php';
+    $adminPwd = UsersManager::encrypt(filter_input(INPUT_POST, 'adminPwd', FILTER_SANITIZE_SPECIAL_CHARS));
+    $adminEmail = htmlspecialchars($_POST['adminEmail']);
     $config = array(
-        'siteName' => "SiteName",
-        'siteDesc' => "Description",
+        'siteName' => 'SiteName',
+        'siteDesc' => 'Description',
         # 'siteUrl' => $core->makeSiteUrl(),
         'theme' => 'default',
         'hideTitles' => '0',
         'defaultPlugin' => 'page',
         'debug' => '0',
         'defaultAdminPlugin' => 'page',
-        'siteLang' => $_POST['lang-select'],
+        'siteLang' => htmlspecialchars($_POST['lang-select']),
     );
     if (!file_put_contents(DATA . 'config.json', json_encode($config)) || !chmod(DATA . 'config.json', 0600)) {
         logg('Error while writing config file', 'ERROR');
@@ -114,26 +111,15 @@ if (count($_POST) > 0) {
             <header>
                 <h1 class="text-center"><?= lang::get('install-installation'); ?></h1>
             </header>
-<?php
-            if ($errorPHP) {
-?>
-			<div class="msg error">
-                <?= lang::get('install-php-version-error', (float) substr(phpversion(), 0, 3), $minPHPVersion) ?>
-            </div>
-<?php
-            } else {
-?>
             <div class="msg success">
-                <?= lang::get('install-php-version-ok', $minPHPVersion) ?>
+                <?= lang::get('install-php-version-ok', MIN_PHP_VERSION) ?>
             </div>
 <?php
-            }
-
             if ($errorRewrite === 'CGI') {
 ?>
-			<div class="msg warning">
+            <div class="msg warning">
                 <?= lang::get('install-php-rewrite-cgi') ?>
-			</div>
+            </div>
 <?php
             } elseif ($errorRewrite) {
 ?>
@@ -143,40 +129,40 @@ if (count($_POST) > 0) {
 <?php
             } else {
 ?>
-			<div class="msg success">';
-				<?= lang::get('install-php-rewrite-ok') ?>
+            <div class="msg success">';
+                <?= lang::get('install-php-rewrite-ok') ?>
             </div>
 <?php
             }
 
             if ($errorDataWrite) {
 ?>
-			<div class="msg error">
+            <div class="msg error">
                 <?= lang::get('install-php-data-write-error') ?>
             </div>
 <?php
             } else {
 ?>
-			<div class="msg success">
+            <div class="msg success">
                 <?= lang::get('install-php-data-write-ok') ?>
             </div>
 <?php
             }
 
-            if ($errorDataWrite || $errorPHP || $errorRewrite === true) {
+            if ($errorDataWrite || $errorRewrite === true) {
                 echo lang::get('install-please-check-errors');
             } else {
 ?>
-                <form method="post" action="">   
+                <form method="post" action="">
                     <h3><?= lang::get('install-please-fill-fields') ?></h3>
                     <p><label for="lang-select"><?= lang::get('install-lang-choice'); ?></label>
                     <select name="lang-select" id="lang-select" onchange="langChange()">
 <?php
-		$locale = lang::getLocale();
+        $locale = lang::getLocale();
                         foreach (lang::$availablesLocales as $k => $v) {
-			$selected = ($locale === $k) ? 'selected' : '';
+            $selected = ($locale === $k) ? 'selected' : '';
 ?>
-						<option value="<?= $k ?>" <?= $selected ?>><?= $v  ?></option>
+                        <option value="<?= $k ?>" <?= $selected ?>><?= $v  ?></option>
 <?php
                         }
 ?>
@@ -195,7 +181,7 @@ if (count($_POST) > 0) {
                         <button type="submit" class="button success"><?= lang::get('submit'); ?></button>
                     </p>
                     </form>
-		    <footer>
+            <footer>
                         <a target="_blank" href="https://github.com/299ko/"><?= lang::get('site-just-using', VERSION); ?></a>
                     </footer>
 <?php
@@ -208,9 +194,8 @@ if (count($_POST) > 0) {
                 document.getElementById('showPassword').style.display = 'none';
             }
             function langChange() {
-                window.location.href = '<?= $url; ?>?lang=' + document.getElementById('lang-select').value;
+                window.location.href = '<?= basename(__FILE__) ?>?lang=' + document.getElementById('lang-select').value;
             }
         </script>
     </body>
 </html>
-
