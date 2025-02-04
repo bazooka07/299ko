@@ -61,7 +61,7 @@ class core
             $this->themes[$v] = util::readJsonFile(THEMES . $v . '/infos.json', true);
         }
         // On détermine le plugin que l'on doit executer suivant le mode (public ou admin)
-        
+
         $parts = explode('/', trim(router::getInstance()->getCleanURI(), '/'));
         if ($parts[0] === 'index.php') {
             array_shift($parts);
@@ -167,7 +167,7 @@ class core
 
     ## Retourne l'identifiant du plugin solicité
 
-    public function getPluginToCall():string
+    public function getPluginToCall(): string
     {
         return $this->pluginToCall;
     }
@@ -290,7 +290,8 @@ class core
      * 
      * @param string $url
      */
-    public function redirect(string $url):void {
+    public function redirect(string $url): void
+    {
         header('location:' . $url);
         die();
     }
@@ -343,7 +344,19 @@ class core
             $install = false;
         if ($install) {
             if (!file_exists(DATA . '.htaccess')) {
-                if (!@file_put_contents(DATA . '.htaccess', "Require all denied", 0604))
+                if (!@file_put_contents(
+                    DATA . '.htaccess',
+                    "<IfModule mod_authz_core.c>
+                        # Apache 2.4
+                        Require all denied
+                    </IfModule>
+                    <IfModule !mod_authz_core.c>
+                        # Apache 2.2
+                        Order deny,allow
+                        Deny from all
+                    </IfModule>",
+                    0604
+                ))
                     $install = false;
             }
             if (!is_dir(DATA_PLUGIN) && (!@mkdir(DATA_PLUGIN) || !@chmod(DATA_PLUGIN, 0755)))
@@ -351,7 +364,19 @@ class core
             if (!is_dir(UPLOAD) && (!@mkdir(UPLOAD) || !@chmod(UPLOAD, 0755)))
                 $install = false;
             if (!file_exists(UPLOAD . '.htaccess')) {
-                if (!@file_put_contents(UPLOAD . '.htaccess', "Require all granted", 0604))
+                if (!@file_put_contents(
+                    UPLOAD . '.htaccess',
+                    "<IfModule mod_authz_core.c>
+                        # Apache 2.4
+                        Require all granted
+                    </IfModule>
+                    <IfModule !mod_authz_core.c>
+                        # Apache 2.2
+                        Order allow,deny
+                        Allow from all
+                    </IfModule>",
+                    0604
+                ))
                     $install = false;
             }
             if (!file_exists(__FILE__) || !@chmod(__FILE__, 0644))
@@ -388,7 +413,6 @@ class core
         if (is_dir(DATA)) {
             $this->logger = fopen(DATA . 'logs.txt', 'a+');
         }
-
     }
 
     /**
@@ -437,7 +461,7 @@ function logg($message, $severity = 'INFO')
  * @param mixed $message Message or var to display
  * @return void
  */
-function debug($message):void
+function debug($message): void
 {
     echo '<pre>';
     print_r($message);

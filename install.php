@@ -11,7 +11,7 @@
  */
 ini_set('display_errors', 1);
 define('ROOT', './');
-define('BASE_PATH', substr(__DIR__, strlen($_SERVER['DOCUMENT_ROOT'])));
+
 include_once(ROOT . 'common/config.php');
 include_once(ROOT . 'common/common.php');
 if (file_exists(DATA . 'config.json'))
