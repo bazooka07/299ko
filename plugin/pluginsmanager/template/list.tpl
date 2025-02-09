@@ -10,8 +10,8 @@
                     <th>{{ Lang.pluginsmanager.activate }}</th>
                 </tr>
             </thead>
-            <tbody>              
-                {% for plugin in pluginsManager.getPlugins() %}
+            <tbody>
+                {% for plugin in plugins %}
                     <tr>
                         <td>
                             {{ plugin.getTranslatedName() }}
@@ -26,15 +26,11 @@
                             </select>
                         </td>
                         <td>
-                            {% if plugin.isRequired() == false %}
-                                <input onchange="document.getElementById('pluginsmanagerForm').submit();" id="activate[{{ plugin.getName() }}]" type="checkbox" name="activate[{{ plugin.getName() }}]" {% if plugin.getConfigVal("activate") %}checked{% endif %} />
-                            {% else %}
-                                <input style="display:none;" id="activate[{{ plugin.getName() }}]" type="checkbox" name="activate[{{ plugin.getName() }}]" checked />
-                            {% endif %}
+                            <input onchange="document.getElementById('pluginsmanagerForm').submit();" id="activate[{{ plugin.getName() }}]" type="checkbox" name="activate[{{ plugin.getName() }}]" {% if plugin.getConfigVal("activate") %}checked{% endif %} />
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>                    
+            </tbody>
         </table>
     </form>
 </section>

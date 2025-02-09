@@ -4,7 +4,7 @@
  * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') or exit('Access denied!');
@@ -27,6 +27,15 @@ class PluginsManagerController extends AdminController
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('pluginsmanager', 'list');
 
+        $plugins = $this->pluginsManager->getPlugins();
+        $pluginsToDisplay = [];
+        foreach ($plugins as $plugin) {
+            if (!$plugin->isRequired()) {
+                $pluginsToDisplay[] = $plugin;
+            }
+        }
+        $tpl->set('plugins', $pluginsToDisplay);
+
         $tpl->set('priority', $priority);
         $tpl->set('token', $this->user->token);
 
@@ -40,6 +49,8 @@ class PluginsManagerController extends AdminController
         }
         $error = false;
         foreach ($this->pluginsManager->getPlugins() as $k => $v) {
+            if ($v->isRequired())
+                continue;
             if (isset($_POST['activate'][$v->getName()])) {
                 if (!$v->isInstalled())
                     $this->pluginsManager->installPlugin($v->getName(), true);
