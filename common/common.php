@@ -13,7 +13,7 @@
 session_start();
 defined('ROOT') or exit('Access denied!');
 
-define('BASE_PATH', rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
+define('BASE_PATH', rtrim(dirname($_SERVER['SCRIPT_NAME']), DIRECTORY_SEPARATOR));
 
 include_once(ROOT . 'common/config.php');
 
