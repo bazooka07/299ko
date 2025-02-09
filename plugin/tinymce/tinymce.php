@@ -106,7 +106,7 @@ const dialogIcon =  {
   };
     document.addEventListener('DOMContentLoaded', function () {
         tinymce.init({
-            selector: 'textarea.editor',license_key: 'gpl', " . $options . "
+            selector: 'textarea.editor',license_key: 'gpl', promotion: false, branding: false, " . $options . "
         });
 
         function mceAdd(item){
