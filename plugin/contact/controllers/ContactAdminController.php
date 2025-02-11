@@ -4,7 +4,7 @@
  * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') or exit('Access denied!');
@@ -14,10 +14,10 @@ class ContactAdminController extends AdminController {
     public function home() {
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('contact', 'admin-contact');
-        
+
         $selectedUserId = $this->runPlugin->getConfigVal('userMailId');
 
-        Template::addGlobal('contactUsers', UsersManager::getUsers());
+        Template::addGlobal('contactUsers', User::all());
         Template::addGlobal('contactSelected', $selectedUserId);
         $tpl->set('token', $this->user->token);
         $tpl->set('emails', implode("\n", util::readJsonFile(DATA_PLUGIN . 'contact/emails.json')));

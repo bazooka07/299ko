@@ -7,7 +7,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') OR exit('No pagesFileect script access allowed');
@@ -42,7 +42,7 @@ function contactSend() {
     if (!util::isEmail($reply) || $name == '' || $firstName == '' || $msg == '')
         return false;
     contactSave($reply);
-    $to = UsersManager::getUserById($runPlugin->getConfigVal('userMailId'))->email;
+    $to = User::findPK($runPlugin->getConfigVal('userMailId'))->email;
     $subject = 'Contact ' . $core->getConfigVal('siteName');
     $msg = $msg . "\n\n----------\n\n" . $name . " " . $firstName . " (" . $reply . ")";
     if (util::isEmail($runPlugin->getConfigVal('copy')))

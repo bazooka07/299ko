@@ -4,7 +4,7 @@
  * @copyright (C) 2024, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') or exit('Access denied!');
@@ -78,7 +78,7 @@ class UsersLoginController extends PublicController
             // Empty field or robot
             return $this->login();
         }
-        $user = UsersManager::getUser(trim($_POST['email']));
+        $user = User::find('email',trim($_POST['email']));
         if ($user === false) {
             show::msg(Lang::get("users.bad-credentials"), 'error');
             $this->core->redirect($this->router->generate('login'));
@@ -107,7 +107,7 @@ class UsersLoginController extends PublicController
             show::msg(Lang::get("users-lost-bad-token-link"), 'error');
             $this->core->redirect($this->router->generate('login'));
         }
-        $user = UsersManager::getUser($usrToken['mail']);
+        $user = User::find('email',$usrToken['mail']);
         if ($user === false) {
             show::msg(Lang::get("users-lost-bad-token-link"), 'error');
             $this->core->redirect($this->router->generate('login'));
