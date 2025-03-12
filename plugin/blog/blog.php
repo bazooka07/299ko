@@ -33,6 +33,22 @@ function blogEndFrontHead() {
     echo '<link rel="alternate" type="application/rss+xml" href="' . router::getInstance()->generate('blog-rss') . '" title="' . $core->getConfigVal('siteName') . '">' . "\n";
 }
 
+function blogLinkShortcode(array $attributes):string {
+    $newsManager = new newsManager();
+    $news = $newsManager->create((int) $attributes['id']);
+    if (!$news) {
+        return '';
+    }
+    if (!isset($attributes['name'])) {
+        $attributes['name'] = $news->getName();
+    }
+    return '<a href="' . router::getInstance()->generate('blog-read', ['id' => $news->getId(), 'name' => util::strToUrl($news->getName())]) . '">' . $attributes['name'] . '</a>';
+}
+
+function blogBeforeRunPlugin() {
+    ContentParser::addShortcode('blogLink', 'BlogLinkShortcode');
+}
+
 function BlogAdminCategoriesTemplates() {
     global $runPlugin;
     if ($runPlugin->getName() !== 'blog') {

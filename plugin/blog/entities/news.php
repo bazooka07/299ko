@@ -7,7 +7,7 @@
  * @author Maxence Cauderlier <mx.koder@gmail.com>
  * @author Frédéric Kaplon <frederic.kaplon@me.com>
  * @author Florent Fortat <florent.fortat@maxgun.fr>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') or exit('Access denied!');
@@ -18,12 +18,14 @@ class news
     private $id;
     private $name;
     private $date;
-    private $content;
+    private $content = '';
     private $intro;
     private $seoDesc;
     private $draft;
     private $img;
     private $commentsOff;
+
+    private ContentParser $parser;
 
     /**
      * Array with Id of categories
@@ -31,7 +33,7 @@ class news
      */
     public array $categories = [];
 
-    public function __construct($val = array())
+    public function __construct($val = [])
     {
         if (count($val) > 0) {
             $this->id = $val['id'];
@@ -45,6 +47,7 @@ class news
             $this->commentsOff = (isset($val['commentsOff']) ? $val['commentsOff'] : 0);
             $this->categories = $val['categories'] ?? [];
         }
+        $this->parser = new ContentParser($this->content);
     }
 
     public function setId($val)
@@ -60,6 +63,7 @@ class news
     public function setContent($val)
     {
         $this->content = trim($val);
+        $this->parser->setContent($this->content);
     }
 
     public function setIntro($val)
@@ -109,6 +113,16 @@ class news
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function getParsedContent(): string
+    {
+        return $this->parser->getParsedContent();
+    }
+
+    public function getContentWithoutShortcodes():string
+    {
+        return $this->parser->getWithoutShortcodesContent();
     }
 
     public function getUrl()

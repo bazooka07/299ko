@@ -4,7 +4,7 @@
  * @copyright (C) 2023, 299Ko
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Maxence Cauderlier <mx.koder@gmail.com>
- * 
+ *
  * @package 299Ko https://github.com/299Ko/299ko
  */
 defined('ROOT') or exit('Access denied!');
@@ -31,7 +31,7 @@ class BlogReadController extends PublicController
         $this->runPlugin->setMainTitle($item->getName());
         $this->runPlugin->setTitleTag($item->getName());
 
-        $generatedHTML = util::generateIdForTitle(htmlspecialchars_decode($item->getContent()));
+        $generatedHTML = util::generateIdForTitle(htmlspecialchars_decode($item->getParsedContent()));
         $toc = $this->generateTOC($generatedHTML);
 
         $categories = [];
@@ -43,7 +43,7 @@ class BlogReadController extends PublicController
                 ];
             }
         }
-        
+
         $response = new PublicResponse();
         $tpl = $response->createPluginTemplate('blog', 'read');
 
@@ -145,7 +145,7 @@ class BlogReadController extends PublicController
                         header('location:' . $_POST['back']);
                         die();
                     }
-                    
+
                     $comment->setAuthorWebsite(filter_input(INPUT_POST, 'authorWebsite', FILTER_VALIDATE_URL) ?? null);
                     $comment->setDate('');
                     $comment->setContent($_POST['commentContent']);

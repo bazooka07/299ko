@@ -17,6 +17,8 @@ class AdminResponse extends Response {
      */
     protected Template $layout;
 
+    protected ?string $title = null;
+
     public function __construct() {
         parent::__construct();
         $this->layout = new Template(ADMIN_PATH .'layout.tpl');
@@ -45,6 +47,15 @@ class AdminResponse extends Response {
             $content .= $tpl->output();
         }
         $this->layout->set('CONTENT', $content);
+        $this->layout->set('PAGE_TITLE' , $this->title ?? false);
         return $this->layout->output();
+    }
+
+    /**
+     * Set the title of the admin page
+     * @param string $title
+     */
+    public function setTitle(string $title) {
+        $this->title = $title;
     }
 }

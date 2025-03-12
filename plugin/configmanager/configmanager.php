@@ -10,31 +10,36 @@
  * 
  * @package 299Ko https://github.com/299Ko/299ko
  */
-defined('ROOT') OR exit('Access denied!');
+defined('ROOT') or exit('Access denied!');
 
 require_once PLUGINS . 'configmanager/lib/UpdaterManager.php';
+require_once PLUGINS . 'configmanager/entities/ConfigManagerBackupsManager.php';
+require_once PLUGINS . 'configmanager/entities/ConfigManagerBackup.php';
 
 ## Fonction d'installation
 
-function configmanagerInstall() {
-    
+function configmanagerInstall()
+{
+
 }
 
 ## Hooks
 ## Code relatif au plugin
 
-function configManagerDisplayInstallFile() {
+function configManagerDisplayInstallFile()
+{
     if (file_exists(ROOT . 'install.php')) {
         echo "<div class='msg warning'>
-                <p>". lang::get("configmanager-delete-install-msg") ."</p>
-                <div style='text-align:center'><a class='button' href='" . 
-                router::getInstance()->generate('configmanager-delete-install', ['token' => UsersManager::getCurrentUser()->token]) . 
-                "'>". lang::get("configmanager-delete-install") ."</a></div>"
-        . "<a href='javascript:' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
+                <p>" . lang::get("configmanager-delete-install-msg") . "</p>
+                <div style='text-align:center'><a class='button' href='" .
+            router::getInstance()->generate('configmanager-delete-install', ['token' => UsersManager::getCurrentUser()->token]) .
+            "'>" . lang::get("configmanager-delete-install") . "</a></div>"
+            . "<a href='javascript:' class='msg-button-close'><i class='fa-solid fa-xmark'></i></a></div>";
     }
 }
 
-function configManagerCheckNewVersion() {
+function configManagerCheckNewVersion()
+{
     $cachedInfos = util::readJsonFile(DATA_PLUGIN . 'configmanager/cache.json');
     if ($cachedInfos !== false) {
         // Cached infos
@@ -57,7 +62,7 @@ function configManagerCheckNewVersion() {
                 // Actual version (testing) is higher than official release
                 $nextVersion = false;
             }
-            
+
         }
     } else {
         // No cache
@@ -68,14 +73,16 @@ function configManagerCheckNewVersion() {
     }
 }
 
-function configmanagerDisplayNewVersion($nextVersion) {
-    show::msg("<p>". lang::get('configmanager-update-msg', $nextVersion) ."</p>
+function configmanagerDisplayNewVersion($nextVersion)
+{
+    show::msg("<p>" . lang::get('configmanager-update-msg', $nextVersion) . "</p>
         <div style='text-align:center'><a class='button alert' href='" .
         router::getInstance()->generate('configmanager-update', ['token' => UsersManager::getCurrentUser()->token]) .
-        "'>". lang::get('configmanager-update') ."</a></div>");
+        "'>" . lang::get('configmanager-update') . "</a></div>");
 }
 
-function configmanagerGetNewVersion() {
+function configmanagerGetNewVersion()
+{
     $updaterManager = new UpdaterManager();
     if ($updaterManager) {
         $nextVersion = $updaterManager->getNextVersion();
@@ -94,4 +101,13 @@ function configmanagerGetNewVersion() {
         logg('Nouvelle version trouvée : ' . $nextVersion, 'INFO');
     }
     return $nextVersion;
+}
+
+function configmanagerBackupTemplates()
+{
+    global $runPlugin;
+    if ($runPlugin->getName() !== 'configmanager') {
+        return;
+    }
+    echo '<a title="' . lang::get('configmanager-backup') . '" id="configmanager-backup" href="' . router::getInstance()->generate('configmanager-backup') . '"><i class="fa-solid fa-box-archive"></i></a>';
 }

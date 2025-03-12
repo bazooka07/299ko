@@ -127,6 +127,26 @@ class util
         return $data;
     }
 
+    /**
+     * List a directory and its content recursively and return an array with files and folders (separated)
+     * 
+     * @param string $dir Path to scan
+     * @return array $data['dir] : Directories / $data['file'] : Files
+     */
+    public static function scanDirRecursive(string $dir):array {
+        $data['dir'] = [];
+        $data['file'] = [];
+        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+        foreach($objects as $name => $object){
+            if ($object->isDir()) {
+                $data['dir'][] = $name;
+            } else {
+                $data['file'][] = $name;
+            }
+        }
+        return $data;
+    }
+
     ## Sauvegarde un tableau dans un fichier au format json
 
     public static function writeJsonFile($file, $data)
@@ -187,7 +207,7 @@ class util
         return $data;
     }
 
-    public static function getTimestampFromDate($date) {
+    public static function getTimestampFromDate($date): int {
         if (is_int($date)) {
             // Date from timestamp
             $dateObj = new DateTime();

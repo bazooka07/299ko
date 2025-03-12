@@ -1,4 +1,5 @@
 {
     "endFrontHead" : "blogEndFrontHead",
-    "adminToolsTemplates" : "BlogAdminCategoriesTemplates"
+    "adminToolsTemplates" : "BlogAdminCategoriesTemplates",
+    "beforeRunPlugin" : "blogBeforeRunPlugin"
 }

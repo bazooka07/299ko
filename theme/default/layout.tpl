@@ -38,7 +38,11 @@
 			<main id="body">
 				{% IF CORE.getConfigVal(hideTitles) == 0 %}
 					<div id="pageTitle">
-						{{ SHOW.mainTitle }}
+						{% if PAGE_TITLE %}
+							{{ PAGE_TITLE }}
+						{% else %}
+							{{ SHOW.mainTitle }}
+						{% endif %}
 					</div>
 				{% ENDIF %}
 				<div id="body-page">
