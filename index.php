@@ -11,6 +11,7 @@
  * @package 299Ko https://github.com/299Ko/299ko
  */
 const ROOT = './';
+const DS = DIRECTORY_SEPARATOR;
 
 include_once(ROOT . 'common/common.php');
 

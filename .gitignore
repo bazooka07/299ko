@@ -2,15 +2,6 @@
 /.lando.yml
 *.cache.php
 
-# plugins
-!/plugin/antispam/
-!/plugin/blog/
-!/plugin/configmanager/
-!/plugin/contact/
-!/plugin/filemanager/
-!/plugin/galerie/
-/plugin/
-
 # themes
 !/theme/default/
 /theme/
