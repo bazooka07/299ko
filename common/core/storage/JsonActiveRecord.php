@@ -20,6 +20,7 @@ abstract class JsonActiveRecord
     protected static string $filePath;
     protected static string $primaryKey = 'id';
     protected $queryConditions = [];
+    protected $queryOrderBy = [];
     protected $queryLimit = null;
     protected $queryOffset = null;
     protected $queryGroups = [];
@@ -146,6 +147,29 @@ abstract class JsonActiveRecord
     }
 
     /**
+     * Set the order by clause for the query.
+     *
+     * Adds a sorting criterion to the query, specifying the field to sort by
+     * and the direction of sorting.
+     *
+     * @param string $key The field name to sort by.
+     * @param string $direction The direction of sorting, either 'asc' or 'desc'.
+     *                          Defaults to 'asc'.
+     * @return self
+     * @throws \InvalidArgumentException If the sort direction is invalid.
+     */
+    public function orderBy(string $key, string $direction = 'asc'): self
+    {
+        $direction = strtolower($direction);
+        if (!in_array($direction, ['asc', 'desc'])) {
+            throw new \InvalidArgumentException('Invalid sort direction. Use "asc" or "desc".');
+        }
+
+        $this->queryOrderBy[] = ['key' => $key, 'direction' => $direction];
+        return $this;
+    }
+
+    /**
      * Limit the number of results returned.
      *
      * @param int $limit The number of results to return.
@@ -209,6 +233,26 @@ abstract class JsonActiveRecord
 
         if (!is_null($this->queryLimit)) {
             $data = array_slice($data, 0, $this->queryLimit);
+        }
+
+        if (!empty($this->queryOrderBy)) {
+            usort($data, function ($a, $b) {
+                foreach ($this->queryOrderBy as $order) {
+                    $key = $order['key'];
+                    $direction = $order['direction'];
+                    if (!isset($a[$key]) || !isset($b[$key])) {
+                        continue;
+                    }
+        
+                    if ($a[$key] == $b[$key]) {
+                        continue;
+                    }
+        
+                    $comparison = $a[$key] <=> $b[$key];
+                    return $direction === 'asc' ? $comparison : -$comparison;
+                }
+                return 0;
+            });
         }
 
         $objects = array_map(function ($attributes) {

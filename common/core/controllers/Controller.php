@@ -30,6 +30,12 @@ abstract class Controller {
     protected pluginsManager $pluginsManager;
 
     /**
+     * Request instance
+     * @var Request
+     */
+    protected Request $request;
+
+    /**
      * JSON data sent by fetch, used for API
      * @var array
      */
@@ -39,6 +45,7 @@ abstract class Controller {
         $this->core = core::getInstance();
         $this->router = router::getInstance();
         $this->pluginsManager = pluginsManager::getInstance();
+        $this->request = new Request();
         $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
         if ($contentType === "application/json") {
             $content = trim(file_get_contents("php://input"));

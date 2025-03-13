@@ -2,6 +2,9 @@
 /.lando.yml
 *.cache.php
 
+# plugins
+/plugin/market
+
 # themes
 !/theme/default/
 /theme/
