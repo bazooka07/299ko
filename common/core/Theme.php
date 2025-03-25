@@ -115,8 +115,8 @@ class Theme {
      * @return string|null The path to the template file if found, or null if the file does not exist.
      */
     public function getCoreTemplatePath(string $templateName): ?string {
-        if (file_exists($this->folderPath . 'template' . DS . 'core' . DS . $templateName . '.tpl')) {
-            return $this->folderPath . 'template' . DS . 'core' . DS .  $templateName . '.tpl';
+        if (file_exists($this->folderPath . 'template' . DS . 'core' . '.' . $templateName . '.tpl')) {
+            return $this->folderPath . 'template' . DS . 'core' . '.' .  $templateName . '.tpl';
         }
         if (!is_null($this->parent)) {
             $tplParent = $this->parent->getCoreTemplatePath($templateName);
@@ -156,7 +156,7 @@ class Theme {
      * @return string The JavaScript links of the theme if found, otherwise an empty string.
      */
     public function getJSLinks(): string {
-        if (file_exists($this->folderPath . 'script.js')) {
+        if (file_exists($this->folderPath . 'scripts.js')) {
             return '<script type="text/javascript" src="' .util::urlBuild(THEMES . $this->folderName . '/scripts.js' . '"></script>');
         }
         $js = '';

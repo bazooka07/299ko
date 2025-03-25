@@ -13,7 +13,7 @@ class PublicResponse extends Response {
 
     /**
      * Current theme
-     * @var string
+     * @var Theme
      */
     protected Theme $theme;
 
@@ -33,7 +33,7 @@ class PublicResponse extends Response {
 
     /**
      * Create a new Template, from plugin
-     * Eg : if plugin is 'blog' & asked template is 'read', look for 'THEMES/theme/template/blog/read.tpl'
+     * Eg : if plugin is 'blog' & asked template is 'read', look for 'THEMES/theme/template/blog.read.tpl'
      * else create tpl with PLUGINS/blog/template/read.tpl
      * @param string $pluginName
      * @param string $templateName
@@ -51,6 +51,7 @@ class PublicResponse extends Response {
 
     /**
      * Create a new Template, from core
+     * Eg : if asked template is '404', look for 'THEMES/theme/template/core.404.tpl'
      * If the template exist in the current theme, use it, else use the one from common/template
      * @param string $templateName
      * @return Template
