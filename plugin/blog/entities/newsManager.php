@@ -41,6 +41,7 @@ class newsManager {
                         $categories['categories'][$cat->id] = [
                             'label' => $cat->label,
                             'url' => router::getInstance()->generate('blog-category', ['name' => util::strToUrl($cat->label), 'id' => $cat->id]),
+                            'id' => $cat->id
                         ];
                     }
                 }
@@ -54,8 +55,12 @@ class newsManager {
         $this->nbItemsToPublic = $i;
         $this->items = $data;
     }
-
-    // News
+    
+    /**
+     * Retrieves all news items.
+     *
+     * @return news[] An array of news objects.
+     */
 
     public function getItems() {
         return $this->items;

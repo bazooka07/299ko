@@ -75,22 +75,22 @@ abstract class Category implements JsonSerializable {
 
     public function outputAsCheckbox($itemId) {
         $catDisplay = 'sub';
-        require COMMON . 'categories/template/checkboxCategories.php';
+        require COMMON . 'content' . DS . 'categories' . DS . 'template' . DS . 'checkboxCategories.php';
     }
     
     public function outputAsSelect($parentId, $categorieId) {
         $catDisplay = 'sub';
-        require COMMON . 'categories/template/selectCategory.php';
+        require COMMON . 'content' . DS . 'categories' . DS . 'template' . DS . 'selectCategory.php';
     }
     
     public function outputAsSelectOne($itemId) {
         $catDisplay = 'sub';
-        require COMMON . 'categories/template/selectOneCategory.php';
+        require COMMON . 'content' . DS . 'categories' . DS . 'template' . DS . 'selectOneCategory.php';
     }
 
     public function outputAsList() {
         $catDisplay = 'sub';
-        require COMMON . 'categories/template/listCategories.php';
+        require COMMON . 'content' . DS . 'categories' . DS . 'template' . DS . 'listCategories.php';
     }
 
     public function getCategoryById(int $id) {
