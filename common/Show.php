@@ -333,7 +333,7 @@ class show {
             call_user_func('currentUrl');
         else {
             $core = core::getInstance();
-            echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            echo $core->getConfigVal('siteUrl'). $_SERVER['REQUEST_URI'];
         }
     }
 
@@ -343,9 +343,8 @@ class show {
         if (function_exists('themeIcon'))
             call_user_func('themeIcon');
         $core = core::getInstance();
-        $icon = 'theme/' . $core->getConfigVal('theme') . '/icon.png';
-        if (file_exists($icon))
-            echo util::urlBuild($icon);
+        $theme = new Theme($core->getConfigVal('theme'));
+        echo $theme->getIconUrl();
     }
     
     /**

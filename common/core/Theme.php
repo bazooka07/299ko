@@ -163,10 +163,27 @@ class Theme {
         if (!is_null($this->parent)) {
             $js = $this->parent->getJSLinks();
         }
-        if ($js !== '') {
-            return $js;
+        return $js;
+    }
+
+    /**
+     * Retrieve the URL of the theme's icon.
+     *
+     * This function first checks in the current theme's directory for an 'icon.png' file, and if it does not exist, it will
+     * recursively check in the parent theme's directory. If the 'icon.png' file does not exist in any of the parent themes, it
+     * will return an empty string.
+     *
+     * @return string The URL of the theme's icon if found, otherwise an empty string.
+     */
+    public function getIconUrl():string {
+        if (file_exists($this->folderPath . 'icon.png')) {
+            return util::urlBuild(THEMES . $this->folderName . '/icon.png');
         }
-        return '';
+        $url = '';
+        if (!is_null($this->parent)) {
+            $url = $this->parent->getIconUrl();
+        }
+        return $url;
     }
 
 
