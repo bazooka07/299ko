@@ -160,6 +160,7 @@ class BlogReadController extends PublicController
                 }
 
             }
+            show::msg(Lang::get("antispam.invalid-captcha"), 'error');
         }
         header('location:' . $_POST['back']);
         die();

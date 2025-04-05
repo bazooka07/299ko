@@ -36,6 +36,9 @@ class antispam {
             $public = $pluginManager->getPluginConfVal('antispam', 'recaptchaPublicKey');
             $secret = $pluginManager->getPluginConfVal('antispam', 'recaptchaSecretKey');
             $this->captcha = new reCaptcha($public, $secret);
+        } elseif ($typeCaptcha === 'useIcon') {
+            require_once PLUGINS . 'antispam' . DS . 'lib' . DS . 'AntispamIconCaptcha.php';
+            $this->captcha = new AntispamIconCaptcha();
         }
     }
 

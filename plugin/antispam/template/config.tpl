@@ -30,6 +30,9 @@
             <input {{useText}} type="radio" name="captcha" value="useText" id="radioText"/><label for="radioText">{{Lang.antispam.use-text-captcha}}</label>
         </p>
         <p>
+            <input {{useIcon}} type="radio" name="captcha" value="useIcon" id="radioIcon"/><label for="radioIcon">{{Lang.antispam.use-icon-captcha}}</label>
+        </p>
+        <p>
             <input {{useRecaptcha}} type="radio" name="captcha" id="radioRecaptcha" value="useRecaptcha" /><label for="radioRecaptcha">{{Lang.antispam.use-google-captcha}} (<a href="https://www.google.com/recaptcha/admin/create" target="_blank">{{Lang.antispam.use-google-captcha-register}}</a>)</label>
         </p>
         <section id="useRecaptcha">

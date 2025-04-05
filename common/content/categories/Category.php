@@ -24,7 +24,6 @@ abstract class Category implements JsonSerializable {
      */
     protected string $name;
 
-
     /**
      * Categories can be nested or not. For example, for 'tags', $nested will be set to false
      * @var bool
@@ -36,6 +35,7 @@ abstract class Category implements JsonSerializable {
      * @var bool
      */
     protected bool $chooseMany;
+    
     public $items = [];
     public $label = '';
     public int $parentId;

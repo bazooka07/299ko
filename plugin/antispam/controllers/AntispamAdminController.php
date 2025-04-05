@@ -15,6 +15,7 @@ class AntispamAdminController extends AdminController
         $response = new AdminResponse();
         $tpl = $response->createPluginTemplate('antispam', 'config');
         $tpl->set('useText', ($this->runPlugin->getConfigVal('type') === 'useText') ? 'checked' : '' );
+        $tpl->set('useIcon', ($this->runPlugin->getConfigVal('type') === 'useIcon') ? 'checked' : '' );
         $tpl->set('useRecaptcha', ($this->runPlugin->getConfigVal('type') === 'useRecaptcha') ? 'checked' : '' );
         $response->addTemplate($tpl);
         return $response;
