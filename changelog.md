@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## Next release
+
+### Added
+
+- 299ko is now available on Nginx
+- Shortcodes in content
+- Add blocks format & FA icon in TinyMCE
+- Add backups in ConfigManager
+- Add Child Theme
+- Icons system in Antispam plugin
+
+### Fixed
+
+- Fixed Apache 2.2 & 2.4 .htaccess issue
+- Links Categories in blog
+- Admin links burger (go to home site)
+- Support functions.php in theme
+
+### Changed
+
+- Improve Antispam
+- Debranding TinyMCE & wrap toolbar on small screens
+- Required plugins are now hidden in PluginsManager
+- Update to Font Awesome 6.7.2
+- Update to TinyMCE 6.6
+
 ## V2.0.0
 
 ### Added

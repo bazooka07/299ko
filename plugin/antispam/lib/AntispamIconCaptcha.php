@@ -9,7 +9,7 @@
  */
 defined('ROOT') OR exit('Access denied!');
 
-class AntispamIconCaptcha {
+class AntispamIconCaptcha extends AntispamAbstractCaptcha {
 
     protected array $icons = [
         'fingerprint',
@@ -40,7 +40,7 @@ class AntispamIconCaptcha {
         $tpl = new Template(PLUGINS . 'antispam' . DS . 'template' . DS .'captcha-icon.tpl');
         $tpl->set('IconsToDisplay', $this->IconsToDisplay);
         $tpl->set('lessOrMore', $this->lessOrMore);
-        return $tpl->output();
+        return $tpl->output() . $this->getGenericHtml();
     }
 
     /**
@@ -49,7 +49,7 @@ class AntispamIconCaptcha {
      * @return bool True if the captcha is valid, false otherwise.
      */
     public function isValid(): bool {
-        return (isset($_SESSION['antispam_result']) && isset($_POST['iconCaptcha']) && $_SESSION['antispam_result'] === sha1($_POST['iconCaptcha']));
+        return (isset($_SESSION['antispam_result']) && isset($_POST['iconCaptcha']) && $_SESSION['antispam_result'] === sha1($_POST['iconCaptcha']) && $this->isGenericValid());
     }
 
     /**

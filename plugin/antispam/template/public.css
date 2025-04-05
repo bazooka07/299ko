@@ -24,3 +24,7 @@
 .antispam-icon > input[type="radio"] {
     display: none;
 }
+
+#first_name_a {
+    display: none;
+}
