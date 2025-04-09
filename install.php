@@ -10,7 +10,8 @@
  * @package 299Ko https://github.com/299Ko/299ko
  */
 ini_set('display_errors', 1);
-define('ROOT', './');
+const ROOT = '.' . DIRECTORY_SEPARATOR;
+const DS = DIRECTORY_SEPARATOR;
 
 include_once(ROOT . 'common/common.php');
 if (file_exists(DATA . 'config.json'))
