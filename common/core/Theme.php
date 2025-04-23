@@ -49,6 +49,10 @@ class Theme {
         $this->parent = $this->getParent($this->parentName);
     }
 
+    public function isInstalled():bool {
+        return is_dir($this->folderPath);
+    }
+
     /**
      * Get the parent theme
      *

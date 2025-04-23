@@ -28,6 +28,8 @@ abstract class JsonActiveRecord
     protected $withRelations = [];
     public array $attributes = [];
 
+    protected array $trueAttributes = [];
+
     /**
      * Construct a new instance of the given class, optionally with attributes
      *
@@ -36,6 +38,11 @@ abstract class JsonActiveRecord
     public function __construct(array $attributes = [])
     {
         $this->attributes = $attributes;
+        foreach ($this->trueAttributes as $attribute) {
+            if (isset($this->attributes[$attribute])) {
+                $this->{$attribute} = $this->attributes[$attribute];
+            }
+        }
         if (!file_exists(static::$filePath)) {
             file_put_contents(static::$filePath, json_encode([]));
         }
@@ -219,7 +226,11 @@ abstract class JsonActiveRecord
 
     public function get(): array
     {
-        $data = json_decode(file_get_contents(static::$filePath), true);
+        if (!file_exists(static::$filePath)) {
+            $data = [];
+        } else {
+            $data = json_decode(file_get_contents(static::$filePath), true);
+        }
 
         $data = array_filter($data, function ($attributes): bool {
             return $this->evaluateConditions($this->queryConditions, $attributes);
@@ -399,7 +410,15 @@ abstract class JsonActiveRecord
 
     public function save(): bool
     {
-        $data = json_decode(file_get_contents(static::$filePath), true);
+        // Update true attributes
+        foreach ($this->trueAttributes as $attribute) {
+            $this->attributes[$attribute] = $this->{$attribute};
+        }
+        if (!file_exists(static::$filePath)) {
+            $data = [];
+        } else {
+            $data = json_decode(file_get_contents(static::$filePath), true);
+        }
 
         // Filter attributes to exclude keys starting with _
         $filteredAttributes = array_filter(
@@ -439,7 +458,11 @@ abstract class JsonActiveRecord
      */
     public function delete(): bool
     {
-        $data = json_decode(file_get_contents(static::$filePath), true);
+        if (!file_exists(static::$filePath)) {
+            $data = [];
+        } else {
+            $data = json_decode(file_get_contents(static::$filePath), true);
+        }
 
         $data = array_filter($data, function ($record): bool {
             return $record[static::$primaryKey] !== ($this->attributes[static::$primaryKey] ?? null);
@@ -479,8 +502,13 @@ abstract class JsonActiveRecord
      */
     public static function all(): array
     {
+        if (!file_exists(static::$filePath)) {
+            return [];
+        }
         $data = json_decode(file_get_contents(static::$filePath), true);
-
+        if ($data === null) {
+            return [];
+        }
         return array_map(function ($attributes): self {
             return new static($attributes);
         }, $data);
@@ -502,6 +530,9 @@ abstract class JsonActiveRecord
      */
     public static function find($key, $value): ?self
     {
+        if (!file_exists(static::$filePath)) {
+            return null;
+        }
         $data = json_decode(file_get_contents(static::$filePath), true);
 
         foreach ($data as $attributes) {
