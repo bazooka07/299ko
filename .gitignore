@@ -3,12 +3,23 @@
 *.cache.php
 
 # plugins
-/plugin/market
+/plugin/*
+!/plugin/antispam/
+!/plugin/blog/
+!/plugin/configmanager/
+!/plugin/contact/
+!/plugin/filemanager/
+!/plugin/galerie/
+!/plugin/marketplace/
+!/plugin/page/
+!/plugin/pluginsmanager/
+!/plugin/seo/
+!/plugin/tinymce/
+!/plugin/users/
 
 # themes
+/theme/*
 !/theme/default/
-/theme/
 
 #editor
 .vscode/
-
