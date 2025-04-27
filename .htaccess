@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
 
-    <FilesMatch ".+\.(json|tpl|ini)$">
+    <FilesMatch "\.(json|tpl|ini|env)$">
         <IfModule mod_authz_core.c>
             # Apache 2.4
             Require all denied

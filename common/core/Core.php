@@ -24,6 +24,8 @@ class core
     private $css;
     private $locale;
 
+    private ?Env $env;
+
     /**
      * Metas are used by plugins to display metas property or other in <head> HTML
      */
@@ -31,7 +33,7 @@ class core
 
     /**
      * Logger is a resource file
-     * @var \resource
+     * @var \Logger
      */
     private $logger;
 
@@ -42,13 +44,14 @@ class core
         if (!is_dir(DATA)) {
             @mkdir(DATA);
         }
+
+        $this->config = util::readJsonFile(DATA . 'config.json', true);
+        $this->env = new Env(ROOT . '.env');
+        $this->loadEnv();
         $this->createLogger();
 
         // Timezone
         date_default_timezone_set(date_default_timezone_get());
-        // Construction du tableau de configuration
-        // Exemple : array('siteName' => 'val', 'siteUrl' => 'val2')
-        $this->config = util::readJsonFile(DATA . 'config.json', true);
         // Réglage de l'error reporting suivant le paramètre debug
         if ($this->config && $this->config['debug']) {
             ini_set('display_errors', 1);
@@ -410,9 +413,24 @@ class core
 
     protected function createLogger()
     {
-        if (is_dir(DATA)) {
-            $this->logger = fopen(DATA . 'logs.txt', 'a+');
+        $this->logger = Logger::getInstance($this->config['debug'] ?? false);
+    }
+
+    protected function loadEnv() {
+        if ($this->env->get('siteUrl') !== null) {
+            $this->config['siteUrl'] = $this->env->get('siteUrl');
         }
+        if ($this->env->get('debug') !== null) {
+            $this->config['debug'] = $this->env->get('debug');
+        }
+    }
+
+    public function getEnv($key, $default = null) {
+        return $this->env->get($key, $default);
+    }
+
+    public function getLogger() {
+        return $this->logger;
     }
 
     /**
@@ -424,22 +442,7 @@ class core
      */
     public function log($message, $severity = 'INFO')
     {
-        $date = date('Y-m-d H:i:s');
-        if ($this->logger) {
-            if (is_array($message)) {
-                fwrite($this->logger, "[$date] [$severity] : \n");
-                fwrite($this->logger, print_r($message, true));
-            } else {
-                fwrite($this->logger, "[$date] [$severity] : $message\n");
-            }
-        }
-    }
-
-    function __destruct()
-    {
-        if ($this->logger) {
-            fclose($this->logger);
-        }
+        $this->logger->log($severity, $message);
     }
 }
 
