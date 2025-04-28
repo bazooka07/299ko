@@ -19,6 +19,8 @@ class Curl
 
     protected ?CurlHandle $ch = null;
 
+    protected array $options = [];
+
     protected string $method = 'GET';
 
     protected $datas = [];
@@ -100,6 +102,11 @@ class Curl
         return $this;
     }
 
+    public function addOption($option, $value): self {
+        $this->options[$option] = $value;
+        return $this;
+    }
+
     /**
      * Execute the HTTP request.
      *
@@ -129,6 +136,9 @@ class Curl
             } else {
                 curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($this->datas));
             }
+        }
+        foreach ($this->options as $option => $value) {
+            curl_setopt($this->ch, $option, $value);
         }
         $res = curl_exec($this->ch);
         $this->response = [
