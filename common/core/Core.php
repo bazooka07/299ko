@@ -32,7 +32,7 @@ class core
     private $metas = [];
 
     /**
-     * Logger is a resource file
+     * Logger instance
      * @var \Logger
      */
     private $logger;

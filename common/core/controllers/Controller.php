@@ -36,6 +36,12 @@ abstract class Controller {
     protected Request $request;
 
     /**
+     * SLogger instance
+     * @var Logger
+     */
+    protected Logger $logger;
+
+    /**
      * JSON data sent by fetch, used for API
      * @var array
      */
@@ -51,5 +57,6 @@ abstract class Controller {
             $content = trim(file_get_contents("php://input"));
             $this->jsonData = json_decode($content, true);
         }
+        $this->logger = $this->core->getLogger();
     }
 }
