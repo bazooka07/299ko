@@ -295,6 +295,7 @@ class core
      */
     public function redirect(string $url): void
     {
+        header_remove();
         header('location:' . $url);
         die();
     }

@@ -10,6 +10,7 @@
  *
  * @package 299Ko https://github.com/299Ko/299ko
  */
+ob_start();
 const ROOT = '.' . DIRECTORY_SEPARATOR;
 const DS = DIRECTORY_SEPARATOR;
 
@@ -38,6 +39,7 @@ if (is_array($match)) {
         $core->callHook('beforeRunPlugin');
         $response = call_user_func_array([$obj,$action], $match['params']);
         echo $response->output();
+        ob_end_flush();
         die();
     } else {
         // unreachable target
@@ -46,3 +48,4 @@ if (is_array($match)) {
 }
 
 $core->error404();
+ob_end_flush();
