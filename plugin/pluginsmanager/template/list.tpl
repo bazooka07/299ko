@@ -6,6 +6,7 @@
             <thead>
                 <tr>
                     <th>{{ Lang.pluginsmanager.plugin-name }}</th>
+                    <th>{{ Lang.pluginsmanager.plugin-version }}</th>
                     <th>{{ Lang.pluginsmanager.priority }}</th>
                     <th>{{ Lang.pluginsmanager.activate }}</th>
                 </tr>
@@ -15,13 +16,14 @@
                     <tr>
                         <td>
                             {{ plugin.getTranslatedName() }}
-                            {% if plugin.getInfoVal("version") != "none" %} (version {{ plugin.getInfoVal("version") }}){% endif %} : {{ plugin.getTranslatedDesc() }}
+                             : {{ plugin.getTranslatedDesc() }}
                             {% if plugin.getConfigVal("activate") && plugin.isInstalled() == false %}
                                 <p>
                                     <a class="button" href="{{ ROUTER.generate("pluginsmanager-maintenance", ["plugin" => plugin.getName(), "token" => token]) }}">{{ Lang.pluginsmanager.maintenance-required }}</a>
                                 </p>
                             {% endif %}
                         </td>
+                        <td>{{ plugin.getInfoVal("version") }}</td>
                         <td>
                             <select name="priority[{{ plugin.getName() }}]" onchange="document.getElementById('pluginsmanagerForm').submit();">
                                 {% for k, v in priority %}
