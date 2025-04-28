@@ -60,7 +60,10 @@ class Cache
             'tags' => $tags,
             'files' => array_map('filemtime', array_filter($files, 'file_exists'))
         ];
-        file_put_contents($file, serialize($cache_data));
+        $set = file_put_contents($file, serialize($cache_data));
+        if ($set === false) {
+            core::getInstance()->getLogger()->error("Failed to write cache file: $file");
+        }
     }
 
     /**
@@ -209,7 +212,10 @@ class Cache
 
     protected function ensureCacheDir(): void {
         if (!is_dir($this->cache_dir)) {
-            mkdir($this->cache_dir, 0755, true);
+            $set = mkdir($this->cache_dir, 0755, true);
+            if ($set === false) {
+                core::getInstance()->getLogger()->error("Failed to write cache folder {$this->cache_dir}");
+            }
         }
     }
 }
