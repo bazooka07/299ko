@@ -670,6 +670,7 @@ section > footer, .card > footer {
 
 #adminNav #nav-change-container {
     text-align: right;
+    cursor: pointer;
 }
 
 #navigation #nav-icon-grow:before {

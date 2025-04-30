@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2025, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -19,8 +19,7 @@ class util
     ## $key => index du tableau sur lequel doit se faire le tri
     ## $mode => type de tri ('desc', 'asc', 'num')
 
-    public static function sort2DimArray($data, $key, $mode)
-    {
+    public static function sort2DimArray($data, $key, $mode) {
         if ($mode == 'desc')
             $mode = SORT_DESC;
         elseif ($mode == 'asc')
@@ -44,8 +43,7 @@ class util
      * @param  string $add      Text to add after the content if truncated
      * @return string
      */
-    public static function cutStr($str, $length, $add = '...')
-    {
+    public static function cutStr($str, $length, $add = '...') {
         $str = str_replace("<br />", "<br>", $str);
         $no_tags_content = strip_tags($str, '<p><br>');
         $no_tags_content = str_replace("<p>", "<br>", $no_tags_content);
@@ -63,8 +61,7 @@ class util
      * @param mixed $str
      * @return string Formatted string
      */
-    public static function strToUrl($str)
-    {
+    public static function strToUrl($str) {
         $str = str_replace('&', 'et', $str);
         if ($str !== mb_convert_encoding(mb_convert_encoding($str, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32'))
             $str = mb_convert_encoding($str, 'UTF-8');
@@ -76,15 +73,13 @@ class util
 
     ## Vérifie si la chaîne est un email valide
 
-    public static function isEmail($email)
-    {
+    public static function isEmail($email) {
         return (filter_var($email, FILTER_VALIDATE_EMAIL) === false) ? false : true;
     }
 
     ## Envoie un email
 
-    public static function sendEmail($from, $reply, $to, $subject, $msg)
-    {
+    public static function sendEmail($from, $reply, $to, $subject, $msg) {
         $headers = "From: " . $from . "\r\n";
         $headers .= "Reply-To: " . $reply . "\r\n";
         $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
@@ -99,8 +94,7 @@ class util
 
     ## Retourne l'extension d'un fichier présent sur le serveur
 
-    public static function getFileExtension($file)
-    {
+    public static function getFileExtension($file) {
         return substr(strtolower(strrchr(basename($file), ".")), 1);
     }
 
@@ -111,8 +105,7 @@ class util
      * @param array $not Array of files to exclude
      * @return array $data['dir] : Directories / $data['file'] : Files
      */
-    public static function scanDir(string $folder, array $not = [])
-    {
+    public static function scanDir(string $folder, array $not = []) {
         $data['dir'] = [];
         $data['file'] = [];
         $folder = rtrim($folder, '/') . '/';
@@ -133,11 +126,11 @@ class util
      * @param string $dir Path to scan
      * @return array $data['dir] : Directories / $data['file'] : Files
      */
-    public static function scanDirRecursive(string $dir):array {
+    public static function scanDirRecursive(string $dir): array {
         $data['dir'] = [];
         $data['file'] = [];
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
-        foreach($objects as $name => $object){
+        foreach ($objects as $name => $object) {
             if ($object->isDir()) {
                 $data['dir'][] = $name;
             } else {
@@ -148,14 +141,26 @@ class util
     }
 
     /**
+     * Deletes a directory and all its content recursively
+     * @param string $dir The directory to delete
+     * @return bool True if the directory was deleted successfully, false otherwise
+     */
+    public static function delTree(string $dir) {
+        $files = array_diff(scandir($dir), ['.', '..']);
+        foreach ($files as $file) {
+            (is_dir($dir . DS . $file)) ? static::delTree($dir . DS . $file) : unlink($dir . DS . $file);
+        }
+        return rmdir($dir);
+    }
+
+    /**
      * Write a json file with the given data. If the file does not exist, it will be created.
      * If the file already exists, its content will be overwritten.
      * @param string $file The path to the json file
      * @param array|object $data The data to write in the json file
      * @return bool True if the file was written successfully, false otherwise
      */
-    public static function writeJsonFile($file, $data)
-    {
+    public static function writeJsonFile($file, $data) {
         if (@file_put_contents($file, json_encode($data), LOCK_EX))
             return true;
         return false;
@@ -168,8 +173,7 @@ class util
      * @param bool $assoc If true, the function will return an associative array, else an object
      * @return array|false The content of the json file or false if the file does not exist
      */
-    public static function readJsonFile($file, $assoc = true)
-    {
+    public static function readJsonFile($file, $assoc = true) {
         if (!file_exists($file)) {
             return false;
         }
@@ -178,8 +182,7 @@ class util
 
     ## Upload
 
-    public static function uploadFile($k, $dir, $name, $validations = array())
-    {
+    public static function uploadFile($k, $dir, $name, $validations = array()) {
         if (isset($_FILES[$k]) && $_FILES[$k]['name'] != '') {
             $extension = mb_strtolower(util::getFileExtension($_FILES[$k]['name']));
             if (isset($validations['extensions']) && !in_array($extension, $validations['extensions']))
@@ -197,8 +200,7 @@ class util
 
     ## Formate une date
 
-    public static function formatDate($date, $langFrom = 'en', $langTo = 'en')
-    {
+    public static function formatDate($date, $langFrom = 'en', $langTo = 'en') {
         $date = substr($date, 0, 10);
         $temp = preg_split('#[-_;\. \/]#', $date);
         if ($langFrom == 'en') {
@@ -241,7 +243,7 @@ class util
         return $dateObj->format(Lang::get("date-hour-format"));
     }
 
-    public static function getDate($date) :string {
+    public static function getDate($date): string {
         if (is_int($date)) {
             // Date from timestamp
             $dateObj = new DateTime();
@@ -273,8 +275,7 @@ class util
      * @param  bool   is Admin location
      * @return string URL
      */
-    public static function urlBuild($uri, $admin = false)
-    {
+    public static function urlBuild($uri, $admin = false) {
         $uri = str_replace('\\', '/', $uri);
         if (isset(parse_url($uri)['host'])) {
             // Absolute URL
@@ -293,8 +294,7 @@ class util
      * 
      * @return string
      */
-    public static function getCurrentURL()
-    {
+    public static function getCurrentURL() {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             $url = "https";
         } else {
@@ -311,8 +311,7 @@ class util
      * @param string $htmlContent
      * @return string
      */
-    public static function generateIdForTitle($htmlContent): string
-    {
+    public static function generateIdForTitle($htmlContent): string {
         $htmlContent = preg_replace_callback(
             '#<h([1-6])>(.*)<\/h[1-6]>#iUs',
             function ($matches) {
@@ -329,8 +328,7 @@ class util
      * @param string $title
      * @return string
      */
-    public static function generateTableOfContents($htmlContent, $title): string
-    {
+    public static function generateTableOfContents($htmlContent, $title): string {
         $toc = '<details class="toc-container">
         <summary><header><h4>' . $title . '</h4></header>';
         $inner = self::generateInnerTOC($htmlContent);
@@ -347,8 +345,7 @@ class util
      * @param mixed $htmlContent
      * @return string
      */
-    public static function generateTableOfContentAsModule($htmlContent): string
-    {
+    public static function generateTableOfContentAsModule($htmlContent): string {
         $toc = '<details class="toc-container"><summary>';
         $inner = self::generateInnerTOC($htmlContent);
         if (!$inner) {
@@ -364,8 +361,7 @@ class util
      * @param string $htmlContent
      * @return string
      */
-    protected static function generateInnerTOC($htmlContent): string
-    {
+    protected static function generateInnerTOC($htmlContent): string {
         preg_match_all(
             '#<h([1-6]) *id="(.*)">(.*)<\/h[1-6]>#isU',
             $htmlContent,
@@ -403,7 +399,7 @@ class util
             }
             $current_level = $level;
         }
-        
+
         if (!isset($level)) {
             // No heading
             return false;

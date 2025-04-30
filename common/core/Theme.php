@@ -14,6 +14,8 @@ defined('ROOT') or exit('Access denied!');
  */
 class Theme {
 
+    public string $slug = '';
+
     public string $name = '';
 
     public string $version = '';

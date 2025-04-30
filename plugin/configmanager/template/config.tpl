@@ -42,7 +42,7 @@
             </select>
         </p>
         <p>
-            <label for="theme">{{Lang.configmanager-theme}}</label>
+            <label id="label_theme" for="theme">{{Lang.configmanager-theme}}</label>
             <select name="theme">
                 {% for k, v in CORE.getThemes %}
                     <option {% if CORE.getConfigVal("theme") == k %}selected{% endif %} value="{{k}}">{{v.name}}</option>

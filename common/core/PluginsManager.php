@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) 2022, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
+ * @copyright (C) 2025, 299Ko, based on code (2010-2021) 99ko https://github.com/99kocms/
  * @license https://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @author Jonathan Coulet <j.coulet@gmail.com>
  * @author Maxence Cauderlier <mx.koder@gmail.com>
@@ -23,16 +23,20 @@ class pluginsManager {
         $this->plugins = $this->listPlugins();
     }
 
-    ## Retourne la liste des plugins
-
+    /**
+     * Returns the list of plugins
+     * 
+     * @return array
+     */
     public function getPlugins() {
         return $this->plugins;
     }
 
     /**
-     * Retourne un objet plugin
+     * Return a plugin by its name
+     * Return false if not found
      * 
-     * @param string Nom du plugin
+     * @param string $name
      * @return plugin|false
      */
     public function getPlugin($name) {
@@ -51,43 +55,81 @@ class pluginsManager {
         }
     }
 
-    ## Installe un plugin ciblé
-
+    /**
+     * Installs a plugin
+     * 
+     * @param string $name Plugin name
+     * @param bool $activate true to activate the plugin, false otherwise
+     * 
+     * @return bool true if the plugin has been successfully installed, false otherwise
+     */
     public function installPlugin($name, $activate = false) {
-        // Création du dossier data
         if (!is_dir(DATA_PLUGIN . $name)) {
-            mkdir(DATA_PLUGIN . $name . '/', 0755);
+            mkdir(DATA_PLUGIN . $name . DS, 0755);
         }
-        chmod(DATA_PLUGIN . $name . '/', 0755);
-        // Lecture du fichier config usine
-        $config = util::readJsonFile(PLUGINS . $name . '/param/config.json');
-        // Par défaut le plugin est inactif
+        chmod(DATA_PLUGIN . $name . DS, 0755);
+        // Read original plugin config
+        $config = util::readJsonFile(PLUGINS . $name . DS .'param' . DS . 'config.json');
+        // By default, the plugin is not activated
         if ($activate)
             $config['activate'] = 1;
         else
             $config['activate'] = 0;
-        // Création du fichier config
-        util::writeJsonFile(DATA_PLUGIN . $name . '/config.json', $config);
-        chmod(DATA_PLUGIN . $name . '/config.json', 0644);
-        // Appel de la fonction d'installation du plugin
-        if (file_exists(PLUGINS . $name . '/' . $name . '.php')) {
-            require_once (PLUGINS . $name . '/' . $name . '.php');
+        // Write plugin config
+        util::writeJsonFile(DATA_PLUGIN . $name . DS . 'config.json', $config);
+        chmod(DATA_PLUGIN . $name . DS .'config.json', 0644);
+        // Call install function if exists
+        if (file_exists(PLUGINS . $name . DS . $name . '.php')) {
+            require_once (PLUGINS . $name . DS . $name . '.php');
             if (function_exists($name . 'Install')) {
-                logg("Call function '" . $name . "Install");
+                logg("Call function '" . $name . "Install'", "info");
                 call_user_func($name . 'Install');
             }
         }
-        // Check du fichier config
-        if (!file_exists(DATA_PLUGIN . $name . '/config.json')) {
+        // Check if plugin is installed
+        if (!file_exists(DATA_PLUGIN . $name . DS . 'config.json')) {
             logg("Plugin $name can't be installed", "error");
             return false;
         }
-        logg("Plugin $name successfully installed", "success");
+        logg("Plugin $name successfully installed", "info");
         return true;
     }
 
     /**
-     * Retourne l'instance de l'objet pluginsManager
+     * Uninstalls a plugin by its name.
+     * 
+     * This method performs the following actions:
+     * - Calls the plugin's uninstall function, if it exists.
+     * - Removes the plugin's data directory.
+     * - Removes the plugin's directory.
+     * - Logs the uninstallation process.
+     *
+     * @param string $name The name of the plugin to uninstall.
+     * @return bool Returns true if the plugin was successfully uninstalled.
+     */
+    public function uninstallPlugin(string $name) {
+        // Call uninstall function if exists
+        if (file_exists(PLUGINS . $name . DS . $name . '.php')) {
+            require_once (PLUGINS . $name . DS . $name . '.php');
+            if (function_exists($name . 'Uninstall')) {
+                logg("Call function '" . $name . "Uninstall'", "info");
+                call_user_func($name . 'Uninstall');
+            }
+        }
+        // Remove plugin data
+        if (is_dir(DATA_PLUGIN . $name)) {
+            util::delTree(DATA_PLUGIN . $name);
+        }
+        if (is_dir(PLUGINS . $name)) {
+            util::delTree(PLUGINS . $name);
+        }
+        logg("Plugin $name successfully uninstalled", "info");
+        return true;
+    }
+        
+
+    /**
+     * Return the singleton instance
      * 
      * @return \self
      */
@@ -97,8 +139,16 @@ class pluginsManager {
         return self::$instance;
     }
 
-    ## Retourne une valeur de configuration ciblée d'un plugin
-
+    /**
+     * Retrieves a specific configuration value from a plugin.
+     *
+     * This function accesses a plugin's configuration by its name and 
+     * returns the value of the specified configuration key.
+     *
+     * @param string $pluginName The name of the plugin.
+     * @param string $kConf The configuration key to retrieve the value for.
+     * @return mixed The value of the configuration key, or false if not found.
+     */
     public static function getPluginConfVal($pluginName, $kConf) {
         $instance = self::getInstance();
         $plugin = $instance->getPlugin($pluginName);
@@ -115,21 +165,32 @@ class pluginsManager {
         return false;
     }
 
-    ## Génère la liste des plugins
-
+    /**
+     * Creates a list of plugin objects.
+     *
+     * This function creates a list of all active plugins and their respective
+     * configurations. It first scans the plugins directory for directories
+     * and then checks if a configuration file exists for each plugin. If a
+     * configuration file exists, it reads the file and adds the plugin to the
+     * list. If not, it adds the plugin to the list with a low priority.
+     *
+     * @return array An array of plugin objects.
+     */
     private function listPlugins() {
-        $data = array();
-        $dataNotSorted = array();
+        $data = [];
+        $dataNotSorted = [];
         $items = util::scanDir(PLUGINS);
         foreach ($items['dir'] as $dir) {
-            // Si le plugin est installé on récupère sa configuration
-            if (file_exists(DATA_PLUGIN . $dir . '/config.json'))
+            // If the plugin is installed, get its configuration
+            if (file_exists(DATA_PLUGIN . $dir . '/config.json')) {
                 $dataNotSorted[$dir] = util::readJsonFile(DATA_PLUGIN . $dir . '/config.json', true);
-            // Sinon on lui attribu une priorité faible
-            else
+            }
+            // Otherwise, give it a low priority
+            else {
                 $dataNotSorted[$dir]['priority'] = '9';
+            }
         }
-        // On tri les plugins par priorité
+        // Sort the plugins by priority
         $dataSorted = @util::sort2DimArray($dataNotSorted, 'priority', 'num');
         foreach ($dataSorted as $plugin => $config) {
             $data[] = $this->createPlugin($plugin);
@@ -152,9 +213,9 @@ class pluginsManager {
         $initConfig = util::readJsonFile(PLUGINS . $name . '/param/config.json');
         // Derniers checks
         if (!is_array($config))
-            $config = array();
+            $config = [];
         if (!is_array($hooks))
-            $hooks = array();
+            $hooks = [];
         // Création de l'objet
         $plugin = new plugin($name, $config, $infos, $hooks, $initConfig);
         return $plugin;
