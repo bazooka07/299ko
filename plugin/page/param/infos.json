@@ -1,10 +1,11 @@
 {
+    "slug" : "page",
     "name" : "Pages & Menu",
     "icon" : "fa-regular fa-file-lines",
     "description" : "Gestion des pages et du menu",
-    "authorEmail" : "",
-    "authorWebsite" : "",
-    "version" : "none",
+    "authorEmail" : "mx.koder@gmail.com",
+    "authorWebsite" : "https://299ko.ovh",
+    "version" : "2.0",
     "homePublicMethod" : "PageController#home",
     "homeAdminMethod" : "PageAdminController#list"
 }

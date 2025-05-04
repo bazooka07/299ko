@@ -1,4 +1,5 @@
 {
+    "slug" : "users",
     "name" : "Users",
     "icon" : "fa-solid fa-users",
     "description" : "Gestion des utilisateurs",

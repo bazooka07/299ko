@@ -1,9 +1,10 @@
 {
+    "slug" : "pluginsmanager",
     "name" : "Plugins",
     "icon" : "fa-solid fa-puzzle-piece",
     "description" : "Gestion des plugins",
-    "authorEmail" : "",
-    "authorWebsite" : "",
-    "version" : "none",
+    "authorEmail" : "mx.koder@gmail.com",
+    "authorWebsite" : "https://299ko.ovh",
+    "version" : "2.0",
     "homeAdminMethod" : "PluginsManagerController#list"
 }

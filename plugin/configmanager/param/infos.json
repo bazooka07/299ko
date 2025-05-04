@@ -1,9 +1,10 @@
 {
+    "slug" : "configmanager",
     "name" : "Configuration",
     "icon" : "fa-solid fa-gears",
     "description" : "Gestion de la configuration",
-    "authorEmail" : "",
-    "authorWebsite" : "",
-    "version" : "none",
+    "authorEmail" : "mx.koder@gmail.com",
+    "authorWebsite" : "https://299ko.ovh",
+    "version" : "2.0",
     "homeAdminMethod" : "ConfigManagerAdminController#home"
 }
