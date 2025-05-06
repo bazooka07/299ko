@@ -66,6 +66,7 @@ class Template {
      */
     public function output() {
         if (!file_exists($this->file)) {
+            logg("Error loading template file ($this->file)", "ERROR");
             return "Error loading template file ($this->file).<br/>";
         }
         ob_start();
@@ -198,9 +199,18 @@ class Template {
     }
     
     protected function _getLang($matches) {
-        $posAcc = strpos($matches[1], '(');
+        $arr = $this->processGetLang($matches[1]);
+        if ($arr['params']) {
+            return '<?php echo lang::get(\'' . $arr['name'] . '\', ' . $arr['params'] . '); ?>';
+        } else {
+            return '<?php echo lang::get(\'' . $arr['name'] . '\'); ?>';
+        }
+    }
+
+    protected function processGetLang(string $askedVar) {
+        $posAcc = strpos($askedVar, '(');
         $args = '';
-        $name = $matches[1];
+        $name = $askedVar;
         if ($posAcc !== false) {
             $args = substr($name, $posAcc);
             $name = substr($name, 0, $posAcc);
@@ -209,10 +219,11 @@ class Template {
         $args = str_replace(')', '', $args);
         if ($args !== '') {
             $params = '$this->getVar(\'' . $args . '\', $this->data)';
-            return '<?php echo lang::get(\'' . $name . '\', ' . $params . '); ?>';
-        } else {
-            return '<?php echo lang::get(\'' . $name . '\'); ?>';
         }
+        $arr = [];
+        $arr['name'] = $name;
+        $arr['params'] = $params ?? false;
+        return $arr;
     }
 
     protected function _replace_for($matches) {
@@ -308,6 +319,15 @@ class Template {
         } else {
             // At least 1 child
             $name = array_shift($parts);
+             if ($name === 'Lang') {
+                $args= implode('.', $parts);
+                $arr = $this->processGetLang($args);
+                if ($arr['params']) {
+                    return lang::get($arr['name'], $this->getVar($arr['params'], $this->data));
+                } else {
+                    return lang::get($arr['name']);
+                }
+            } 
             // Check if the name is a variable, callable, object, array or class
             if (!is_array($name) && !is_callable($name) && !is_object($name) && !isset($this->data[$name]) && !class_exists($name)) {
                 // Unknown $name
