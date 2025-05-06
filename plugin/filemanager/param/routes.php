@@ -18,6 +18,6 @@ $router->map('POST', '/admin/filemanager/view-ajax/create/[a:token]', 'FileManag
 
 $router->map('POST', '/admin/filemanager/view', 'FileManagerAPIController#view', 'filemanager-view');
 $router->map('POST', '/admin/filemanager/view-ajax', 'FileManagerAPIController#viewAjax', 'filemanager-view-ajax');
-$router->map('GET', '/admin/filemanager/view-ajax/[a:token]/[a:editor]?', 'FileManagerAPIController#viewAjaxHome', 'filemanager-view-ajax-home');
+$router->map('GET', '/admin/filemanager/view-ajax/[a:token]/[*:editor]?', 'FileManagerAPIController#viewAjaxHome', 'filemanager-view-ajax-home');
 
 $router->map('POST', '/admin/filemanager/api/upload/[a:token]', 'FileManagerAPIController#uploadAPI', 'filemanager-upload-api');

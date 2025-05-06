@@ -88,10 +88,17 @@
 </form>
 <script>
     function insertImgInEditor(editorId, imgUrl) {
-        if (typeof processInsertImgInEditor === 'function') {
-            processInsertImgInEditor(editorId, imgUrl);
+        let editor = document.getElementById(editorId);
+        let tagName = editor.tagName;
+        if(tagName === "INPUT"){
+            editor.value = imgUrl;
+            editor.oninput();
         } else {
-            insertAtCursor(editorId, imgUrl);
+            if (typeof processInsertImgInEditor === 'function') {
+                processInsertImgInEditor(editorId, imgUrl);
+            } else {
+                insertAtCursor(editorId, imgUrl);
+            }
         }
         {% if ajaxView %}
             Fancybox.close(false);

@@ -25,10 +25,13 @@ function filemanagerInstall() {
 /**
  * Function to display the button to manage files by Ajax
  */
-function filemanagerDisplayManagerButton($textareaId = false):string {
+function filemanagerDisplayManagerButton($textareaId = false, $buttonLabel = false):string {
+    if (!$buttonLabel) {
+        $buttonLabel = lang::get('filemanager.button-label');
+    }
     return '<a class="button fmUploadButton" data-fancybox data-type="ajax" '
     . 'href="' . router::getInstance()->generate('filemanager-view-ajax-home', 
     ['token' => UsersManager::getCurrentUser()->token,
-    'editor' => $textareaId]) .'"/><i class="fa-solid fa-file-image"></i> '. lang::get('filemanager.button-label').'</a>';
+    'editor' => $textareaId]) .'"/><i class="fa-solid fa-file-image"></i> '. $buttonLabel.'</a>';
     
 }
