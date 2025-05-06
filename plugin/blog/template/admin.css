@@ -34,3 +34,19 @@ span.blog-category:after {
     content:';';
     padding-left:5px;
 }
+
+#news-image-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#news-image-container section {
+    width: 48%;
+}
+
+@media only screen and (max-width: 960px) {
+    #news-image-container section {
+        width: 100%;
+    }
+}

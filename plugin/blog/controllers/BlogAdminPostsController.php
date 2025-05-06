@@ -63,10 +63,9 @@ class BlogAdminPostsController extends AdminController
     {
         if ($id === false) {
             $news = new news();
-            $showDate = false;
+            $news->setDate(date('Y-m-d'));
         } else {
             $news = $this->newsManager->create($id);
-            $showDate = true;
             if ($news === false) {
                 // News id dont exist
                 show::msg(lang::get('blog-item-dont-exist'), 'error');
@@ -77,11 +76,9 @@ class BlogAdminPostsController extends AdminController
         $tpl = $response->createPluginTemplate('blog', 'admin-edit');
 
         $contentEditor = new Editor('blogContent', $news->getContent(), lang::get('blog-content'));
-
+        
         $tpl->set('contentEditor', $contentEditor);
         $tpl->set('news', $news);
-        $tpl->set('news', $news);
-        $tpl->set('showDate', $showDate);
         $tpl->set('categoriesManager', $this->categoriesManager);
 
         $response->addTemplate($tpl);
@@ -93,19 +90,8 @@ class BlogAdminPostsController extends AdminController
         if (!$this->user->isAuthorized()) {
             return $this->list();
         }
-        $imgId = (isset($_POST['delImg'])) ? '' : $_REQUEST['imgId'];
-        if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
-            if ($this->pluginsManager->isActivePlugin('galerie')) {
-                $galerie = new galerie();
-                $img = new galerieItem(array('category' => ''));
-                $img->setTitle($_POST['name'] . ' ('.lang::get('blog-featured-img').')');
-                $img->setHidden(1);
-                $galerie->saveItem($img);
-                $imgId = $galerie->getLastId() . '.' . util::getFileExtension($_FILES['file']['name']);
-            }
-        }
-        $contentEditor = new Editor('blogContent', '', lang::get('blog-content'));
 
+        $contentEditor = new Editor('blogContent', '', lang::get('blog-content'));
 
         $news = ($_REQUEST['id']) ? $this->newsManager->create($_REQUEST['id']) : new news();
         $news->setName($_REQUEST['name']);
@@ -117,8 +103,8 @@ class BlogAdminPostsController extends AdminController
             $news->setDate($news->getDate());
         else
             $news->setDate($_REQUEST['date']);
-        $news->setImg($imgId);
-        $news->setCommentsOff((isset($_POST['commentsOff']) ? 1 : 0));
+        $news->setImg($this->request->post('news-image' , ''));
+        $news->setCommentsOff(isset($_POST['commentsOff']) ? 1 : 0);
         if ($this->newsManager->saveNews($news)) {
             $choosenCats = [];
             if (isset($_POST['categoriesCheckbox'])) {

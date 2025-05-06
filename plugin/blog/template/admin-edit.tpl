@@ -67,10 +67,8 @@
             <li class='tab'>
                 <label for="name">{{Lang.blog-title}}</label><br>
                 <input type="text" name="name" id="name" value="{{ news.getName() }}" required="required" />
-                {% if showDate %}
-                    <label for="date">{{Lang.blog-date}}</label><br>
-                    <input placeholder="{{Lang.blog-date-placeh}}" type="date" name="date" id="date" value="{{news.getDate()}}" required="required" />
-                {% endif %}
+                <label for="date">{{Lang.blog-date}}</label><br>
+                <input placeholder="{{Lang.blog-date-placeh}}" type="date" name="date" id="date" value="{{news.getDate()}}" required="required" />
             </li>
             <li class='tab'>
                 <h4>{{Lang.blog-settings-post}}</h4>
@@ -95,21 +93,31 @@
                     {{ categoriesManager.outputAsSelectOne(0, "category-add-parentId")}}
                 </div>
             </li>
-            {% if pluginsManager.isActivePlugin("galerie") %}
-                <li class='tab'>
-                    <h4>{{Lang.blog-featured-img}}</h4>
-                    {% if news.getImg() %}
-                        <input type="checkbox" name="delImg" id="delImg" /><label for="delImg">{{ Lang.galerie.delete-featured-image }}</label>
-                    {% else %}
-                         <label for="file">{{Lang.page.file}}</label><br><input type="file" name="file" id="file" accept="image/*" />
-                    {% endif %}
-                    <br>
-                    {% if news.getImg() %}
-                        <img src="{{ news.getImgUrl() }}" alt="{{ news.getImg() }}" />
-                    {% endif %}
-                </li>
-            {% endif %}
+            <li class='tab'>
+                <h4>{{Lang.blog-featured-img}}</h4>
+                <div id="news-image-container">
+                    <section id="news-image-fields">
+                        <header>{{Lang.blog-featured-img-select-title}}</header>
+                        <label for="news-image">{{Lang.blog-featured-img-url}}</label>
+                        <input type="text" id="news-image" name="news-image" oninput="blogDisplayPreview()" value="{{ news.getImg() }}">
+                        {{ filemanagerDisplayManagerButton("news-image", Lang.blog-featured-img-select) }}
+                    </section>
+                    <section id="news-image-preview-container">
+                        <header>{{Lang.blog-featured-img-preview}}</header>
+                        <div id="news-image-preview"></div>
+                    </section>
+                </div>
+            </li>
         </ul>
     </div>
     <p><button id="mainSubmit" type="submit" class="floating" title='{{ Lang.save }}'><i class="fa-regular fa-floppy-disk"></i></button></p>
 </form>
+
+<script>
+    function blogDisplayPreview() {
+        $url = document.getElementById('news-image').value;
+        document.getElementById('news-image-preview').innerHTML = '<img src="' + $url + '" alt="' + $url + '" />';
+    }
+
+    blogDisplayPreview();
+</script>
