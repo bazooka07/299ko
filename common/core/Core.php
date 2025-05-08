@@ -418,6 +418,7 @@ class core
     }
 
     protected function loadEnv() {
+        if ($this->config === false) return;
         if ($this->env->get('siteUrl') !== null) {
             $this->config['siteUrl'] = $this->env->get('siteUrl');
         }

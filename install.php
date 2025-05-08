@@ -25,6 +25,21 @@ $url = core::getInstance()->makeSiteUrl() . '/install.php';
 $minPHPVersion = 7.4;
 $errorPHP = !((float) substr(phpversion(), 0, 3) >= $minPHPVersion);
 
+$errorFopen = true;
+if( filter_var( ini_get('allow_url_fopen'), FILTER_VALIDATE_BOOLEAN ) ) {
+    $errorFopen = false;
+}
+
+$errorCurl = false;
+if (!function_exists('curl_init')) {
+    $errorCurl = true;
+}
+
+$errorZip = true;
+if(extension_loaded('zip')) {
+    $errorZip = false;
+}
+
 // Test mod_rewrite
 if (function_exists('apache_get_modules')) {
     // PHP is installed as an Apache module
@@ -144,6 +159,37 @@ if (count($_POST) > 0) {
                 echo lang::get('install-php-data-write-ok');
                 echo '</div>';
             }
+
+            if ($errorFopen) {
+                echo '<div class="msg warning">';
+                echo lang::get('install-php-fopen-error');
+                echo '</div>';
+            } else {
+                echo '<div class="msg success">';
+                echo lang::get('install-php-fopen-ok');
+                echo '</div>';
+            }
+
+            if ($errorCurl) {
+                echo '<div class="msg warning">';
+                echo lang::get('install-php-curl-error');
+                echo '</div>';
+            } else {
+                echo '<div class="msg success">';
+                echo lang::get('install-php-curl-ok');
+                echo '</div>';
+            }
+
+            if ($errorZip) {
+                echo '<div class="msg warning">';
+                echo lang::get('install-php-zip-error');
+                echo '</div>';
+            } else {
+                echo '<div class="msg success">';
+                echo lang::get('install-php-zip-ok');
+                echo '</div>';
+            }
+
             if ($errorDataWrite || $errorPHP || $errorRewrite === true) {
                 echo lang::get('install-please-check-errors');
             } else {
