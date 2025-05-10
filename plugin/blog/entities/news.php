@@ -161,7 +161,7 @@ class news
 
     public function getImgUrl()
     {
-        return util::urlBuild(UPLOAD . 'galerie/' . $this->img);
+        return util::urlBuild($this->img);
     }
 
     public function getCommentsOff()
