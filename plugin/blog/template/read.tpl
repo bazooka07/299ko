@@ -1,6 +1,6 @@
 <article>
 	<header>
-		{% if pluginsManager.isActivePlugin("galerie") && galerie.searchByFileName(item.getImg) %}
+		{% if item.getImg() %}
 			<img class="featured" src="{{ item.getImgUrl }}" alt="{{ item.getName }}"/>
 		{% endif %}
 		<div class="item-head">

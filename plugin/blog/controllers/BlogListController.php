@@ -123,7 +123,7 @@ class BlogListController extends PublicController
                     $news[$k]['intro'] = $v->getIntro();
                     $news[$k]['url'] = $this->runPlugin->getPublicUrl() . util::strToUrl($v->getName()) . '-' . $v->getId() . '.html';
                     $news[$k]['img'] = $v->getImg();
-                    $news[$k]['imgUrl'] = util::urlBuild(UPLOAD . 'galerie/' . $v->getImg());
+                    $news[$k]['imgUrl'] = $v->getImgUrl();
                     $news[$k]['commentsOff'] = $v->getcommentsOff();
 
                 }

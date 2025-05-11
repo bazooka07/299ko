@@ -5,7 +5,7 @@
 		<article>
 			{% if runPlugin.getConfigVal("hideContent") == false %}
 				<header>
-					{% if pluginsManager.isActivePlugin("galerie") && galerie.searchByFileName(v.img) %}
+					{% if v.img %}
 						<img class="featured" src="{{v.imgUrl}}" alt="{{v.img}}"/>
 					{% endif %}
 					<div class="item-head">
