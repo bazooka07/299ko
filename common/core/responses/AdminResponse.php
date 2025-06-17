@@ -46,7 +46,7 @@ class AdminResponse extends Response {
         foreach ($this->templates as $tpl) {
             $content .= $tpl->output();
         }
-        $this->layout->set('CONTENT', $content);
+        $this->layout->set('CONTENT', core::getInstance()->callHook('adminContent', $content));
         $this->layout->set('PAGE_TITLE' , $this->title ?? false);
         return $this->layout->output();
     }

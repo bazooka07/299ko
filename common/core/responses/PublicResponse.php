@@ -76,13 +76,13 @@ class PublicResponse extends Response {
         foreach ($this->templates as $tpl) {
             $content .= $tpl->output();
         }
-        $this->layout->set('CONTENT', $content);
+        $this->layout->set('CONTENT', core::getInstance()->callHook('publicContent', $content));
         $this->layout->set('PAGE_TITLE' , $this->title ?? false);
         return $this->layout->output();
     }
 
     /**
-     * Set the title of the admin page
+     * Set the title of the public page
      * @param string $title
      */
     public function setTitle(string $title) {
