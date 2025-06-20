@@ -338,8 +338,9 @@ class core
             return false;
     }
 
-    ## Installation de 299ko
-
+    /**
+     * 299ko installation
+     */
     public function install()
     {
         $install = true;
@@ -397,15 +398,17 @@ class core
         return $install;
     }
 
-    ## Retourne le contenu du fichier htaccess
-
+    /**
+     * Get .htaccess file content
+     */
     public function getHtaccess()
     {
         return @file_get_contents(ROOT . '.htaccess');
     }
 
-    ## Update le contenu du fichier htaccess
-
+    /**
+     * Update .htaccess file content
+     */
     public function saveHtaccess($content)
     {
         $content = str_replace("&amp;", "&", $content);
@@ -445,6 +448,40 @@ class core
     public function log($message, $severity = 'INFO')
     {
         $this->logger->log($severity, $message);
+    }
+
+    /**
+     * Process response with cache and minification
+     * 
+     * @param string $content
+     * @param string $cacheKey
+     * @return string
+     */
+    public function processResponseWithCache(string $content, string $cacheKey = ''): string
+    {
+        // Only process in public mode
+        if (defined('ADMIN_MODE') && ADMIN_MODE) {
+            return $content;
+        }
+
+        // Generate cache key if not provided
+        if (empty($cacheKey)) {
+            $cacheKey = 'page_' . md5($_SERVER['REQUEST_URI'] . serialize($_GET));
+        }
+
+        // Check if cache is enabled
+        if (!$this->getConfigVal('cache_enabled')) {
+            return $content;
+        }
+
+        // Get cache manager
+        $cacheManager = new CacheManager();
+        
+        // Get cache duration
+        $duration = $this->getConfigVal('cache_duration') ?: 3600;
+        
+        // Process content with cache and minification
+        return $cacheManager->processContent($cacheKey, $content, $duration);
     }
 }
 

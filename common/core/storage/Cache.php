@@ -54,58 +54,57 @@ class Cache
         if (!$this->enabled)
             return;
         $file = $this->getCacheFile($key);
+        
         $cache_data = [
             'expire' => time() + $duration,
-            'content' => serialize($data),
+            'content' => $data,
             'tags' => $tags,
             'files' => array_map('filemtime', array_filter($files, 'file_exists'))
         ];
-        $set = file_put_contents($file, serialize($cache_data));
+        $serialized_data = serialize($cache_data);
+        $set = file_put_contents($file, $serialized_data, LOCK_EX);
         if ($set === false) {
             core::getInstance()->getLogger()->error("Failed to write cache file: $file");
         }
     }
 
     /**
-     * Retrieves data from the cache by key.
-     *
-     * This method checks if caching is enabled, then attempts to retrieve the 
-     * cached data associated with the given key. If the cache file does not exist, 
-     * or if the cached data has expired or is invalid, it returns false. It also 
-     * checks if any associated files have been modified since caching, in which 
-     * case the cache is considered invalid and also returns false.
+     * Retrieves data from the cache.
      *
      * @param string $key The unique key for the cache item.
-     *
-     * @return mixed The cached data associated with the key, or false if the cache 
-     * is not found, expired, or invalid.
+     * @param mixed $default The default value to return if the cache item is not found or has expired.
+     * 
+     * @return mixed The cached data or the default value.
      */
-    public function get(string $key) {
+    public function get(string $key, $default = null) {
         if (!$this->enabled)
-            return false;
+            return $default;
         $file = $this->getCacheFile($key);
         if (!file_exists($file))
-            return false;
-
-        $cache_data = @unserialize(file_get_contents($file));
-        if (!is_array($cache_data)) {
-            unlink($file);
-            return false;
+            return $default;
+        $data = file_get_contents($file);
+        if ($data === false) {
+            core::getInstance()->getLogger()->error("Failed to read cache file: $file");
+            return $default;
         }
-
-        if ($cache_data['expire'] < time()) {
-            unlink($file);
-            return false;
+        $cache_data = unserialize($data);
+        if ($cache_data === false) {
+            core::getInstance()->getLogger()->error("Failed to unserialize cache data from: $file");
+            return $default;
         }
-
-        foreach ($cache_data['files'] ?? [] as $filepath => $stored_time) {
-            if (!file_exists($filepath) || filemtime($filepath) > $stored_time) {
-                unlink($file);
-                return false;
+        if (time() > $cache_data['expire']) {
+            unlink($file);
+            return $default;
+        }
+        if (!empty($cache_data['files'])) {
+            foreach ($cache_data['files'] as $file_path => $mtime) {
+                if (!file_exists($file_path) || filemtime($file_path) > $mtime) {
+                    unlink($file);
+                    return $default;
+                }
             }
         }
-
-        return unserialize($cache_data['content']);
+        return $cache_data['content'];
     }
 
     /**
@@ -170,7 +169,7 @@ class Cache
         if (!$this->enabled)
             return true;
         $content = $this->get($key);
-        if ($content !== false) {
+        if ($content !== null) {
             return $content;
         }
 

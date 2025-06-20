@@ -72,13 +72,21 @@ class PublicResponse extends Response {
      */
     public function output():string
     {
+        // Ensure proper UTF-8 encoding
+        if (!headers_sent()) {
+            header('Content-Type: text/html; charset=utf-8');
+        }
+        
         $content = '';
         foreach ($this->templates as $tpl) {
             $content .= $tpl->output();
         }
         $this->layout->set('CONTENT', core::getInstance()->callHook('publicContent', $content));
         $this->layout->set('PAGE_TITLE' , $this->title ?? false);
-        return $this->layout->output();
+        $finalContent = $this->layout->output();
+        
+        // Process with cache and minification
+        return core::getInstance()->processResponseWithCache($finalContent);
     }
 
     /**
