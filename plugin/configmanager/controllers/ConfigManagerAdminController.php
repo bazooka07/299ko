@@ -21,6 +21,11 @@ class ConfigManagerAdminController extends AdminController {
 
         $tpl->set('link', $this->router->generate('configmanager-admin-save'));
         $tpl->set('cacheClearLink', $this->router->generate('configmanager-admin-cache-clear', ['token' => $this->user->token]));
+        $tpl->set('cacheStatsLink', $this->router->generate('configmanager-admin-cache-stats', ['token' => $this->user->token]));
+
+        // Get cache statistics
+        $cacheManager = new CacheManager();
+        $tpl->set('cacheStats', $cacheManager->getStats());
 
         $response->addTemplate($tpl);
         return $response;
@@ -44,7 +49,11 @@ class ConfigManagerAdminController extends AdminController {
             'defaultPlugin' => $_POST['defaultPlugin'],
             'hideTitles' => (isset($_POST['hideTitles'])) ? true : false,
             'debug' => (isset($_POST['debug'])) ? true : false,
-            'defaultAdminPlugin' => $_POST['defaultAdminPlugin']
+            'defaultAdminPlugin' => $_POST['defaultAdminPlugin'],
+            'cache_enabled' => (isset($_POST['cache_enabled'])) ? true : false,
+            'cache_duration' => (int)$_POST['cache_duration'],
+            'cache_minify' => (isset($_POST['cache_minify'])) ? true : false,
+            'cache_lazy_loading' => (isset($_POST['cache_lazy_loading'])) ? true : false
         ];
 
         if (!$this->core->saveConfig($config, $config)) {
@@ -73,9 +82,22 @@ class ConfigManagerAdminController extends AdminController {
         if (!$this->user->isAuthorized()) {
             return $this->home();
         }
-        $updaterManager = new UpdaterManager();
-        $updaterManager->clearCache();
-        show::msg(lang::get('configmanager-cache-cleared'), 'success');
+        $cacheManager = new CacheManager();
+        if ($cacheManager->clearCache()) {
+            show::msg(lang::get('configmanager-cache-clear-success'), 'success');
+        } else {
+            show::msg(lang::get('configmanager-cache-clear-error'), 'error');
+        }
+        return $this->home();
+    }
+
+    public function cacheStats($token) {
+        if (!$this->user->isAuthorized()) {
+            return $this->home();
+        }
+        $cacheManager = new CacheManager();
+        $stats = $cacheManager->getStats();
+        show::msg(lang::get('configmanager-cache-stats-updated'), 'success');
         return $this->home();
     }
 }

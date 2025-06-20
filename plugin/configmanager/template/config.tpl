@@ -1,3 +1,5 @@
+{% HOOK.adminHead %}
+
 <form id="configForm" method="post" action="{{link}}" autocomplete="off">
     {{SHOW.tokenField}}
     <section>
@@ -68,7 +70,55 @@
             <textarea id="htaccess" name="htaccess">{{CORE.getHtaccess}}</textarea>
         </p>
     </section>
+    <section>
+        <header>
+            {{Lang.configmanager-cache-settings}}
+            <span class="help-icon" title="{{Lang.configmanager-cache-help-title}}" data-help="cache">?</span>
+        </header>
+        <p>
+            <input {% if CORE.getConfigVal("cache_enabled") %}checked{% endif %} type="checkbox" name="cache_enabled" id="cache_enabled" /> 
+            <label for="cache_enabled">{{Lang.configmanager-cache-enabled}}</label>
+            <br><small>{{Lang.configmanager-cache-enabled-desc}}</small>
+        </p>
+        <p>
+            <label for="cache_duration">{{Lang.configmanager-cache-duration}}</label>
+            <input type="number" name="cache_duration" id="cache_duration" value="{{CORE.getConfigVal("cache_duration") ?: 3600}}" min="60" max="86400" />
+            <br><small>{{Lang.configmanager-cache-duration-desc}}</small>
+        </p>
+        <p>
+            <input {% if CORE.getConfigVal("cache_minify") %}checked{% endif %} type="checkbox" name="cache_minify" id="cache_minify" /> 
+            <label for="cache_minify">{{Lang.configmanager-cache-minify}}</label>
+            <br><small>{{Lang.configmanager-cache-minify-desc}}</small>
+        </p>
+        <p>
+            <input {% if CORE.getConfigVal("cache_lazy_loading") %}checked{% endif %} type="checkbox" name="cache_lazy_loading" id="cache_lazy_loading" /> 
+            <label for="cache_lazy_loading">{{Lang.configmanager-cache-lazy-loading}}</label>
+            <br><small>{{Lang.configmanager-cache-lazy-loading-desc}}</small>
+        </p>
+        <p>
+            <label id="cacheClearDesc">{{Lang.configmanager-cache-clear-desc}}</label><br>
+            <a aria-describedby="cacheClearDesc" class="button" href="{{cacheClearLink}}">{{Lang.configmanager-cache-clear}}</a>
+        </p>
+        <p>
+            <label id="cacheStatsDesc">{{Lang.configmanager-cache-stats-desc}}</label><br>
+            <a aria-describedby="cacheStatsDesc" class="button" href="{{cacheStatsLink}}">{{Lang.configmanager-cache-stats}}</a>
+        </p>
+        {% if cacheStats %}
+        <div class="cache-stats">
+            <p><strong>{{Lang.configmanager-cache-files-count}}:</strong> {{cacheStats.files_count}}</p>
+            <p><strong>{{Lang.configmanager-cache-total-size}}:</strong> {{cacheStats.total_size_formatted}}</p>
+            {% if cacheStats.last_clean %}
+            <p><strong>{{Lang.configmanager-cache-last-clean}}:</strong> {{cacheStats.last_clean}}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </section>
     <p>
-
         <button type="submit" class="button success">{{Lang.submit}}</button></p>
 </form>
+
+<!-- Help popup -->
+<div id="help-popup" class="help-popup">
+    <button class="close-btn" onclick="closeHelpPopup()">&times;</button>
+    <div id="help-content"></div>
+</div>

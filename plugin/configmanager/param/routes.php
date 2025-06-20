@@ -14,6 +14,7 @@ $router = router::getInstance();
 $router->map('GET', '/admin/configmanager[/?]', 'ConfigManagerAdminController#home', 'configmanager-admin');
 $router->map('POST', '/admin/configmanager/save', 'ConfigManagerAdminController#save', 'configmanager-admin-save');
 $router->map('GET', '/admin/configmanager/cacheclear/[a:token]', 'ConfigManagerAdminController#clearCache', 'configmanager-admin-cache-clear');
+$router->map('GET', '/admin/configmanager/cachestats/[a:token]', 'ConfigManagerAdminController#cacheStats', 'configmanager-admin-cache-stats');
 $router->map('GET', '/admin/configmanager/update/[a:token]', 'ConfigManagerUpdateController#process', 'configmanager-update');
 $router->map('GET', '/admin/configmanager/update-manual/[a:token]', 'ConfigManagerUpdateController#processManual', 'configmanager-manual-update');
 $router->map('GET', '/admin/configmanager/delete-install/[a:token]', 'ConfigManagerAdminController#deleteInstall', 'configmanager-delete-install');
