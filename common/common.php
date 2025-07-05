@@ -25,7 +25,7 @@ spl_autoload_register(function ($class) {
 	{
 		if ($file->isFile() && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
 			$fileName = strtolower($file->getFilename());
-			if ($fileName === $className . '.php' || $fileName === $className . '.class.php') {
+			if ($fileName === "$className.php") {
 				include_once($file);
 				break;
 			}

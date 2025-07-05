@@ -82,7 +82,7 @@ class PublicResponse extends Response {
     }
 
     /**
-     * Set the title of the public page
+     * Set the title of the private page
      * @param string $title
      */
     public function setTitle(string $title) {
