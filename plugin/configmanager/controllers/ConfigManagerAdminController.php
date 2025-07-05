@@ -100,4 +100,6 @@ class ConfigManagerAdminController extends AdminController {
         show::msg(lang::get('configmanager-cache-stats-updated'), 'success');
         return $this->home();
     }
+
+
 }

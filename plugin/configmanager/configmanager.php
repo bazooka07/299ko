@@ -112,20 +112,4 @@ function configmanagerBackupTemplates()
     echo '<a title="' . lang::get('configmanager-backup') . '" id="configmanager-backup" href="' . router::getInstance()->generate('configmanager-backup') . '"><i class="fa-solid fa-box-archive"></i></a>';
 }
 
-function configManagerAdminHead() {
-    global $runPlugin;
-    if ($runPlugin->getName() !== 'configmanager') {
-        return;
-    }
-    
-    // Check for new version
-    configManagerCheckNewVersion();
-    
-    // Load assets
-    if ($runPlugin->getAdminCssFile()) {
-        echo '<link rel="stylesheet" href="' . $runPlugin->getAdminCssFile() . '" />' . "\n";
-    }
-    if ($runPlugin->getAdminJsFile()) {
-        echo '<script src="' . $runPlugin->getAdminJsFile() . '"></script>' . "\n";
-    }
-}
+

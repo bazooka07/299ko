@@ -73,7 +73,6 @@
     <section>
         <header>
             {{Lang.configmanager-cache-settings}}
-            <span class="help-icon" title="{{Lang.configmanager-cache-help-title}}" data-help="cache">?</span>
         </header>
         <p>
             <input {% if CORE.getConfigVal("cache_enabled") %}checked{% endif %} type="checkbox" name="cache_enabled" id="cache_enabled" /> 
@@ -117,8 +116,4 @@
         <button type="submit" class="button success">{{Lang.submit}}</button></p>
 </form>
 
-<!-- Help popup -->
-<div id="help-popup" class="help-popup">
-    <button class="close-btn" onclick="closeHelpPopup()">&times;</button>
-    <div id="help-content"></div>
-</div>
+
