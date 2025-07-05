@@ -19,6 +19,7 @@ $router->map('GET', '/admin/configmanager/update/[a:token]', 'ConfigManagerUpdat
 $router->map('GET', '/admin/configmanager/update-manual/[a:token]', 'ConfigManagerUpdateController#processManual', 'configmanager-manual-update');
 $router->map('GET', '/admin/configmanager/delete-install/[a:token]', 'ConfigManagerAdminController#deleteInstall', 'configmanager-delete-install');
 
+
 // Backups
 $router->map('GET', '/admin/configmanager/backup', 'ConfigManagerBackupAdminController#home', 'configmanager-backup');
 $router->map('GET', '/admin/configmanager/create-backup/[a:token]', 'ConfigManagerBackupAdminController#create', 'configmanager-create-backup');
