@@ -59,6 +59,8 @@ class ConfigManagerAdminController extends AdminController {
         if (!$this->core->saveConfig($config, $config)) {
             show::msg(lang::get("core-changes-not-saved"), 'error');
         } else {
+            // Invalidate cache if needed
+            $this->invalidateCacheIfNeeded($config);
             show::msg(lang::get("core-changes-saved"), 'success');
         }
         $this->core->saveHtaccess($_POST['htaccess']);
@@ -101,5 +103,46 @@ class ConfigManagerAdminController extends AdminController {
         return $this->home();
     }
 
-
+    /**
+     * Invalidate cache when configuration changes
+     * 
+     * @param array $newConfig
+     * @return void
+     */
+    protected function invalidateCacheIfNeeded(array $newConfig): void
+    {
+        $oldConfig = $this->core->getconfig();
+        
+        // If theme has changed
+        if (isset($newConfig['theme']) && $newConfig['theme'] !== ($oldConfig['theme'] ?? '')) {
+            $this->core->invalidateThemeCache($oldConfig['theme'] ?? '');
+            $this->core->invalidateThemeCache($newConfig['theme']);
+        }
+        
+        // Always invalidate all theme caches to ensure consistency
+        // This handles the case where cache was created with a different theme than the config
+        $this->core->invalidateAllThemeCaches();
+        
+        // If language has changed
+        if (isset($newConfig['siteLang']) && $newConfig['siteLang'] !== ($oldConfig['siteLang'] ?? '')) {
+            $this->core->invalidateLanguageCache($oldConfig['siteLang'] ?? '');
+            $this->core->invalidateLanguageCache($newConfig['siteLang']);
+        }
+        
+        // If cache settings have changed
+        $cacheSettingsChanged = false;
+        $cacheSettings = ['cache_enabled', 'cache_duration', 'cache_minify', 'cache_lazy_loading'];
+        
+        foreach ($cacheSettings as $setting) {
+            if (isset($newConfig[$setting]) && $newConfig[$setting] !== ($oldConfig[$setting] ?? false)) {
+                $cacheSettingsChanged = true;
+                break;
+            }
+        }
+        
+        if ($cacheSettingsChanged) {
+            // Invalidate all cache because cache parameters have changed
+            $this->core->invalidateAllCache();
+        }
+    }
 }

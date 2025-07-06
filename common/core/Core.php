@@ -493,8 +493,133 @@ class core
         // Get cache duration
         $duration = $this->getConfigVal('cache_duration') ?: 3600;
         
+        // Générer les tags pour l'invalidation intelligente
+        $tags = $this->generateCacheTags();
+        
         // Process content with cache and minification
-        return $cacheManager->processContent($cacheKey, $content, $duration);
+        return $cacheManager->processContent($cacheKey, $content, $duration, $tags);
+    }
+
+    /**
+     * Generate cache tags based on current context
+     * 
+     * @return array
+     */
+    protected function generateCacheTags(): array
+    {
+        $tags = ['page'];
+        
+        // Tag pour le thème actuel
+        $currentTheme = $this->getConfigVal('theme');
+        if ($currentTheme) {
+            $tags[] = 'theme_' . $currentTheme;
+        }
+        
+        // Tag pour le plugin actuel
+        $currentPlugin = $this->getPluginToCall();
+        if ($currentPlugin) {
+            $tags[] = 'plugin_' . $currentPlugin;
+        }
+        
+        // Tag pour la langue
+        $currentLang = $this->getConfigVal('siteLang');
+        if ($currentLang) {
+            $tags[] = 'lang_' . $currentLang;
+        }
+        
+        // Tag pour les paramètres de cache
+        if ($this->getConfigVal('cache_minify')) {
+            $tags[] = 'minify_enabled';
+        }
+        if ($this->getConfigVal('cache_lazy_loading')) {
+            $tags[] = 'lazy_enabled';
+        }
+        
+        return $tags;
+    }
+
+    /**
+     * Invalidate cache by tag
+     * 
+     * @param string $tag
+     * @return void
+     */
+    public function invalidateCacheByTag(string $tag): void
+    {
+        $cache = new Cache();
+        $cache->deleteByTag($tag);
+    }
+
+    /**
+     * Invalidate all cache
+     * 
+     * @return void
+     */
+    public function invalidateAllCache(): void
+    {
+        $cacheManager = new CacheManager();
+        $cacheManager->clearCache();
+    }
+
+    /**
+     * Invalidate theme cache
+     * 
+     * @param string $themeName
+     * @return void
+     */
+    public function invalidateThemeCache(string $themeName = ''): void
+    {
+        if (empty($themeName)) {
+            $themeName = $this->getConfigVal('theme');
+        }
+        $this->invalidateCacheByTag('theme_' . $themeName);
+    }
+
+    /**
+     * Invalidate all theme caches
+     * 
+     * @return void
+     */
+    public function invalidateAllThemeCaches(): void
+    {
+        $cache = new Cache();
+        // Invalider tous les caches avec des tags de thème
+        foreach (glob(CACHE . '*.cache.php') as $file) {
+            $data = @unserialize(file_get_contents($file));
+            if (is_array($data) && isset($data['tags'])) {
+                foreach ($data['tags'] as $tag) {
+                    if (strpos($tag, 'theme_') === 0) {
+                        $cache->deleteByTag($tag);
+                        break; // Un seul tag de thème par fichier
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Invalidate plugin cache
+     * 
+     * @param string $pluginName
+     * @return void
+     */
+    public function invalidatePluginCache(string $pluginName): void
+    {
+        $this->invalidateCacheByTag('plugin_' . $pluginName);
+    }
+
+    /**
+     * Invalidate language cache
+     * 
+     * @param string $lang
+     * @return void
+     */
+    public function invalidateLanguageCache(string $lang = ''): void
+    {
+        if (empty($lang)) {
+            $lang = $this->getConfigVal('siteLang');
+        }
+        $this->invalidateCacheByTag('lang_' . $lang);
     }
 }
 
