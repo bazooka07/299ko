@@ -464,9 +464,22 @@ class core
             return $content;
         }
 
-        // Generate cache key if not provided
+        // Générer la clé de cache si non fournie
         if (empty($cacheKey)) {
             $cacheKey = 'page_' . md5($_SERVER['REQUEST_URI'] . serialize($_GET));
+        }
+
+        // Ajout sécurité : inclure l'état de protection dans la clé
+        // 1. Protection par mot de passe de page
+        if (isset($_SESSION['pagePassword'])) {
+            $cacheKey .= '_pw_' . sha1($_SESSION['pagePassword']);
+        }
+        // 2. Utilisateur connecté
+        if (class_exists('UsersManager') && method_exists('UsersManager', 'getCurrentUser')) {
+            $user = UsersManager::getCurrentUser();
+            if ($user && isset($user->id)) {
+                $cacheKey .= '_user_' . $user->id;
+            }
         }
 
         // Check if cache is enabled

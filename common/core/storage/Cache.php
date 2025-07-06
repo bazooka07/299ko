@@ -57,7 +57,7 @@ class Cache
         
         $cache_data = [
             'expire' => time() + $duration,
-            'content' => $data,
+            'content' => serialize($data),
             'tags' => $tags,
             'files' => array_map('filemtime', array_filter($files, 'file_exists'))
         ];
@@ -104,7 +104,7 @@ class Cache
                 }
             }
         }
-        return $cache_data['content'];
+        return unserialize($cache_data['content']);
     }
 
     /**

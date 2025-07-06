@@ -194,7 +194,9 @@ class CacheManager
 
         // Store in cache if enabled
         if ($this->isCacheEnabled()) {
-            $this->cache->set($key, $content, $duration, $tags, $files);
+            // Utiliser la durée passée en paramètre, sinon la valeur de config, sinon 3600
+            $finalDuration = $duration > 0 ? $duration : ($this->getCacheDuration() ?: 3600);
+            $this->cache->set($key, $content, $finalDuration, $tags, $files);
         }
 
         return $content;
