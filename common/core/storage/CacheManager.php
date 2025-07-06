@@ -182,6 +182,18 @@ class CacheManager
      * @return string
      */
     public function processContent(string $key, string $content, int $duration = 3600, array $tags = [], array $files = []): string {
+        // Check if cache is enabled
+        if ($this->isCacheEnabled()) {
+            // Utiliser la durée passée en paramètre, sinon la valeur de config, sinon 3600
+            $finalDuration = $duration > 0 ? $duration : ($this->getCacheDuration() ?: 3600);
+            
+            // Vérifier si le contenu existe déjà en cache
+            $cachedContent = $this->cache->get($key);
+            if ($cachedContent !== false) {
+                return $cachedContent;
+            }
+        }
+
         // Check if lazy loading is enabled
         if ($this->isLazyLoadingEnabled()) {
             $content = $this->addLazyLoading($content);
@@ -194,8 +206,6 @@ class CacheManager
 
         // Store in cache if enabled
         if ($this->isCacheEnabled()) {
-            // Utiliser la durée passée en paramètre, sinon la valeur de config, sinon 3600
-            $finalDuration = $duration > 0 ? $duration : ($this->getCacheDuration() ?: 3600);
             $this->cache->set($key, $content, $finalDuration, $tags, $files);
         }
 
@@ -208,7 +218,8 @@ class CacheManager
      * @return bool
      */
     public function isCacheEnabled(): bool {
-        return $this->config['cache_enabled'] ?? true;
+        // Toujours récupérer la configuration actuelle de core
+        return core::getInstance()->getConfigVal('cache_enabled') ?: true;
     }
 
     /**
@@ -217,7 +228,8 @@ class CacheManager
      * @return bool
      */
     public function isMinifyEnabled(): bool {
-        return $this->config['cache_minify'] ?? false;
+        // Toujours récupérer la configuration actuelle de core
+        return core::getInstance()->getConfigVal('cache_minify') ?: false;
     }
 
     /**
@@ -226,7 +238,8 @@ class CacheManager
      * @return bool
      */
     public function isLazyLoadingEnabled(): bool {
-        return $this->config['cache_lazy_loading'] ?? false;
+        // Toujours récupérer la configuration actuelle de core
+        return core::getInstance()->getConfigVal('cache_lazy_loading') ?: false;
     }
 
     /**
@@ -235,7 +248,8 @@ class CacheManager
      * @return int
      */
     public function getCacheDuration(): int {
-        return $this->config['cache_duration'] ?? 3600;
+        // Toujours récupérer la configuration actuelle de core
+        return core::getInstance()->getConfigVal('cache_duration') ?: 3600;
     }
 
     /**

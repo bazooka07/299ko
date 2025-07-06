@@ -81,7 +81,7 @@
         </p>
         <p>
             <label for="cache_duration">{{Lang.configmanager-cache-duration}}</label>
-            <input type="number" name="cache_duration" id="cache_duration" value="{{CORE.getConfigVal("cache_duration") ?: 3600}}" min="60" max="86400" />
+            <input type="number" name="cache_duration" id="cache_duration" value="{% if CORE.getConfigVal("cache_duration") %}{{CORE.getConfigVal("cache_duration")}}{% else %}3600{% endif %}" min="60" max="86400" />
             <br><small>{{Lang.configmanager-cache-duration-desc}}</small>
         </p>
         <p>

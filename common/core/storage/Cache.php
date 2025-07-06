@@ -76,7 +76,7 @@ class Cache
      * 
      * @return mixed The cached data or the default value.
      */
-    public function get(string $key, $default = null) {
+    public function get(string $key, $default = false) {
         if (!$this->enabled)
             return $default;
         $file = $this->getCacheFile($key);
@@ -169,7 +169,7 @@ class Cache
         if (!$this->enabled)
             return true;
         $content = $this->get($key);
-        if ($content !== null) {
+        if ($content !== false) {
             return $content;
         }
 
