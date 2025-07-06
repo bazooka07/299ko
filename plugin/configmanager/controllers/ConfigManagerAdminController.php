@@ -55,11 +55,12 @@ class ConfigManagerAdminController extends AdminController {
             'cache_lazy_loading' => (isset($_POST['cache_lazy_loading'])) ? true : false
         ];
 
+        // Invalidate cache if needed (AVANT la sauvegarde pour avoir l'ancienne config)
+        $this->invalidateCacheIfNeeded($config);
+        
         if (!$this->core->saveConfig($config, $config)) {
             show::msg(lang::get("core-changes-not-saved"), 'error');
         } else {
-            // Invalidate cache if needed
-            $this->invalidateCacheIfNeeded($config);
             show::msg(lang::get("core-changes-saved"), 'success');
         }
         $this->core->saveHtaccess($_POST['htaccess']);
@@ -111,10 +112,11 @@ class ConfigManagerAdminController extends AdminController {
                 $oldTheme = new Theme($oldConfig['theme']);
                 $oldTheme->invalidateCache();
             }
-            
             // Invalidate new theme cache
             $newTheme = new Theme($newConfig['theme']);
             $newTheme->invalidateCache();
+            // Force invalidate all page caches to ensure theme change is reflected
+            $this->core->invalidateCacheByTag('page');
         }
         
         // If language has changed
@@ -126,22 +128,141 @@ class ConfigManagerAdminController extends AdminController {
             
             // Invalidate new language cache
             lang::invalidateCache($newConfig['siteLang']);
+            
+            // Force invalidate all page caches to ensure language change is reflected
+            $this->core->invalidateCacheByTag('page');
         }
         
-        // If cache settings have changed
-        $cacheSettingsChanged = false;
-        $cacheSettings = ['cache_enabled', 'cache_duration', 'cache_minify', 'cache_lazy_loading'];
+        // If cache settings have changed - only invalidate specific caches
+        $cacheSettings = ['cache_minify', 'cache_lazy_loading'];
         
         foreach ($cacheSettings as $setting) {
             if (isset($newConfig[$setting]) && $newConfig[$setting] !== ($oldConfig[$setting] ?? false)) {
-                $cacheSettingsChanged = true;
+                // Only invalidate caches that depend on these settings
+                $this->core->invalidateCacheByTag('minify_enabled');
+                $this->core->invalidateCacheByTag('lazy_enabled');
                 break;
             }
         }
         
-        if ($cacheSettingsChanged) {
-            // Invalidate all cache because cache parameters have changed
+        // If cache is disabled, invalidate all cache
+        if (isset($newConfig['cache_enabled']) && $newConfig['cache_enabled'] !== ($oldConfig['cache_enabled'] ?? true)) {
+            if (!$newConfig['cache_enabled']) {
+                // Cache disabled - invalidate all
+                $this->core->invalidateAllCache();
+            }
+        }
+        
+        // If cache duration changed, invalidate all cache (as duration affects all cached content)
+        if (isset($newConfig['cache_duration']) && $newConfig['cache_duration'] !== ($oldConfig['cache_duration'] ?? 3600)) {
             $this->core->invalidateAllCache();
+        }
+        
+        // Invalidate plugin caches if their content might have changed
+        $this->invalidatePluginCachesIfNeeded($oldConfig, $newConfig);
+    }
+    
+    /**
+     * Invalidate plugin caches if their content might have changed
+     * 
+     * @param array $oldConfig
+     * @param array $newConfig
+     * @return void
+     */
+    protected function invalidatePluginCachesIfNeeded(array $oldConfig, array $newConfig): void
+    {
+        // Get plugins manager to access all plugins
+        $pluginsManager = pluginsManager::getInstance();
+        $plugins = $pluginsManager->getPlugins();
+        
+        foreach ($plugins as $plugin) {
+            $pluginName = $plugin->getName();
+            $pluginConfig = $plugin->getConfig();
+            
+            // Check if plugin is activated
+            if (!$plugin->getConfigVal('activate')) {
+                continue;
+            }
+            
+            // Check if plugin configuration has changed
+            $pluginDataPath = DATA_PLUGIN . $pluginName . '/config.json';
+            if (file_exists($pluginDataPath)) {
+                $currentPluginConfig = util::readJsonFile($pluginDataPath);
+                if ($currentPluginConfig !== false) {
+                    // Compare current config with what we have in memory
+                    if ($this->hasPluginConfigChanged($pluginConfig, $currentPluginConfig)) {
+                        // Plugin config changed, invalidate its cache
+                        $plugin->invalidateCache();
+                    }
+                }
+            }
+            
+            // Check for specific plugin content changes
+            $this->checkPluginSpecificChanges($plugin, $oldConfig, $newConfig);
+        }
+    }
+    
+    /**
+     * Check if plugin configuration has changed
+     * 
+     * @param array $memoryConfig
+     * @param array $fileConfig
+     * @return bool
+     */
+    protected function hasPluginConfigChanged(array $memoryConfig, array $fileConfig): bool
+    {
+        // Compare important config keys that would affect cache
+        $importantKeys = ['activate', 'priority', 'label', 'itemsByPage', 'displayTOC', 'hideContent', 'comments'];
+        
+        foreach ($importantKeys as $key) {
+            if (isset($memoryConfig[$key]) && isset($fileConfig[$key])) {
+                if ($memoryConfig[$key] !== $fileConfig[$key]) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Check for plugin-specific content changes
+     * 
+     * @param plugin $plugin
+     * @param array $oldConfig
+     * @param array $newConfig
+     * @return void
+     */
+    protected function checkPluginSpecificChanges($plugin, array $oldConfig, array $newConfig): void
+    {
+        $pluginName = $plugin->getName();
+        
+        // Blog plugin specific checks
+        if ($pluginName === 'blog') {
+            // Check if blog settings that affect content have changed
+            if (isset($newConfig['blog_itemsByPage']) && $newConfig['blog_itemsByPage'] !== ($oldConfig['blog_itemsByPage'] ?? 5)) {
+                $plugin->invalidateCache();
+            }
+            if (isset($newConfig['blog_displayTOC']) && $newConfig['blog_displayTLS'] !== ($oldConfig['blog_displayTOC'] ?? 'no')) {
+                $plugin->invalidateCache();
+            }
+        }
+        
+        // Galerie plugin specific checks
+        if ($pluginName === 'galerie') {
+            if (isset($newConfig['galerie_order']) && $newConfig['galerie_order'] !== ($oldConfig['galerie_order'] ?? 'byDate')) {
+                $plugin->invalidateCache();
+            }
+            if (isset($newConfig['galerie_showTitles']) && $newConfig['galerie_showTitles'] !== ($oldConfig['galerie_showTitles'] ?? '1')) {
+                $plugin->invalidateCache();
+            }
+        }
+        
+
+        
+        // Default plugin change - invalidate all plugin caches
+        if (isset($newConfig['defaultPlugin']) && $newConfig['defaultPlugin'] !== ($oldConfig['defaultPlugin'] ?? '')) {
+            $plugin->invalidateCache();
         }
     }
 }

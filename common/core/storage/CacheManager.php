@@ -34,7 +34,12 @@ class CacheManager
         $fileCount = count($files);
         
         foreach ($files as $file) {
-            $totalSize += filesize($file);
+            if (file_exists($file)) {
+                $size = filesize($file);
+                if ($size !== false) {
+                    $totalSize += $size;
+                }
+            }
         }
 
         return [
