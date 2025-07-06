@@ -560,67 +560,6 @@ class core
         $cacheManager = new CacheManager();
         $cacheManager->clearCache();
     }
-
-    /**
-     * Invalidate theme cache
-     * 
-     * @param string $themeName
-     * @return void
-     */
-    public function invalidateThemeCache(string $themeName = ''): void
-    {
-        if (empty($themeName)) {
-            $themeName = $this->getConfigVal('theme');
-        }
-        $this->invalidateCacheByTag('theme_' . $themeName);
-    }
-
-    /**
-     * Invalidate all theme caches
-     * 
-     * @return void
-     */
-    public function invalidateAllThemeCaches(): void
-    {
-        $cache = new Cache();
-        // Invalider tous les caches avec des tags de thème
-        foreach (glob(CACHE . '*.cache.php') as $file) {
-            $data = @unserialize(file_get_contents($file));
-            if (is_array($data) && isset($data['tags'])) {
-                foreach ($data['tags'] as $tag) {
-                    if (strpos($tag, 'theme_') === 0) {
-                        $cache->deleteByTag($tag);
-                        break; // Un seul tag de thème par fichier
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Invalidate plugin cache
-     * 
-     * @param string $pluginName
-     * @return void
-     */
-    public function invalidatePluginCache(string $pluginName): void
-    {
-        $this->invalidateCacheByTag('plugin_' . $pluginName);
-    }
-
-    /**
-     * Invalidate language cache
-     * 
-     * @param string $lang
-     * @return void
-     */
-    public function invalidateLanguageCache(string $lang = ''): void
-    {
-        if (empty($lang)) {
-            $lang = $this->getConfigVal('siteLang');
-        }
-        $this->invalidateCacheByTag('lang_' . $lang);
-    }
 }
 
 /**

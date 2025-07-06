@@ -21,7 +21,6 @@ class ConfigManagerAdminController extends AdminController {
 
         $tpl->set('link', $this->router->generate('configmanager-admin-save'));
         $tpl->set('cacheClearLink', $this->router->generate('configmanager-admin-cache-clear', ['token' => $this->user->token]));
-        $tpl->set('cacheStatsLink', $this->router->generate('configmanager-admin-cache-stats', ['token' => $this->user->token]));
 
         // Get cache statistics
         $cacheManager = new CacheManager();
@@ -93,15 +92,7 @@ class ConfigManagerAdminController extends AdminController {
         return $this->home();
     }
 
-    public function cacheStats($token) {
-        if (!$this->user->isAuthorized()) {
-            return $this->home();
-        }
-        $cacheManager = new CacheManager();
-        $stats = $cacheManager->getStats();
-        show::msg(lang::get('configmanager-cache-stats-updated'), 'success');
-        return $this->home();
-    }
+
 
     /**
      * Invalidate cache when configuration changes
@@ -115,18 +106,26 @@ class ConfigManagerAdminController extends AdminController {
         
         // If theme has changed
         if (isset($newConfig['theme']) && $newConfig['theme'] !== ($oldConfig['theme'] ?? '')) {
-            $this->core->invalidateThemeCache($oldConfig['theme'] ?? '');
-            $this->core->invalidateThemeCache($newConfig['theme']);
+            // Invalidate old theme cache
+            if (!empty($oldConfig['theme'])) {
+                $oldTheme = new Theme($oldConfig['theme']);
+                $oldTheme->invalidateCache();
+            }
+            
+            // Invalidate new theme cache
+            $newTheme = new Theme($newConfig['theme']);
+            $newTheme->invalidateCache();
         }
-        
-        // Always invalidate all theme caches to ensure consistency
-        // This handles the case where cache was created with a different theme than the config
-        $this->core->invalidateAllThemeCaches();
         
         // If language has changed
         if (isset($newConfig['siteLang']) && $newConfig['siteLang'] !== ($oldConfig['siteLang'] ?? '')) {
-            $this->core->invalidateLanguageCache($oldConfig['siteLang'] ?? '');
-            $this->core->invalidateLanguageCache($newConfig['siteLang']);
+            // Invalidate old language cache
+            if (!empty($oldConfig['siteLang'])) {
+                lang::invalidateCache($oldConfig['siteLang']);
+            }
+            
+            // Invalidate new language cache
+            lang::invalidateCache($newConfig['siteLang']);
         }
         
         // If cache settings have changed

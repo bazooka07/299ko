@@ -40,8 +40,7 @@ class CacheManager
         return [
             'files_count' => $fileCount,
             'total_size' => $totalSize,
-            'total_size_formatted' => $this->formatBytes($totalSize),
-            'last_clean' => $this->getLastCleanTime()
+            'total_size_formatted' => $this->formatBytes($totalSize)
         ];
     }
 
@@ -61,9 +60,7 @@ class CacheManager
             }
         }
 
-        if ($success) {
-            $this->updateLastCleanTime();
-        }
+
 
         return $success;
     }
@@ -269,26 +266,5 @@ class CacheManager
         return round($bytes, $precision) . ' ' . $units[$i];
     }
 
-    /**
-     * Get last clean time
-     * 
-     * @return string|null
-     */
-    protected function getLastCleanTime(): ?string {
-        $file = DATA . 'cache_last_clean.txt';
-        if (file_exists($file)) {
-            return file_get_contents($file);
-        }
-        return null;
-    }
 
-    /**
-     * Update last clean time
-     * 
-     * @return void
-     */
-    protected function updateLastCleanTime(): void {
-        $file = DATA . 'cache_last_clean.txt';
-        file_put_contents($file, date('Y-m-d H:i:s'));
-    }
 } 
