@@ -1,8 +1,8 @@
 # 299Ko
 
-299ko est un CMS PHP à fichier plat, simple, léger et personnalisable, permettant la création de sites vitrines en quelques clics. Il prend en charge les plugins et les thèmes. 299ko est désormais multilingue et utilise son propre moteur de templates (syntaxe similaire à Twig) pour la création de rendus, afin de rendre la création de sites web accessible à tous.
+299Ko is a lightweight PHP flat-file CMS designed for creating showcase websites quickly and easily. It features a plugin system, theme support, and multilingual capabilities. The CMS uses its own template engine with Twig-like syntax to make web development accessible to everyone.
 
-**Pas besoin de base de données :** le CMS utilise des fichiers .json pour stocker ses données, ce qui rend la maintenance et les sauvegardes très faciles.
+**No database required:** The CMS uses JSON files for data storage, making maintenance and backups simple and straightforward.
 
 ## Features
 
@@ -51,7 +51,7 @@
 
 ## Installation
 
-Le guide d'installation est disponible ici : https://docs.299ko.ovh/english/setup/installation
+Installation guide available at: https://docs.299ko.ovh/english/setup/installation
 
 ### Quick Setup
 1. **Download** the latest release
@@ -85,38 +85,13 @@ The CMS includes a comprehensive caching system that can be configured through t
 ## Development
 
 ### Plugin Development
-Plugins can be created by following the plugin structure:
-
-```
-plugin/
-├── myplugin/
-│   ├── plugin.php
-│   ├── controllers/
-│   ├── template/
-│   └── langs/
-```
+Create plugins by following the standard plugin structure and implementing the required interfaces.
 
 ### Theme Development
-Themes can be customized by creating theme files:
-
-```
-theme/
-├── mytheme/
-│   ├── layout.tpl
-│   ├── template/
-│   └── assets/
-```
+Customize themes by creating theme files and templates using the built-in template engine.
 
 ### Hooks System
-The CMS provides a comprehensive hook system for customization:
-
-```php
-// Add a hook
-core::getInstance()->addHook('publicContent', 'myFunction');
-
-// Call hooks
-core::getInstance()->callHook('publicContent', $content);
-```
+The CMS provides a comprehensive hook system for customization and extension.
 
 ## Security
 
@@ -136,12 +111,12 @@ core::getInstance()->callHook('publicContent', $content);
 
 ## Links
 
-- **Site officiel** : https://299ko.ovh
-- **Support (forum)** : https://community.299ko.ovh/
-- **Documentation** : https://docs.299ko.ovh/
-- **Facebook** : https://facebook.com/299kocms
-- **Twitter** : https://twitter.com/299kocms
-- **GitHub** : https://github.com/299Ko
+- **Official Website**: https://299ko.ovh
+- **Community Support**: https://community.299ko.ovh/
+- **Documentation**: https://docs.299ko.ovh/
+- **Facebook**: https://facebook.com/299kocms
+- **Twitter**: https://twitter.com/299kocms
+- **GitHub**: https://github.com/299Ko
 
 ## Support
 
@@ -159,7 +134,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
