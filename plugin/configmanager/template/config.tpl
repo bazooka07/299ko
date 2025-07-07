@@ -113,15 +113,11 @@
         </p>
         <p>
             <label id="cacheStatsDesc">{{Lang.configmanager-cache-stats-desc}}</label><br>
-            <a aria-describedby="cacheStatsDesc" class="button" href="{{cacheStatsLink}}">{{Lang.configmanager-cache-stats}}</a>
         </p>
         {% if cacheStats %}
           <div class="cache-stats">
              <p><strong>{{Lang.configmanager-cache-files-count}}:</strong> {{cacheStats.files_count}}</p>
              <p><strong>{{Lang.configmanager-cache-total-size}}:</strong> {{cacheStats.total_size_formatted}}</p>
-             {% if cacheStats.last_clean %}
-              <p><strong>{{Lang.configmanager-cache-last-clean}}:</strong> {{cacheStats.last_clean}}</p>
-             {% endif %}
         </div>
         {% endif %}
       </li>
