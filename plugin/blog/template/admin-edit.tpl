@@ -1,9 +1,7 @@
 <form method="post" id="mainForm" action="{{ ROUTER.generate("admin-blog-save-post")}}" enctype="multipart/form-data">
     {{SHOW.tokenField}}
     <input type="hidden" name="id" value="{{ news.getId() }}" />
-    {% if pluginsManager.isActivePlugin("galerie") %}
-        <input type="hidden" name="imgId" value="{{ news.getImg() }}" />
-    {% endif %}
+    <input type="hidden" name="imgId" value="{{ news.getImg() }}" />
 
     <div class='tabs-container'>
         <ul class="tabs-header">
@@ -12,9 +10,7 @@
             <li><i class="fa-regular fa-thumbs-up"></i> {{Lang.blog-seo}}</li>
             <li><i class="fa-solid fa-heading"></i> {{Lang.blog-title}}</li>
             <li><i class="fa-solid fa-sliders"></i> {{Lang.blog-settings}}</li>
-            {% if pluginsManager.isActivePlugin("galerie") %}
-                <li><i class="fa-regular fa-image"></i> {{Lang.blog-featured-img}}</li>
-            {% endif %}
+            <li><i class="fa-regular fa-image"></i> {{Lang.blog-featured-img}}</li>
         </ul>
         <ul class="tabs">
             <li class="tab">
