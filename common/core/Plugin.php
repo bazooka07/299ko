@@ -349,4 +349,15 @@ class plugin {
 	public function getCallableAdmin(): array {
 		return $this->callableAdmin;
 	}
+
+	/**
+	 * Invalidate plugin cache
+	 * 
+	 * @return void
+	 */
+	public function invalidateCache(): void
+	{
+		$cache = new Cache();
+		$cache->deleteByTag('plugin_' . $this->name);
+	}
 }

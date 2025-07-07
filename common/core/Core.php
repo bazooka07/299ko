@@ -338,8 +338,9 @@ class core
             return false;
     }
 
-    ## Installation de 299ko
-
+    /**
+     * 299ko installation
+     */
     public function install()
     {
         $install = true;
@@ -397,15 +398,17 @@ class core
         return $install;
     }
 
-    ## Retourne le contenu du fichier htaccess
-
+    /**
+     * Get .htaccess file content
+     */
     public function getHtaccess()
     {
         return @file_get_contents(ROOT . '.htaccess');
     }
 
-    ## Update le contenu du fichier htaccess
-
+    /**
+     * Update .htaccess file content
+     */
     public function saveHtaccess($content)
     {
         $content = str_replace("&amp;", "&", $content);
@@ -445,6 +448,117 @@ class core
     public function log($message, $severity = 'INFO')
     {
         $this->logger->log($severity, $message);
+    }
+
+    /**
+     * Process response with cache and minification
+     * 
+     * @param string $content
+     * @param string $cacheKey
+     * @return string
+     */
+    public function processResponseWithCache(string $content, string $cacheKey = ''): string
+    {
+        // Only process in public mode
+        if (defined('ADMIN_MODE') && ADMIN_MODE) {
+            return $content;
+        }
+
+        // Générer la clé de cache si non fournie
+        if (empty($cacheKey)) {
+            $cacheKey = 'page_' . md5($_SERVER['REQUEST_URI'] . serialize($_GET));
+        }
+
+        // Ajout sécurité : inclure l'état de protection dans la clé
+        // 1. Protection par mot de passe de page
+        if (isset($_SESSION['pagePassword'])) {
+            $cacheKey .= '_pw_' . sha1($_SESSION['pagePassword']);
+        }
+        // 2. Utilisateur connecté
+        if (class_exists('UsersManager') && method_exists('UsersManager', 'getCurrentUser')) {
+            $user = UsersManager::getCurrentUser();
+            if ($user && isset($user->id)) {
+                $cacheKey .= '_user_' . $user->id;
+            }
+        }
+
+        // Check if cache is enabled
+        if (!$this->getConfigVal('cache_enabled')) {
+            return $content;
+        }
+
+        // Get cache manager
+        $cacheManager = new CacheManager();
+        
+        // Get cache duration
+        $duration = $this->getConfigVal('cache_duration') ?: 3600;
+        
+        // Générer les tags pour l'invalidation intelligente
+        $tags = $this->generateCacheTags();
+        
+        // Process content with cache and minification
+        return $cacheManager->processContent($cacheKey, $content, $duration, $tags);
+    }
+
+    /**
+     * Generate cache tags based on current context
+     * 
+     * @return array
+     */
+    protected function generateCacheTags(): array
+    {
+        $tags = ['page'];
+        
+        // Tag pour le thème actuel
+        $currentTheme = $this->getConfigVal('theme');
+        if ($currentTheme) {
+            $tags[] = 'theme_' . $currentTheme;
+        }
+        
+        // Tag pour le plugin actuel
+        $currentPlugin = $this->getPluginToCall();
+        if ($currentPlugin) {
+            $tags[] = 'plugin_' . $currentPlugin;
+        }
+        
+        // Tag pour la langue
+        $currentLang = $this->getConfigVal('siteLang');
+        if ($currentLang) {
+            $tags[] = 'lang_' . $currentLang;
+        }
+        
+        // Tag pour les paramètres de cache
+        if ($this->getConfigVal('cache_minify')) {
+            $tags[] = 'minify_enabled';
+        }
+        if ($this->getConfigVal('cache_lazy_loading')) {
+            $tags[] = 'lazy_enabled';
+        }
+        
+        return $tags;
+    }
+
+    /**
+     * Invalidate cache by tag
+     * 
+     * @param string $tag
+     * @return void
+     */
+    public function invalidateCacheByTag(string $tag): void
+    {
+        $cache = new Cache();
+        $cache->deleteByTag($tag);
+    }
+
+    /**
+     * Invalidate all cache
+     * 
+     * @return void
+     */
+    public function invalidateAllCache(): void
+    {
+        $cacheManager = new CacheManager();
+        $cacheManager->clearCache();
     }
 }
 

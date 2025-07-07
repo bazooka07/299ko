@@ -192,5 +192,19 @@ class Theme {
         return $url;
     }
 
-
+    /**
+     * Invalidate theme cache
+     * 
+     * @return void
+     */
+    public function invalidateCache(): void
+    {
+        $cache = new Cache();
+        $cache->deleteByTag('theme_' . $this->folderName);
+        
+        // Also invalidate parent theme cache if exists
+        if ($this->parent) {
+            $this->parent->invalidateCache();
+        }
+    }
 }

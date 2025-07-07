@@ -106,4 +106,19 @@ class lang {
 
     }
 
+    /**
+     * Invalidate language cache
+     * 
+     * @param string $locale The locale to invalidate (optional, uses current if not provided)
+     * @return void
+     */
+    public static function invalidateCache(string $locale = ''): void
+    {
+        if (empty($locale)) {
+            $locale = self::getLocale();
+        }
+        
+        $cache = new Cache();
+        $cache->deleteByTag('lang_' . $locale);
+    }
 }
