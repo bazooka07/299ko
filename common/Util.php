@@ -161,6 +161,9 @@ class util
      * @return bool True if the file was written successfully, false otherwise
      */
     public static function writeJsonFile($file, $data) {
+        if (core::getInstance()->getConfigVal('debug')) {
+            core::getInstance()->addQueryCounter();
+        }
         if (@file_put_contents($file, json_encode($data), LOCK_EX))
             return true;
         return false;
@@ -176,6 +179,9 @@ class util
     public static function readJsonFile($file, $assoc = true) {
         if (!file_exists($file)) {
             return false;
+        }
+        if (core::getInstance()->getConfigVal('debug')) {
+            core::getInstance()->addQueryCounter();
         }
         return json_decode(@file_get_contents($file), $assoc);
     }

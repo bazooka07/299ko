@@ -70,4 +70,8 @@ class router extends AltoRouter {
         return parent::match(self::$url);
     }
 
+    public function getUri():string {
+        return self::$url;
+    }
+
 }

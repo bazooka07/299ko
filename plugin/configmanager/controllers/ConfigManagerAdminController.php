@@ -63,7 +63,7 @@ class ConfigManagerAdminController extends AdminController {
         } else {
             show::msg(lang::get("core-changes-saved"), 'success');
         }
-        $this->core->saveHtaccess($_POST['htaccess']);
+        //$this->core->saveHtaccess($_POST['htaccess']);
         $this->core->redirect($this->router->generate('configmanager-admin'));
     }
 

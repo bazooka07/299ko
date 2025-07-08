@@ -273,6 +273,9 @@ abstract class JsonActiveRecord
         if (!empty($this->withRelations)) {
             $this->loadRelations($objects);
         }
+        if (core::getInstance()->getConfigVal('debug')) {
+            core::getInstance()->addQueryCounter();
+        }
 
         return $objects;
     }

@@ -83,10 +83,7 @@ class PublicResponse extends Response {
         }
         $this->layout->set('CONTENT', core::getInstance()->callHook('publicContent', $content));
         $this->layout->set('PAGE_TITLE' , $this->title ?? false);
-        $finalContent = $this->layout->output();
-        
-        // Process with cache and minification
-        return core::getInstance()->processResponseWithCache($finalContent);
+        return $this->layout->output();
     }
 
     /**

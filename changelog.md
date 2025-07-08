@@ -10,8 +10,14 @@ All notable changes to this project will be documented in this file.
 - Shortcodes in content
 - Add blocks format & FA icon in TinyMCE
 - Add backups in ConfigManager
-- Add Child Theme
+- Add nested Child Theme
 - Icons system in Antispam plugin
+- Caching System
+- Minify HTML & lazy loading img system
+- .env support
+- Add a Logger to help debug
+- Add a marketplace to download & install plugins & themes
+- Add 2 hooks `adminContent` & `publicContent` to modify full content before display
 
 ### Fixed
 
@@ -19,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Links Categories in blog
 - Admin links burger (go to home site)
 - Support functions.php in theme
+- Fix page with a password
 
 ### Changed
 
@@ -27,6 +34,7 @@ All notable changes to this project will be documented in this file.
 - Required plugins are now hidden in PluginsManager
 - Update to Font Awesome 6.7.2
 - Update to TinyMCE 6.6
+- Blog : Remove gallery dependancy
 
 ## V2.0.0
 

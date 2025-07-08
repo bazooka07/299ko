@@ -111,9 +111,7 @@
             <label id="cacheClearDesc">{{Lang.configmanager-cache-clear-desc}}</label><br>
             <a aria-describedby="cacheClearDesc" class="button" href="{{cacheClearLink}}">{{Lang.configmanager-cache-clear}}</a>
         </p>
-        <p>
-            <label id="cacheStatsDesc">{{Lang.configmanager-cache-stats-desc}}</label><br>
-        </p>
+
         {% if cacheStats %}
           <div class="cache-stats">
              <p><strong>{{Lang.configmanager-cache-files-count}}:</strong> {{cacheStats.files_count}}</p>

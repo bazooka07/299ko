@@ -28,24 +28,4 @@ define('IS_ADMIN', IS_LOGGED);
 Template::addGlobal('IS_LOGGED', IS_LOGGED);
 Template::addGlobal('IS_ADMIN', IS_ADMIN);
 
-$match = $router->match();
-if (is_array($match)) {
-    if ($runPlugin) {
-        $runPlugin->loadControllers();
-    }
-    list($controller, $action) = explode('#', $match['target']);
-    if (method_exists($controller, $action)) {
-        $obj = new $controller();
-        $core->callHook('beforeRunPlugin');
-        $response = call_user_func_array([$obj,$action], $match['params']);
-        echo $response->output();
-        ob_end_flush();
-        die();
-    } else {
-        // unreachable target
-        $core->error404();
-    }
-}
-
-$core->error404();
-ob_end_flush();
+$core->executeCallback($router, $runPlugin);

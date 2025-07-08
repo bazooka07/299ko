@@ -35,6 +35,7 @@ spl_autoload_register(function ($class) {
 
 $router = router::getInstance();
 $core = core::getInstance();
+$core->init();
 
 $pluginsManager = pluginsManager::getInstance();
 foreach ($pluginsManager->getPlugins() as $plugin) {

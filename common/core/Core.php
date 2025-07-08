@@ -37,14 +37,19 @@ class core
      */
     private $logger;
 
+
+    private float $startTime;
+
+    private int $queryCount = 0;
     ## Constructeur
 
-    public function __construct()
-    {
+    public function __construct() {
         if (!is_dir(DATA)) {
             @mkdir(DATA);
         }
+    }
 
+    public function init() {
         $this->config = util::readJsonFile(DATA . 'config.json', true);
         $this->env = new Env(ROOT . '.env');
         $this->loadEnv();
@@ -56,6 +61,7 @@ class core
         if ($this->config && $this->config['debug']) {
             ini_set('display_errors', 1);
             error_reporting(E_ALL);
+            $this->startTime = microtime(true);
         } else
             error_reporting(E_ERROR | E_PARSE);
         // Liste des thèmes
@@ -115,8 +121,7 @@ class core
      * 
      * @return \self
      */
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if (is_null(self::$instance))
             self::$instance = new core();
         return self::$instance;
@@ -124,22 +129,19 @@ class core
 
     ## Retourne la liste des thèmes
 
-    public function getThemes()
-    {
+    public function getThemes() {
         return $this->themes;
     }
 
     ## Retourne la configuration complète
 
-    public function getconfig()
-    {
+    public function getconfig() {
         return $this->config;
     }
 
     ## Retourne une valeur de configuration
 
-    public function getConfigVal($k)
-    {
+    public function getConfigVal($k) {
         if (isset($this->config[$k]))
             return $this->config[$k];
         else
@@ -153,15 +155,13 @@ class core
      * @param string $key
      * @param string $value
      */
-    public function setConfigVal($key, $value)
-    {
+    public function setConfigVal($key, $value) {
         $this->config[$key] = $value;
     }
 
     ## Retourne les infos du thème ciblé
 
-    public function getThemeInfo($k)
-    {
+    public function getThemeInfo($k) {
         if (isset($this->themes[$this->getConfigVal('theme')]))
             return $this->themes[$this->getConfigVal('theme')][$k];
         else
@@ -170,39 +170,33 @@ class core
 
     ## Retourne l'identifiant du plugin solicité
 
-    public function getPluginToCall(): string
-    {
+    public function getPluginToCall(): string {
         return $this->pluginToCall;
     }
 
     ## Retourne le tableau de ressources JS de base
 
-    public function getJs()
-    {
+    public function getJs() {
         return $this->js;
     }
 
     ## Retourne le tableau de ressources CSS de base
 
-    public function getCss()
-    {
+    public function getCss() {
         return $this->css;
     }
 
-    public function addMeta(string $meta)
-    {
+    public function addMeta(string $meta) {
         $this->metas[] = $meta;
     }
 
-    public function getMetas()
-    {
+    public function getMetas() {
         return $this->metas;
     }
 
     ## Détermine si 299ko est installé
 
-    public function isInstalled()
-    {
+    public function isInstalled() {
         if (!file_exists(DATA . 'config.json'))
             return false;
         else
@@ -211,8 +205,7 @@ class core
 
     ## Génère l'URL du site
 
-    public function makeSiteUrl()
-    {
+    public function makeSiteUrl() {
         $siteUrl = str_replace(array('install.php', '/admin', '/index.php'), array('', '', ''), $_SERVER['SCRIPT_NAME']);
         $isSecure = false;
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
@@ -229,8 +222,7 @@ class core
 
     ## Alimente le tableau des hooks
 
-    public function addHook($name, $function)
-    {
+    public function addHook($name, $function) {
         $this->hooks[$name][] = $function;
     }
 
@@ -243,8 +235,7 @@ class core
      * @param   mixed   Paramètres
      * @return  mixed
      */
-    public function callHook($name, $params = null)
-    {
+    public function callHook($name, $params = null) {
         if ($params === null) {
             // Action
             $return = '';
@@ -266,8 +257,7 @@ class core
 
     ## Detecte le mode de l'administration
 
-    public function detectAdminMode()
-    {
+    public function detectAdminMode() {
         $mode = '';
         if (isset($_GET['action']) && $_GET['action'] == 'login')
             return 'login';
@@ -281,8 +271,7 @@ class core
             return 'plugin';
     }
 
-    public function detectAjaxRequest()
-    {
+    public function detectAjaxRequest() {
         $ajaxGet = $_GET['request'] ?? false;
         $ajaxPost = $_POST['request'] ?? false;
         return ($ajaxGet === 'ajax' || $ajaxPost === 'ajax');
@@ -293,8 +282,7 @@ class core
      * 
      * @param string $url
      */
-    public function redirect(string $url): void
-    {
+    public function redirect(string $url): void {
         header_remove();
         header('location:' . $url);
         die();
@@ -302,8 +290,7 @@ class core
 
     ## Renvoi une page 404
 
-    public function error404()
-    {
+    public function error404() {
         if (!defined('ADMIN_MODE')) {
             define('ADMIN_MODE', false);
         }
@@ -323,8 +310,7 @@ class core
      * @param array $append Additional configuration values to append.
      * @return bool True if the save was successful, false otherwise.
      */
-    public function saveConfig($val, array $append = []): bool
-    {
+    public function saveConfig($val, array $append = []): bool {
         $config = util::readJsonFile(DATA . 'config.json', true);
         $config = array_merge($config, $append);
         foreach ($config as $k => $v)
@@ -341,17 +327,17 @@ class core
     /**
      * 299ko installation
      */
-    public function install()
-    {
+    public function install() {
         $install = true;
         @chmod(ROOT . '.htaccess', 0604);
         if (!is_dir(DATA) && (!@mkdir(DATA) || !@chmod(DATA, 0755)))
             $install = false;
         if ($install) {
             if (!file_exists(DATA . '.htaccess')) {
-                if (!@file_put_contents(
-                    DATA . '.htaccess',
-                    "<IfModule mod_authz_core.c>
+                if (
+                    !@file_put_contents(
+                        DATA . '.htaccess',
+                        "<IfModule mod_authz_core.c>
                         # Apache 2.4
                         Require all denied
                     </IfModule>
@@ -360,8 +346,9 @@ class core
                         Order deny,allow
                         Deny from all
                     </IfModule>",
-                    0604
-                ))
+                        0604
+                    )
+                )
                     $install = false;
             }
             if (!is_dir(DATA_PLUGIN) && (!@mkdir(DATA_PLUGIN) || !@chmod(DATA_PLUGIN, 0755)))
@@ -369,9 +356,10 @@ class core
             if (!is_dir(UPLOAD) && (!@mkdir(UPLOAD) || !@chmod(UPLOAD, 0755)))
                 $install = false;
             if (!file_exists(UPLOAD . '.htaccess')) {
-                if (!@file_put_contents(
-                    UPLOAD . '.htaccess',
-                    "<IfModule mod_authz_core.c>
+                if (
+                    !@file_put_contents(
+                        UPLOAD . '.htaccess',
+                        "<IfModule mod_authz_core.c>
                         # Apache 2.4
                         Require all granted
                     </IfModule>
@@ -380,8 +368,9 @@ class core
                         Order allow,deny
                         Allow from all
                     </IfModule>",
-                    0604
-                ))
+                        0604
+                    )
+                )
                     $install = false;
             }
             if (!file_exists(__FILE__) || !@chmod(__FILE__, 0644))
@@ -401,27 +390,25 @@ class core
     /**
      * Get .htaccess file content
      */
-    public function getHtaccess()
-    {
+    public function getHtaccess() {
         return @file_get_contents(ROOT . '.htaccess');
     }
 
     /**
      * Update .htaccess file content
      */
-    public function saveHtaccess($content)
-    {
+    public function saveHtaccess($content) {
         $content = str_replace("&amp;", "&", $content);
         @file_put_contents(ROOT . '.htaccess', $content);
     }
 
-    protected function createLogger()
-    {
+    protected function createLogger() {
         $this->logger = Logger::getInstance($this->config['debug'] ?? false);
     }
 
     protected function loadEnv() {
-        if ($this->config === false) return;
+        if ($this->config === false)
+            return;
         if ($this->env->get('siteUrl') !== null) {
             $this->config['siteUrl'] = $this->env->get('siteUrl');
         }
@@ -445,29 +432,90 @@ class core
      * @param string Severity
      * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
      */
-    public function log($message, $severity = 'INFO')
-    {
+    public function log($message, $severity = 'INFO') {
         $this->logger->log($severity, $message);
     }
 
-    /**
-     * Process response with cache and minification
-     * 
-     * @param string $content
-     * @param string $cacheKey
-     * @return string
-     */
-    public function processResponseWithCache(string $content, string $cacheKey = ''): string
-    {
-        // Only process in public mode
-        if (defined('ADMIN_MODE') && ADMIN_MODE) {
-            return $content;
+    public function executeCallback(Router $router, plugin $runPlugin) {
+        $match = $router->match();
+        if (is_array($match)) {
+            if ($runPlugin) {
+                $runPlugin->loadControllers();
+            }
+            list($controller, $action) = explode('#', $match['target']);
+            if (method_exists($controller, $action)) {
+                $cacheKey = $this->getCacheKey($match);
+                if ($this->getConfigVal('cache_enabled') && $cacheKey) {
+                    $cache = new Cache();
+                    $content = $cache->get($cacheKey);
+                    if ($content !== false) {
+                        echo $content;
+                        ob_end_flush();
+                        $this->logGenerationTime();
+                        die();
+                    }
+                }
+                // No cache
+                $obj = new $controller();
+                $this->callHook('beforeRunPlugin');
+                $response = call_user_func_array([$obj, $action], $match['params']);
+                $content = $response->output();
+                $optimizedContent = $this->processResponseContent($response);
+                if ($this->getConfigVal('cache_enabled') && $cacheKey) {
+                    
+                    $this->setResponseCache($optimizedContent, $cacheKey);
+                    echo $optimizedContent;
+                    ob_end_flush();
+                    $this->logGenerationTime();
+                    die();
+                } else {
+                    echo $optimizedContent;
+                    ob_end_flush();
+                    $this->logGenerationTime();
+                    die();
+                }
+            } else {
+                // unreachable target
+                $this->error404();
+            }
         }
 
-        // Générer la clé de cache si non fournie
-        if (empty($cacheKey)) {
-            $cacheKey = 'page_' . md5($_SERVER['REQUEST_URI'] . serialize($_GET));
+        $this->error404();
+    }
+
+
+    protected function processResponseContent(Response $response): string {
+        $content = $response->output();
+        $minifyer = new Minifyer();
+        $content = $minifyer->minify($content);
+        return $content;
+    }
+
+    protected function setResponseCache(string $content, string $cacheKey = ''): void {
+        if (defined('ADMIN_MODE') && ADMIN_MODE) {
+            return;
         }
+
+        // Check if cache is enabled
+        if (!$this->getConfigVal('cache_enabled')) {
+            return;
+        }
+        $cache = new Cache();
+        $cache->set($cacheKey, $content, $this->getConfigVal('cache_duration') ?: 3600, $this->generateCacheTags());
+    }
+
+    protected function getCacheKey(array $match) {
+        // Only process in public mode
+        if (defined('ADMIN_MODE') && ADMIN_MODE) {
+            return false;
+        }
+
+        // Check if cache is enabled
+        if (!$this->getConfigVal('cache_enabled')) {
+            return false;
+        }
+
+        $cacheKey = $match['target'] . serialize($match['params']);
 
         // Ajout sécurité : inclure l'état de protection dans la clé
         // 1. Protection par mot de passe de page
@@ -482,22 +530,7 @@ class core
             }
         }
 
-        // Check if cache is enabled
-        if (!$this->getConfigVal('cache_enabled')) {
-            return $content;
-        }
-
-        // Get cache manager
-        $cacheManager = new CacheManager();
-        
-        // Get cache duration
-        $duration = $this->getConfigVal('cache_duration') ?: 3600;
-        
-        // Générer les tags pour l'invalidation intelligente
-        $tags = $this->generateCacheTags();
-        
-        // Process content with cache and minification
-        return $cacheManager->processContent($cacheKey, $content, $duration, $tags);
+        return $cacheKey;
     }
 
     /**
@@ -505,28 +538,27 @@ class core
      * 
      * @return array
      */
-    protected function generateCacheTags(): array
-    {
+    protected function generateCacheTags(): array {
         $tags = ['page'];
-        
+
         // Tag pour le thème actuel
         $currentTheme = $this->getConfigVal('theme');
         if ($currentTheme) {
             $tags[] = 'theme_' . $currentTheme;
         }
-        
+
         // Tag pour le plugin actuel
         $currentPlugin = $this->getPluginToCall();
         if ($currentPlugin) {
             $tags[] = 'plugin_' . $currentPlugin;
         }
-        
+
         // Tag pour la langue
         $currentLang = $this->getConfigVal('siteLang');
         if ($currentLang) {
             $tags[] = 'lang_' . $currentLang;
         }
-        
+
         // Tag pour les paramètres de cache
         if ($this->getConfigVal('cache_minify')) {
             $tags[] = 'minify_enabled';
@@ -534,7 +566,7 @@ class core
         if ($this->getConfigVal('cache_lazy_loading')) {
             $tags[] = 'lazy_enabled';
         }
-        
+
         return $tags;
     }
 
@@ -544,8 +576,7 @@ class core
      * @param string $tag
      * @return void
      */
-    public function invalidateCacheByTag(string $tag): void
-    {
+    public function invalidateCacheByTag(string $tag): void {
         $cache = new Cache();
         $cache->deleteByTag($tag);
     }
@@ -555,10 +586,22 @@ class core
      * 
      * @return void
      */
-    public function invalidateAllCache(): void
-    {
+    public function invalidateAllCache(): void {
         $cacheManager = new CacheManager();
         $cacheManager->clearCache();
+    }
+
+    public function addQueryCounter() {
+        $this->queryCount++;
+    }
+
+    public function logGenerationTime() {
+        if ($this->config && !$this->config['debug']) {
+            return;
+        }
+        $endTime = microtime(true);
+        echo '<script>console.log("Generation time: ' . round($endTime - $this->startTime, 3) . 's");';
+        echo 'console.log("Queries: ' . $this->queryCount . '");</script>';
     }
 }
 
@@ -570,8 +613,7 @@ class core
  * @param string Severity
  * Can be 'INFO', 'DEBUG', 'WARNING', 'ERROR'
  */
-function logg($message, $severity = 'INFO')
-{
+function logg($message, $severity = 'INFO') {
     core::getInstance()->log($message, $severity);
 }
 
@@ -580,8 +622,7 @@ function logg($message, $severity = 'INFO')
  * @param mixed $message Message or var to display
  * @return void
  */
-function debug($message): void
-{
+function debug($message): void {
     echo '<pre>';
     var_dump($message);
     echo '</pre>';
