@@ -1,0 +1,10 @@
+{
+    "slug": "marketplace",
+    "name": "Marketplace",
+    "icon": "fa-solid fa-store",
+    "description": "Marketplace for plugins and themes",
+    "authorEmail": "mx.koder@gmail.com",
+    "authorWebsite": "https://kodercloud.ovh",
+    "version": "2.0.0",
+    "homeAdminMethod": "MarketplaceAdminController#index"
+}
