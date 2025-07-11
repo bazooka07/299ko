@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Add a Logger to help debug
 - Add a marketplace to download & install plugins & themes
 - Add 2 hooks `adminContent` & `publicContent` to modify full content before display
+- Add console.log in debug mode to display execution time & queries count
 
 ### Fixed
 
